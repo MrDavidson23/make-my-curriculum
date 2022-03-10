@@ -56,3 +56,6 @@ lib-cov
 .vscode-test
 package-lock.json
 .env
+.env
+.env.test
+.env
