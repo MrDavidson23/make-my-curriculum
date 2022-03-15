@@ -147,14 +147,13 @@ const Home = () => {
       </footer>
 
       <style jsx global>{`
-        @import url("https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@300;700&display=swap");
+        @import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@500&display=swap");
 
         html,
         body {
           padding: 0;
           margin: 0;
-          font-family: "Libre Franklin", -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-            Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+          font-family: "Open Sans", sans-serif;
         }
 
         * {
