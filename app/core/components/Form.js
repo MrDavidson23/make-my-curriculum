@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { FormProvider, useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { Button } from "@mui/material"
 export const FORM_ERROR = "FORM_ERROR"
 export function Form({ children, submitText, schema, initialValues, onSubmit, ...props }) {
   const ctx = useForm({
@@ -44,9 +45,9 @@ export function Form({ children, submitText, schema, initialValues, onSubmit, ..
         )}
 
         {submitText && (
-          <button type="submit" disabled={ctx.formState.isSubmitting}>
+          <Button type="submit" variant="outlined" disabled={ctx.formState.isSubmitting}>
             {submitText}
-          </button>
+          </Button>
         )}
 
         <style global jsx>{`
