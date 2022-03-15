@@ -33,6 +33,7 @@ export const SignupForm = (props) => {
             }}
             onSubmit={async (values) => {
               try {
+                console.log(values)
                 await signupMutation(values)
                 props.onSuccess?.()
               } catch (error) {
