@@ -1,4 +1,4 @@
-import * as React from "react"
+import React, { useState } from "react"
 import {
   Box,
   Typography,
@@ -23,7 +23,13 @@ import CreateIcon from "@mui/icons-material/Create"
 import DeleteIcon from "@mui/icons-material/Delete"
 import Layout from "app/components/Layout"
 
-const muiComponents = () => {
+// For date picker
+import DatePicker from "@mui/lab/DatePicker"
+import DateAdapter from "@mui/lab/AdapterMoment"
+import LocalizationProvider from "@mui/lab/LocalizationProvider"
+
+const MuiComponents = () => {
+  const [date, setDate] = useState(null)
   return (
     <Layout title={"Components material UI example"}>
       <Box sx={{ width: "100%", maxWidth: 500 }}>
@@ -114,9 +120,19 @@ const muiComponents = () => {
         </Typography>
         <CreateIcon sx={{ fontSize: 80 }} />
         <DeleteIcon sx={{ fontSize: 80 }} />
+        <LocalizationProvider dateAdapter={DateAdapter}>
+          <DatePicker
+            label="Basic example"
+            value={date}
+            onChange={(newValue) => {
+              setDate(newValue)
+            }}
+            renderInput={(params) => <TextField {...params} />}
+          />
+        </LocalizationProvider>
       </Box>
     </Layout>
   )
 }
 
-export default muiComponents
+export default MuiComponents
