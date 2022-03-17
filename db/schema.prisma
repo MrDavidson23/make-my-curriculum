@@ -134,6 +134,7 @@ model Publication {
   location    String
   date        DateTime
   institution String
+  tag         String
   User        User     @relation(fields: [UserId], references: [id])
   UserId      Int
 }
@@ -153,8 +154,8 @@ model AcademicEducation {
   studies     String
   location    String
   startYear   DateTime
+  finishYear  DateTime
   institution String
-  finishYear  String
   User        User     @relation(fields: [UserId], references: [id])
   UserId      Int
 }
