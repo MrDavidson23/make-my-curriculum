@@ -27,6 +27,18 @@ model User {
 
   tokens   Token[]
   sessions Session[]
+  //custom fields
+
+  location            String?
+  photo               String?
+  birthDate           DateTime?
+  profession          String?
+  references          Reference[]
+  publications        Publication[]
+  technicalEducations TechnicalEducation[]
+  academicEducations  AcademicEducation[]
+  laboralExperiences  LaboralExperience[]
+
 }
 
 model Session {
@@ -107,76 +119,55 @@ model Curriculum {
 }
 
 model Reference {
-  id          Int         @id @default(autoincrement())
+  id          Int    @id @default(autoincrement())
   email       String
   phone       String
   name        String
   institution String
-  user        UserProfile @relation(fields: [userId], references: [id])
+  user        User   @relation(fields: [userId], references: [id])
   userId      Int
 }
 
 model Publication {
-  id            Int         @id @default(autoincrement())
-  name          String
-  location      String
-  date          DateTime
-  institution   String
-  UserProfile   UserProfile @relation(fields: [userProfileId], references: [id])
-  userProfileId Int
+  id          Int      @id @default(autoincrement())
+  name        String
+  location    String
+  date        DateTime
+  institution String
+  User        User     @relation(fields: [UserId], references: [id])
+  UserId      Int
 }
 
 model TechnicalEducation {
-  id             Int         @id @default(autoincrement())
+  id             Int      @id @default(autoincrement())
   studies        String
   location       String
   completionYear DateTime
   institution    String
-  UserProfile    UserProfile @relation(fields: [userProfileId], references: [id])
-  userProfileId  Int
+  User           User     @relation(fields: [UserId], references: [id])
+  UserId         Int
 }
 
 model AcademicEducation {
-  id            Int         @id @default(autoincrement())
-  studies       String
-  location      String
-  startYear     DateTime
-  institution   String
-  finishYear    String
-  UserProfile   UserProfile @relation(fields: [userProfileId], references: [id])
-  userProfileId Int
+  id          Int      @id @default(autoincrement())
+  studies     String
+  location    String
+  startYear   DateTime
+  institution String
+  finishYear  String
+  User        User     @relation(fields: [UserId], references: [id])
+  UserId      Int
 }
 
 model LaboralExperience {
-  id            Int         @id @default(autoincrement())
-  position      String
-  location      String
-  startYear     DateTime
-  finishYear    String
-  institution   String
-  startMonth    String
-  finishMonth   String
-  UserProfile   UserProfile @relation(fields: [userProfileId], references: [id])
-  userProfileId Int
-}
-
-model UserProfile {
-  id                  Int                  @id @default(autoincrement())
-  identification      String
-  description         String
-  password            String
-  email               String
-  name                String
-  middleName          String
-  firstLastName       String
-  secondLastName      String
-  location            String
-  photo               String
-  birthDate           DateTime
-  profession          String
-  references          Reference[]
-  publications        Publication[]
-  technicalEducations TechnicalEducation[]
-  academicEducations  AcademicEducation[]
-  laboralExperiences  LaboralExperience[]
+  id          Int      @id @default(autoincrement())
+  position    String
+  location    String
+  startYear   DateTime
+  finishYear  String
+  institution String
+  startMonth  String
+  finishMonth String
+  User        User     @relation(fields: [UserId], references: [id])
+  UserId      Int
 }
