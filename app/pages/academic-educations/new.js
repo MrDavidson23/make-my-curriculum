@@ -5,22 +5,37 @@ import {
   AcademicEducationForm,
   FORM_ERROR,
 } from "app/academic-educations/components/AcademicEducationForm"
+import { Grid, Button, Box, Typography } from "@mui/material"
 
 const NewAcademicEducationPage = () => {
   const router = useRouter()
   const [createAcademicEducationMutation] = useMutation(createAcademicEducation)
   return (
     <div>
-      <h1>Create New AcademicEducation</h1>
+      
+      <Box sx={{ width: "100%", maxWidth: 500 }}>
+
+      <Grid container 
+          direction="row"
+          spacing={0}
+          textAlign={"center"}
+          alignItems={"center"}
+          justifyContent={"center"}
+          sx={{ mx: "auto", width: "100%" }}>
+
+      <Typography variant="h6" component="div" gutterBottom>
+        Crear nueva Educación Académica
+      </Typography>
 
       <AcademicEducationForm
-        submitText="Create AcademicEducation" // TODO use a zod schema for form validation
+        submitText="Guardar" // TODO use a zod schema for form validation
         //  - Tip: extract mutation's schema into a shared `validations.ts` file and
         //         then import and use it here
         // schema={CreateAcademicEducation}
         // initialValues={{}}
         onSubmit={async (values) => {
-          try {
+          console.log(values)
+          /*try {
             const academicEducation = await createAcademicEducationMutation(values)
             router.push(
               Routes.ShowAcademicEducationPage({
@@ -32,15 +47,18 @@ const NewAcademicEducationPage = () => {
             return {
               [FORM_ERROR]: error.toString(),
             }
-          }
+          }*/
         }}
       />
-
       <p>
-        <Link href={Routes.AcademicEducationsPage()}>
-          <a>AcademicEducations</a>
-        </Link>
+          <Button variant="outlined">
+            <Link href={Routes.AcademicEducationsPage()}>
+              <a>Regresar</a>
+            </Link>
+          </Button>
       </p>
+      </Grid>
+      </Box>
     </div>
   )
 }
