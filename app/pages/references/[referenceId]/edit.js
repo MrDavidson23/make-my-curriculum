@@ -4,6 +4,7 @@ import Layout from "app/core/layouts/Layout"
 import getReference from "app/references/queries/getReference"
 import updateReference from "app/references/mutations/updateReference"
 import { ReferenceForm, FORM_ERROR } from "app/references/components/ReferenceForm"
+import { UpdateReference } from "../validaciones"
 export const EditReference = () => {
   const router = useRouter()
   const referenceId = useParam("referenceId", "number")
@@ -33,6 +34,7 @@ export const EditReference = () => {
           //  - Tip: extract mutation's schema into a shared `validations.ts` file and
           //         then import and use it here
           // schema={UpdateReference}
+          schema={UpdateReference} ///estaba comentado
           initialValues={reference}
           onSubmit={async (values) => {
             try {

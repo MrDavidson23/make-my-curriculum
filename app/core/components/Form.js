@@ -5,8 +5,8 @@ import { Button } from "@mui/material"
 export const FORM_ERROR = "FORM_ERROR"
 export function Form({ children, submitText, schema, initialValues, onSubmit, ...props }) {
   const ctx = useForm({
-    mode: "onBlur",
-    resolver: schema ? zodResolver(schema) : undefined,
+    mode: "onChange",
+    resolver: schema ? zodResolver(schema) : undefined, //es para validaciones
     defaultValues: initialValues,
   })
   const [formError, setFormError] = useState(null)
