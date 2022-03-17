@@ -5,6 +5,9 @@ export function ReferenceForm(props) {
   return (
     <Form {...props}>
       <LabeledTextField name="name" label="Name" placeholder="Name" />
+      <LabeledTextField name="email" label="Email" placeholder="Email" />
+      <LabeledTextField name="phone" label="Phone" placeholder="Phone" />
+      <LabeledTextField name="institution" label="Institution" placeholder="Institution" />
     </Form>
   )
 }

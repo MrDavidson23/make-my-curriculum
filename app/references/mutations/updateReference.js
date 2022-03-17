@@ -3,7 +3,12 @@ import db from "db"
 import { z } from "zod"
 const UpdateReference = z.object({
   id: z.number(),
+  name: z.string(), //
+  email: z.string(),
+  phone: z.string(),
   name: z.string(),
+  institution: z.string(),
+  user: z.string(),
 })
 export default resolver.pipe(
   resolver.zod(UpdateReference),

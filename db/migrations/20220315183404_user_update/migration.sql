@@ -1,3 +1,0 @@
--- AlterTable
-ALTER TABLE `User` ADD COLUMN `lastName` VARCHAR(191) NULL,
-    ADD COLUMN `phone` VARCHAR(191) NULL;
