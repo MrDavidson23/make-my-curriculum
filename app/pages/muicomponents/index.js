@@ -21,7 +21,7 @@ import AcUnitIcon from "@mui/icons-material/AcUnit"
 import AccountCircle from "@mui/icons-material/AccountCircle"
 import CreateIcon from "@mui/icons-material/Create"
 import DeleteIcon from "@mui/icons-material/Delete"
-import Layout from "app/components/Layout"
+import Layout from "app/core/layouts/Layout"
 
 // For date picker
 import DatePicker from "@mui/lab/DatePicker"
