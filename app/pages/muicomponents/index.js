@@ -101,7 +101,7 @@ const MuiComponents = () => {
             <MenuItem value={30}>Thirty</MenuItem>
           </Select>
         </FormControl>
-        <TextField id="standard-basic" label="Standard" variant="standard" />
+        <TextField id="standard-basic" label="Standard" variant="outlined" />
         <TextField
           id="input-with-icon-textfield"
           label="TextField"
