@@ -7,8 +7,8 @@ export const CreateReference = z.object({
   phone: z.string(),
   name: z.string(),
   institution: z.string(),
-  institution_type: z.string(),
-  institution_date: z.date(),
+  //institution_type: z.string(),
+  //institution_date: z.date(),
 })
 
 export const UpdateReference = CreateReference.extend({
