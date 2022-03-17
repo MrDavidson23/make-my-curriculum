@@ -1,18 +1,24 @@
 import { forwardRef } from "react"
 import { useFormContext } from "react-hook-form"
-import { TextField, Grid } from "@mui/material"
-export const LabeledTextField = forwardRef(({ outerProps, labelProps, name, ...props }, ref) => {
+import { Select, MenuItem, Grid, TextField } from "@mui/material"
+export const SelectField = forwardRef(({ outerProps, labelProps, name, ...props }, ref) => {
   const {
     register,
     formState: { isSubmitting, errors },
+    getValues,
   } = useFormContext()
   const error = Array.isArray(errors[name])
     ? errors[name].join(", ")
     : errors[name]?.message || errors[name]
-  console.log(props)
+  const input = register(name)
+  console.log(input)
   return (
     <div {...outerProps}>
-      <TextField disabled={isSubmitting} {...register(name)} {...props} />
+      <TextField select {...register(name)} {...props} fullWidth>
+        <MenuItem value={"diez"}>Ten</MenuItem>
+        <MenuItem value={"veinte"}>Twenty</MenuItem>
+        <MenuItem value={"terinta"}>Thirty</MenuItem>
+      </TextField>
 
       {error && (
         <div
@@ -27,4 +33,4 @@ export const LabeledTextField = forwardRef(({ outerProps, labelProps, name, ...p
     </div>
   )
 })
-export default LabeledTextField
+export default SelectField

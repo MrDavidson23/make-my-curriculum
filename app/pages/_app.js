@@ -6,6 +6,11 @@ import {
   useQueryErrorResetBoundary,
 } from "blitz"
 import LoginForm from "app/auth/components/LoginForm"
+//para manejo de fechas
+import { LocalizationProvider } from "@mui/lab"
+import AdapterDateFns from "@mui/lab/AdapterDateFns"
+//para manejo de fechas
+
 export default function App({ Component, pageProps }) {
   const getLayout = Component.getLayout || ((page) => page)
 
@@ -14,7 +19,9 @@ export default function App({ Component, pageProps }) {
       FallbackComponent={RootErrorFallback}
       onReset={useQueryErrorResetBoundary().reset}
     >
-      {getLayout(<Component {...pageProps} />)}
+      <LocalizationProvider dateAdapter={AdapterDateFns}>
+        {getLayout(<Component {...pageProps} />)}
+      </LocalizationProvider>
     </ErrorBoundary>
   )
 }
