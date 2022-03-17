@@ -3,7 +3,11 @@ import db from "db"
 import { z } from "zod"
 const UpdateAcademicEducation = z.object({
   id: z.number(),
-  name: z.string(),
+  studies: z.string(),
+  location: z.string(),
+  startYear: z.date(),
+  finishYear: z.date(),
+  institution: z.string(),
 })
 export default resolver.pipe(
   resolver.zod(UpdateAcademicEducation),
