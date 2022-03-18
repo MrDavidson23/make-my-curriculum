@@ -4,7 +4,8 @@ import Layout from "app/core/layouts/Layout"
 import getReference from "app/references/queries/getReference"
 
 import { ReferenceForm, FORM_ERROR } from "app/references/components/ReferenceForm"
-import { UpdateReference } from "app/references/components/validaciones"
+import updateReference from "app/references/mutations/updateReference"
+import { UpdateReferenceValidation } from "app/references/validations"
 
 export const EditReference = () => {
   const router = useRouter()
@@ -19,7 +20,7 @@ export const EditReference = () => {
       staleTime: Infinity,
     }
   )
-  const [updateReferenceMutation] = useMutation(UpdateReference)
+  const [updateReferenceMutation] = useMutation(updateReference)
   return (
     <>
       <Head>
@@ -35,7 +36,7 @@ export const EditReference = () => {
           //  - Tip: extract mutation's schema into a shared `validations.ts` file and
           //         then import and use it here
           // schema={UpdateReference}
-          schema={UpdateReference} ///estaba comentado
+          schema={UpdateReferenceValidation} ///estaba comentado
           initialValues={reference}
           onSubmit={async (values) => {
             try {

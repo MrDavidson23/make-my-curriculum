@@ -1,6 +1,5 @@
 import { Link, useRouter, useMutation, Routes } from "blitz"
 import Layout from "app/core/layouts/Layout"
-import createReference from "app/references/mutations/createReference"
 import { ReferenceForm, FORM_ERROR } from "app/references/components/ReferenceForm"
 
 import {
@@ -22,11 +21,12 @@ import {
   Avatar,
   Grid,
 } from "@mui/material"
-import { CreateReference } from "app/references/components/validaciones"
+import { CreateReferenceValidation } from "app/references/validations"
+import createReference from "app/references/mutations/createReference"
 
 const NewReferencePage = () => {
   const router = useRouter()
-  const [createReferenceMutation] = useMutation(CreateReference)
+  const [createReferenceMutation] = useMutation(createReference)
   return (
     <div>
       <Grid
@@ -44,7 +44,7 @@ const NewReferencePage = () => {
             submitText="Create Reference" // TODO use a zod schema for form validation
             //  - Tip: extract mutation's schema into a shared `validations.ts` file and
             //         then import and use it here
-            schema={CreateReference} ////////////////////////////
+            schema={CreateReferenceValidation} ////////////////////////////
             // initialValues={{}}
             onSubmit={async (values) => {
               try {
