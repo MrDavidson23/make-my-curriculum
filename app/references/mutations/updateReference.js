@@ -1,6 +1,6 @@
-import { UpdateReference } from "app/pages/references/validaciones"
 import { resolver } from "blitz"
 import db from "db"
+import { UpdateReference } from "../components/validaciones"
 
 export default resolver.pipe(
   resolver.zod(UpdateReference),
