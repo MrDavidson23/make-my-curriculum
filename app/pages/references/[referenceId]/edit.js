@@ -2,9 +2,10 @@ import { Suspense } from "react"
 import { Head, Link, useRouter, useQuery, useMutation, useParam, Routes } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getReference from "app/references/queries/getReference"
-import updateReference from "app/references/mutations/updateReference"
+
 import { ReferenceForm, FORM_ERROR } from "app/references/components/ReferenceForm"
-import { UpdateReference } from "../validaciones"
+import { UpdateReference } from "app/references/components/validaciones"
+
 export const EditReference = () => {
   const router = useRouter()
   const referenceId = useParam("referenceId", "number")
@@ -18,7 +19,7 @@ export const EditReference = () => {
       staleTime: Infinity,
     }
   )
-  const [updateReferenceMutation] = useMutation(updateReference)
+  const [updateReferenceMutation] = useMutation(UpdateReference)
   return (
     <>
       <Head>

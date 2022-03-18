@@ -1,6 +1,6 @@
-import { CreateReference } from "app/pages/references/validaciones"
 import { resolver } from "blitz"
 import db from "db"
+import { CreateReference } from "../components/validaciones"
 
 export default resolver.pipe(
   resolver.zod(CreateReference),

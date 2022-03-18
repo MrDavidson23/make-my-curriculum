@@ -22,11 +22,11 @@ import {
   Avatar,
   Grid,
 } from "@mui/material"
-import { CreateReference } from "./validaciones"
+import { CreateReference } from "app/references/components/validaciones"
 
 const NewReferencePage = () => {
   const router = useRouter()
-  const [createReferenceMutation] = useMutation(createReference)
+  const [createReferenceMutation] = useMutation(CreateReference)
   return (
     <div>
       <Grid
