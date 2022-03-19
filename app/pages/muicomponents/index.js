@@ -28,6 +28,9 @@ import DatePicker from "@mui/lab/DatePicker"
 import DateAdapter from "@mui/lab/AdapterMoment"
 import LocalizationProvider from "@mui/lab/LocalizationProvider"
 
+// Custom components
+import InformationCard from "app/core/components/InformationCard"
+
 const MuiComponents = () => {
   const [date, setDate] = useState(null)
   return (
@@ -131,6 +134,12 @@ const MuiComponents = () => {
           />
         </LocalizationProvider>
       </Box>
+      <InformationCard
+        title={"FirstFactory"}
+        subtitle={"Position"}
+        firstText={"Fecha de Inicio"}
+        secondText={"Ubicación"}
+      />
     </Layout>
   )
 }
