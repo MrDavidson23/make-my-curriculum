@@ -1,6 +1,6 @@
 import { forwardRef } from "react"
 import { useFormContext } from "react-hook-form"
-import { TextField, Grid } from "@mui/material"
+import { TextField } from "@mui/material"
 export const LabeledTextField = forwardRef(({ outerProps, labelProps, name, ...props }, ref) => {
   const {
     register,
@@ -9,7 +9,6 @@ export const LabeledTextField = forwardRef(({ outerProps, labelProps, name, ...p
   const error = Array.isArray(errors[name])
     ? errors[name].join(", ")
     : errors[name]?.message || errors[name]
-  console.log(props)
   return (
     <div {...outerProps}>
       <TextField disabled={isSubmitting} {...register(name)} {...props} />
