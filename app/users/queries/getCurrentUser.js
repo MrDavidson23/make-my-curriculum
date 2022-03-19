@@ -8,6 +8,7 @@ export default async function getCurrentUser(_ = null, { session }) {
     select: {
       id: true,
       name: true,
+      lastName: true,
       email: true,
       role: true,
     },
