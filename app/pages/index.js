@@ -1,13 +1,10 @@
 import { Suspense } from "react"
 import { Image, Link, useMutation, Routes } from "blitz"
 import Layout from "app/core/layouts/Layout"
+import UserDisplay from "app/users/components/UserDisplay"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import logout from "app/auth/mutations/logout"
 import logo from "public/logo.png"
-/*
- * This file is just for a pleasant getting started page for your new app.
- * You can delete everything in here and start from scratch if you like.
- */
 
 const UserInfo = () => {
   const currentUser = useCurrentUser()
@@ -56,6 +53,9 @@ const Home = () => {
         <div className="logo">
           <Image src={logo} alt="blitzjs" />
         </div>
+        <Suspense fallback="Loading...">
+          <UserDisplay />
+        </Suspense>
         <p>
           <strong>Congrats!</strong> Your app is ready, including user sign-up and log-in.
         </p>
@@ -176,6 +176,7 @@ const Home = () => {
           flex-direction: column;
           justify-content: center;
           align-items: center;
+          width: 100%;
         }
 
         main p {
