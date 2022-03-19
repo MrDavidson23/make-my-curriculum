@@ -9,30 +9,29 @@ const NewPublicationPage = () => {
   const [createPublicationMutation] = useMutation(createPublication)
   return (
     <div>
-
       <Box sx={{ width: "100%", maxWidth: 500 }}>
-
-      <Grid container 
+        <Grid
+          container
           direction="row"
           spacing={0}
           textAlign={"center"}
           alignItems={"center"}
           justifyContent={"center"}
-          sx={{ mx: "auto", width: "100%" }}>
+          sx={{ mx: "auto", width: "100%" }}
+        >
+          <Typography variant="h6" component="div" gutterBottom>
+            Crear nueva Publicación
+          </Typography>
 
-        <Typography variant="h6" component="div" gutterBottom>
-          Crear nueva Publicación
-        </Typography>
-      
-      <PublicationForm
-        submitText="Guardar" // TODO use a zod schema for form validation
-        //  - Tip: extract mutation's schema into a shared `validations.ts` file and
-        //         then import and use it here
-        // schema={CreatePublication}
-        // initialValues={{}}
-        onSubmit={async (values) => {
-          console.log(values);
-          /*
+          <PublicationForm
+            submitText="Guardar" // TODO use a zod schema for form validation
+            //  - Tip: extract mutation's schema into a shared `validations.ts` file and
+            //         then import and use it here
+            // schema={CreatePublication}
+            // initialValues={{}}
+            onSubmit={async (values) => {
+              console.log(values)
+              /*
           try {
             const publication = await createPublicationMutation(values)
             router.push(
@@ -46,17 +45,17 @@ const NewPublicationPage = () => {
               [FORM_ERROR]: error.toString(),
             }
           }*/
-        }}
-      />
+            }}
+          />
 
-      <p>
-        <Button variant="outlined">
-          <Link href={Routes.PublicationsPage()}>
-            <a>Regresar</a>
-          </Link>
-        </Button>
-      </p>
-      </Grid>
+          <p>
+            <Button variant="outlined">
+              <Link href={Routes.PublicationsPage()}>
+                <a>Regresar</a>
+              </Link>
+            </Button>
+          </p>
+        </Grid>
       </Box>
     </div>
   )
