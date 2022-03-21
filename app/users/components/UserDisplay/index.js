@@ -41,10 +41,10 @@ const UserDisplay = ({}) => {
                   {currentUser.name} {currentUser.lastName}
                 </Typography>
                 <Typography variant="h4" gutterBottom>
-                  Profesión
+                  {currentUser.profession}
                 </Typography>
                 <Typography variant="h5" gutterBottom>
-                  Ubicación
+                  {currentUser.location}
                 </Typography>
               </Grid>
               <Grid item>
