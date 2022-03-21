@@ -1,9 +1,7 @@
 import { resolver } from "blitz"
 import db from "db"
-import { z } from "zod"
-const DeletePublication = z.object({
-  id: z.number(),
-})
+import { DeletePublication } from "../components/validations"
+
 export default resolver.pipe(
   resolver.zod(DeletePublication),
   resolver.authorize(),

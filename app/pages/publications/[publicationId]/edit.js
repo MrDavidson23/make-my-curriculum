@@ -4,6 +4,9 @@ import Layout from "app/core/layouts/Layout"
 import getPublication from "app/publications/queries/getPublication"
 import updatePublication from "app/publications/mutations/updatePublication"
 import { PublicationForm, FORM_ERROR } from "app/publications/components/PublicationForm"
+import { UpdatePublication } from "app/publications/components/validations"
+import { Grid, Button, Typography } from "@mui/material"
+
 export const EditPublication = () => {
   const router = useRouter()
   const publicationId = useParam("publicationId", "number")
@@ -25,14 +28,27 @@ export const EditPublication = () => {
       </Head>
 
       <div>
-        <h1>Edit Publication {publication.id}</h1>
+      <Grid
+        container
+        direction="row"
+        spacing={2}
+        textAlign={"center"}
+        sx={{ mx: "auto", width: "100%" }}
+      >
+
+      <Grid item xs={12}>
+        <Typography variant="h3" component="div" gutterBottom>
+          Editar Publicación {publication.id}
+        </Typography>
+      </Grid>
         <pre>{JSON.stringify(publication, null, 2)}</pre>
 
+      <Grid item xs={12}>
         <PublicationForm
           submitText="Update Publication" // TODO use a zod schema for form validation
           //  - Tip: extract mutation's schema into a shared `validations.ts` file and
           //         then import and use it here
-          // schema={UpdatePublication}
+          schema={UpdatePublication}
           initialValues={publication}
           onSubmit={async (values) => {
             try {
@@ -54,6 +70,8 @@ export const EditPublication = () => {
             }
           }}
         />
+        </Grid>
+      </Grid>
       </div>
     </>
   )
@@ -66,11 +84,13 @@ const EditPublicationPage = () => {
         <EditPublication />
       </Suspense>
 
-      <p>
-        <Link href={Routes.PublicationsPage()}>
-          <a>Publications</a>
-        </Link>
-      </p>
+      <Grid item xs={12}>
+        <p>
+          <Link href={Routes.PublicationsPage()}>
+            <Button variant="outlined"> Publications </Button>
+          </Link>
+        </p>
+      </Grid>
     </div>
   )
 }

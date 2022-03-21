@@ -5,7 +5,8 @@ import {
   AcademicEducationForm,
   FORM_ERROR,
 } from "app/academic-educations/components/AcademicEducationForm"
-import { Grid, Button, Box, Typography } from "@mui/material"
+import { Grid, Button, Typography } from "@mui/material"
+import { CreateAcademicEducation } from "app/academic-educations/components/validations"
 
 const NewAcademicEducationPage = () => {
   const router = useRouter()
@@ -13,29 +14,29 @@ const NewAcademicEducationPage = () => {
   return (
     <div>
       
-      <Box sx={{ width: "100%", maxWidth: 500 }}>
+      <Grid
+        container
+        direction="row"
+        spacing={2}
+        textAlign={"center"}
+        sx={{ mx: "auto", width: "100%" }}
+      >
 
-      <Grid container 
-          direction="row"
-          spacing={0}
-          textAlign={"center"}
-          alignItems={"center"}
-          justifyContent={"center"}
-          sx={{ mx: "auto", width: "100%" }}>
-
-      <Typography variant="h6" component="div" gutterBottom>
-        Crear nueva Educación Académica
-      </Typography>
-
+      <Grid item xs={12}>
+        <Typography variant="h3" component="div" gutterBottom>
+          Crear nueva Educación Académica
+        </Typography>
+      </Grid>
+      <Grid item xs={12}>
       <AcademicEducationForm
         submitText="Guardar" // TODO use a zod schema for form validation
         //  - Tip: extract mutation's schema into a shared `validations.ts` file and
         //         then import and use it here
-        // schema={CreateAcademicEducation}
+        schema={CreateAcademicEducation}
         // initialValues={{}}
         onSubmit={async (values) => {
-          console.log(values)
-          /*try {
+          
+          try {
             const academicEducation = await createAcademicEducationMutation(values)
             router.push(
               Routes.ShowAcademicEducationPage({
@@ -47,18 +48,18 @@ const NewAcademicEducationPage = () => {
             return {
               [FORM_ERROR]: error.toString(),
             }
-          }*/
+          }
         }}
       />
+      </Grid>
+      <Grid item xs={12}>
       <p>
-          <Button variant="outlined">
-            <Link href={Routes.AcademicEducationsPage()}>
-              <a>Regresar</a>
-            </Link>
-          </Button>
+          <Link href={Routes.AcademicEducationsPage()}>
+            <Button variant="outlined">  Regresar </Button>
+          </Link>
       </p>
       </Grid>
-      </Box>
+      </Grid>
     </div>
   )
 }
@@ -66,7 +67,7 @@ const NewAcademicEducationPage = () => {
 NewAcademicEducationPage.authenticate = true
 
 NewAcademicEducationPage.getLayout = (page) => (
-  <Layout title={"Create New AcademicEducation"}>{page}</Layout>
+  <Layout title={"Crear nueva Educación Académica"}>{page}</Layout>
 )
 
 export default NewAcademicEducationPage

@@ -3,6 +3,9 @@ import { Head, Link, useRouter, useQuery, useMutation, useParam, Routes } from "
 import Layout from "app/core/layouts/Layout"
 import getAcademicEducation from "app/academic-educations/queries/getAcademicEducation"
 import updateAcademicEducation from "app/academic-educations/mutations/updateAcademicEducation"
+import { UpdateAcademicEducation } from "app/academic-educations/components/validations"
+import { Grid, Button, Typography } from "@mui/material"
+
 import {
   AcademicEducationForm,
   FORM_ERROR,
@@ -28,14 +31,27 @@ export const EditAcademicEducation = () => {
       </Head>
 
       <div>
-        <h1>Edit AcademicEducation {academicEducation.id}</h1>
-        <pre>{JSON.stringify(academicEducation, null, 2)}</pre>
+        <Grid
+          container
+          direction="row"
+          spacing={2}
+          textAlign={"center"}
+          sx={{ mx: "auto", width: "100%" }}
+        >
+        <Grid item xs={12}>
+          <Typography variant="h3" component="div" gutterBottom>
+            Editar Educación Académica {academicEducation.id}
+          </Typography>
+        </Grid>
 
+        <pre>{JSON.stringify(academicEducation, null, 2)}</pre>
+        
+        <Grid item xs={12}>
         <AcademicEducationForm
-          submitText="Update AcademicEducation" // TODO use a zod schema for form validation
+          submitText="Guardar" // TODO use a zod schema for form validation
           //  - Tip: extract mutation's schema into a shared `validations.ts` file and
           //         then import and use it here
-          // schema={UpdateAcademicEducation}
+          schema={UpdateAcademicEducation}
           initialValues={academicEducation}
           onSubmit={async (values) => {
             try {
@@ -57,6 +73,8 @@ export const EditAcademicEducation = () => {
             }
           }}
         />
+        </Grid>
+        </Grid>
       </div>
     </>
   )
@@ -69,11 +87,13 @@ const EditAcademicEducationPage = () => {
         <EditAcademicEducation />
       </Suspense>
 
-      <p>
-        <Link href={Routes.AcademicEducationsPage()}>
-          <a>AcademicEducations</a>
-        </Link>
-      </p>
+      <Grid item xs={12}>
+        <p>
+          <Link href={Routes.AcademicEducationsPage()}>
+            <Button variant="outlined"> AcademicEducations </Button>
+          </Link>
+        </p>
+      </Grid>
     </div>
   )
 }
