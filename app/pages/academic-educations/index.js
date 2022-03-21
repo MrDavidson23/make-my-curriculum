@@ -64,7 +64,7 @@ const AcademicEducationsPage = () => {
       <div>
         <p>
           <Link href={Routes.NewAcademicEducationPage()}>
-            <a>Create AcademicEducation</a>
+            <a>Crear Educación Académica</a>
           </Link>
         </p>
 

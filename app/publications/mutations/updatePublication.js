@@ -1,14 +1,7 @@
 import { resolver } from "blitz"
 import db from "db"
-import { z } from "zod"
-const UpdatePublication = z.object({
-  id: z.number(),
-  name: z.string(),
-  location: z.string(),
-  date: z.date(),
-  institution: z.string(),
-  tag: z.string(),
-})
+import { UpdatePublication } from "../components/validations"
+
 export default resolver.pipe(
   resolver.zod(UpdatePublication),
   resolver.authorize(),

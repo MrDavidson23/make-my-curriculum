@@ -65,7 +65,7 @@ const PublicationsPage = () => {
         <h1>Mis publicaciones</h1>
         <p>
           <Link href={Routes.NewPublicationPage()}>
-            <a>Create Publication</a>
+            <a>Crear Publicación</a>
           </Link>
         </p>
 

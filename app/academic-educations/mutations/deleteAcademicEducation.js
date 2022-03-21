@@ -1,9 +1,7 @@
 import { resolver } from "blitz"
 import db from "db"
-import { z } from "zod"
-const DeleteAcademicEducation = z.object({
-  id: z.number(),
-})
+import { DeleteAcademicEducation } from "../components/validations"
+
 export default resolver.pipe(
   resolver.zod(DeleteAcademicEducation),
   resolver.authorize(),

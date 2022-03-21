@@ -14,14 +14,14 @@ export const DatePickerField = forwardRef(({ outerProps, labelProps, name, ...pr
     ? errors[name].join(", ")
     : errors[name]?.message || errors[name]
   const input = register(name)
-  console.log(input)
+  
   return (
     <div {...outerProps}>
       <DatePicker
         {...register(name)}
         {...props}
         value={watch(name)}
-        label="Date mobile"
+        label={props.label}
         inputFormat="MM/dd/yyyy"
         onChange={(e) => setValue(name, e)}
         renderInput={(params) => <TextField {...params} />}
