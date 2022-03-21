@@ -25,7 +25,7 @@ export const SignupForm = (props) => {
             schema={Signup}
             initialValues={{
               name: "",
-              lastName: "",
+              lastname: "",
               email: "",
               password: "",
               passwordConfirm: "",
