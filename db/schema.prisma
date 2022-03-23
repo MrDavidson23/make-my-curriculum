@@ -32,7 +32,7 @@ model User {
   location            String?
   photo               String?
   birthDate           DateTime?
-  profession          String
+  profession          String?
   references          Reference[]
   publications        Publication[]
   technicalEducations TechnicalEducation[]
