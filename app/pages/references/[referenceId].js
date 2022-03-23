@@ -41,48 +41,27 @@ export const Reference = () => {
           textAlign={"center"}
           //sx={{ mx: "auto", width: "100%" }}
         >
-          <InformationCard
-            title={reference.name}
-            subtitle={reference.institution}
-            firstText={reference.phone}
-            secondText={reference.email}
-            handleOnEdit={() => {
-              router.push(Routes.EditReferencePage({ referenceId: reference.id }))
-              console.log("Edit")
-            }}
-            handleOnDelete={async () => {
-              if (window.confirm("This will be deleted")) {
-                await deleteReferenceMutation({
-                  id: reference.id,
-                })
-                router.push(Routes.ReferencesPage())
-              }
-            }}
-          />
           <Grid item xs={12}>
-            <h3>ID: {reference.id}</h3>
-            <h1>Reference {reference.id}</h1>
-            <pre>{JSON.stringify(reference, null, 2)}</pre>
+            <InformationCard
+              title={reference.name}
+              subtitle={reference.institution}
+              firstText={reference.phone}
+              secondText={reference.email}
+              handleOnEdit={() => {
+                router.push(Routes.EditReferencePage({ referenceId: reference.id }))
+                console.log("Edit")
+              }}
+              handleOnDelete={async () => {
+                if (window.confirm("This will be deleted")) {
+                  await deleteReferenceMutation({
+                    id: reference.id,
+                  })
+                  router.push(Routes.ReferencesPage())
+                }
+              }}
+            />
           </Grid>
-          <Grid item xs={3}>
-            <Item borderRadius={4} border={1}>
-              Email: {reference.email}
-            </Item>
-          </Grid>
-          <Grid item xs={2}>
-            <Item borderRadius={4} border={1}>
-              Telefono: {reference.phone}
-            </Item>
-          </Grid>
-          <Grid item xs={2}>
-            <Item>Nombre: {reference.name}</Item>
-          </Grid>
-          <Grid item xs={2}>
-            <Item>Institucion: {reference.institution}</Item>
-          </Grid>
-          <Grid item xs={2}>
-            <Item>UserID: {reference.userId}</Item>
-          </Grid>
+
           <Grid item xs={12}>
             <Link
               href={Routes.EditReferencePage({
