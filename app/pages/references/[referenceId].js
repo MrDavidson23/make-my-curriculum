@@ -3,7 +3,7 @@ import { Head, Link, useRouter, useQuery, useParam, useMutation, Routes } from "
 import Layout from "app/core/layouts/Layout"
 import getReference from "app/references/queries/getReference"
 import deleteReference from "app/references/mutations/deleteReference"
-import { Grid, Paper } from "@mui/material"
+import { Grid, button, Paper } from "@mui/material"
 import { createTheme, ThemeProvider, styled } from "@mui/material/styles"
 
 // Custom components
@@ -39,10 +39,11 @@ export const Reference = () => {
           direction="row"
           spacing={2}
           textAlign={"center"}
-          //sx={{ mx: "auto", width: "100%" }}
+          sx={{ mx: "auto", width: "100%" }}
         >
-          <Grid item xs={12}>
+          <Grid item xs={12} sx={{ textAlign: "center" }}>
             <InformationCard
+              sx={{ textAlign: "center" }}
               title={reference.name}
               subtitle={reference.institution}
               firstText={reference.phone}
