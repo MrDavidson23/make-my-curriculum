@@ -24,7 +24,7 @@ export const EditPublication = () => {
   return (
     <>
       <Head>
-        <title>Edit Publication {publication.id}</title>
+        <title>Edit Publication {publication.name}</title>
       </Head>
 
       <div>
@@ -38,7 +38,7 @@ export const EditPublication = () => {
 
       <Grid item xs={12}>
         <Typography variant="h3" component="div" gutterBottom>
-          Editar Publicación {publication.id}
+          Editar Publicación {publication.name}
         </Typography>
       </Grid>
         <pre>{JSON.stringify(publication, null, 2)}</pre>
@@ -58,9 +58,7 @@ export const EditPublication = () => {
               })
               await setQueryData(updated)
               router.push(
-                Routes.ShowPublicationPage({
-                  publicationId: updated.id,
-                })
+                Routes.PublicationsPage()
               )
             } catch (error) {
               console.error(error)

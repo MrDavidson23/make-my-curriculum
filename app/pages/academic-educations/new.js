@@ -39,9 +39,7 @@ const NewAcademicEducationPage = () => {
           try {
             const academicEducation = await createAcademicEducationMutation(values)
             router.push(
-              Routes.ShowAcademicEducationPage({
-                academicEducationId: academicEducation.id,
-              })
+              Routes.AcademicEducationsPage()
             )
           } catch (error) {
             console.error(error)

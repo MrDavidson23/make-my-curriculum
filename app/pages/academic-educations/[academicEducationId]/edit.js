@@ -27,7 +27,7 @@ export const EditAcademicEducation = () => {
   return (
     <>
       <Head>
-        <title>Edit AcademicEducation {academicEducation.id}</title>
+        <title>Edit AcademicEducation {academicEducation.studies}</title>
       </Head>
 
       <div>
@@ -40,7 +40,7 @@ export const EditAcademicEducation = () => {
         >
         <Grid item xs={12}>
           <Typography variant="h3" component="div" gutterBottom>
-            Editar Educación Académica {academicEducation.id}
+            Editar Educación Académica {academicEducation.studies}
           </Typography>
         </Grid>
 
@@ -61,9 +61,7 @@ export const EditAcademicEducation = () => {
               })
               await setQueryData(updated)
               router.push(
-                Routes.ShowAcademicEducationPage({
-                  academicEducationId: updated.id,
-                })
+                Routes.AcademicEducationsPage()
               )
             } catch (error) {
               console.error(error)
