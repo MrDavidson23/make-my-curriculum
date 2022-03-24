@@ -88,7 +88,14 @@ const ReferencesPage = () => {
 
       <div>
         <p>
-          <Button onClick={() => Router.push(Routes.NewReferencePage())}>Create Reference</Button>
+          <Button
+            justify="center"
+            textAlign={"center"}
+            sx={{ mx: "auto", width: "100%" }}
+            onClick={() => Router.push(Routes.NewReferencePage())}
+          >
+            Create Reference
+          </Button>
         </p>
 
         <Suspense fallback={<div>Loading...</div>}>
