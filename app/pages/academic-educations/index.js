@@ -1,11 +1,15 @@
 import { Suspense } from "react"
-import { Head, Link, usePaginatedQuery, useRouter, Routes } from "blitz"
+import { Head, Link, usePaginatedQuery, useRouter, Routes, useMutation } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getAcademicEducations from "app/academic-educations/queries/getAcademicEducations"
+import deleteAcademicEducation from "app/academic-educations/mutations/deleteAcademicEducation"
+import InformationCard from "app/core/components/InformationCard"
+import { Grid } from "@mui/material"
 const ITEMS_PER_PAGE = 100
 export const AcademicEducationsList = () => {
   const router = useRouter()
   const page = Number(router.query.page) || 0
+  const [deleteAcademicEducationMutation] = useMutation(deleteAcademicEducation)
   const [{ academicEducations, hasMore }] = usePaginatedQuery(getAcademicEducations, {
     orderBy: {
       id: "asc",
@@ -30,26 +34,45 @@ export const AcademicEducationsList = () => {
 
   return (
     <div>
-      <ul>
+       <Grid
+        container
+        direction="row"
+        spacing={2}
+        textAlign={"center"}
+        justify={"center"}
+        sx={{ mx: "auto", width: "100%" }}
+      >
         {academicEducations.map((academicEducation) => (
-          <li key={academicEducation.id}>
-            <Link
-              href={Routes.ShowAcademicEducationPage({
-                academicEducationId: academicEducation.id,
-              })}
-            >
-              <a>{academicEducation.name}</a>
-            </Link>
-          </li>
+          <Grid item key={academicEducation.id}>
+          <InformationCard
+            title={academicEducation.studies}
+            subtitle={academicEducation.institution}
+            firstText={academicEducation.location}
+            secondText={academicEducation.startYear.toLocaleDateString()+"  -  "+academicEducation.finishYear.toLocaleDateString()}
+            handleOnEdit={() => {
+              router.push(Routes.EditAcademicEducationPage({ academicEducationId: academicEducation.id }))
+            }}
+            handleOnDelete={async () => {
+              if (window.confirm("This will be deleted")) {
+                await deleteAcademicEducationMutation({
+                  id: academicEducation.id,
+                })
+                //this.forceUpdate()
+                router.push(Routes.AcademicEducationsPage())
+              }
+            }}
+          />
+          </Grid>
         ))}
-      </ul>
-
-      <button disabled={page === 0} onClick={goToPreviousPage}>
-        Previous
-      </button>
-      <button disabled={!hasMore} onClick={goToNextPage}>
-        Next
-      </button>
+      <Grid item xs={12} justify="center">
+        <button disabled={page === 0} onClick={goToPreviousPage}>
+          Previous
+        </button>
+        <button disabled={!hasMore} onClick={goToNextPage}>
+          Next
+        </button>
+      </Grid>
+      </Grid>
     </div>
   )
 }

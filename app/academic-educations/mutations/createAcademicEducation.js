@@ -5,10 +5,13 @@ import { CreateAcademicEducation }  from "../components/validations"
 export default resolver.pipe(
   resolver.zod(CreateAcademicEducation),
   resolver.authorize(),
-  async (input) => {
+  async (input, ctx) => {
     // TODO: in multi-tenant app, you must add validation to ensure correct tenant
     const academicEducation = await db.academicEducation.create({
-      data: input,
+      data: {
+        ...input,
+        UserId: ctx.session.userId,
+      }
     })
     return academicEducation
   }
