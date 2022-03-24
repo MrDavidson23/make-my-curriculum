@@ -1,7 +1,7 @@
 import { useMutation } from "blitz"
 import { LabeledTextField } from "app/core/components/LabeledTextField"
 import { Form, FORM_ERROR } from "app/core/components/Form"
-import { UpdateUser } from "app/pages/users/validations"
+import { UpdateUser } from "app/users/validations"
 import updateUser from "app/users/mutations/updateUser"
 import { Grid } from "@mui/material"
 export const UserForm = (props) => {
