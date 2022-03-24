@@ -1,10 +1,10 @@
 import { Suspense } from "react"
-import { Head, Link, usePaginatedQuery, useRouter, Routes, useMutation } from "blitz"
+import { Head, Link, usePaginatedQuery, useRouter, Routes, useMutation, Router } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getReferences from "app/references/queries/getReferences"
 import deleteReference from "app/references/mutations/deleteReference"
 import InformationCard from "app/core/components/InformationCard"
-import { Grid } from "@mui/material"
+import { Grid, button, Button } from "@mui/material"
 const ITEMS_PER_PAGE = 100
 export const ReferencesList = () => {
   const router = useRouter()
@@ -67,12 +67,12 @@ export const ReferencesList = () => {
           </Grid>
         ))}
         <Grid item xs={12} justify="center">
-          <button disabled={page === 0} onClick={goToPreviousPage}>
+          <Button disabled={page === 0} onClick={goToPreviousPage}>
             Previous
-          </button>
-          <button disabled={!hasMore} onClick={goToNextPage}>
+          </Button>
+          <Button disabled={!hasMore} onClick={goToNextPage}>
             Next
-          </button>
+          </Button>
         </Grid>
       </Grid>
     </div>
@@ -88,9 +88,7 @@ const ReferencesPage = () => {
 
       <div>
         <p>
-          <Link href={Routes.NewReferencePage()}>
-            <a>Create Reference</a>
-          </Link>
+          <Button onClick={() => Router.push(Routes.NewReferencePage())}>Create Reference</Button>
         </p>
 
         <Suspense fallback={<div>Loading...</div>}>
