@@ -1,0 +1,37 @@
+/*
+  Paleta de colores
+  FAF6F6
+  3A298F
+  DB5461
+  9587A4
+  000000
+
+
+*/
+
+:root {
+  --main-bg-color: brown;
+}
+
+body {
+  background-color: #faf6f6;
+}
+
+input {
+  background-color: white !important;
+}
+
+label {
+  color: #db5461 !important;
+}
+
+h1,
+h2,
+h3 {
+  color: #db5461;
+}
+
+h4,
+h5 {
+  color: #db5461;
+}
