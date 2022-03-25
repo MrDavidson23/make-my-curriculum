@@ -5,6 +5,7 @@ import UserDisplay from "app/users/components/UserDisplay"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import logout from "app/auth/mutations/logout"
 import logo from "public/logo.png"
+import { Grid } from "@mui/material"
 
 const UserInfo = () => {
   const currentUser = useCurrentUser()
@@ -50,102 +51,106 @@ const Home = () => {
   return (
     <div className="container">
       <main>
-        <div className="logo">
-          <Image src={logo} alt="blitzjs" />
-        </div>
-        <Suspense fallback="Loading...">
-          <UserDisplay />
-        </Suspense>
-        <p>
-          <strong>Congrats!</strong> Your app is ready, including user sign-up and log-in.
-        </p>
-        <div
-          className="buttons"
-          style={{
-            marginTop: "1rem",
-            marginBottom: "1rem",
-          }}
+        <Grid
+          container
+          direction="row"
+          spacing={2}
+          textAlign={"center"}
+          sx={{ mx: "auto", width: "100%" }}
         >
-          <Suspense fallback="Loading...">
-            <UserInfo />
-          </Suspense>
-        </div>
-        <p>
-          <strong>
-            To add a new model to your app, <br />
-            run the following in your terminal:
-          </strong>
-        </p>
-        <pre>
-          <code>blitz generate all project name:string</code>
-        </pre>
-        <div
-          style={{
-            marginBottom: "1rem",
-          }}
-        >
-          (And select Yes to run prisma migrate)
-        </div>
-        <div>
+          <Grid item justifyContent="flex-end">
+            <div className="logo" style={{ marginTop: "2rem", width: "300px" }}>
+              <Image src={logo} alt="blitzjs" />
+            </div>
+          </Grid>
+          <Grid item justifyContent="flex-end">
+            <Suspense fallback="Loading...">
+              <UserDisplay />
+            </Suspense>
+          </Grid>
+
+          {/* <p>
+            <strong>Congrats!</strong> Your app is ready, including user sign-up and log-in.
+          </p>
+          <div
+            className="buttons"
+            style={{
+              marginTop: "1rem",
+              marginBottom: "1rem",
+            }}
+          >
+            <Suspense fallback="Loading...">
+              <UserInfo />
+            </Suspense>
+          </div>
           <p>
-            Then <strong>restart the server</strong>
+            <strong>
+              To add a new model to your app, <br />
+              run the following in your terminal:
+            </strong>
           </p>
           <pre>
-            <code>Ctrl + c</code>
+            <code>blitz generate all project name:string</code>
           </pre>
-          <pre>
-            <code>blitz dev</code>
-          </pre>
-          <p>
-            and go to{" "}
-            <Link href="/projects">
-              <a>/projects</a>
-            </Link>
-          </p>
-        </div>
-        <div
-          className="buttons"
-          style={{
-            marginTop: "5rem",
-          }}
-        >
-          <a
-            className="button"
-            href="https://blitzjs.com/docs/getting-started?utm_source=blitz-new&utm_medium=app-template&utm_campaign=blitz-new"
-            target="_blank"
-            rel="noopener noreferrer"
+          <div
+            style={{
+              marginBottom: "1rem",
+            }}
           >
-            Documentation
-          </a>
-          <a
-            className="button-outline"
-            href="https://github.com/blitz-js/blitz"
-            target="_blank"
-            rel="noopener noreferrer"
+            (And select Yes to run prisma migrate)
+          </div>
+          <div>
+            <p>
+              Then <strong>restart the server</strong>
+            </p>
+            <pre>
+              <code>Ctrl + c</code>
+            </pre>
+            <pre>
+              <code>blitz dev</code>
+            </pre>
+            <p>
+              and go to{" "}
+              <Link href="/projects">
+                <a>/projects</a>
+              </Link>
+            </p>
+          </div>
+          <div
+            className="buttons"
+            style={{
+              marginTop: "5rem",
+            }}
           >
-            Github Repo
-          </a>
-          <a
-            className="button-outline"
-            href="https://discord.blitzjs.com"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Discord Community
-          </a>
-        </div>
+            <a
+              className="button"
+              href="https://blitzjs.com/docs/getting-started?utm_source=blitz-new&utm_medium=app-template&utm_campaign=blitz-new"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Documentation
+            </a>
+            <a
+              className="button-outline"
+              href="https://github.com/blitz-js/blitz"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Github Repo
+            </a>
+            <a
+              className="button-outline"
+              href="https://discord.blitzjs.com"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Discord Community
+            </a>
+          </div> */}
+        </Grid>
       </main>
 
-      <footer>
-        <a
-          href="https://blitzjs.com?utm_source=blitz-new&utm_medium=app-template&utm_campaign=blitz-new"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by Blitz.js
-        </a>
-      </footer>
-
+      {/*
       <style jsx global>{`
         @import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@500&display=swap");
 
@@ -277,7 +282,7 @@ const Home = () => {
             flex-direction: column;
           }
         }
-      `}</style>
+      `}</style> */}
     </div>
   )
 }

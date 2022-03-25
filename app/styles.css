@@ -35,3 +35,29 @@ h4,
 h5 {
   color: #db5461;
 }
+
+footer {
+  width: 100%;
+  height: 60px;
+  border-top: 1px solid #eaeaea;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #45009d;
+  bottom: 0;
+  position: fixed;
+}
+
+footer a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+footer a {
+  color: #f4f4f4;
+  text-decoration: none;
+}
+
+.navbarLogo {
+}
