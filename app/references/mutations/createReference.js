@@ -7,7 +7,7 @@ export default resolver.pipe(
   resolver.authorize(),
   async (input, context) => {
     //console.log(context.session.userId)
-    console.log(input)
+    //console.log(input)
     // TODO: in multi-tenant app, you must add validation to ensure correct tenant
     const reference = await db.reference.create({
       data: {
