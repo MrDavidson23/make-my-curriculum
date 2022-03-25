@@ -6,7 +6,8 @@ const model = {
   name: z.string().min(1).max(max),
   location: z.string().min(1).max(max),
   date: z.instanceof(Date).or(z.string())
-    .refine(date=>new Date(date) < new Date(Date.now())),
+    .refine(date=>new Date(date) < new Date(Date.now()))
+    .transform(date => new Date(date)),
   tag: z.string().min(1).max(max),
   institution: z.string().min(1).max(max),
 }
