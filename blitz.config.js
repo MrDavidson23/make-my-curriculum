@@ -16,5 +16,14 @@ const config = {
     return config
   },
   */
+  async redirects() {
+    return [
+      {
+        source: "/home",
+        destination: "/",
+        permanent: true,
+      },
+    ]
+  },
 }
 module.exports = config
