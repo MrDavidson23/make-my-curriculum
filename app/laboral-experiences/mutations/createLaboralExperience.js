@@ -1,9 +1,7 @@
 import { resolver } from "blitz"
 import db from "db"
-import { z } from "zod"
-const CreateLaboralExperience = z.object({
-  name: z.string(),
-})
+import { CreateLaboralExperience } from "../components/validations"
+
 export default resolver.pipe(
   resolver.zod(CreateLaboralExperience),
   resolver.authorize(),
