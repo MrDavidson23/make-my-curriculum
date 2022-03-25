@@ -13,11 +13,11 @@ export const Skill = () => {
   return (
     <>
       <Head>
-        <title>Skill {skill.id}</title>
+        <title> Skills {skill.description}</title>
       </Head>
 
       <div>
-        <h1>Skill {skill.id}</h1>
+        <h1> Skills {skill.description}</h1>
         <pre>{JSON.stringify(skill, null, 2)}</pre>
 
         <Link
@@ -31,7 +31,7 @@ export const Skill = () => {
         <button
           type="button"
           onClick={async () => {
-            if (window.confirm("This will be deleted")) {
+            if (window.confirm("Esto va a ser eliminado")) {
               await deleteSkillMutation({
                 id: skill.id,
               })
@@ -54,7 +54,7 @@ const ShowSkillPage = () => {
     <div>
       <p>
         <Link href={Routes.SkillsPage()}>
-          <a>Skills</a>
+          <a> Skills </a>
         </Link>
       </p>
 
