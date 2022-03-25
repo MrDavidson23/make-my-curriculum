@@ -26,7 +26,6 @@ const UserDisplay = ({}) => {
           }}
         >
           <Paper elevation={3}>
-            <AccountCircleIcon sx={{ fontSize: 200, color: "#b3b3b3" }} />
             <Grid
               container
               direction="row"
@@ -36,10 +35,15 @@ const UserDisplay = ({}) => {
               pr={5}
               pb={2}
             >
-              <Grid item>
+              <Grid item sx={2}>
+                <AccountCircleIcon sx={{ fontSize: 200, color: "#b3b3b3" }} />
+              </Grid>
+              <Grid item sx={2}>
                 <Typography variant="h3" gutterBottom>
                   {currentUser.name} {currentUser.lastName}
                 </Typography>
+              </Grid>
+              <Grid item sx={12}>
                 <Typography variant="h4" gutterBottom>
                   {currentUser.profession}
                 </Typography>

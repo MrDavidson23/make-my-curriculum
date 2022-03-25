@@ -11,6 +11,10 @@ import { LocalizationProvider } from "@mui/lab"
 import AdapterDateFns from "@mui/lab/AdapterDateFns"
 //para manejo de fechas
 
+//css global
+import "../styles.css"
+//css global
+
 export default function App({ Component, pageProps }) {
   const getLayout = Component.getLayout || ((page) => page)
 

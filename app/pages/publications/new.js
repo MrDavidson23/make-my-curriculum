@@ -35,9 +35,7 @@ const NewPublicationPage = () => {
             try {
               const publication = await createPublicationMutation(values)
               router.push(
-                Routes.ShowPublicationPage({
-                  publicationId: publication.id,
-                })
+                Routes.PublicationsPage()
               )
             } catch (error) {
               console.error(error)

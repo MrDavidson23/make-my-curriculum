@@ -3,7 +3,10 @@ import { Head, Link, useRouter, useQuery, useMutation, useParam, Routes } from "
 import Layout from "app/core/layouts/Layout"
 import getSkill from "app/skills/queries/getSkill"
 import updateSkill from "app/skills/mutations/updateSkill"
+import { UpdateSkill } from "app/academic-educations/components/validations"
 import { SkillForm, FORM_ERROR } from "app/skills/components/SkillForm"
+import { Grid, Button, Typography } from "@mui/material"
+
 export const EditSkill = () => {
   const router = useRouter()
   const skillId = useParam("skillId", "number")
@@ -21,39 +24,51 @@ export const EditSkill = () => {
   return (
     <>
       <Head>
-        <title>Edit Skill {skill.id}</title>
+        <title> Edit Skills {skill.description}</title>
       </Head>
 
       <div>
-        <h1>Edit Skill {skill.id}</h1>
-        <pre>{JSON.stringify(skill, null, 2)}</pre>
+        <Grid
+          container
+          direction="row"
+          spacing={2}
+          textAlign={"center"}
+          sx={{ mx: "auto", width: "100%" }}
+        >
+          <Grid item xs={12}>
+            <Typography variant="h3" component="div" gutterBottom>
+              Edit Skills {skill.description}
+            </Typography>
+          </Grid>
 
-        <SkillForm
-          submitText="Update Skill" // TODO use a zod schema for form validation
-          //  - Tip: extract mutation's schema into a shared `validations.ts` file and
-          //         then import and use it here
-          // schema={UpdateSkill}
-          initialValues={skill}
-          onSubmit={async (values) => {
-            try {
-              const updated = await updateSkillMutation({
-                id: skill.id,
-                ...values,
-              })
-              await setQueryData(updated)
-              router.push(
-                Routes.ShowSkillPage({
-                  skillId: updated.id,
-                })
-              )
-            } catch (error) {
-              console.error(error)
-              return {
-                [FORM_ERROR]: error.toString(),
-              }
-            }
-          }}
-        />
+          <pre>{JSON.stringify(academicEducation, null, 2)}</pre>
+
+          <Grid item xs={12}>
+            <SkillForm
+              submitText="Guardar" // TODO use a zod schema for form validation
+              //  - Tip: extract mutation's schema into a shared `validations.ts` file and
+              //         then import and use it here
+              // schema={UpdateSkill}
+              schema={UpdateSkill}
+              initialValues={skill}
+              onSubmit={async (values) => {
+                try {
+                  const updated = await updateSkillMutation({
+                    id: skill.id,
+                    ...values,
+                  })
+                  await setQueryData(updated)
+                  router.push(Routes.SkillsPage())
+                } catch (error) {
+                  console.error(error)
+                  return {
+                    [FORM_ERROR]: error.toString(),
+                  }
+                }
+              }}
+            />
+          </Grid>
+        </Grid>
       </div>
     </>
   )
@@ -68,7 +83,7 @@ const EditSkillPage = () => {
 
       <p>
         <Link href={Routes.SkillsPage()}>
-          <a>Skills</a>
+          <a>Habilidades</a>
         </Link>
       </p>
     </div>
