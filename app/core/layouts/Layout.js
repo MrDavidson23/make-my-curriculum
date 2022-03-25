@@ -1,6 +1,7 @@
 import { Head } from "blitz"
 import { createTheme, ThemeProvider } from "@mui/material/styles"
 import ResponsiveAppBar from "../components/navbar"
+import Footer from "../components/footer"
 
 const theme = createTheme({
   palette: {
@@ -25,6 +26,7 @@ const Layout = ({ title, children }) => {
       </Head>
       <ResponsiveAppBar />
       <ThemeProvider theme={theme}>{children}</ThemeProvider>
+      <Footer></Footer>
     </>
   )
 }

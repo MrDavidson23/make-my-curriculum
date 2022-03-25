@@ -12,8 +12,13 @@ import Button from "@mui/material/Button"
 import Tooltip from "@mui/material/Tooltip"
 import MenuItem from "@mui/material/MenuItem"
 import { Link } from "@mui/material"
+import logo from "../../../public/logoonly.png"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import { Suspense } from "react"
+import { useSession } from "blitz"
+
+import { Image } from "blitz"
+import { borderRadius, width } from "@mui/system"
 
 const pages = ["home", "references", "users", "settings"]
 const settings = ["Profile", "Account", "Dashboard", "Logout"]
@@ -31,13 +36,18 @@ const ResponsiveAppBar = () => {
   }
 
   const handleCloseNavMenu = (e) => {
-    console.log(e.currentTarget.firstChild.innerHTML)
+    try {
+      console.log(e.currentTarget.firstChild.innerHTML)
+      const targetPage = e.currentTarget.firstChild.innerHTML
+      window.location.href = `/${targetPage}/ `
+    } catch (error) {}
     setAnchorElNav(null)
   }
 
   const handleCloseUserMenu = (e) => {
     try {
-      console.log(e.currentTarget.firstChild.innerHTML)
+      //console.log(e.currentTarget.firstChild.innerHTML)
+
       const targetPage = e.currentTarget.firstChild.innerHTML
       switch (targetPage) {
         case "Logout":
@@ -65,7 +75,12 @@ const ResponsiveAppBar = () => {
             component="div"
             sx={{ mr: 2, display: { xs: "none", md: "flex" } }}
           >
-            LOGO
+            <div
+              className="navbarLogo"
+              style={{ width: "50px", padding: "4px", borderRadius: "5px" }}
+            >
+              <Image src={logo} alt="logo" />
+            </div>
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -110,7 +125,12 @@ const ResponsiveAppBar = () => {
             component="div"
             sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}
           >
-            LOGO
+            <div
+              className="navbarLogo"
+              style={{ width: "50px", padding: "4px", borderRadius: "5px" }}
+            >
+              <Image src={logo} alt="logo" />
+            </div>
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
