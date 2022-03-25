@@ -1,11 +1,15 @@
 import { Suspense } from "react"
-import { Head, Link, usePaginatedQuery, useRouter, Routes } from "blitz"
+import { Head, Link, usePaginatedQuery, useRouter, Routes, useMutation, Router } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getSkills from "app/skills/queries/getSkills"
+import deleteSkill from "app/skills/mutations/deleteSkill"
+import InformationCard from "app/core/components/InformationCard"
+import { Grid, Button, Chip } from "@mui/material"
 const ITEMS_PER_PAGE = 100
 export const SkillsList = () => {
   const router = useRouter()
   const page = Number(router.query.page) || 0
+  const [deleteSkillMutation] = useMutation(deleteSkill)
   const [{ skills, hasMore }] = usePaginatedQuery(getSkills, {
     orderBy: {
       id: "asc",
@@ -64,7 +68,7 @@ const SkillsPage = () => {
       <div>
         <p>
           <Link href={Routes.NewSkillPage()}>
-            <a>Create Skill</a>
+            <a>Create New Skill</a>
           </Link>
         </p>
 
