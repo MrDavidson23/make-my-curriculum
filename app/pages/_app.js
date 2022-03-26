@@ -13,6 +13,7 @@ import AdapterDateFns from "@mui/lab/AdapterDateFns"
 
 //css global
 import "../styles.css"
+import { Suspense } from "react"
 //css global
 
 export default function App({ Component, pageProps }) {
@@ -24,7 +25,7 @@ export default function App({ Component, pageProps }) {
       onReset={useQueryErrorResetBoundary().reset}
     >
       <LocalizationProvider dateAdapter={AdapterDateFns}>
-        {getLayout(<Component {...pageProps} />)}
+        <Suspense fallback={"loading..."}>{getLayout(<Component {...pageProps} />)}</Suspense>
       </LocalizationProvider>
     </ErrorBoundary>
   )

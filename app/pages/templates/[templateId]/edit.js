@@ -2,7 +2,7 @@ import { Suspense } from "react"
 import { Head, Link, useRouter, useQuery, useMutation, useParam, Routes } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getTemplate from "app/templates/queries/getTemplate"
-import updateTemplate from "app/templates/mutations/updateTemplate"
+//import updateTemplate from "app/templates/mutations/updateTemplate"
 import { TemplateForm, FORM_ERROR } from "app/templates/components/TemplateForm"
 export const EditTemplate = () => {
   const router = useRouter()
@@ -17,7 +17,7 @@ export const EditTemplate = () => {
       staleTime: Infinity,
     }
   )
-  const [updateTemplateMutation] = useMutation(updateTemplate)
+  //const [updateTemplateMutation] = useMutation(updateTemplate)
   return (
     <>
       <Head>

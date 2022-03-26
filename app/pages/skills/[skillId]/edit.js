@@ -2,8 +2,8 @@ import { Suspense } from "react"
 import { Head, Link, useRouter, useQuery, useMutation, useParam, Routes } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getSkill from "app/skills/queries/getSkill"
-import updateSkill from "app/skills/mutations/updateSkill"
-import { UpdateSkill } from "app/academic-educations/components/validations"
+//import updateSkill from "app/skills/mutations/updateSkill"
+//import { UpdateSkill } from "app/academic-educations/components/validations"
 import { SkillForm, FORM_ERROR } from "app/skills/components/SkillForm"
 import { Grid, Button, Typography } from "@mui/material"
 
@@ -20,7 +20,7 @@ export const EditSkill = () => {
       staleTime: Infinity,
     }
   )
-  const [updateSkillMutation] = useMutation(updateSkill)
+  //const [updateSkillMutation] = useMutation(updateSkill)
   return (
     <>
       <Head>
