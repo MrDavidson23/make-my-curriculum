@@ -68,6 +68,11 @@ const Home = () => {
               <UserDisplay />
             </Suspense>
           </Grid>
+          <Grid item>
+            <Suspense fallback="Loading...">
+              <UserInfo />
+            </Suspense>
+          </Grid>
 
           {/* <p>
             <strong>Congrats!</strong> Your app is ready, including user sign-up and log-in.
@@ -79,9 +84,7 @@ const Home = () => {
               marginBottom: "1rem",
             }}
           >
-            <Suspense fallback="Loading...">
-              <UserInfo />
-            </Suspense>
+
           </div>
           <p>
             <strong>
