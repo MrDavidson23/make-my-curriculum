@@ -62,12 +62,6 @@ const UsersPage = () => {
       </Head>
 
       <div>
-        <p>
-          <Link href={Routes.NewUserPage()}>
-            <a>Create User</a>
-          </Link>
-        </p>
-
         <Suspense fallback={<div>Loading...</div>}>
           <UsersList />
         </Suspense>

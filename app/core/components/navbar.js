@@ -1,4 +1,3 @@
-import * as React from "react"
 import AppBar from "@mui/material/AppBar"
 import Box from "@mui/material/Box"
 import Toolbar from "@mui/material/Toolbar"
@@ -14,19 +13,31 @@ import MenuItem from "@mui/material/MenuItem"
 import { Link } from "@mui/material"
 import logo from "../../../public/logoOnly.png"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
-import { Suspense } from "react"
-import { useSession } from "blitz"
 
-import { Image } from "blitz"
+import { Suspense, useState } from "react"
+import { useSession, Routes, Link as LinkBlitz } from "blitz"
+
+import { Image, useRouter } from "blitz" //user router es para usar react
 import { borderRadius, width } from "@mui/system"
 
-const pages = ["home", "references", "users", "settings"]
+const pages = [
+  {
+    name: "Inicio",
+    path: Routes.Home(),
+  },
+  {
+    name: "Referencias",
+    path: Routes.ReferencesPage(),
+  },
+]
+
 const settings = ["Profile", "Account", "Dashboard", "Logout"]
 
 const ResponsiveAppBar = () => {
-  //const currentUser = useCurrentUser()
-  const [anchorElNav, setAnchorElNav] = React.useState(null)
-  const [anchorElUser, setAnchorElUser] = React.useState(null)
+  const router = useRouter()
+  const currentUser = useCurrentUser()
+  const [anchorElNav, setAnchorElNav] = useState(null)
+  const [anchorElUser, setAnchorElUser] = useState(null)
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget)
@@ -36,11 +47,11 @@ const ResponsiveAppBar = () => {
   }
 
   const handleCloseNavMenu = (e) => {
-    try {
-      console.log(e.currentTarget.firstChild.innerHTML)
-      const targetPage = e.currentTarget.firstChild.innerHTML
-      window.location.href = `/${targetPage}/ `
-    } catch (error) {}
+    // try {
+    //   console.log(e.currentTarget.firstChild.innerHTML)
+    //   const targetPage = e.currentTarget.firstChild.innerHTML
+    //   window.location.href = `/${targetPage}/ `
+    // } catch (error) {}
     setAnchorElNav(null)
   }
 
@@ -51,9 +62,10 @@ const ResponsiveAppBar = () => {
       const targetPage = e.currentTarget.firstChild.innerHTML
       switch (targetPage) {
         case "Logout":
-          window.location.href = "/signout"
-        case "profile":
-          window.location.href = `/users/${currentUser.id}/edit`
+          router.push(Routes.Logout())
+        case "Profile":
+          //window.location.href = `/users/${currentUser?.id}/edit`
+          router.push(Routes.EditUserPage({ userId: currentUser?.id }))
 
           break
 
@@ -112,9 +124,11 @@ const ResponsiveAppBar = () => {
                 display: { xs: "block", md: "none" },
               }}
             >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
+              {pages.map((page, i) => (
+                <MenuItem key={i}>
+                  <LinkBlitz href={page.path.pathname}>
+                    <Typography textAlign="center">{page.name}</Typography>
+                  </LinkBlitz>
                 </MenuItem>
               ))}
             </Menu>
@@ -133,16 +147,12 @@ const ResponsiveAppBar = () => {
             </div>
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {pages.map((page) => (
-              <Link href={`/${page}`} key={page}>
-                <Button
-                  key={page}
-                  onClick={handleCloseNavMenu}
-                  sx={{ my: 2, color: "white", display: "block" }}
-                >
-                  {page}
-                </Button>
-              </Link>
+            {pages.map((page, i) => (
+              <MenuItem key={i}>
+                <LinkBlitz href={page.path.pathname}>
+                  <Button sx={{ my: 2, color: "white", display: "block" }}>{page.name}</Button>
+                </LinkBlitz>
+              </MenuItem>
             ))}
           </Box>
 
