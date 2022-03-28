@@ -7,12 +7,14 @@ export default resolver.pipe(
   resolver.authorize(),
   async (input, ctx) => {
     // TODO: in multi-tenant app, you must add validation to ensure correct tenant
+    const {templateId,languageId, ...data} = input
     const curriculum = await db.curriculum.create({
-      /*data: {
-        ...input,
-        UserId: ctx.session.userId,
-      }*/
-      data: input
+      data: {
+        ...data,
+        user:{ connect: { id: ctx.session.userId } },
+        template:{ connect: { id: templateId } },
+        language:{ connect: { id: languageId } },
+      }
     })
     return curriculum
   }
