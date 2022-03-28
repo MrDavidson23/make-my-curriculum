@@ -3,6 +3,7 @@ import { Head, Link, useRouter, useQuery, useMutation, useParam, Routes } from "
 import Layout from "app/core/layouts/Layout"
 import getCurriculum from "app/curricula/queries/getCurriculum"
 import updateCurriculum from "app/curricula/mutations/updateCurriculum"
+import { UpdateCurriculum } from "app/curricula/components/validations"
 import { CurriculumForm, FORM_ERROR } from "app/curricula/components/CurriculumForm"
 export const EditCurriculum = () => {
   const router = useRouter()
@@ -32,7 +33,7 @@ export const EditCurriculum = () => {
           submitText="Update Curriculum" // TODO use a zod schema for form validation
           //  - Tip: extract mutation's schema into a shared `validations.ts` file and
           //         then import and use it here
-          // schema={UpdateCurriculum}
+          schema={UpdateCurriculum}
           initialValues={curriculum}
           onSubmit={async (values) => {
             try {

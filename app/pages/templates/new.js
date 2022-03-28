@@ -2,6 +2,7 @@ import { Link, useRouter, useMutation, Routes } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import createTemplate from "app/templates/mutations/createTemplate"
 import { TemplateForm, FORM_ERROR } from "app/templates/components/TemplateForm"
+import { CreateTemplate } from "app/templates/components/validations"
 
 const NewTemplatePage = () => {
   const router = useRouter()
@@ -14,8 +15,8 @@ const NewTemplatePage = () => {
         submitText="Create Template" // TODO use a zod schema for form validation
         //  - Tip: extract mutation's schema into a shared `validations.ts` file and
         //         then import and use it here
-        // schema={CreateTemplate}
-        // initialValues={{}}
+        schema={CreateTemplate}
+        initialValues={{isPremium:false, design:"basic",}}
         onSubmit={async (values) => {
           try {
             const template = await createTemplateMutation(values)

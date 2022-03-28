@@ -4,7 +4,7 @@ export { FORM_ERROR } from "app/core/components/Form"
 export function LanguageForm(props) {
   return (
     <Form {...props}>
-      <LabeledTextField name="name" label="Name" placeholder="Name" />
+      <LabeledTextField name="language" label="Name" placeholder="Name" />
     </Form>
   )
 }
