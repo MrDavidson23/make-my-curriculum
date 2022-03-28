@@ -4,8 +4,8 @@ const max = 50;
 
 const model = {
   name: z.string().min(1).max(max),
-  //languageId: z.number(),
-  //templateId: z.number(),
+  languageId: z.number(),
+  templateId: z.number(),
   profession: z.string().min(0).max(max).optional(),
   description: z.string().min(0).max(max).optional(),
 }

@@ -16,7 +16,7 @@ const NewCurriculumPage = () => {
         //  - Tip: extract mutation's schema into a shared `validations.ts` file and
         //         then import and use it here
         schema={CreateCurriculum}
-        //initialValues={{languageId:1,templateId:1}}
+        initialValues={{languageId:1,templateId:1}}
         onSubmit={async (values) => {
           try {
             const curriculum = await createCurriculumMutation(values)
