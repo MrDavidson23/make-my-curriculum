@@ -1,4 +1,4 @@
-import { Link, useRouter, useMutation, Routes } from "blitz"
+import { Link, useRouter, useMutation, useRouterQuery, Routes } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import createAcademicEducation from "app/academic-educations/mutations/createAcademicEducation"
 import {
@@ -10,6 +10,7 @@ import { CreateAcademicEducation } from "app/academic-educations/components/vali
 
 const NewAcademicEducationPage = () => {
   const router = useRouter()
+  const {curriculumId} = useRouterQuery()
   const [createAcademicEducationMutation] = useMutation(createAcademicEducation)
   return (
     <div>
@@ -33,13 +34,13 @@ const NewAcademicEducationPage = () => {
         //  - Tip: extract mutation's schema into a shared `validations.ts` file and
         //         then import and use it here
         schema={CreateAcademicEducation}
-        // initialValues={{}}
+        initialValues={{curriculumId:parseInt(curriculumId)}}
         onSubmit={async (values) => {
           
           try {
-            const academicEducation = await createAcademicEducationMutation(values)
+            await createAcademicEducationMutation(values)
             router.push(
-              Routes.AcademicEducationsPage()
+              Routes.EditCurriculumPage({curriculumId})
             )
           } catch (error) {
             console.error(error)

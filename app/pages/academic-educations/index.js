@@ -6,11 +6,15 @@ import deleteAcademicEducation from "app/academic-educations/mutations/deleteAca
 import InformationCard from "app/core/components/InformationCard"
 import { Grid } from "@mui/material"
 const ITEMS_PER_PAGE = 100
-export const AcademicEducationsList = () => {
+export const AcademicEducationsList = (props) => {
+
   const router = useRouter()
   const page = Number(router.query.page) || 0
   const [deleteAcademicEducationMutation] = useMutation(deleteAcademicEducation)
   const [{ academicEducations, hasMore }] = usePaginatedQuery(getAcademicEducations, {
+    where: {
+      curriculumId: parseInt(props.curriculumId),
+    },
     orderBy: {
       id: "asc",
     },
@@ -58,7 +62,9 @@ export const AcademicEducationsList = () => {
                   id: academicEducation.id,
                 })
                 //this.forceUpdate()
-                router.push(Routes.AcademicEducationsPage())
+                router.push(
+                  Routes.EditCurriculumPage({curriculumId:academicEducation.curriculumId})
+                )
               }
             }}
           />
@@ -77,7 +83,7 @@ export const AcademicEducationsList = () => {
   )
 }
 
-const AcademicEducationsPage = () => {
+const AcademicEducationsPage = (props) => {
   return (
     <>
       <Head>
@@ -86,13 +92,13 @@ const AcademicEducationsPage = () => {
 
       <div>
         <p>
-          <Link href={Routes.NewAcademicEducationPage()}>
+          <Link href={Routes.NewAcademicEducationPage({curriculumId: props.curriculumId})}>
             <a>Crear Educación Académica</a>
           </Link>
         </p>
 
         <Suspense fallback={<div>Loading...</div>}>
-          <AcademicEducationsList />
+          <AcademicEducationsList curriculumId={props.curriculumId} />
         </Suspense>
       </div>
     </>

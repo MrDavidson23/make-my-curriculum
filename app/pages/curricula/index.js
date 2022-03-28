@@ -2,6 +2,7 @@ import { Suspense } from "react"
 import { Head, Link, usePaginatedQuery, useRouter, Routes } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getCurricula from "app/curricula/queries/getCurricula"
+import AcademicEducationsPage from "app/pages/academic-educations/index"
 const ITEMS_PER_PAGE = 100
 export const CurriculaList = () => {
   const router = useRouter()

@@ -5,6 +5,8 @@ import getCurriculum from "app/curricula/queries/getCurriculum"
 import updateCurriculum from "app/curricula/mutations/updateCurriculum"
 import { UpdateCurriculum } from "app/curricula/components/validations"
 import { CurriculumForm, FORM_ERROR } from "app/curricula/components/CurriculumForm"
+import AcademicEducationsPage from "app/pages/academic-educations/index"
+
 export const EditCurriculum = () => {
   const router = useRouter()
   const curriculumId = useParam("curriculumId", "number")
@@ -22,11 +24,11 @@ export const EditCurriculum = () => {
   return (
     <>
       <Head>
-        <title>Edit Curriculum {curriculum.id}</title>
+        <title>Edit Curriculum {curriculum.name}</title>
       </Head>
 
       <div>
-        <h1>Edit Curriculum {curriculum.id}</h1>
+        <h1>Edit Curriculum {curriculum.name}</h1>
         <pre>{JSON.stringify(curriculum, null, 2)}</pre>
 
         <CurriculumForm
@@ -55,6 +57,7 @@ export const EditCurriculum = () => {
             }
           }}
         />
+        <AcademicEducationsPage curriculumId={curriculumId}/>
       </div>
     </>
   )
