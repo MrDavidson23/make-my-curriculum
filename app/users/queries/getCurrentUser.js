@@ -11,7 +11,6 @@ export default async function getCurrentUser(_ = null, { session }) {
       lastName: true,
       email: true,
       role: true,
-      profession: true,
       location: true,
     },
   })

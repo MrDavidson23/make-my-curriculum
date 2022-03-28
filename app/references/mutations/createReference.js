@@ -10,10 +10,7 @@ export default resolver.pipe(
     //console.log(input)
     // TODO: in multi-tenant app, you must add validation to ensure correct tenant
     const reference = await db.reference.create({
-      data: {
-        ...input,
-        userId: context.session.userId,
-      },
+      data: input,
     })
     return reference
   }

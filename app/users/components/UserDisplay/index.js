@@ -44,9 +44,9 @@ const UserDisplay = ({}) => {
                 </Typography>
               </Grid>
               <Grid item sx={12}>
-                <Typography variant="h4" gutterBottom>
+                {/*<Typography variant="h4" gutterBottom>
                   {currentUser.profession}
-                </Typography>
+                 </Typography>*/}
                 <Typography variant="h5" gutterBottom>
                   {currentUser.location}
                 </Typography>

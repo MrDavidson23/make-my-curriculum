@@ -2,7 +2,7 @@ import { Link, useRouter, useMutation, Routes } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import createLanguage from "app/languages/mutations/createLanguage"
 import { LanguageForm, FORM_ERROR } from "app/languages/components/LanguageForm"
-
+import { CreateLanguage } from "app/languages/components/validations"
 const NewLanguagePage = () => {
   const router = useRouter()
   const [createLanguageMutation] = useMutation(createLanguage)
@@ -14,7 +14,7 @@ const NewLanguagePage = () => {
         submitText="Create Language" // TODO use a zod schema for form validation
         //  - Tip: extract mutation's schema into a shared `validations.ts` file and
         //         then import and use it here
-        // schema={CreateLanguage}
+        schema={CreateLanguage}
         // initialValues={{}}
         onSubmit={async (values) => {
           try {

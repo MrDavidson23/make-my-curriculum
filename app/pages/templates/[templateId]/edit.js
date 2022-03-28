@@ -2,8 +2,10 @@ import { Suspense } from "react"
 import { Head, Link, useRouter, useQuery, useMutation, useParam, Routes } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getTemplate from "app/templates/queries/getTemplate"
-//import updateTemplate from "app/templates/mutations/updateTemplate"
+import updateTemplate from "app/templates/mutations/updateTemplate"
 import { TemplateForm, FORM_ERROR } from "app/templates/components/TemplateForm"
+import {UpdateTemplate} from "app/templates/components/validations"
+
 export const EditTemplate = () => {
   const router = useRouter()
   const templateId = useParam("templateId", "number")
@@ -17,7 +19,7 @@ export const EditTemplate = () => {
       staleTime: Infinity,
     }
   )
-  //const [updateTemplateMutation] = useMutation(updateTemplate)
+  const [updateTemplateMutation] = useMutation(updateTemplate)
   return (
     <>
       <Head>
@@ -32,7 +34,7 @@ export const EditTemplate = () => {
           submitText="Update Template" // TODO use a zod schema for form validation
           //  - Tip: extract mutation's schema into a shared `validations.ts` file and
           //         then import and use it here
-          // schema={UpdateTemplate}
+          schema={UpdateTemplate}
           initialValues={template}
           onSubmit={async (values) => {
             try {

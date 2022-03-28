@@ -4,6 +4,8 @@ import Layout from "app/core/layouts/Layout"
 import getLanguage from "app/languages/queries/getLanguage"
 import updateLanguage from "app/languages/mutations/updateLanguage"
 import { LanguageForm, FORM_ERROR } from "app/languages/components/LanguageForm"
+import { UpdateLanguage } from "app/languages/components/validations"
+
 export const EditLanguage = () => {
   const router = useRouter()
   const languageId = useParam("languageId", "number")
@@ -32,7 +34,7 @@ export const EditLanguage = () => {
           submitText="Update Language" // TODO use a zod schema for form validation
           //  - Tip: extract mutation's schema into a shared `validations.ts` file and
           //         then import and use it here
-          // schema={UpdateLanguage}
+          schema={UpdateLanguage}
           initialValues={language}
           onSubmit={async (values) => {
             try {

@@ -1,10 +1,7 @@
 import { resolver } from "blitz"
 import db from "db"
-import { z } from "zod"
-const UpdateCurriculum = z.object({
-  id: z.number(),
-  name: z.string(),
-})
+import {UpdateCurriculum} from "../components/validations"
+
 export default resolver.pipe(
   resolver.zod(UpdateCurriculum),
   resolver.authorize(),

@@ -8,10 +8,7 @@ export default resolver.pipe(
   async (input, ctx) => {
     // TODO: in multi-tenant app, you must add validation to ensure correct tenant
     const academicEducation = await db.academicEducation.create({
-      data: {
-        ...input,
-        UserId: ctx.session.userId,
-      }
+      data: input
     })
     return academicEducation
   }
