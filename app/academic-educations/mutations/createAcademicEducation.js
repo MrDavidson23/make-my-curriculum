@@ -6,9 +6,13 @@ export default resolver.pipe(
   resolver.zod(CreateAcademicEducation),
   resolver.authorize(),
   async (input, ctx) => {
+    const {curriculumId, ...data} = input
     // TODO: in multi-tenant app, you must add validation to ensure correct tenant
     const academicEducation = await db.academicEducation.create({
-      data: input
+      data: {
+        ...data,
+        curriculum:{ connect: { id: curriculumId} },
+      }
     })
     return academicEducation
   }

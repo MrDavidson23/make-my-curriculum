@@ -5,11 +5,12 @@ const GetCurriculum = z.object({
   // This accepts type of undefined, but is required at runtime
   id: z.number().optional().refine(Boolean, "Required"),
 })
-export default resolver.pipe(resolver.zod(GetCurriculum), resolver.authorize(), async ({ id }) => {
+export default resolver.pipe(resolver.zod(GetCurriculum), resolver.authorize(), async ({ id },ctx) => {
   // TODO: in multi-tenant app, you must add validation to ensure correct tenant
   const curriculum = await db.curriculum.findFirst({
     where: {
       id,
+      userId:ctx.session.userId,
     },
   })
   if (!curriculum) throw new NotFoundError()
