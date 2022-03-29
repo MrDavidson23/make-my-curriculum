@@ -6,11 +6,14 @@ import deletePublication from "app/publications/mutations/deletePublication"
 import InformationCard from "app/core/components/InformationCard"
 import { Grid } from "@mui/material"
 const ITEMS_PER_PAGE = 100
-export const PublicationsList = () => {
+export const PublicationsList = (props) => {
   const router = useRouter()
   const page = Number(router.query.page) || 0
   const [deletePublicationMutation] = useMutation(deletePublication)
   const [{ publications, hasMore }] = usePaginatedQuery(getPublications, {
+    where: {
+      curriculumId: parseInt(props.curriculumId),
+    },
     orderBy: {
       id: "asc",
     },
@@ -58,7 +61,9 @@ export const PublicationsList = () => {
                     id: publication.id,
                   })
                   //this.forceUpdate()
-                  router.push(Routes.PublicationsPage())
+                  router.push(
+                    Routes.EditCurriculumPage({curriculumId:publication.curriculumId})
+                  )
                 }
               }}
             />
@@ -77,7 +82,7 @@ export const PublicationsList = () => {
   )
 }
 
-const PublicationsPage = () => {
+const PublicationsPage = (props) => {
   return (
     <>
       <Head>
@@ -87,13 +92,13 @@ const PublicationsPage = () => {
       <div>
         <h1>Mis publicaciones</h1>
         <p>
-          <Link href={Routes.NewPublicationPage()}>
+          <Link href={Routes.NewPublicationPage({curriculumId: props.curriculumId})}>
             <a>Crear Publicación</a>
           </Link>
         </p>
 
         <Suspense fallback={<div>Loading...</div>}>
-          <PublicationsList />
+          <PublicationsList curriculumId={props.curriculumId}/>        
         </Suspense>
       </div>
     </>

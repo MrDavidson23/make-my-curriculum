@@ -1,4 +1,4 @@
-import { Link, useRouter, useMutation, Routes } from "blitz"
+import { Link, useRouter, useMutation, useRouterQuery, Routes } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import { ReferenceForm, FORM_ERROR } from "app/references/components/ReferenceForm"
 
@@ -21,11 +21,12 @@ import {
   Avatar,
   Grid,
 } from "@mui/material"
-import { CreateReferenceValidation } from "app/references/validations"
+import { CreateReferenceValidation } from "app/references/components/validaciones"
 import createReference from "app/references/mutations/createReference"
 
 const NewReferencePage = () => {
   const router = useRouter()
+  const {curriculumId} = useRouterQuery()
   const [createReferenceMutation] = useMutation(createReference)
   return (
     <div>
@@ -45,14 +46,12 @@ const NewReferencePage = () => {
             //  - Tip: extract mutation's schema into a shared `validations.ts` file and
             //         then import and use it here
             schema={CreateReferenceValidation} ////////////////////////////
-            // initialValues={{}}
+            initialValues={{curriculumId:parseInt(curriculumId)}}
             onSubmit={async (values) => {
               try {
                 const reference = await createReferenceMutation(values)
                 router.push(
-                  Routes.ShowReferencePage({
-                    referenceId: reference.id,
-                  })
+                  Routes.EditCurriculumPage({curriculumId})
                 )
               } catch (error) {
                 console.error(error)
@@ -65,7 +64,7 @@ const NewReferencePage = () => {
         </Grid>
         <Grid item xs={12}>
           <p>
-            <Link href={Routes.ReferencesPage()}>
+            <Link href={Routes.EditCurriculumPage({curriculumId})}>
               <a>References</a>
             </Link>
           </p>

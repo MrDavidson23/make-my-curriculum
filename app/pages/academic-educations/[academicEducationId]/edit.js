@@ -88,7 +88,7 @@ const EditAcademicEducationPage = () => {
       <Grid item xs={12}>
         <p>
           <Link href={Routes.AcademicEducationsPage()}>
-            <Button variant="outlined"> AcademicEducations </Button>
+            <Button variant="outlined"> Regresar </Button>
           </Link>
         </p>
       </Grid>

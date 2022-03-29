@@ -5,10 +5,14 @@ import { CreatePublication } from "../components/validations"
 export default resolver.pipe(
   resolver.zod(CreatePublication),
   resolver.authorize(),
-  async (input, ctx) => {
+  async (input) => {
+    const {curriculumId, ...data} = input
     // TODO: in multi-tenant app, you must add validation to ensure correct tenant
     const publication = await db.publication.create({
-      data: input
+      data: {
+        ...data,
+        curriculum:{ connect: { id: curriculumId} },
+      }
     })
     return publication
   }

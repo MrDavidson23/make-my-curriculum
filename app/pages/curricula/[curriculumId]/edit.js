@@ -5,7 +5,11 @@ import getCurriculum from "app/curricula/queries/getCurriculum"
 import updateCurriculum from "app/curricula/mutations/updateCurriculum"
 import { UpdateCurriculum } from "app/curricula/components/validations"
 import { CurriculumForm, FORM_ERROR } from "app/curricula/components/CurriculumForm"
+
 import AcademicEducationsPage from "app/pages/academic-educations/index"
+import PublicationsPage from "app/pages/publications/index"
+import TechnicalEducationsPage from "app/pages/technical-educations/index"
+import ReferencesPage from "app/pages/references/index"
 
 export const EditCurriculum = () => {
   const router = useRouter()
@@ -23,9 +27,6 @@ export const EditCurriculum = () => {
   const [updateCurriculumMutation] = useMutation(updateCurriculum)
   return (
     <>
-      <Head>
-        <title>Edit Curriculum {curriculum.name}</title>
-      </Head>
 
       <div>
         <h1>Edit Curriculum {curriculum.name}</h1>
@@ -45,7 +46,7 @@ export const EditCurriculum = () => {
               })
               await setQueryData(updated)
               router.push(
-                Routes.ShowCurriculumPage({
+                Routes.EditCurriculumPage({
                   curriculumId: updated.id,
                 })
               )
@@ -58,6 +59,13 @@ export const EditCurriculum = () => {
           }}
         />
         <AcademicEducationsPage curriculumId={curriculumId}/>
+        <TechnicalEducationsPage curriculumId={curriculumId}/>
+        <PublicationsPage curriculumId={curriculumId}/>
+        <ReferencesPage curriculumId={curriculumId}/>
+      <Head>
+        <title>Edit Curriculum {curriculum.name}</title>
+      </Head>
+
       </div>
     </>
   )

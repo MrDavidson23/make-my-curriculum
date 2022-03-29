@@ -1,4 +1,4 @@
-import { Link, useRouter, useMutation, Routes } from "blitz"
+import { Link, useRouter, useMutation, useRouterQuery, Routes } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import createPublication from "app/publications/mutations/createPublication"
 import { PublicationForm, FORM_ERROR } from "app/publications/components/PublicationForm"
@@ -7,6 +7,7 @@ import { CreatePublication } from "app/publications/components/validations"
 
 const NewPublicationPage = () => {
   const router = useRouter()
+  const {curriculumId} = useRouterQuery()
   const [createPublicationMutation] = useMutation(createPublication)
   return (
     <div>
@@ -30,12 +31,12 @@ const NewPublicationPage = () => {
             //  - Tip: extract mutation's schema into a shared `validations.ts` file and
             //         then import and use it here
             schema={CreatePublication}
-            // initialValues={{}}
+            initialValues={{curriculumId:parseInt(curriculumId)}}
             onSubmit={async (values) => {
             try {
-              const publication = await createPublicationMutation(values)
+              await createPublicationMutation(values)
               router.push(
-                Routes.PublicationsPage()
+                Routes.EditCurriculumPage({curriculumId})
               )
             } catch (error) {
               console.error(error)
@@ -48,7 +49,7 @@ const NewPublicationPage = () => {
         </Grid>
         <Grid item xs={12}>
           <p>
-              <Link href={Routes.PublicationsPage()}>
+              <Link href={Routes.EditCurriculumPage({curriculumId})}>
                 <Button variant="outlined"> Regresar </Button>
               </Link>
           </p>

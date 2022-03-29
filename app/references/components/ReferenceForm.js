@@ -42,12 +42,6 @@ export function ReferenceForm(props) {
           <Grid item xs={12}>
             <LabeledTextField name="institution" label="Institution" placeholder="Institution" />
           </Grid>
-          <Grid item xs={12}>
-            <SelectField name="institution_type" label="Institution Type" defaultValue="veinte" />
-          </Grid>
-          <Grid item xs={12}>
-            <DatePickerField name="institution_date" label="Institution date" />
-          </Grid>
         </Grid>
       </Form>
     </div>

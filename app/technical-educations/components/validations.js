@@ -11,6 +11,7 @@ const model = {
     .refine((date) => new Date(date) < new Date(Date.now()))
     .transform((date) => new Date(date)),
   institution: z.string().min(1).max(max),
+  curriculumId: z.number(),
 }
 
 export const CreateTechnicalEducation = z.object(model)

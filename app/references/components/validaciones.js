@@ -7,10 +7,13 @@ export const CreateReference = z.object({
   phone: z.string(),
   name: z.string(),
   institution: z.string(),
-  //institution_type: z.string(),
-  //institution_date: z.date(),
+  curriculumId: z.number(),
 })
 
 export const UpdateReference = CreateReference.extend({
+  id: z.number(),
+})
+
+export const DeleteReference = z.object({
   id: z.number(),
 })

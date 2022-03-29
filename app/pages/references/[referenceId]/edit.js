@@ -5,7 +5,7 @@ import getReference from "app/references/queries/getReference"
 
 import { ReferenceForm, FORM_ERROR } from "app/references/components/ReferenceForm"
 import updateReference from "app/references/mutations/updateReference"
-import { UpdateReferenceValidation } from "app/references/validations"
+import { UpdateReferenceValidation } from "app/references/components/validaciones"
 import { Grid } from "@mui/material"
 
 export const EditReference = () => {
@@ -55,9 +55,7 @@ export const EditReference = () => {
                   })
                   await setQueryData(updated)
                   router.push(
-                    Routes.ShowReferencePage({
-                      referenceId: updated.id,
-                    })
+                    Routes.EditCurriculumPage({curriculumId:reference.curriculumId})
                   )
                 } catch (error) {
                   console.error(error)

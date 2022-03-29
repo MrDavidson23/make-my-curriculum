@@ -2,7 +2,6 @@ import { Suspense, useEffect } from "react"
 import { Head, Link, usePaginatedQuery, useRouter, Routes } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getCurricula from "app/curricula/queries/getCurricula"
-import AcademicEducationsPage from "app/pages/academic-educations/index"
 import CurriculumList from "app/curricula/components/CurriculumList"
 const ITEMS_PER_PAGE = 100
 export const CurriculaList = () => {
