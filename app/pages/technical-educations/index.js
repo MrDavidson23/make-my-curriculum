@@ -1,12 +1,19 @@
 import { Suspense } from "react"
-import { Head, Link, usePaginatedQuery, useRouter, Routes } from "blitz"
+import { Head, Link, usePaginatedQuery, useRouter, Routes, useMutation } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getTechnicalEducations from "app/technical-educations/queries/getTechnicalEducations"
+import deleteTechnicalEducation from "app/technical-educations/mutations/deleteTechnicalEducation"
+import InformationCard from "app/core/components/InformationCard"
+import { Grid } from "@mui/material"
 const ITEMS_PER_PAGE = 100
-export const TechnicalEducationsList = () => {
+export const TechnicalEducationsList = (props) => {
   const router = useRouter()
   const page = Number(router.query.page) || 0
+  const [deleteTechnicalEducationMutation] = useMutation(deleteTechnicalEducation)
   const [{ technicalEducations, hasMore }] = usePaginatedQuery(getTechnicalEducations, {
+    where: {
+      curriculumId: parseInt(props.curriculumId),
+    },
     orderBy: {
       id: "asc",
     },
@@ -30,31 +37,54 @@ export const TechnicalEducationsList = () => {
 
   return (
     <div>
-      <ul>
+      <Grid
+        container
+        direction="row"
+        spacing={2}
+        textAlign={"center"}
+        justify={"center"}
+        sx={{ mx: "auto", width: "100%" }}
+      >
         {technicalEducations.map((technicalEducation) => (
-          <li key={technicalEducation.id}>
-            <Link
-              href={Routes.ShowTechnicalEducationPage({
-                technicalEducationId: technicalEducation.id,
-              })}
-            >
-              <a>{technicalEducation.name}</a>
-            </Link>
-          </li>
+          <Grid item key={technicalEducation.id}>
+            <InformationCard
+              title={technicalEducation.studies}
+              subtitle={technicalEducation.institution}
+              firstText={technicalEducation.location}
+              secondText={technicalEducation.completionYear.toLocaleDateString()}
+              handleOnEdit={() => {
+                router.push(
+                  Routes.EditTechnicalEducationPage({ technicalEducationId: technicalEducation.id })
+                )
+              }}
+              handleOnDelete={async () => {
+                if (window.confirm("This will be deleted")) {
+                  await deleteTechnicalEducationMutation({
+                    id: technicalEducation.id,
+                  })
+                  //this.forceUpdate()
+                  router.push(
+                    Routes.EditCurriculumPage({ curriculumId: technicalEducation.curriculumId })
+                  )
+                }
+              }}
+            />
+          </Grid>
         ))}
-      </ul>
-
-      <button disabled={page === 0} onClick={goToPreviousPage}>
-        Previous
-      </button>
-      <button disabled={!hasMore} onClick={goToNextPage}>
-        Next
-      </button>
+        <Grid item xs={12} justify="center">
+          <button disabled={page === 0} onClick={goToPreviousPage}>
+            Previous
+          </button>
+          <button disabled={!hasMore} onClick={goToNextPage}>
+            Next
+          </button>
+        </Grid>
+      </Grid>
     </div>
   )
 }
 
-const TechnicalEducationsPage = () => {
+const TechnicalEducationsPage = (props) => {
   return (
     <>
       <Head>
@@ -63,13 +93,13 @@ const TechnicalEducationsPage = () => {
 
       <div>
         <p>
-          <Link href={Routes.NewTechnicalEducationPage()}>
+          <Link href={Routes.NewTechnicalEducationPage({ curriculumId: props.curriculumId })}>
             <a>Create TechnicalEducation</a>
           </Link>
         </p>
 
         <Suspense fallback={<div>Loading...</div>}>
-          <TechnicalEducationsList />
+          <TechnicalEducationsList curriculumId={props.curriculumId} />
         </Suspense>
       </div>
     </>

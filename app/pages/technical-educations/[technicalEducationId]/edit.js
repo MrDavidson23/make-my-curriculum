@@ -3,6 +3,9 @@ import { Head, Link, useRouter, useQuery, useMutation, useParam, Routes } from "
 import Layout from "app/core/layouts/Layout"
 import getTechnicalEducation from "app/technical-educations/queries/getTechnicalEducation"
 import updateTechnicalEducation from "app/technical-educations/mutations/updateTechnicalEducation"
+import { UpdateTechnicalEducation } from "app/technical-educations/components/validations"
+import { Grid, Button, Typography } from "@mui/material"
+
 import {
   TechnicalEducationForm,
   FORM_ERROR,
@@ -24,39 +27,52 @@ export const EditTechnicalEducation = () => {
   return (
     <>
       <Head>
-        <title>Edit TechnicalEducation {technicalEducation.id}</title>
+        <title>Edit Technical Education {technicalEducation.studies}</title>
       </Head>
 
       <div>
-        <h1>Edit TechnicalEducation {technicalEducation.id}</h1>
-        <pre>{JSON.stringify(technicalEducation, null, 2)}</pre>
+        <Grid
+          container
+          direction="row"
+          spacing={2}
+          textAlign={"center"}
+          sx={{ mx: "auto", width: "100%" }}
+        >
+          <Grid item xs={12}>
+            <Typography variant="h3" component="div" gutterBottom>
+              Edit Technical Education {technicalEducation.studies}
+            </Typography>
+          </Grid>
 
-        <TechnicalEducationForm
-          submitText="Update TechnicalEducation" // TODO use a zod schema for form validation
-          //  - Tip: extract mutation's schema into a shared `validations.ts` file and
-          //         then import and use it here
-          // schema={UpdateTechnicalEducation}
-          initialValues={technicalEducation}
-          onSubmit={async (values) => {
-            try {
-              const updated = await updateTechnicalEducationMutation({
-                id: technicalEducation.id,
-                ...values,
-              })
-              await setQueryData(updated)
-              router.push(
-                Routes.ShowTechnicalEducationPage({
-                  technicalEducationId: updated.id,
-                })
-              )
-            } catch (error) {
-              console.error(error)
-              return {
-                [FORM_ERROR]: error.toString(),
-              }
-            }
-          }}
-        />
+          <pre>{JSON.stringify(technicalEducation, null, 2)}</pre>
+
+          <Grid item xs={12}>
+            <TechnicalEducationForm
+              submitText="Save" // TODO use a zod schema for form validation
+              //  - Tip: extract mutation's schema into a shared `validations.ts` file and
+              //         then import and use it here
+              schema={UpdateTechnicalEducation}
+              initialValues={technicalEducation}
+              onSubmit={async (values) => {
+                try {
+                  const updated = await updateTechnicalEducationMutation({
+                    id: technicalEducation.id,
+                    ...values,
+                  })
+                  await setQueryData(updated)
+                  router.push(
+                    Routes.EditCurriculumPage({ curriculumId: technicalEducation.curriculumId })
+                  )
+                } catch (error) {
+                  console.error(error)
+                  return {
+                    [FORM_ERROR]: error.toString(),
+                  }
+                }
+              }}
+            />
+          </Grid>
+        </Grid>
       </div>
     </>
   )
@@ -69,11 +85,13 @@ const EditTechnicalEducationPage = () => {
         <EditTechnicalEducation />
       </Suspense>
 
-      <p>
-        <Link href={Routes.TechnicalEducationsPage()}>
-          <a>TechnicalEducations</a>
-        </Link>
-      </p>
+      <Grid item xs={12}>
+        <p>
+          <Link href={Routes.TechnicalEducationsPage()}>
+            <Button variant="outlined"> TechnicalEducations </Button>
+          </Link>
+        </p>
+      </Grid>
     </div>
   )
 }

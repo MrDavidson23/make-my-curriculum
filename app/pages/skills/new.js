@@ -1,12 +1,13 @@
-import { Link, useRouter, useMutation, Routes } from "blitz"
+import { Link, useRouter, useMutation, useRouterQuery, Routes } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import createSkill from "app/skills/mutations/createSkill"
 import { SkillForm, FORM_ERROR } from "app/skills/components/SkillForm"
+import { Grid, Button, Typography } from "@mui/material"
 import { CreateSkill } from "app/skills/components/validations"
-import { Grid } from "@mui/material"
 
 const NewSkillPage = () => {
   const router = useRouter()
+  const { curriculumId } = useRouterQuery()
   const [createSkillMutation] = useMutation(createSkill)
   return (
     <div>
@@ -18,23 +19,21 @@ const NewSkillPage = () => {
         sx={{ mx: "auto", width: "100%" }}
       >
         <Grid item xs={12}>
-          <h1>Create New Skill</h1>
+          <Typography variant="h3" component="div" gutterBottom>
+            Create New Skill
+          </Typography>
         </Grid>
         <Grid item xs={12}>
           <SkillForm
-            submitText="Create Skill" // TODO use a zod schema for form validation
+            submitText="Save" // TODO use a zod schema for form validation
             //  - Tip: extract mutation's schema into a shared `validations.ts` file and
             //         then import and use it here
-            schema={CreateSkill} ////////////////////////////
-            // initialValues={{}}
+            schema={CreateSkill}
+            initialValues={{ curriculumId: parseInt(curriculumId) }}
             onSubmit={async (values) => {
               try {
-                const skill = await createSkillMutation(values)
-                router.push(
-                  Routes.ShowSkillPage({
-                    skillId: skill.id,
-                  })
-                )
+                await createSkillMutation(values)
+                router.push(Routes.EditCurriculumPage({ curriculumId }))
               } catch (error) {
                 console.error(error)
                 return {
@@ -47,7 +46,7 @@ const NewSkillPage = () => {
         <Grid item xs={12}>
           <p>
             <Link href={Routes.SkillsPage()}>
-              <a>Skills</a>
+              <Button variant="outlined"> Return </Button>
             </Link>
           </p>
         </Grid>
