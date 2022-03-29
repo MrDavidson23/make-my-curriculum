@@ -28,12 +28,6 @@ export function LaboralExperienceForm(props) {
               placeholder="Completion Year"
             />
           </Grid>
-          <Grid item xs={12}>
-            <LabeledTextField name="startMonth" label="Start Month" placeholder="Start Month" />
-          </Grid>
-          <Grid item xs={12}>
-            <LabeledTextField name="finishMonth" label="Finish Month" placeholder="Finish Month" />
-          </Grid>
         </Grid>
       </div>
     </Form>

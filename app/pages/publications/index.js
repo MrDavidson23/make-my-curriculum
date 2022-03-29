@@ -4,7 +4,7 @@ import Layout from "app/core/layouts/Layout"
 import getPublications from "app/publications/queries/getPublications"
 import deletePublication from "app/publications/mutations/deletePublication"
 import InformationCard from "app/core/components/InformationCard"
-import { Grid } from "@mui/material"
+import { Grid, Typography } from "@mui/material"
 const ITEMS_PER_PAGE = 100
 export const PublicationsList = (props) => {
   const router = useRouter()
@@ -89,8 +89,11 @@ const PublicationsPage = (props) => {
         <title>Publications</title>
       </Head>
 
+      <Typography variant="h6" component="div" gutterBottom>
+        Mis publicaciones
+      </Typography>
+
       <div>
-        <h1>Mis publicaciones</h1>
         <p>
           <Link href={Routes.NewPublicationPage({curriculumId: props.curriculumId})}>
             <a>Crear Publicación</a>

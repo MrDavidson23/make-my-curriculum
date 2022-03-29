@@ -4,6 +4,7 @@ const max = 50
 
 const model = {
   description: z.string().min(1).max(max),
+  curriculumId: z.number(),
 }
 
 export const CreateSkill = z.object(model)

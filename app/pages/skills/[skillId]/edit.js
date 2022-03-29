@@ -41,8 +41,6 @@ export const EditSkill = () => {
             </Typography>
           </Grid>
 
-          <pre>{JSON.stringify(skill, null, 2)}</pre>
-
           <Grid item xs={12}>
             <SkillForm
               submitText="Save" // TODO use a zod schema for form validation
