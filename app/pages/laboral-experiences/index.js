@@ -6,7 +6,7 @@ import deleteLaboralExperience from "app/laboral-experiences/mutations/deleteLab
 import InformationCard from "app/core/components/InformationCard"
 import { Grid } from "@mui/material"
 const ITEMS_PER_PAGE = 100
-export const LaboralExperiencesList = () => {
+export const LaboralExperiencesList = (props) => {
   const router = useRouter()
   const page = Number(router.query.page) || 0
   const [deleteLaboralExperienceMutation] = useMutation(deleteLaboralExperience)
@@ -89,7 +89,7 @@ export const LaboralExperiencesList = () => {
   )
 }
 
-const LaboralExperiencesPage = () => {
+const LaboralExperiencesPage = (props) => {
   return (
     <>
       <Head>
