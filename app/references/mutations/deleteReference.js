@@ -1,9 +1,6 @@
 import { resolver } from "blitz"
 import db from "db"
-import { z } from "zod"
-const DeleteReference = z.object({
-  id: z.number(),
-})
+import { DeleteReference } from "../components/validaciones"
 export default resolver.pipe(
   resolver.zod(DeleteReference),
   resolver.authorize(),

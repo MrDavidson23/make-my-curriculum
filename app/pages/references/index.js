@@ -6,11 +6,14 @@ import deleteReference from "app/references/mutations/deleteReference"
 import InformationCard from "app/core/components/InformationCard"
 import { Grid, button, Button } from "@mui/material"
 const ITEMS_PER_PAGE = 100
-export const ReferencesList = () => {
+export const ReferencesList = (props) => {
   const router = useRouter()
   const page = Number(router.query.page) || 0
   const [deleteReferenceMutation] = useMutation(deleteReference)
   const [{ references, hasMore }] = usePaginatedQuery(getReferences, {
+    where: {
+      curriculumId: parseInt(props.curriculumId),
+    },
     orderBy: {
       id: "asc",
     },
@@ -52,7 +55,6 @@ export const ReferencesList = () => {
               secondText={reference.email}
               handleOnEdit={() => {
                 router.push(Routes.EditReferencePage({ referenceId: reference.id }))
-                console.log("Edit")
               }}
               handleOnDelete={async () => {
                 if (window.confirm("This will be deleted")) {
@@ -60,7 +62,9 @@ export const ReferencesList = () => {
                     id: reference.id,
                   })
                   //this.forceUpdate()
-                  router.push(Routes.ReferencesPage())
+                  router.push(
+                    Routes.EditCurriculumPage({curriculumId:reference.curriculumId})
+                  )
                 }
               }}
             />
@@ -79,7 +83,7 @@ export const ReferencesList = () => {
   )
 }
 
-const ReferencesPage = () => {
+const ReferencesPage = (props) => {
   return (
     <>
       <Head>
@@ -92,14 +96,14 @@ const ReferencesPage = () => {
             justify="center"
             textAlign={"center"}
             sx={{ mx: "auto", width: "100%" }}
-            onClick={() => Router.push(Routes.NewReferencePage())}
+            onClick={() => Router.push(Routes.NewReferencePage({curriculumId: props.curriculumId}))}
           >
             Create Reference
           </Button>
         </p>
 
         <Suspense fallback={<div>Loading...</div>}>
-          <ReferencesList />
+          <ReferencesList curriculumId={props.curriculumId}/>
         </Suspense>
       </div>
     </>

@@ -53,7 +53,7 @@ const NewAcademicEducationPage = () => {
       </Grid>
       <Grid item xs={12}>
       <p>
-          <Link href={Routes.AcademicEducationsPage()}>
+          <Link href={Routes.EditCurriculumPage({curriculumId})}>
             <Button variant="outlined">  Regresar </Button>
           </Link>
       </p>

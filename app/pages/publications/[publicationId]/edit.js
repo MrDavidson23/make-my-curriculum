@@ -58,7 +58,7 @@ export const EditPublication = () => {
               })
               await setQueryData(updated)
               router.push(
-                Routes.PublicationsPage()
+                Routes.EditCurriculumPage({curriculumId:publication.curriculumId})
               )
             } catch (error) {
               console.error(error)
