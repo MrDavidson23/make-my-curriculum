@@ -3,6 +3,9 @@ import { Head, Link, useRouter, useQuery, useMutation, useParam, Routes } from "
 import Layout from "app/core/layouts/Layout"
 import getLaboralExperience from "app/laboral-experiences/queries/getLaboralExperience"
 import updateLaboralExperience from "app/laboral-experiences/mutations/updateLaboralExperience"
+import { UpdateLaboralExperience } from "app/laboral-experiences/components/validations"
+import { Grid, Button, Typography } from "@mui/material"
+
 import {
   LaboralExperienceForm,
   FORM_ERROR,
@@ -24,39 +27,52 @@ export const EditLaboralExperience = () => {
   return (
     <>
       <Head>
-        <title>Edit LaboralExperience {laboralExperience.id}</title>
+        <title>Edit LaboralExperience {laboralExperience.position}</title>
       </Head>
 
       <div>
-        <h1>Edit LaboralExperience {laboralExperience.id}</h1>
-        <pre>{JSON.stringify(laboralExperience, null, 2)}</pre>
+        <Grid
+          container
+          direction="row"
+          spacing={2}
+          textAlign={"center"}
+          sx={{ mx: "auto", width: "100%" }}
+        >
+          <Grid item xs={12}>
+            <Typography variant="h3" component="div" gutterBottom>
+              Edit Laboral Experience {laboralExperience.position}
+            </Typography>
+          </Grid>
 
-        <LaboralExperienceForm
-          submitText="Update LaboralExperience" // TODO use a zod schema for form validation
-          //  - Tip: extract mutation's schema into a shared `validations.ts` file and
-          //         then import and use it here
-          // schema={UpdateLaboralExperience}
-          initialValues={laboralExperience}
-          onSubmit={async (values) => {
-            try {
-              const updated = await updateLaboralExperienceMutation({
-                id: laboralExperience.id,
-                ...values,
-              })
-              await setQueryData(updated)
-              router.push(
-                Routes.ShowLaboralExperiencePage({
-                  laboralExperienceId: updated.id,
-                })
-              )
-            } catch (error) {
-              console.error(error)
-              return {
-                [FORM_ERROR]: error.toString(),
-              }
-            }
-          }}
-        />
+          <pre>{JSON.stringify(laboralExperience, null, 2)}</pre>
+
+          <Grid item xs={12}>
+            <LaboralExperienceForm
+              submitText="Save" // TODO use a zod schema for form validation
+              //  - Tip: extract mutation's schema into a shared `validations.ts` file and
+              //         then import and use it here
+              schema={UpdateLaboralExperience}
+              initialValues={laboralExperience}
+              onSubmit={async (values) => {
+                try {
+                  const updated = await updateLaboralExperienceMutation({
+                    id: laboralExperience.id,
+                    ...values,
+                  })
+                  await setQueryData(updated)
+                  router.push(
+                    Routes.EditCurriculumPage({ curriculumId: laboralExperience.curriculumId })
+                  )
+                } catch (error) {
+                  console.error(error)
+                  return {
+                    [FORM_ERROR]: error.toString(),
+                  }
+                }
+              }}
+            />
+          </Grid>
+        </Grid>
       </div>
     </>
   )
@@ -69,11 +85,13 @@ const EditLaboralExperiencePage = () => {
         <EditLaboralExperience />
       </Suspense>
 
-      <p>
-        <Link href={Routes.LaboralExperiencesPage()}>
-          <a>LaboralExperiences</a>
-        </Link>
-      </p>
+      <Grid item xs={12}>
+        <p>
+          <Link href={Routes.LaboralExperiencesPage()}>
+            <Button variant="outlined"> LaboralExperiences </Button>
+          </Link>
+        </p>
+      </Grid>
     </div>
   )
 }
