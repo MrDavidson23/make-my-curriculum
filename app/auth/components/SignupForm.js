@@ -14,7 +14,7 @@ export const SignupForm = (props) => {
         direction="row"
         spacing={2}
         textAlign={"center"}
-        sx={{ mx: "auto", width: "100%" }}
+        sx={{ mx: "auto", width: "100%", marginBottom: "5rem" }}
       >
         <Grid item xs={12}>
           <h1>Registrarse</h1>
