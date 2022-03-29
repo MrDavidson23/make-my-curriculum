@@ -6,9 +6,13 @@ export default resolver.pipe(
   resolver.zod(CreateLaboralExperience),
   resolver.authorize(),
   async (input) => {
+    const { curriculumId, ...data } = input
     // TODO: in multi-tenant app, you must add validation to ensure correct tenant
     const laboralExperience = await db.laboralExperience.create({
-      data: input,
+      data: {
+        ...data,
+        curriculum: { connect: { id: curriculumId } },
+      },
     })
     return laboralExperience
   }

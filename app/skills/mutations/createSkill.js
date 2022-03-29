@@ -3,11 +3,12 @@ import db from "db"
 import { CreateSkill } from "../components/validations"
 
 export default resolver.pipe(resolver.zod(CreateSkill), resolver.authorize(), async (input) => {
+  const { curriculumId, ...data } = input
   // TODO: in multi-tenant app, you must add validation to ensure correct tenant
   const skill = await db.skill.create({
     data: {
-      ...input,
-      userId: context.session.userId,
+      ...data,
+      curriculum: { connect: { id: curriculumId } },
     },
   })
   return skill
