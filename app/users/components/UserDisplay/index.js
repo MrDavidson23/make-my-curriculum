@@ -57,7 +57,9 @@ const UserDisplay = ({}) => {
                     <Link href={`/users/${currentUser.id}/edit`} Q>
                       <Button variant="outlined">EDITAR INFORMACIÓN</Button>
                     </Link>
-                    <Button variant="outlined">GENERAR CURRICULUM</Button>
+                    <Link href={"http://localhost:3000/curricula"}>
+                      <Button variant="outlined">GENERAR CURRICULUM</Button>
+                    </Link>
                   </Stack>
                 </Suspense>
               </Grid>
