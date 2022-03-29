@@ -2,11 +2,11 @@ import { Suspense } from "react"
 import { Head, Link, useRouter, useQuery, useMutation, useParam, Routes } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getSkill from "app/skills/queries/getSkill"
-//import updateSkill from "app/skills/mutations/updateSkill"
-//import { UpdateSkill } from "app/academic-educations/components/validations"
-import { SkillForm, FORM_ERROR } from "app/skills/components/SkillForm"
+import updateSkill from "app/skills/mutations/updateSkill"
+import { UpdateSkill } from "app/skills/components/validations"
 import { Grid, Button, Typography } from "@mui/material"
 
+import { SkillForm, FORM_ERROR } from "app/skills/components/SkillForm"
 export const EditSkill = () => {
   const router = useRouter()
   const skillId = useParam("skillId", "number")
@@ -37,28 +37,27 @@ export const EditSkill = () => {
         >
           <Grid item xs={12}>
             <Typography variant="h3" component="div" gutterBottom>
-              Edit Skills {skill.description}
+              Edit Skill {skill.description}
             </Typography>
           </Grid>
 
-          <pre>{JSON.stringify(academicEducation, null, 2)}</pre>
+          <pre>{JSON.stringify(skill, null, 2)}</pre>
 
           <Grid item xs={12}>
             <SkillForm
-              submitText="Guardar" // TODO use a zod schema for form validation
+              submitText="Save" // TODO use a zod schema for form validation
               //  - Tip: extract mutation's schema into a shared `validations.ts` file and
               //         then import and use it here
-              // schema={UpdateSkill}
               schema={UpdateSkill}
               initialValues={skill}
               onSubmit={async (values) => {
                 try {
-                  const updated = await updateSkillMutation({
+                  const updated = await updateSkill({
                     id: skill.id,
                     ...values,
                   })
                   await setQueryData(updated)
-                  router.push(Routes.SkillsPage())
+                  router.push(Routes.EditCurriculumPage({ curriculumId: skill.curriculumId }))
                 } catch (error) {
                   console.error(error)
                   return {
@@ -81,11 +80,13 @@ const EditSkillPage = () => {
         <EditSkill />
       </Suspense>
 
-      <p>
-        <Link href={Routes.SkillsPage()}>
-          <a>Habilidades</a>
-        </Link>
-      </p>
+      <Grid item xs={12}>
+        <p>
+          <Link href={Routes.SkillsPage()}>
+            <Button variant="outlined"> Skills </Button>
+          </Link>
+        </p>
+      </Grid>
     </div>
   )
 }

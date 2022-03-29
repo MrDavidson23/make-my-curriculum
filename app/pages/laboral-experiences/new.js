@@ -1,4 +1,4 @@
-import { Link, useRouter, useMutation, Routes } from "blitz"
+import { Link, useRouter, useMutation, useRouterQuery, Routes } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import createLaboralExperience from "app/laboral-experiences/mutations/createLaboralExperience"
 import {
