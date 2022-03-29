@@ -4,7 +4,7 @@ import Layout from "app/core/layouts/Layout"
 import getTechnicalEducations from "app/technical-educations/queries/getTechnicalEducations"
 import deleteTechnicalEducation from "app/technical-educations/mutations/deleteTechnicalEducation"
 import InformationCard from "app/core/components/InformationCard"
-import { Grid } from "@mui/material"
+import { Grid, Typography } from "@mui/material"
 const ITEMS_PER_PAGE = 100
 export const TechnicalEducationsList = (props) => {
   const router = useRouter()
@@ -90,6 +90,10 @@ const TechnicalEducationsPage = (props) => {
       <Head>
         <title>TechnicalEducations</title>
       </Head>
+
+      <Typography variant="h6" component="div" gutterBottom>
+        Educación Técnica
+      </Typography>
 
       <div>
         <p>

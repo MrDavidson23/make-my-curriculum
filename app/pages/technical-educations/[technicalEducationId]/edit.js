@@ -44,8 +44,6 @@ export const EditTechnicalEducation = () => {
             </Typography>
           </Grid>
 
-          <pre>{JSON.stringify(technicalEducation, null, 2)}</pre>
-
           <Grid item xs={12}>
             <TechnicalEducationForm
               submitText="Save" // TODO use a zod schema for form validation

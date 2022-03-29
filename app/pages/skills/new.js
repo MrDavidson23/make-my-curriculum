@@ -45,7 +45,7 @@ const NewSkillPage = () => {
         </Grid>
         <Grid item xs={12}>
           <p>
-            <Link href={Routes.SkillsPage()}>
+            <Link href={Routes.EditCurriculumPage({ curriculumId })}>
               <Button variant="outlined"> Return </Button>
             </Link>
           </p>

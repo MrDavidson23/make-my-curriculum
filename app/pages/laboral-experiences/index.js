@@ -4,7 +4,7 @@ import Layout from "app/core/layouts/Layout"
 import getLaboralExperiences from "app/laboral-experiences/queries/getLaboralExperiences"
 import deleteLaboralExperience from "app/laboral-experiences/mutations/deleteLaboralExperience"
 import InformationCard from "app/core/components/InformationCard"
-import { Grid } from "@mui/material"
+import { Grid, Typography } from "@mui/material"
 const ITEMS_PER_PAGE = 100
 export const LaboralExperiencesList = (props) => {
   const router = useRouter()
@@ -56,7 +56,6 @@ export const LaboralExperiencesList = (props) => {
                 "  -  " +
                 laboralExperience.finishYear.toLocaleDateString()
               }
-              thirdText={laboralExperience.startMonth + " - " + laboralExperience.finishMonth}
               handleOnEdit={() => {
                 router.push(
                   Routes.EditLaboralExperiencePage({ laboralExperienceId: laboralExperience.id })
@@ -95,6 +94,10 @@ const LaboralExperiencesPage = (props) => {
       <Head>
         <title>LaboralExperiences</title>
       </Head>
+
+      <Typography variant="h6" component="div" gutterBottom>
+        Experiencia Laboral
+      </Typography>
 
       <div>
         <p>

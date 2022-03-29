@@ -10,6 +10,8 @@ import AcademicEducationsPage from "app/pages/academic-educations/index"
 import PublicationsPage from "app/pages/publications/index"
 import TechnicalEducationsPage from "app/pages/technical-educations/index"
 import ReferencesPage from "app/pages/references/index"
+import SkillsPage from "app/pages/skills/index"
+import LaboralExperiencesPage from "app/pages/laboral-experiences/index"
 
 export const EditCurriculum = () => {
   const router = useRouter()
@@ -30,7 +32,8 @@ export const EditCurriculum = () => {
 
       <div>
         <h1>Edit Curriculum {curriculum.name}</h1>
-        <pre>{JSON.stringify(curriculum, null, 2)}</pre>
+        
+        {/*<pre>{JSON.stringify(curriculum, null, 2)}</pre>*/}
 
         <CurriculumForm
           submitText="Update Curriculum" // TODO use a zod schema for form validation
@@ -58,10 +61,14 @@ export const EditCurriculum = () => {
             }
           }}
         />
+
+        <SkillsPage curriculumId={curriculumId}/>
+        <LaboralExperiencesPage curriculumId={curriculumId}/>
         <AcademicEducationsPage curriculumId={curriculumId}/>
         <TechnicalEducationsPage curriculumId={curriculumId}/>
         <PublicationsPage curriculumId={curriculumId}/>
         <ReferencesPage curriculumId={curriculumId}/>
+
       <Head>
         <title>Edit Curriculum {curriculum.name}</title>
       </Head>

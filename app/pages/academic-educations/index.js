@@ -4,7 +4,7 @@ import Layout from "app/core/layouts/Layout"
 import getAcademicEducations from "app/academic-educations/queries/getAcademicEducations"
 import deleteAcademicEducation from "app/academic-educations/mutations/deleteAcademicEducation"
 import InformationCard from "app/core/components/InformationCard"
-import { Grid } from "@mui/material"
+import { Grid, Typography } from "@mui/material"
 const ITEMS_PER_PAGE = 100
 export const AcademicEducationsList = (props) => {
 
@@ -89,6 +89,10 @@ const AcademicEducationsPage = (props) => {
       <Head>
         <title>AcademicEducations</title>
       </Head>
+
+      <Typography variant="h6" component="div" gutterBottom>
+        Educación Académica
+      </Typography>
 
       <div>
         <p>

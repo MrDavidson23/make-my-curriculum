@@ -183,10 +183,8 @@ model LaboralExperience {
   position    String
   location    String
   startYear   DateTime
-  finishYear  String
+  finishYear  DateTime
   institution String
-  startMonth  String
-  finishMonth String
 
   curriculum   Curriculum @relation(fields: [curriculumId], references: [id])
   curriculumId Int

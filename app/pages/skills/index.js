@@ -4,9 +4,9 @@ import Layout from "app/core/layouts/Layout"
 import getSkills from "app/skills/queries/getSkills"
 import deleteSkill from "app/skills/mutations/deleteSkill"
 import InformationCard from "app/core/components/InformationCard"
-import { Grid, Button, Chip } from "@mui/material"
+import { Grid, Button, Chip, Typography } from "@mui/material"
 const ITEMS_PER_PAGE = 100
-export const SkillsList = () => {
+export const SkillsList = (props) => {
   const router = useRouter()
   const page = Number(router.query.page) || 0
   const [deleteSkillMutation] = useMutation(deleteSkill)
@@ -77,12 +77,16 @@ export const SkillsList = () => {
   )
 }
 
-const SkillsPage = () => {
+const SkillsPage = (props) => {
   return (
     <>
       <Head>
         <title>Skills</title>
       </Head>
+
+      <Typography variant="h6" component="div" gutterBottom>
+        Mis habilidades
+      </Typography>
 
       <div>
         <p>

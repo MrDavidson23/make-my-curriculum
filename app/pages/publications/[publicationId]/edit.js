@@ -41,7 +41,6 @@ export const EditPublication = () => {
           Editar Publicación {publication.name}
         </Typography>
       </Grid>
-        <pre>{JSON.stringify(publication, null, 2)}</pre>
 
       <Grid item xs={12}>
         <PublicationForm

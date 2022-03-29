@@ -4,7 +4,7 @@ import Layout from "app/core/layouts/Layout"
 import getReferences from "app/references/queries/getReferences"
 import deleteReference from "app/references/mutations/deleteReference"
 import InformationCard from "app/core/components/InformationCard"
-import { Grid, button, Button } from "@mui/material"
+import { Grid, button, Button, Typography } from "@mui/material"
 const ITEMS_PER_PAGE = 100
 export const ReferencesList = (props) => {
   const router = useRouter()
@@ -89,6 +89,10 @@ const ReferencesPage = (props) => {
       <Head>
         <title>References</title>
       </Head>
+
+      <Typography variant="h6" component="div" gutterBottom>
+        Referencias
+      </Typography>
 
       <div>
         <p>
