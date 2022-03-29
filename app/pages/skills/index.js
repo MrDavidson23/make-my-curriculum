@@ -1,5 +1,5 @@
 import { Suspense } from "react"
-import { Head, Link, usePaginatedQuery, useRouter, Routes, useMutation, Router } from "blitz"
+import { Head, Link, usePaginatedQuery, useRouter, Routes, useMutation } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getSkills from "app/skills/queries/getSkills"
 import deleteSkill from "app/skills/mutations/deleteSkill"
@@ -11,6 +11,9 @@ export const SkillsList = () => {
   const page = Number(router.query.page) || 0
   const [deleteSkillMutation] = useMutation(deleteSkill)
   const [{ skills, hasMore }] = usePaginatedQuery(getSkills, {
+    where: {
+      curriculumId: parseInt(props.curriculumId),
+    },
     orderBy: {
       id: "asc",
     },
@@ -34,26 +37,42 @@ export const SkillsList = () => {
 
   return (
     <div>
-      <ul>
+      <Grid
+        container
+        direction="row"
+        spacing={2}
+        textAlign={"center"}
+        justify={"center"}
+        sx={{ mx: "auto", width: "100%" }}
+      >
         {skills.map((skill) => (
-          <li key={skill.id}>
-            <Link
-              href={Routes.ShowSkillPage({
-                skillId: skill.id,
-              })}
-            >
-              <a>{skill.name}</a>
-            </Link>
-          </li>
-        ))}
-      </ul>
+          <Grid item key={skill.id}>
+            <Chip
+              label={skill.description}
+              handleOnEdit={() => {
+                router.push(Routes.EditSkillPage({ skillId: skill.id }))
+              }}
+              handleOnDelete={async () => {
+                if (window.confirm("This will be deleted")) {
+                  await deleteSkillMutation({
+                    id: skill.id,
+                  })
 
-      <button disabled={page === 0} onClick={goToPreviousPage}>
-        Previous
-      </button>
-      <button disabled={!hasMore} onClick={goToNextPage}>
-        Next
-      </button>
+                  router.push(Routes.EditCurriculumPage({ curriculumId: skill.curriculumId }))
+                }
+              }}
+            />
+          </Grid>
+        ))}
+        <Grid item xs={12} justify="center">
+          <button disabled={page === 0} onClick={goToPreviousPage}>
+            Previous
+          </button>
+          <button disabled={!hasMore} onClick={goToNextPage}>
+            Next
+          </button>
+        </Grid>
+      </Grid>
     </div>
   )
 }
@@ -67,13 +86,13 @@ const SkillsPage = () => {
 
       <div>
         <p>
-          <Link href={Routes.NewSkillPage()}>
+          <Link href={Routes.NewSkillPage({ curriculumId: props.curriculumId })}>
             <a>Create New Skill</a>
           </Link>
         </p>
 
         <Suspense fallback={<div>Loading...</div>}>
-          <SkillsList />
+          <SkillsList curriculumId={props.curriculumId} />
         </Suspense>
       </div>
     </>
