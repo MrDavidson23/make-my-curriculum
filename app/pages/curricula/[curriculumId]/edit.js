@@ -5,6 +5,9 @@ import getCurriculum from "app/curricula/queries/getCurriculum"
 import updateCurriculum from "app/curricula/mutations/updateCurriculum"
 import { UpdateCurriculum } from "app/curricula/components/validations"
 import { CurriculumForm, FORM_ERROR } from "app/curricula/components/CurriculumForm"
+import { Typography } from "@mui/material"
+
+import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 
 import AcademicEducationsPage from "app/pages/academic-educations/index"
 import PublicationsPage from "app/pages/publications/index"
@@ -27,13 +30,24 @@ export const EditCurriculum = () => {
     }
   )
   const [updateCurriculumMutation] = useMutation(updateCurriculum)
+  const currentUser = useCurrentUser()
   return (
     <>
-
+      {currentUser && (
       <div>
         <h1>Edit Curriculum {curriculum.name}</h1>
         
         {/*<pre>{JSON.stringify(curriculum, null, 2)}</pre>*/}
+
+        <Typography variant="h6" gutterBottom>
+          {currentUser.name} {currentUser.lastName}
+        </Typography>
+        <Typography variant="h6" gutterBottom>
+          {currentUser.email}
+        </Typography>
+        <Typography variant="h6" gutterBottom>
+          {currentUser.phone} 
+        </Typography>
 
         <CurriculumForm
           submitText="Update Curriculum" // TODO use a zod schema for form validation
@@ -74,6 +88,7 @@ export const EditCurriculum = () => {
       </Head>
 
       </div>
+      )}
     </>
   )
 }
