@@ -49,10 +49,10 @@ export const SkillsList = (props) => {
           <Grid item key={skill.id}>
             <Chip
               label={skill.description}
-              handleOnEdit={() => {
+              onClick={() => {
                 router.push(Routes.EditSkillPage({ skillId: skill.id }))
               }}
-              handleOnDelete={async () => {
+              onDelete={async () => {
                 if (window.confirm("This will be deleted")) {
                   await deleteSkillMutation({
                     id: skill.id,
