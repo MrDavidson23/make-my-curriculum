@@ -5,7 +5,7 @@ import UserDisplay from "app/users/components/UserDisplay"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import logout from "app/auth/mutations/logout"
 import logo from "public/logo.png"
-import { Grid } from "@mui/material"
+import { Button, Grid } from "@mui/material"
 
 const UserInfo = () => {
   const currentUser = useCurrentUser()
@@ -14,14 +14,15 @@ const UserInfo = () => {
   if (currentUser) {
     return (
       <>
-        <button
+        <Button
+          size="large"
           className="button small"
           onClick={async () => {
             await logoutMutation()
           }}
         >
           Logout
-        </button>
+        </Button>
         <div>
           User id: <code>{currentUser.id}</code>
           <br />
@@ -33,15 +34,19 @@ const UserInfo = () => {
     return (
       <>
         <Link href={Routes.SignupPage()}>
-          <a className="button small">
-            <strong>Sign Up</strong>
-          </a>
+          <Button size="large">
+            <a>
+              <strong>Registrarse</strong>
+            </a>
+          </Button>
         </Link>
-        <Link href={Routes.LoginPage()}>
-          <a className="button small">
-            <strong>Login</strong>
-          </a>
-        </Link>
+        <Button size="large">
+          <Link href={Routes.LoginPage()}>
+            <a>
+              <strong>Login</strong>
+            </a>
+          </Link>
+        </Button>
       </>
     )
   }

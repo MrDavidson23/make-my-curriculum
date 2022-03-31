@@ -26,7 +26,7 @@ import createReference from "app/references/mutations/createReference"
 
 const NewReferencePage = () => {
   const router = useRouter()
-  const {curriculumId} = useRouterQuery()
+  const { curriculumId } = useRouterQuery()
   const [createReferenceMutation] = useMutation(createReference)
   return (
     <div>
@@ -46,13 +46,11 @@ const NewReferencePage = () => {
             //  - Tip: extract mutation's schema into a shared `validations.ts` file and
             //         then import and use it here
             schema={CreateReferenceValidation} ////////////////////////////
-            initialValues={{curriculumId:parseInt(curriculumId)}}
+            initialValues={{ curriculumId: parseInt(curriculumId) }}
             onSubmit={async (values) => {
               try {
                 const reference = await createReferenceMutation(values)
-                router.push(
-                  Routes.EditCurriculumPage({curriculumId})
-                )
+                router.push(Routes.EditCurriculumPage({ curriculumId }))
               } catch (error) {
                 console.error(error)
                 return {
@@ -64,7 +62,7 @@ const NewReferencePage = () => {
         </Grid>
         <Grid item xs={12}>
           <p>
-            <Link href={Routes.EditCurriculumPage({curriculumId})}>
+            <Link href={Routes.EditCurriculumPage({ curriculumId })}>
               <a>References</a>
             </Link>
           </p>
