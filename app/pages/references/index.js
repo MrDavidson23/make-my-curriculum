@@ -62,9 +62,7 @@ export const ReferencesList = (props) => {
                     id: reference.id,
                   })
                   //this.forceUpdate()
-                  router.push(
-                    Routes.EditCurriculumPage({curriculumId:reference.curriculumId})
-                  )
+                  router.push(Routes.EditCurriculumPage({ curriculumId: reference.curriculumId }))
                 }
               }}
             />
@@ -100,14 +98,16 @@ const ReferencesPage = (props) => {
             justify="center"
             textAlign={"center"}
             sx={{ mx: "auto", width: "100%" }}
-            onClick={() => Router.push(Routes.NewReferencePage({curriculumId: props.curriculumId}))}
+            onClick={() =>
+              Router.push(Routes.NewReferencePage({ curriculumId: props.curriculumId }))
+            }
           >
             Create Reference
           </Button>
         </p>
 
         <Suspense fallback={<div>Loading...</div>}>
-          <ReferencesList curriculumId={props.curriculumId}/>
+          <ReferencesList curriculumId={props.curriculumId} />
         </Suspense>
       </div>
     </>
