@@ -53,12 +53,11 @@ export const SignupForm = (props) => {
               <LabeledTextField name="name" label="Name" placeholder="Nombre" />
             </Grid>
             <Grid item xs={12} mb={5}>
-              <LabeledTextField name="email" label="Email" placeholder="Email" />
-            </Grid>
-            <Grid item xs={12} mb={5}>
               <LabeledTextField name="lastName" label="lastName" placeholder="Apellido" />
             </Grid>
-
+            <Grid item xs={12} mb={5}>
+              <LabeledTextField name="email" label="Email" placeholder="Email" />
+            </Grid>
             <Grid item xs={12} mb={5}>
               <LabeledTextField name="phone" label="phone" placeholder="Número de teléfono" />
             </Grid>
