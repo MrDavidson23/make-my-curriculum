@@ -1,9 +1,9 @@
 import { resolver } from "blitz"
 import db from "db"
-import { UpdateReference } from "../components/validaciones"
+import { UpdateReferenceValidation } from "../components/validaciones"
 
 export default resolver.pipe(
-  resolver.zod(UpdateReference),
+  resolver.zod(UpdateReferenceValidation),
   resolver.authorize(),
   async ({ id, ...data }) => {
     // TODO: in multi-tenant app, you must add validation to ensure correct tenant
