@@ -42,7 +42,7 @@ export const ReferencesList = (props) => {
         direction="row"
         spacing={2}
         textAlign={"center"}
-        justify={"center"}
+        justifyContent={"center"}
         sx={{ mx: "auto", width: "100%" }}
         //columnSpacing={{ xs: 1, sm: 2, md: 3 }}
       >
@@ -96,7 +96,6 @@ const ReferencesPage = (props) => {
         <p>
           <Button
             justify="center"
-            textAlign={"center"}
             sx={{ mx: "auto", width: "100%" }}
             onClick={() =>
               Router.push(Routes.NewReferencePage({ curriculumId: props.curriculumId }))

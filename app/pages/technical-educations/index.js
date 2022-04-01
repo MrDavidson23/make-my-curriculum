@@ -42,7 +42,7 @@ export const TechnicalEducationsList = (props) => {
         direction="row"
         spacing={2}
         textAlign={"center"}
-        justify={"center"}
+        justifyContent={"center"}
         sx={{ mx: "auto", width: "100%" }}
       >
         {technicalEducations.map((technicalEducation) => (

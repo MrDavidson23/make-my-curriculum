@@ -26,15 +26,7 @@ const UserDisplay = ({}) => {
           }}
         >
           <Paper elevation={3}>
-            <Grid
-              container
-              direction="row"
-              justifyContent="space-between"
-              alignItems="center"
-              pl={5}
-              pr={5}
-              pb={2}
-            >
+            <Grid container direction="row" justifyContent="space-between" pl={5} pr={5} pb={2}>
               <Grid item sx={2}>
                 <AccountCircleIcon sx={{ fontSize: 200, color: "#b3b3b3" }} />
               </Grid>

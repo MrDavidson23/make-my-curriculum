@@ -42,7 +42,7 @@ export const SkillsList = (props) => {
         direction="row"
         spacing={2}
         textAlign={"center"}
-        justify={"center"}
+        justifyContent={"center"}
         sx={{ mx: "auto", width: "100%" }}
       >
         {skills.map((skill) => (
@@ -65,12 +65,12 @@ export const SkillsList = (props) => {
           </Grid>
         ))}
         <Grid item xs={12} justify="center">
-          <button disabled={page === 0} onClick={goToPreviousPage}>
+          <Button disabled={page === 0} onClick={goToPreviousPage}>
             Previous
-          </button>
-          <button disabled={!hasMore} onClick={goToNextPage}>
+          </Button>
+          <Button disabled={!hasMore} onClick={goToNextPage}>
             Next
-          </button>
+          </Button>
         </Grid>
       </Grid>
     </div>

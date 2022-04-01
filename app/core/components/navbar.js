@@ -26,12 +26,16 @@ const pages = [
     path: Routes.Home(),
   },
   {
-    name: "Referencias",
-    path: Routes.ReferencesPage(),
+    name: "Crear Curriculum",
+    path: Routes.NewCurriculumPage(),
+  },
+  {
+    name: "Ver Curriculums",
+    path: Routes.CurriculaPage(),
   },
 ]
 
-const settings = ["Profile", "Account", "Dashboard", "Logout"]
+const settings = ["Perfil", "Suscripcion", "Logout"]
 
 const ResponsiveAppBar = () => {
   const router = useRouter()
@@ -63,7 +67,7 @@ const ResponsiveAppBar = () => {
       switch (targetPage) {
         case "Logout":
           router.push(Routes.Logout())
-        case "Profile":
+        case "Perfil":
           //window.location.href = `/users/${currentUser?.id}/edit`
           router.push(Routes.EditUserPage({ userId: currentUser?.id }))
 
@@ -127,7 +131,7 @@ const ResponsiveAppBar = () => {
               {pages.map((page, i) => (
                 <MenuItem key={i}>
                   <LinkBlitz href={page.path.pathname}>
-                    <Typography textAlign="center">{page.name}</Typography>
+                    <Typography>{page.name}</Typography>
                   </LinkBlitz>
                 </MenuItem>
               ))}
@@ -180,7 +184,7 @@ const ResponsiveAppBar = () => {
             >
               {settings.map((setting) => (
                 <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
+                  <Typography>{setting}</Typography>
                 </MenuItem>
               ))}
             </Menu>
