@@ -5,7 +5,7 @@ import getCurriculum from "app/curricula/queries/getCurriculum"
 import updateCurriculum from "app/curricula/mutations/updateCurriculum"
 import { UpdateCurriculum } from "app/curricula/components/validations"
 import { CurriculumForm, FORM_ERROR } from "app/curricula/components/CurriculumForm"
-import { Grid, Typography } from "@mui/material"
+import { Button, Grid, Typography } from "@mui/material"
 
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 
@@ -44,6 +44,13 @@ export const EditCurriculum = () => {
         <Grid item xs={12}>
           {currentUser && (
             <div>
+
+            <p>
+              <Link href={Routes.PDFViewPage({ curriculumId: curriculumId })}>
+                <Button variant="outlined">Generar PDF</Button>
+              </Link>
+            </p>
+
               <h1>Editar el curriculum: {curriculum.name}</h1>
 
               {/*<pre>{JSON.stringify(curriculum, null, 2)}</pre>*/}
@@ -169,6 +176,7 @@ export const EditCurriculum = () => {
 const EditCurriculumPage = () => {
   return (
     <div>
+
       <Suspense fallback={<div>Loading...</div>}>
         <EditCurriculum />
       </Suspense>
