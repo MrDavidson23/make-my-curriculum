@@ -68,14 +68,7 @@ export const ReferencesList = (props) => {
             />
           </Grid>
         ))}
-        <Grid item xs={12} justify="center">
-          <Button disabled={page === 0} onClick={goToPreviousPage}>
-            Previous
-          </Button>
-          <Button disabled={!hasMore} onClick={goToNextPage}>
-            Next
-          </Button>
-        </Grid>
+        <Grid item xs={12} justify="center"></Grid>
       </Grid>
     </div>
   )
@@ -95,13 +88,13 @@ const ReferencesPage = (props) => {
       <div>
         <p>
           <Button
+            variant="outlined"
             justify="center"
-            sx={{ mx: "auto", width: "100%" }}
             onClick={() =>
               Router.push(Routes.NewReferencePage({ curriculumId: props.curriculumId }))
             }
           >
-            Create Reference
+            Agregar Referencia
           </Button>
         </p>
 

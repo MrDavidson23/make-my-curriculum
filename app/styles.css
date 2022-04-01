@@ -10,11 +10,15 @@
 */
 
 :root {
-  --main-bg-color: brown;
+  --main-bg-color: #faf6f6;
+  --main-color: #3a298f;
+  --main-color-2: #db5461;
+  --main-color-dark: #9587a4;
+  --main-color-darkest: #000000;
 }
 
 body {
-  background-color: #faf6f6;
+  background-color: var(--main-bg-color);
 }
 
 input {
@@ -22,18 +26,18 @@ input {
 }
 
 label {
-  color: #db5461 !important;
+  color: var(--main-color-2) !important;
 }
 
 h1,
 h2,
 h3 {
-  color: #db5461;
+  color: var(--main-color-2);
 }
 
 h4,
 h5 {
-  color: #db5461;
+  color: var(--main-color-2);
 }
 
 footer {
@@ -60,4 +64,8 @@ footer a {
 }
 
 .navbarLogo {
+}
+
+.MuiTypography-h6 {
+  color: var(--main-color) !important;
 }

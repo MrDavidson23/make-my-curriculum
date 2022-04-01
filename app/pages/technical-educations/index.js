@@ -4,7 +4,7 @@ import Layout from "app/core/layouts/Layout"
 import getTechnicalEducations from "app/technical-educations/queries/getTechnicalEducations"
 import deleteTechnicalEducation from "app/technical-educations/mutations/deleteTechnicalEducation"
 import InformationCard from "app/core/components/InformationCard"
-import { Grid, Typography } from "@mui/material"
+import { Button, Grid, Typography } from "@mui/material"
 const ITEMS_PER_PAGE = 100
 export const TechnicalEducationsList = (props) => {
   const router = useRouter()
@@ -71,14 +71,7 @@ export const TechnicalEducationsList = (props) => {
             />
           </Grid>
         ))}
-        <Grid item xs={12} justify="center">
-          <button disabled={page === 0} onClick={goToPreviousPage}>
-            Previous
-          </button>
-          <button disabled={!hasMore} onClick={goToNextPage}>
-            Next
-          </button>
-        </Grid>
+        <Grid item xs={12} justify="center"></Grid>
       </Grid>
     </div>
   )
@@ -98,7 +91,7 @@ const TechnicalEducationsPage = (props) => {
       <div>
         <p>
           <Link href={Routes.NewTechnicalEducationPage({ curriculumId: props.curriculumId })}>
-            <a>Create TechnicalEducation</a>
+            <Button variant="outlined">Agregar Educación Técnica</Button>
           </Link>
         </p>
 
