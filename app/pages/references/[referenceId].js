@@ -41,7 +41,7 @@ export const Reference = () => {
           textAlign={"center"}
           sx={{ mx: "auto", width: "100%" }}
         >
-          <Grid item xs={12} sx={{ textAlign: "center" }}>
+          <Grid item xs={12}>
             <InformationCard
               title={reference.name}
               subtitle={reference.institution}

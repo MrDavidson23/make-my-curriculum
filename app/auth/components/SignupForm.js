@@ -19,7 +19,7 @@ export const SignupForm = (props) => {
         <Grid item xs={12}>
           <h1>Registrarse</h1>
         </Grid>
-        <Grid item xs={12} textAlign={"center"} sx={{ mx: "auto", width: "100%" }}>
+        <Grid item xs={12} sx={{ mx: "auto", width: "100%" }}>
           <Form
             submitText="Registrarse"
             schema={Signup}
