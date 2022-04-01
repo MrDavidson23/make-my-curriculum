@@ -64,14 +64,7 @@ export const SkillsList = (props) => {
             />
           </Grid>
         ))}
-        <Grid item xs={12} justify="center">
-          <Button disabled={page === 0} onClick={goToPreviousPage}>
-            Previous
-          </Button>
-          <Button disabled={!hasMore} onClick={goToNextPage}>
-            Next
-          </Button>
-        </Grid>
+        <Grid item xs={12} justify="center"></Grid>
       </Grid>
     </div>
   )
@@ -91,7 +84,7 @@ const SkillsPage = (props) => {
       <div>
         <p>
           <Link href={Routes.NewSkillPage({ curriculumId: props.curriculumId })}>
-            <a>Create New Skill</a>
+            <Button variant="outlined">Agregar Nueva Habilidad</Button>
           </Link>
         </p>
 

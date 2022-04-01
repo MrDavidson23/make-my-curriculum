@@ -4,7 +4,7 @@ import Layout from "app/core/layouts/Layout"
 import getAcademicEducations from "app/academic-educations/queries/getAcademicEducations"
 import deleteAcademicEducation from "app/academic-educations/mutations/deleteAcademicEducation"
 import InformationCard from "app/core/components/InformationCard"
-import { Grid, Typography } from "@mui/material"
+import { Button, Grid, Typography } from "@mui/material"
 const ITEMS_PER_PAGE = 100
 export const AcademicEducationsList = (props) => {
   const router = useRouter()
@@ -75,14 +75,7 @@ export const AcademicEducationsList = (props) => {
             />
           </Grid>
         ))}
-        <Grid item xs={12} justify="center">
-          <button disabled={page === 0} onClick={goToPreviousPage}>
-            Previous
-          </button>
-          <button disabled={!hasMore} onClick={goToNextPage}>
-            Next
-          </button>
-        </Grid>
+        <Grid item xs={12} justify="center"></Grid>
       </Grid>
     </div>
   )
@@ -102,7 +95,7 @@ const AcademicEducationsPage = (props) => {
       <div>
         <p>
           <Link href={Routes.NewAcademicEducationPage({ curriculumId: props.curriculumId })}>
-            <a>Crear Educación Académica</a>
+            <Button variant="outlined">Crear Educación Académica</Button>
           </Link>
         </p>
 
