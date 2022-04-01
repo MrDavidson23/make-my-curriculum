@@ -44,7 +44,7 @@ export const EditCurriculum = () => {
         <Grid item xs={12}>
           {currentUser && (
             <div>
-              <h1>Editar Curriculum {curriculum.name}</h1>
+              <h1>Editar el curriculum: {curriculum.name}</h1>
 
               {/*<pre>{JSON.stringify(curriculum, null, 2)}</pre>*/}
 
