@@ -34,19 +34,24 @@ const UserInfo = () => {
     return (
       <>
         <Link href={Routes.SignupPage()}>
-          <Button size="large">
-            <a>
-              <strong>Registrarse</strong>
-            </a>
+          <Button
+            variant="outlined"
+            size="large"
+            style={{ marginRight: "1rem", marginTop: "1rem" }}
+          >
+            <strong>Registrarse</strong>
           </Button>
         </Link>
-        <Button size="large">
-          <Link href={Routes.LoginPage()}>
-            <a>
-              <strong>Login</strong>
-            </a>
-          </Link>
-        </Button>
+
+        <Link href={Routes.LoginPage()}>
+          <Button
+            variant="outlined"
+            size="large"
+            style={{ marginRight: "1rem", marginTop: "1rem" }}
+          >
+            <strong>Login</strong>
+          </Button>
+        </Link>
       </>
     )
   }
