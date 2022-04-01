@@ -10,7 +10,7 @@ export function forgotPasswordMailer({ to, token }) {
   const origin = process.env.APP_ORIGIN || process.env.BLITZ_DEV_SERVER_ORIGIN
   const resetUrl = `${origin}/reset-password?token=${token}`
   const msg = {
-    from: "TODO@example.com",
+    from: "noreply@plataformaelectronicacr.com",
     to,
     subject: "Your Password Reset Instructions",
     html: `
