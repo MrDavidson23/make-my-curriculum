@@ -56,4 +56,3 @@ lib-cov
 .vscode-test
 package-lock.json
 db/schema.prisma
-yarn.lock
