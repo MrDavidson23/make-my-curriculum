@@ -3,7 +3,7 @@ import { Head, Link, usePaginatedQuery, useRouter, Routes, Router } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getCurricula from "app/curricula/queries/getCurricula"
 import CurriculumList from "app/curricula/components/CurriculumList"
-import { Button, Grid } from "@mui/material"
+import { Button, Grid, Typography } from "@mui/material"
 const ITEMS_PER_PAGE = 100
 export const CurriculaList = () => {
   const router = useRouter()
@@ -30,35 +30,15 @@ export const CurriculaList = () => {
       },
     })
 
-  useEffect(() => {
-    console.log(curricula)
-  }, [curricula])
-
   return (
     <>
       <CurriculumList curriculumns={curricula} />
-
-      {/* <ul>
-        {curricula.map((curriculum) => (
-          <li key={curriculum.id}>
-            <Link
-              href={Routes.ShowCurriculumPage({
-                curriculumId: curriculum.id,
-              })}
-            >
-              <a>{curriculum.name}</a>
-            </Link>
-          </li>
-        ))}
-      </ul> */}
-      <Grid item xs={12}>
+      <Grid container direction="row" justifyContent="center" alignItems="center">
         <Button disabled={page === 0} onClick={goToPreviousPage}>
-          Previous
+          Anterior
         </Button>
-      </Grid>
-      <Grid item xs={12}>
         <Button disabled={!hasMore} onClick={goToNextPage}>
-          Next
+          Siguiente
         </Button>
       </Grid>
     </>
@@ -74,14 +54,17 @@ const CurriculaPage = () => {
       <Grid
         container
         direction="row"
-        spacing={2}
         textAlign={"center"}
         justifyContent={"center"}
         sx={{ mx: "auto", width: "100%" }}
-        //columnSpacing={{ xs: 1, sm: 2, md: 3 }}
       >
+        <Typography variant="h3" gutterBottom>
+          Mis Curriculums
+        </Typography>
         <Grid item xs={12} justify="center">
-          <Button onClick={() => Router.push(Routes.NewCurriculumPage())}>Crear Curriculum</Button>
+          <Button onClick={() => Router.push(Routes.NewCurriculumPage())}>
+            Crear Nuevo Curriculum
+          </Button>
         </Grid>
 
         <Suspense fallback={<div>Loading...</div>}>
