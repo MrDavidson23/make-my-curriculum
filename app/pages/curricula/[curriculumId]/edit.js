@@ -5,7 +5,7 @@ import getCurriculum from "app/curricula/queries/getCurriculum"
 import updateCurriculum from "app/curricula/mutations/updateCurriculum"
 import { UpdateCurriculum } from "app/curricula/components/validations"
 import { CurriculumForm, FORM_ERROR } from "app/curricula/components/CurriculumForm"
-import { Typography } from "@mui/material"
+import { Button, Grid, Typography } from "@mui/material"
 
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 
@@ -33,62 +33,142 @@ export const EditCurriculum = () => {
   const currentUser = useCurrentUser()
   return (
     <>
-      {currentUser && (
-      <div>
-        <h1>Edit Curriculum {curriculum.name}</h1>
-        
-        {/*<pre>{JSON.stringify(curriculum, null, 2)}</pre>*/}
+      <Grid
+        container
+        direction="row"
+        spacing={2}
+        textAlign={"center"}
+        justify={"center"}
+        sx={{ mx: "auto", width: "100%" }}
+      >
+        <Grid item xs={12}>
+          {currentUser && (
+            <div>
 
-        <Typography variant="h6" gutterBottom>
-          {currentUser.name} {currentUser.lastName}
-        </Typography>
-        <Typography variant="h6" gutterBottom>
-          {currentUser.email}
-        </Typography>
-        <Typography variant="h6" gutterBottom>
-          {currentUser.phone} 
-        </Typography>
+            <p>
+              <Link href={Routes.PDFViewPage({ curriculumId: curriculumId })}>
+                <Button variant="outlined">Generar PDF</Button>
+              </Link>
+            </p>
 
-        <CurriculumForm
-          submitText="Update Curriculum" // TODO use a zod schema for form validation
-          //  - Tip: extract mutation's schema into a shared `validations.ts` file and
-          //         then import and use it here
-          schema={UpdateCurriculum}
-          initialValues={curriculum}
-          onSubmit={async (values) => {
-            try {
-              const updated = await updateCurriculumMutation({
-                id: curriculum.id,
-                ...values,
-              })
-              await setQueryData(updated)
-              router.push(
-                Routes.EditCurriculumPage({
-                  curriculumId: updated.id,
-                })
-              )
-            } catch (error) {
-              console.error(error)
-              return {
-                [FORM_ERROR]: error.toString(),
-              }
-            }
-          }}
-        />
+              <h1>Editar el curriculum: {curriculum.name}</h1>
 
-        <SkillsPage curriculumId={curriculumId}/>
-        <LaboralExperiencesPage curriculumId={curriculumId}/>
-        <AcademicEducationsPage curriculumId={curriculumId}/>
-        <TechnicalEducationsPage curriculumId={curriculumId}/>
-        <PublicationsPage curriculumId={curriculumId}/>
-        <ReferencesPage curriculumId={curriculumId}/>
+              {/*<pre>{JSON.stringify(curriculum, null, 2)}</pre>*/}
 
-      <Head>
-        <title>Edit Curriculum {curriculum.name}</title>
-      </Head>
+              <Typography variant="h6" gutterBottom>
+                {currentUser.name} {currentUser.lastName}
+              </Typography>
+              <Typography variant="h6" gutterBottom>
+                {currentUser.email}
+              </Typography>
+              <Typography variant="h6" gutterBottom>
+                {currentUser.phone}
+              </Typography>
 
-      </div>
-      )}
+              <CurriculumForm
+                submitText="Update Curriculum" // TODO use a zod schema for form validation
+                //  - Tip: extract mutation's schema into a shared `validations.ts` file and
+                //         then import and use it here
+                schema={UpdateCurriculum}
+                initialValues={curriculum}
+                onSubmit={async (values) => {
+                  try {
+                    const updated = await updateCurriculumMutation({
+                      id: curriculum.id,
+                      ...values,
+                    })
+                    await setQueryData(updated)
+                    router.push(
+                      Routes.EditCurriculumPage({
+                        curriculumId: updated.id,
+                      })
+                    )
+                  } catch (error) {
+                    console.error(error)
+                    return {
+                      [FORM_ERROR]: error.toString(),
+                    }
+                  }
+                }}
+              />
+              <hr
+                style={{
+                  marginTop: "3rem",
+
+                  color: "black",
+                  backgroundColor: "black",
+                  height: 1,
+                }}
+              />
+              <SkillsPage curriculumId={curriculumId} />
+              <hr
+                style={{
+                  marginTop: "3rem",
+
+                  color: "black",
+                  backgroundColor: "black",
+                  height: 1,
+                }}
+              />
+              <LaboralExperiencesPage curriculumId={curriculumId} />
+              <hr
+                style={{
+                  marginTop: "3rem",
+
+                  color: "black",
+                  backgroundColor: "black",
+                  height: 1,
+                }}
+              />
+              <AcademicEducationsPage curriculumId={curriculumId} />
+              <hr
+                style={{
+                  marginTop: "3rem",
+
+                  color: "black",
+                  backgroundColor: "black",
+                  height: 1,
+                }}
+              />
+              <TechnicalEducationsPage curriculumId={curriculumId} />
+              <hr
+                style={{
+                  marginTop: "3rem",
+
+                  color: "black",
+                  backgroundColor: "black",
+                  height: 1,
+                }}
+              />
+              <PublicationsPage curriculumId={curriculumId} />
+              <hr
+                style={{
+                  marginTop: "3rem",
+
+                  color: "black",
+                  backgroundColor: "black",
+                  height: 1,
+                }}
+              />
+              <ReferencesPage curriculumId={curriculumId} />
+
+              <hr
+                style={{
+                  marginTop: "3rem",
+
+                  color: "black",
+                  backgroundColor: "black",
+                  height: 1,
+                }}
+              />
+
+              <Head>
+                <title>Edit Curriculum {curriculum.name}</title>
+              </Head>
+            </div>
+          )}
+        </Grid>
+      </Grid>
     </>
   )
 }
@@ -96,6 +176,7 @@ export const EditCurriculum = () => {
 const EditCurriculumPage = () => {
   return (
     <div>
+
       <Suspense fallback={<div>Loading...</div>}>
         <EditCurriculum />
       </Suspense>

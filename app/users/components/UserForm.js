@@ -19,7 +19,7 @@ export const UserForm = (props) => {
         <Grid item xs={12}>
           <h1>Editar Información</h1>
         </Grid>
-        <Grid item xs={12} textAlign={"center"} sx={{ mx: "auto", width: "100%" }}>
+        <Grid item xs={12} sx={{ mx: "auto", width: "100%" }}>
           <Form
             submitText="Guardar"
             schema={UpdateUser}

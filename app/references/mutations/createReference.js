@@ -1,9 +1,9 @@
 import { resolver } from "blitz"
 import db from "db"
-import { CreateReference } from "../components/validaciones"
+import { CreateReferenceValidation } from "../components/validaciones"
 
 export default resolver.pipe(
-  resolver.zod(CreateReference),
+  resolver.zod(CreateReferenceValidation),
   resolver.authorize(),
   async (input) => {
     const { curriculumId, ...data } = input

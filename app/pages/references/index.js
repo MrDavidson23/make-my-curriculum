@@ -42,7 +42,7 @@ export const ReferencesList = (props) => {
         direction="row"
         spacing={2}
         textAlign={"center"}
-        justify={"center"}
+        justifyContent={"center"}
         sx={{ mx: "auto", width: "100%" }}
         //columnSpacing={{ xs: 1, sm: 2, md: 3 }}
       >
@@ -62,22 +62,13 @@ export const ReferencesList = (props) => {
                     id: reference.id,
                   })
                   //this.forceUpdate()
-                  router.push(
-                    Routes.EditCurriculumPage({curriculumId:reference.curriculumId})
-                  )
+                  router.push(Routes.EditCurriculumPage({ curriculumId: reference.curriculumId }))
                 }
               }}
             />
           </Grid>
         ))}
-        <Grid item xs={12} justify="center">
-          <Button disabled={page === 0} onClick={goToPreviousPage}>
-            Previous
-          </Button>
-          <Button disabled={!hasMore} onClick={goToNextPage}>
-            Next
-          </Button>
-        </Grid>
+        <Grid item xs={12} justify="center"></Grid>
       </Grid>
     </div>
   )
@@ -97,17 +88,18 @@ const ReferencesPage = (props) => {
       <div>
         <p>
           <Button
+            variant="outlined"
             justify="center"
-            textAlign={"center"}
-            sx={{ mx: "auto", width: "100%" }}
-            onClick={() => Router.push(Routes.NewReferencePage({curriculumId: props.curriculumId}))}
+            onClick={() =>
+              Router.push(Routes.NewReferencePage({ curriculumId: props.curriculumId }))
+            }
           >
-            Create Reference
+            Agregar Referencia
           </Button>
         </p>
 
         <Suspense fallback={<div>Loading...</div>}>
-          <ReferencesList curriculumId={props.curriculumId}/>
+          <ReferencesList curriculumId={props.curriculumId} />
         </Suspense>
       </div>
     </>
