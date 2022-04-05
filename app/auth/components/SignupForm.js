@@ -19,7 +19,7 @@ export const SignupForm = (props) => {
         <Grid item xs={12}>
           <h1>Registrarse</h1>
         </Grid>
-        <Grid item xs={12} textAlign={"center"} sx={{ mx: "auto", width: "100%" }}>
+        <Grid item xs={12} sx={{ mx: "auto", width: "100%" }}>
           <Form
             submitText="Registrarse"
             schema={Signup}
@@ -50,16 +50,16 @@ export const SignupForm = (props) => {
             }}
           >
             <Grid item xs={12} mb={5}>
-              <LabeledTextField name="name" label="Name" placeholder="Nombre" />
+              <LabeledTextField name="name" label="Nombre" placeholder="Nombre" />
             </Grid>
             <Grid item xs={12} mb={5}>
-              <LabeledTextField name="lastName" label="lastName" placeholder="Apellido" />
+              <LabeledTextField name="lastName" label="Apellidos" placeholder="Apellido" />
             </Grid>
             <Grid item xs={12} mb={5}>
               <LabeledTextField name="email" label="Email" placeholder="Email" />
             </Grid>
             <Grid item xs={12} mb={5}>
-              <LabeledTextField name="phone" label="phone" placeholder="Número de teléfono" />
+              <LabeledTextField name="phone" label="Telefono" placeholder="Número de teléfono" />
             </Grid>
             <Grid item xs={12} mb={5}>
               <LabeledTextField

@@ -4,7 +4,7 @@ import Layout from "app/core/layouts/Layout"
 import getPublications from "app/publications/queries/getPublications"
 import deletePublication from "app/publications/mutations/deletePublication"
 import InformationCard from "app/core/components/InformationCard"
-import { Grid, Typography } from "@mui/material"
+import { Button, Grid, Typography } from "@mui/material"
 const ITEMS_PER_PAGE = 100
 export const PublicationsList = (props) => {
   const router = useRouter()
@@ -42,7 +42,7 @@ export const PublicationsList = (props) => {
         direction="row"
         spacing={2}
         textAlign={"center"}
-        justify={"center"}
+        justifyContent={"center"}
         sx={{ mx: "auto", width: "100%" }}
       >
         {publications.map((publication) => (
@@ -50,7 +50,7 @@ export const PublicationsList = (props) => {
             <InformationCard
               title={publication.name}
               subtitle={publication.institution}
-              firstText={publication.location+" "+publication.date.toLocaleDateString()}
+              firstText={publication.location + " " + publication.date.toLocaleDateString()}
               secondText={publication.tag}
               handleOnEdit={() => {
                 router.push(Routes.EditPublicationPage({ publicationId: publication.id }))
@@ -61,22 +61,13 @@ export const PublicationsList = (props) => {
                     id: publication.id,
                   })
                   //this.forceUpdate()
-                  router.push(
-                    Routes.EditCurriculumPage({curriculumId:publication.curriculumId})
-                  )
+                  router.push(Routes.EditCurriculumPage({ curriculumId: publication.curriculumId }))
                 }
               }}
             />
           </Grid>
         ))}
-        <Grid item xs={12} justify="center">
-          <button disabled={page === 0} onClick={goToPreviousPage}>
-            Previous
-          </button>
-          <button disabled={!hasMore} onClick={goToNextPage}>
-            Next
-          </button>
-        </Grid>
+        <Grid item xs={12} justify="center"></Grid>
       </Grid>
     </div>
   )
@@ -95,13 +86,13 @@ const PublicationsPage = (props) => {
 
       <div>
         <p>
-          <Link href={Routes.NewPublicationPage({curriculumId: props.curriculumId})}>
-            <a>Crear Publicación</a>
+          <Link href={Routes.NewPublicationPage({ curriculumId: props.curriculumId })}>
+            <Button variant="outlined">Crear Publicación</Button>
           </Link>
         </p>
 
         <Suspense fallback={<div>Loading...</div>}>
-          <PublicationsList curriculumId={props.curriculumId}/>        
+          <PublicationsList curriculumId={props.curriculumId} />
         </Suspense>
       </div>
     </>

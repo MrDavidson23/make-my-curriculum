@@ -1,8 +1,9 @@
 import { Suspense, useEffect } from "react"
-import { Head, Link, usePaginatedQuery, useRouter, Routes } from "blitz"
+import { Head, Link, usePaginatedQuery, useRouter, Routes, Router } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getCurricula from "app/curricula/queries/getCurricula"
 import CurriculumList from "app/curricula/components/CurriculumList"
+import { Button, Grid } from "@mui/material"
 const ITEMS_PER_PAGE = 100
 export const CurriculaList = () => {
   const router = useRouter()
@@ -34,9 +35,10 @@ export const CurriculaList = () => {
   }, [curricula])
 
   return (
-    <div>
+    <>
       <CurriculumList curriculumns={curricula} />
-      <ul>
+
+      {/* <ul>
         {curricula.map((curriculum) => (
           <li key={curriculum.id}>
             <Link
@@ -48,15 +50,18 @@ export const CurriculaList = () => {
             </Link>
           </li>
         ))}
-      </ul>
-
-      <button disabled={page === 0} onClick={goToPreviousPage}>
-        Previous
-      </button>
-      <button disabled={!hasMore} onClick={goToNextPage}>
-        Next
-      </button>
-    </div>
+      </ul> */}
+      <Grid item xs={12}>
+        <Button disabled={page === 0} onClick={goToPreviousPage}>
+          Previous
+        </Button>
+      </Grid>
+      <Grid item xs={12}>
+        <Button disabled={!hasMore} onClick={goToNextPage}>
+          Next
+        </Button>
+      </Grid>
+    </>
   )
 }
 
@@ -66,18 +71,23 @@ const CurriculaPage = () => {
       <Head>
         <title>Curricula</title>
       </Head>
-
-      <div>
-        <p>
-          <Link href={Routes.NewCurriculumPage()}>
-            <a>Create Curriculum</a>
-          </Link>
-        </p>
+      <Grid
+        container
+        direction="row"
+        spacing={2}
+        textAlign={"center"}
+        justifyContent={"center"}
+        sx={{ mx: "auto", width: "100%" }}
+        //columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+      >
+        <Grid item xs={12} justify="center">
+          <Button onClick={() => Router.push(Routes.NewCurriculumPage())}>Crear Curriculum</Button>
+        </Grid>
 
         <Suspense fallback={<div>Loading...</div>}>
           <CurriculaList />
         </Suspense>
-      </div>
+      </Grid>
     </>
   )
 }

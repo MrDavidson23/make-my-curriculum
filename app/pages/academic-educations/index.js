@@ -4,10 +4,9 @@ import Layout from "app/core/layouts/Layout"
 import getAcademicEducations from "app/academic-educations/queries/getAcademicEducations"
 import deleteAcademicEducation from "app/academic-educations/mutations/deleteAcademicEducation"
 import InformationCard from "app/core/components/InformationCard"
-import { Grid, Typography } from "@mui/material"
+import { Button, Grid, Typography } from "@mui/material"
 const ITEMS_PER_PAGE = 100
 export const AcademicEducationsList = (props) => {
-
   const router = useRouter()
   const page = Number(router.query.page) || 0
   const [deleteAcademicEducationMutation] = useMutation(deleteAcademicEducation)
@@ -38,46 +37,45 @@ export const AcademicEducationsList = (props) => {
 
   return (
     <div>
-       <Grid
+      <Grid
         container
         direction="row"
         spacing={2}
         textAlign={"center"}
-        justify={"center"}
+        justifyContent={"center"}
         sx={{ mx: "auto", width: "100%" }}
       >
         {academicEducations.map((academicEducation) => (
           <Grid item key={academicEducation.id}>
-          <InformationCard
-            title={academicEducation.studies}
-            subtitle={academicEducation.institution}
-            firstText={academicEducation.location}
-            secondText={academicEducation.startYear.toLocaleDateString()+"  -  "+academicEducation.finishYear.toLocaleDateString()}
-            handleOnEdit={() => {
-              router.push(Routes.EditAcademicEducationPage({ academicEducationId: academicEducation.id }))
-            }}
-            handleOnDelete={async () => {
-              if (window.confirm("This will be deleted")) {
-                await deleteAcademicEducationMutation({
-                  id: academicEducation.id,
-                })
-                //this.forceUpdate()
-                router.push(
-                  Routes.EditCurriculumPage({curriculumId:academicEducation.curriculumId})
-                )
+            <InformationCard
+              title={academicEducation.studies}
+              subtitle={academicEducation.institution}
+              firstText={academicEducation.location}
+              secondText={
+                academicEducation.startYear.toLocaleDateString() +
+                "  -  " +
+                academicEducation.finishYear.toLocaleDateString()
               }
-            }}
-          />
+              handleOnEdit={() => {
+                router.push(
+                  Routes.EditAcademicEducationPage({ academicEducationId: academicEducation.id })
+                )
+              }}
+              handleOnDelete={async () => {
+                if (window.confirm("This will be deleted")) {
+                  await deleteAcademicEducationMutation({
+                    id: academicEducation.id,
+                  })
+                  //this.forceUpdate()
+                  router.push(
+                    Routes.EditCurriculumPage({ curriculumId: academicEducation.curriculumId })
+                  )
+                }
+              }}
+            />
           </Grid>
         ))}
-      <Grid item xs={12} justify="center">
-        <button disabled={page === 0} onClick={goToPreviousPage}>
-          Previous
-        </button>
-        <button disabled={!hasMore} onClick={goToNextPage}>
-          Next
-        </button>
-      </Grid>
+        <Grid item xs={12} justify="center"></Grid>
       </Grid>
     </div>
   )
@@ -96,8 +94,8 @@ const AcademicEducationsPage = (props) => {
 
       <div>
         <p>
-          <Link href={Routes.NewAcademicEducationPage({curriculumId: props.curriculumId})}>
-            <a>Crear Educación Académica</a>
+          <Link href={Routes.NewAcademicEducationPage({ curriculumId: props.curriculumId })}>
+            <Button variant="outlined">Crear Educación Académica</Button>
           </Link>
         </p>
 

@@ -16,14 +16,15 @@ const UserInfo = () => {
   if (currentUser) {
     return (
       <>
-        <button
+        <Button
+          size="large"
           className="button small"
           onClick={async () => {
             await logoutMutation()
           }}
         >
           Logout
-        </button>
+        </Button>
         <div>
           User id: <code>{currentUser.id}</code>
           <br />
@@ -35,14 +36,23 @@ const UserInfo = () => {
     return (
       <>
         <Link href={Routes.SignupPage()}>
-          <a className="button small">
-            <strong>Sign Up</strong>
-          </a>
+          <Button
+            variant="outlined"
+            size="large"
+            style={{ marginRight: "1rem", marginTop: "1rem" }}
+          >
+            <strong>Registrarse</strong>
+          </Button>
         </Link>
+
         <Link href={Routes.LoginPage()}>
-          <a className="button small">
+          <Button
+            variant="outlined"
+            size="large"
+            style={{ marginRight: "1rem", marginTop: "1rem" }}
+          >
             <strong>Login</strong>
-          </a>
+          </Button>
         </Link>
       </>
     )

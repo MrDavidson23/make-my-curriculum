@@ -42,7 +42,7 @@ export const SkillsList = (props) => {
         direction="row"
         spacing={2}
         textAlign={"center"}
-        justify={"center"}
+        justifyContent={"center"}
         sx={{ mx: "auto", width: "100%" }}
       >
         {skills.map((skill) => (
@@ -64,14 +64,7 @@ export const SkillsList = (props) => {
             />
           </Grid>
         ))}
-        <Grid item xs={12} justify="center">
-          <button disabled={page === 0} onClick={goToPreviousPage}>
-            Previous
-          </button>
-          <button disabled={!hasMore} onClick={goToNextPage}>
-            Next
-          </button>
-        </Grid>
+        <Grid item xs={12} justify="center"></Grid>
       </Grid>
     </div>
   )
@@ -91,7 +84,7 @@ const SkillsPage = (props) => {
       <div>
         <p>
           <Link href={Routes.NewSkillPage({ curriculumId: props.curriculumId })}>
-            <a>Create New Skill</a>
+            <Button variant="outlined">Agregar Nueva Habilidad</Button>
           </Link>
         </p>
 

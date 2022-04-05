@@ -8,7 +8,7 @@ export const email = z
   .transform((str) => str.toLowerCase().trim())
 export const password = z
   .string()
-  .min(10)
+  .min(5) //to much beign 10, reduced to 5
   .max(100)
   .transform((str) => str.trim())
 export const Signup = z.object({

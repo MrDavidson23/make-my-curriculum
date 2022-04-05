@@ -4,7 +4,7 @@ import Layout from "app/core/layouts/Layout"
 import getLaboralExperiences from "app/laboral-experiences/queries/getLaboralExperiences"
 import deleteLaboralExperience from "app/laboral-experiences/mutations/deleteLaboralExperience"
 import InformationCard from "app/core/components/InformationCard"
-import { Grid, Typography } from "@mui/material"
+import { Button, Grid, Typography } from "@mui/material"
 const ITEMS_PER_PAGE = 100
 export const LaboralExperiencesList = (props) => {
   const router = useRouter()
@@ -42,7 +42,7 @@ export const LaboralExperiencesList = (props) => {
         direction="row"
         spacing={2}
         textAlign={"center"}
-        justify={"center"}
+        justifyContent={"center"}
         sx={{ mx: "auto", width: "100%" }}
       >
         {laboralExperiences.map((laboralExperience) => (
@@ -75,14 +75,7 @@ export const LaboralExperiencesList = (props) => {
             />
           </Grid>
         ))}
-        <Grid item xs={12} justify="center">
-          <button disabled={page === 0} onClick={goToPreviousPage}>
-            Previous
-          </button>
-          <button disabled={!hasMore} onClick={goToNextPage}>
-            Next
-          </button>
-        </Grid>
+        <Grid item xs={12} justify="center"></Grid>
       </Grid>
     </div>
   )
@@ -102,7 +95,7 @@ const LaboralExperiencesPage = (props) => {
       <div>
         <p>
           <Link href={Routes.NewLaboralExperiencePage({ curriculumId: props.curriculumId })}>
-            <a>Create Laboral Experience</a>
+            <Button variant="outlined">Create Laboral Experience</Button>
           </Link>
         </p>
 
