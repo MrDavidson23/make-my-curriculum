@@ -5,7 +5,7 @@ import UserDisplay from "app/users/components/UserDisplay"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import logout from "app/auth/mutations/logout"
 import logo from "public/logo.png"
-import { Grid } from "@mui/material"
+import { Grid, Button } from "@mui/material"
 
 const UserInfo = () => {
   const currentUser = useCurrentUser()
