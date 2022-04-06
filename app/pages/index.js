@@ -7,11 +7,7 @@ import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import getAllCurriculums from "app/curricula/queries/getAllCurriculums"
 import logout from "app/auth/mutations/logout"
 import logo from "public/logo.png"
-<<<<<<< HEAD
-import { Grid, Button } from "@mui/material"
-=======
-import { Grid, Typography } from "@mui/material"
->>>>>>> parent of 603cf52 (Revert "Admin all cv view")
+import { Grid, Typography, Button } from "@mui/material"
 
 const UserInfo = () => {
   const currentUser = useCurrentUser()
