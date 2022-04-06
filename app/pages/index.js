@@ -1,11 +1,17 @@
 import { Suspense } from "react"
-import { Image, Link, useMutation, Routes } from "blitz"
+import { Image, Link, useMutation, Routes, usePaginatedQuery } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import UserDisplay from "app/users/components/UserDisplay"
+import CurriculumList from "app/curricula/components/CurriculumList"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
+import getAllCurriculums from "app/curricula/queries/getAllCurriculums"
 import logout from "app/auth/mutations/logout"
 import logo from "public/logo.png"
+<<<<<<< HEAD
 import { Grid, Button } from "@mui/material"
+=======
+import { Grid, Typography } from "@mui/material"
+>>>>>>> parent of 603cf52 (Revert "Admin all cv view")
 
 const UserInfo = () => {
   const currentUser = useCurrentUser()
@@ -58,26 +64,52 @@ const UserInfo = () => {
 }
 
 const Home = () => {
+  const currentUser = useCurrentUser()
+  const [{ curricula }] = usePaginatedQuery(getAllCurriculums, {
+    orderBy: {
+      id: "asc",
+    },
+  })
   return (
     <div className="container">
       <main>
         <Grid
           container
-          direction="row"
+          direction="column"
           spacing={2}
           textAlign={"center"}
           sx={{ mx: "auto", width: "100%" }}
         >
-          <Grid item justifyContent="flex-end">
-            <div className="logo" style={{ marginTop: "2rem", width: "300px" }}>
-              <Image src={logo} alt="blitzjs" />
-            </div>
+          <Grid item container direction="row">
+            <Grid item>
+              <div className="logo" style={{ marginTop: "2rem", width: "300px" }}>
+                <Image src={logo} alt="blitzjs" />
+              </div>
+            </Grid>
+            <Grid item>
+              <Suspense fallback="Loading...">
+                <UserDisplay />
+              </Suspense>
+            </Grid>
           </Grid>
-          <Grid item justifyContent="flex-end">
-            <Suspense fallback="Loading...">
-              <UserDisplay />
-            </Suspense>
-          </Grid>
+          {currentUser.role === "ADMIN" && (
+            <Grid item container direction="column">
+              <Grid item>
+                <Typography variant="h4">All Curriculums</Typography>
+              </Grid>
+              <Grid
+                item
+                container
+                direction="row"
+                justifyContent="space-between"
+                alignItems="center"
+              >
+                <Suspense fallback="Loading...">
+                  <CurriculumList curriculumns={curricula} />
+                </Suspense>
+              </Grid>
+            </Grid>
+          )}
           <Grid item>
             <Suspense fallback="Loading...">
               <UserInfo />
