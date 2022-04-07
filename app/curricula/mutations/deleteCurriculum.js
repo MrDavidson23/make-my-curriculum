@@ -6,8 +6,14 @@ export default resolver.pipe(
   resolver.zod(DeleteCurriculum),
   resolver.authorize(),
   async ({ id }) => {
-    // TODO: in multi-tenant app, you must add validation to ensure correct tenant
-    const curriculum = await db.curriculum.deleteMany({
+    await db.skill.deleteMany({ where: { curriculumId: id } })
+    await db.laboralExperience.deleteMany({ where: { curriculumId: id } })
+    await db.academicEducation.deleteMany({ where: { curriculumId: id } })
+    await db.technicalEducation.deleteMany({ where: { curriculumId: id } })
+    await db.publication.deleteMany({ where: { curriculumId: id } })
+    await db.reference.deleteMany({ where: { curriculumId: id } })
+
+    const curriculum = await db.curriculum.delete({
       where: {
         id,
       },

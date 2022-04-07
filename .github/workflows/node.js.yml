@@ -28,5 +28,4 @@ jobs:
       - run: npm install -g blitz --legacy-peer-deps
       - run: npm install
       - run: npm run lint
-      - run: npm run test
       - run: blitz build
