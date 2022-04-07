@@ -1,4 +1,4 @@
-import { Suspense } from "react"
+import { Suspense, useState } from "react"
 import { Head, Link, useRouter, useQuery, useMutation, useParam, Routes, useSession } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getCurriculum from "app/curricula/queries/getCurriculum"
@@ -16,10 +16,12 @@ import ReferencesPage from "app/pages/references/index"
 import SkillsPage from "app/pages/skills/index"
 import LaboralExperiencesPage from "app/pages/laboral-experiences/index"
 
+import { EditableTitleText } from "app/core/components/EditableTitleText"
+
 export const EditCurriculum = () => {
   const router = useRouter()
   const curriculumId = useParam("curriculumId", "number")
-  const [curriculum, { setQueryData }] = useQuery(
+  const [curr, { setQueryData }] = useQuery(
     getCurriculum,
     {
       id: curriculumId,
@@ -31,6 +33,11 @@ export const EditCurriculum = () => {
   )
   const [updateCurriculumMutation] = useMutation(updateCurriculum)
   const currentUser = useCurrentUser()
+  const [curriculum, setCurriculum] = useState(curr)
+  const updateState = (event) => {
+    const target = event.target
+    setCurriculum({[target.name]:target.value,...curriculum})
+  }
   return (
     <>
       <Grid
@@ -99,7 +106,8 @@ export const EditCurriculum = () => {
                   height: 1,
                 }}
               />
-              <SkillsPage curriculumId={curriculumId} />
+              <EditableTitleText name="skillLabel" title={"Mis habilidades"} updateState={updateState}/>
+              <SkillsPage curriculumId={curriculumId}/>
               <hr
                 style={{
                   marginTop: "3rem",
