@@ -21,6 +21,11 @@ const Layout = ({ title, children }) => {
   return (
     <>
       <Head>
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6807656243068332"
+          crossOrigin="anonymous"
+        ></script>
         <title>{title || "makeMyCurriculum"}</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
