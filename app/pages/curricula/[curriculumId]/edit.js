@@ -33,11 +33,21 @@ export const EditCurriculum = () => {
   )
   const [updateCurriculumMutation] = useMutation(updateCurriculum)
   const currentUser = useCurrentUser()
-  const [curriculum, setCurriculum] = useState(curr)
+  const [curriculum, setCurriculum] = useState(
+    {...curr,
+      skillLabel:"Habilidades",
+      laboralExperienceLabel:"Experiencia Laboral",
+      academicEducationLabel:"Educación Académica",
+      technicalEducationLabel:"Educación Técnica",
+      publicationLabel:"Publicaciones",
+      referenceLabel:"Referencias",
+    })
+
   const updateState = (event) => {
     const target = event.target
     setCurriculum({[target.name]:target.value,...curriculum})
   }
+
   return (
     <>
       <Grid
@@ -106,7 +116,7 @@ export const EditCurriculum = () => {
                   height: 1,
                 }}
               />
-              <EditableTitleText name="skillLabel" title={"Mis habilidades"} updateState={updateState}/>
+              <EditableTitleText name="skillLabel" title={curriculum.skillLabel} updateState={updateState}/>
               <SkillsPage curriculumId={curriculumId}/>
               <hr
                 style={{
@@ -117,6 +127,7 @@ export const EditCurriculum = () => {
                   height: 1,
                 }}
               />
+              <EditableTitleText name="laboralExperienceLabel" title={curriculum.laboralExperienceLabel} updateState={updateState}/>
               <LaboralExperiencesPage curriculumId={curriculumId} />
               <hr
                 style={{
@@ -127,6 +138,7 @@ export const EditCurriculum = () => {
                   height: 1,
                 }}
               />
+              <EditableTitleText name="academicEducationLabel" title={curriculum.academicEducationLabel} updateState={updateState}/>
               <AcademicEducationsPage curriculumId={curriculumId} />
               <hr
                 style={{
@@ -137,6 +149,7 @@ export const EditCurriculum = () => {
                   height: 1,
                 }}
               />
+              <EditableTitleText name="technicalEducationLabel" title={curriculum.technicalEducationLabel} updateState={updateState}/>
               <TechnicalEducationsPage curriculumId={curriculumId} />
               <hr
                 style={{
@@ -147,6 +160,7 @@ export const EditCurriculum = () => {
                   height: 1,
                 }}
               />
+              <EditableTitleText name="publicationLabel" title={curriculum.publicationLabel} updateState={updateState}/>
               <PublicationsPage curriculumId={curriculumId} />
               <hr
                 style={{
@@ -157,6 +171,7 @@ export const EditCurriculum = () => {
                   height: 1,
                 }}
               />
+              <EditableTitleText name="referenceLabel" title={curriculum.referenceLabel} updateState={updateState}/>
               <ReferencesPage curriculumId={curriculumId} />
 
               <hr
