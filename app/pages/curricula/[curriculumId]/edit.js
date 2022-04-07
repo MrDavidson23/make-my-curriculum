@@ -1,5 +1,5 @@
 import { Suspense } from "react"
-import { Head, Link, useRouter, useQuery, useMutation, useParam, Routes } from "blitz"
+import { Head, Link, useRouter, useQuery, useMutation, useParam, Routes, useSession } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getCurriculum from "app/curricula/queries/getCurriculum"
 import updateCurriculum from "app/curricula/mutations/updateCurriculum"
@@ -44,12 +44,11 @@ export const EditCurriculum = () => {
         <Grid item xs={12}>
           {currentUser && (
             <div>
-
-            <p>
-              <Link href={Routes.PDFViewPage({ curriculumId: curriculumId })}>
-                <Button variant="outlined">Generar PDF</Button>
-              </Link>
-            </p>
+              <p>
+                <Link href={Routes.PDFViewPage({ curriculumId: curriculumId })}>
+                  <Button variant="outlined">Generar PDF</Button>
+                </Link>
+              </p>
 
               <h1>Editar el curriculum: {curriculum.name}</h1>
 
@@ -176,7 +175,6 @@ export const EditCurriculum = () => {
 const EditCurriculumPage = () => {
   return (
     <div>
-
       <Suspense fallback={<div>Loading...</div>}>
         <EditCurriculum />
       </Suspense>
@@ -193,5 +191,8 @@ const EditCurriculumPage = () => {
 EditCurriculumPage.authenticate = true
 
 EditCurriculumPage.getLayout = (page) => <Layout>{page}</Layout>
+
+// EditCurriculumPage.redirectAuthenticatedTo = ({ session }) =>
+//   session.role === "admin" ? "/admin" : Routes.Home()
 
 export default EditCurriculumPage
