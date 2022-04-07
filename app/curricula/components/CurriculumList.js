@@ -3,9 +3,10 @@ import { Routes, useRouter, useMutation } from "blitz"
 import deleteCurriculum from "app/curricula/mutations/deleteCurriculum"
 import { Grid } from "@mui/material"
 
-const CurriculumList = ({ curriculumns }) => {
+const CurriculumList = ({ curriculumns, ctx }) => {
   const router = useRouter()
   const [deleteCurriculumMutation] = useMutation(deleteCurriculum)
+
   return (
     <>
       <Grid
@@ -15,7 +16,6 @@ const CurriculumList = ({ curriculumns }) => {
         textAlign={"center"}
         justifyContent={"center"}
         sx={{ mx: "auto", width: "100%" }}
-        //columnSpacing={{ xs: 1, sm: 2, md: 3 }}
       >
         {curriculumns.map((curriculum) => (
           <Grid key={curriculum.id} item>
@@ -28,11 +28,12 @@ const CurriculumList = ({ curriculumns }) => {
                 router.push(Routes.EditCurriculumPage({ curriculumId: curriculum.id }))
               }}
               handleOnDelete={async () => {
+                console.log(curriculum.id)
                 if (window.confirm("This will be deleted")) {
                   await deleteCurriculumMutation({
                     id: curriculum.id,
                   })
-                  router.push(Routes.CurriculaPage())
+                  router.reload()
                 }
               }}
             />
