@@ -1,5 +1,5 @@
 /** @type {import('next').NextConfig} */
-// tsconfig-paths/register
+
 import { sessionMiddleware, simpleRolesIsAuthorized } from "blitz"
 const withPWA = require("next-pwa")
 const runtimeCaching = require("next-pwa/cache")
