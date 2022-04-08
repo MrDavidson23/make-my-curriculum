@@ -36,9 +36,6 @@ const CurriculumList = ({ curriculumns, ctx }) => {
                   router.reload()
                 }
               }}
-              handleOnClick={() => {
-                router.push(Routes.ShowCurriculumPage({ curriculumId: curriculum.id }))
-              }}
             />
           </Grid>
         ))}
