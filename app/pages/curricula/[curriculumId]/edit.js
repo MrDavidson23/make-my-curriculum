@@ -6,6 +6,7 @@ import updateCurriculum from "app/curricula/mutations/updateCurriculum"
 import { UpdateCurriculum } from "app/curricula/components/validations"
 import { CurriculumForm, FORM_ERROR } from "app/curricula/components/CurriculumForm"
 import { Button, Grid, Typography } from "@mui/material"
+import PDFViewPage from "./pdf-view"
 
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 
@@ -41,7 +42,7 @@ export const EditCurriculum = () => {
         justify={"center"}
         sx={{ mx: "auto", width: "100%" }}
       >
-        <Grid item xs={12}>
+        <Grid item xs={4}>
           {currentUser && (
             <div>
               <p>
@@ -51,8 +52,6 @@ export const EditCurriculum = () => {
               </p>
 
               <h1>Editar el curriculum: {curriculum.name}</h1>
-
-              {/*<pre>{JSON.stringify(curriculum, null, 2)}</pre>*/}
 
               <Typography variant="h6" gutterBottom>
                 {currentUser.name} {currentUser.lastName}
@@ -166,6 +165,18 @@ export const EditCurriculum = () => {
               </Head>
             </div>
           )}
+        </Grid>
+        <Grid item xs={8}>
+          <Grid container direction="row" justifyContent="center" alignItems="center">
+            <Grid item xs={12}>
+              <PDFViewPage />
+            </Grid>
+            <Grid item xs={12}>
+              <Typography variant="h6" gutterBottom>
+                Templates
+              </Typography>
+            </Grid>
+          </Grid>
         </Grid>
       </Grid>
     </>
