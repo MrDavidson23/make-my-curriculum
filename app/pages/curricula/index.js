@@ -30,9 +30,27 @@ export const CurriculaList = () => {
       },
     })
 
+  useEffect(() => {
+    console.log(curricula)
+  }, [curricula])
+
   return (
     <>
       <CurriculumList curriculumns={curricula} />
+
+      {/* <ul>
+        {curricula.map((curriculum) => (
+          <li key={curriculum.id}>
+            <Link
+              href={Routes.ShowCurriculumPage({
+                curriculumId: curriculum.id,
+              })}
+            >
+              <a>{curriculum.name}</a>
+            </Link>
+          </li>
+        ))}
+      </ul> */}
       <Grid item xs={12}>
         <Button disabled={page === 0} onClick={goToPreviousPage}>
           Previous
@@ -60,11 +78,10 @@ const CurriculaPage = () => {
         textAlign={"center"}
         justifyContent={"center"}
         sx={{ mx: "auto", width: "100%" }}
+        //columnSpacing={{ xs: 1, sm: 2, md: 3 }}
       >
-        <Grid item xs={12} justify="center" mt={3} mb={3}>
-          <Button variant="outlined" onClick={() => Router.push(Routes.NewCurriculumPage())}>
-            Crear Nuevo Curriculum
-          </Button>
+        <Grid item xs={12} justify="center">
+          <Button onClick={() => Router.push(Routes.NewCurriculumPage())}>Crear Curriculum</Button>
         </Grid>
 
         <Suspense fallback={<div>Loading...</div>}>
