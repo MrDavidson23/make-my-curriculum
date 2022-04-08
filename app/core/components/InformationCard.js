@@ -1,13 +1,4 @@
-import {
-  Box,
-  Paper,
-  Card,
-  CardContent,
-  Typography,
-  CardActions,
-  IconButton,
-  Grid,
-} from "@mui/material"
+import { Box, Paper, Card, CardContent, Typography, CardActions, IconButton } from "@mui/material"
 import CreateIcon from "@mui/icons-material/Create"
 import DeleteIcon from "@mui/icons-material/Delete"
 
@@ -18,7 +9,6 @@ const InformationCard = ({
   secondText,
   handleOnEdit,
   handleOnDelete,
-  handleOnClick,
 }) => {
   return (
     <Box
@@ -30,7 +20,6 @@ const InformationCard = ({
           m: 1,
         },
       }}
-      onClick={handleOnClick}
     >
       <Paper elevation={3}>
         <Card sx={{ minWidth: 275 }}>
@@ -49,18 +38,12 @@ const InformationCard = ({
             </Typography>
           </CardContent>
           <CardActions>
-            <Grid container direction="row" justifyContent="center" alignItems="center">
-              <Grid item>
-                <IconButton color="primary" component="span" onClick={handleOnEdit}>
-                  <CreateIcon />
-                </IconButton>
-              </Grid>
-              <Grid item>
-                <IconButton color="primary" component="span" onClick={handleOnDelete}>
-                  <DeleteIcon />
-                </IconButton>
-              </Grid>
-            </Grid>
+            <IconButton color="primary" component="span" onClick={handleOnEdit}>
+              <CreateIcon />
+            </IconButton>
+            <IconButton color="primary" component="span" onClick={handleOnDelete}>
+              <DeleteIcon />
+            </IconButton>
           </CardActions>
         </Card>
       </Paper>
