@@ -1,5 +1,12 @@
 import { sessionMiddleware, simpleRolesIsAuthorized } from "blitz"
-const config = {
+const withPWA = require("next-pwa")
+const runtimeCaching = require("next-pwa/cache")
+
+const config = withPWA({
+  pwa: {
+    dest: "public",
+    runtimeCaching,
+  },
   middleware: [
     sessionMiddleware({
       cookiePrefix: "makeMyCurriculum",
@@ -25,5 +32,5 @@ const config = {
       },
     ]
   },
-}
+})
 module.exports = config
