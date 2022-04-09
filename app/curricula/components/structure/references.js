@@ -13,9 +13,9 @@ const References = (props) => {
     styles = {...styles, ...props.styles}
     return (
         <>
-        { props.references && (
+        { props.references.length > 0  && (
             <View>
-            <Text style={styles.title}>Referencias</Text>
+            <Text style={styles.title}>{props.label}</Text>
                 <View style={styles.text}>                 
                 {props.references.map((reference) => (
                     <>

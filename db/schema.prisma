@@ -123,6 +123,13 @@ model Curriculum {
   template   Template @relation(fields: [templateId], references: [id])
   templateId Int
 
+  skillLabel              String @default("Habilidades")
+  laboralExperienceLabel  String @default("Experiencia Laboral")
+  academicEducationLabel  String @default("Educación Académica")
+  technicalEducationLabel String @default("Educación Técnica")
+  publicationLabel        String @default("Publicaciones")
+  referenceLabel          String @default("Referencias")
+
   references          Reference[]
   publications        Publication[]
   technicalEducations TechnicalEducation[]

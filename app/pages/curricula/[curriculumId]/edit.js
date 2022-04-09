@@ -21,7 +21,7 @@ import { EditableTitleText } from "app/core/components/EditableTitleText"
 export const EditCurriculum = () => {
   const router = useRouter()
   const curriculumId = useParam("curriculumId", "number")
-  const [curr, { setQueryData }] = useQuery(
+  const [curriculum, { setQueryData }] = useQuery(
     getCurriculum,
     {
       id: curriculumId,
@@ -33,19 +33,26 @@ export const EditCurriculum = () => {
   )
   const [updateCurriculumMutation] = useMutation(updateCurriculum)
   const currentUser = useCurrentUser()
-  const [curriculum, setCurriculum] = useState(
-    {...curr,
-      skillLabel:"Habilidades",
-      laboralExperienceLabel:"Experiencia Laboral",
-      academicEducationLabel:"Educación Académica",
-      technicalEducationLabel:"Educación Técnica",
-      publicationLabel:"Publicaciones",
-      referenceLabel:"Referencias",
-    })
+  const {
+    skillLabel,
+    laboralExperienceLabel,
+    academicEducationLabel,
+    technicalEducationLabel,
+    publicationLabel,
+    referenceLabel
+  } = curriculum  
+  const [labels, setLabels] = useState({
+    skillLabel,
+    laboralExperienceLabel,
+    academicEducationLabel,
+    technicalEducationLabel,
+    publicationLabel,
+    referenceLabel
+  })
 
   const updateState = (event) => {
     const target = event.target
-    setCurriculum({[target.name]:target.value,...curriculum})
+    setLabels({...labels, [target.name]:target.value})
   }
 
   return (
@@ -87,11 +94,12 @@ export const EditCurriculum = () => {
                 //         then import and use it here
                 schema={UpdateCurriculum}
                 initialValues={curriculum}
-                onSubmit={async (values) => {
+                onSubmit={async (values) => {  
+                const newValues = {...values,...labels}       
                   try {
                     const updated = await updateCurriculumMutation({
                       id: curriculum.id,
-                      ...values,
+                      ...newValues,
                     })
                     await setQueryData(updated)
                     router.push(
