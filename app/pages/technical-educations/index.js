@@ -80,14 +80,6 @@ export const TechnicalEducationsList = (props) => {
 const TechnicalEducationsPage = (props) => {
   return (
     <>
-      <Head>
-        <title>TechnicalEducations</title>
-      </Head>
-
-      <Typography variant="h6" component="div" gutterBottom>
-        Educación Técnica
-      </Typography>
-
       <div>
         <p>
           <Link href={Routes.NewTechnicalEducationPage({ curriculumId: props.curriculumId })}>

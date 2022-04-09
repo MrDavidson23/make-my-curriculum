@@ -76,14 +76,6 @@ export const PublicationsList = (props) => {
 const PublicationsPage = (props) => {
   return (
     <>
-      <Head>
-        <title>Publications</title>
-      </Head>
-
-      <Typography variant="h6" component="div" gutterBottom>
-        Mis publicaciones
-      </Typography>
-
       <div>
         <p>
           <Link href={Routes.NewPublicationPage({ curriculumId: props.curriculumId })}>

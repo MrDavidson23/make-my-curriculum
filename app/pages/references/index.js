@@ -77,14 +77,6 @@ export const ReferencesList = (props) => {
 const ReferencesPage = (props) => {
   return (
     <>
-      <Head>
-        <title>References</title>
-      </Head>
-
-      <Typography variant="h6" component="div" gutterBottom>
-        Referencias
-      </Typography>
-
       <div>
         <p>
           <Button
