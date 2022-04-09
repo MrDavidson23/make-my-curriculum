@@ -56,6 +56,15 @@ export const EditCurriculum = () => {
     setLabels({...labels, [target.name]:target.value})
   }
 
+  const style = {
+    hr: {
+      marginTop: "3rem",
+      color: "black",
+      backgroundColor: "black",
+      height: 1,
+    }
+  }
+
   return (
     <>
       <Grid
@@ -69,6 +78,9 @@ export const EditCurriculum = () => {
         <Grid item xs={4}>
           {currentUser && (
             <div>
+              <Head>
+                <title>Edit Curriculum {curriculum.name}</title>
+              </Head>
               <p>
                 <Link href={Routes.PDFViewPage({ curriculumId: curriculumId })}>
                   <Button variant="outlined">Generar PDF</Button>
@@ -92,7 +104,7 @@ export const EditCurriculum = () => {
                 //  - Tip: extract mutation's schema into a shared `validations.ts` file and
                 //         then import and use it here
                 schema={UpdateCurriculum}
-                initialValues={curriculum}
+                initialValues={{...curriculum,...labels}}
                 onSubmit={async (values) => {  
                 const newValues = {...values,...labels}       
                   try {
@@ -113,87 +125,26 @@ export const EditCurriculum = () => {
                     }
                   }
                 }}
-              />
-              <hr
-                style={{
-                  marginTop: "3rem",
-
-                  color: "black",
-                  backgroundColor: "black",
-                  height: 1,
-                }}
-              />
+                />
+              <hr style={style.hr}/>
               <EditableTitleText name="skillLabel" title={curriculum.skillLabel} updateState={updateState}/>
               <SkillsPage curriculumId={curriculumId}/>
-              <hr
-                style={{
-                  marginTop: "3rem",
-
-                  color: "black",
-                  backgroundColor: "black",
-                  height: 1,
-                }}
-              />
+              <hr style={style.hr}/>
               <EditableTitleText name="laboralExperienceLabel" title={curriculum.laboralExperienceLabel} updateState={updateState}/>
               <LaboralExperiencesPage curriculumId={curriculumId} />
-              <hr
-                style={{
-                  marginTop: "3rem",
-
-                  color: "black",
-                  backgroundColor: "black",
-                  height: 1,
-                }}
-              />
+              <hr style={style.hr}/>
               <EditableTitleText name="academicEducationLabel" title={curriculum.academicEducationLabel} updateState={updateState}/>
               <AcademicEducationsPage curriculumId={curriculumId} />
-              <hr
-                style={{
-                  marginTop: "3rem",
-
-                  color: "black",
-                  backgroundColor: "black",
-                  height: 1,
-                }}
-              />
+              <hr style={style.hr}/>
               <EditableTitleText name="technicalEducationLabel" title={curriculum.technicalEducationLabel} updateState={updateState}/>
               <TechnicalEducationsPage curriculumId={curriculumId} />
-              <hr
-                style={{
-                  marginTop: "3rem",
-
-                  color: "black",
-                  backgroundColor: "black",
-                  height: 1,
-                }}
-              />
+              <hr style={style.hr}/>
               <EditableTitleText name="publicationLabel" title={curriculum.publicationLabel} updateState={updateState}/>
               <PublicationsPage curriculumId={curriculumId} />
-              <hr
-                style={{
-                  marginTop: "3rem",
-
-                  color: "black",
-                  backgroundColor: "black",
-                  height: 1,
-                }}
-              />
+              <hr style={style.hr}/>
               <EditableTitleText name="referenceLabel" title={curriculum.referenceLabel} updateState={updateState}/>
               <ReferencesPage curriculumId={curriculumId} />
-
-              <hr
-                style={{
-                  marginTop: "3rem",
-
-                  color: "black",
-                  backgroundColor: "black",
-                  height: 1,
-                }}
-              />
-
-              <Head>
-                <title>Edit Curriculum {curriculum.name}</title>
-              </Head>
+              <hr style={style.hr}/>
             </div>
           )}
         </Grid>
