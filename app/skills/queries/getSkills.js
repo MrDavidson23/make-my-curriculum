@@ -18,6 +18,7 @@ export default resolver.pipe(
         }),
       query: (paginateArgs) => db.skill.findMany({ ...paginateArgs, where, orderBy }),
     })
+    console.log("skills", skills)
     return {
       skills,
       nextPage,

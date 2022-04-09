@@ -5,7 +5,8 @@ import getUser from "app/users/queries/getUser"
 import { UserForm } from "app/users/components/UserForm"
 export const EditUser = () => {
   const userId = useParam("userId", "number")
-  const [user, { setQueryData }] = useQuery(
+
+  const [user, { isLoading }] = useQuery(
     getUser,
     {
       id: userId,
@@ -15,13 +16,14 @@ export const EditUser = () => {
       staleTime: Infinity,
     }
   )
+  console.log(user)
+
   return (
     <>
       <Head>
         <title>Edit User</title>
       </Head>
-
-      <UserForm submitText="Update User" initialValues={user} />
+      {isLoading ? <p>Loading...</p> : <UserForm submitText="Update User" initialValues={user} />}
     </>
   )
 }
@@ -39,5 +41,7 @@ const EditUserPage = () => {
 EditUserPage.authenticate = true
 
 EditUserPage.getLayout = (page) => <Layout>{page}</Layout>
+
+EditUserPage.suppressFirstRenderFlicker = true
 
 export default EditUserPage

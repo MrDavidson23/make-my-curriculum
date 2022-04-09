@@ -24,10 +24,10 @@ export const UserForm = (props) => {
             submitText="Guardar"
             schema={UpdateUser}
             initialValues={{
-              name: initialValues.name,
-              lastName: initialValues.lastName,
-              email: initialValues.email,
-              phone: initialValues.phone,
+              name: initialValues?.name,
+              lastName: initialValues?.lastName,
+              email: initialValues?.email,
+              phone: initialValues?.phone,
             }}
             onSubmit={async (values) => {
               try {

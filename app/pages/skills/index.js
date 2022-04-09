@@ -1,5 +1,5 @@
 import { Suspense } from "react"
-import { Head, Link, usePaginatedQuery, useRouter, Routes, useMutation } from "blitz"
+import { Head, Link, usePaginatedQuery, useRouter, Routes, useMutation, useParam } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getSkills from "app/skills/queries/getSkills"
 import deleteSkill from "app/skills/mutations/deleteSkill"
@@ -7,12 +7,14 @@ import InformationCard from "app/core/components/InformationCard"
 import { Grid, Button, Chip, Typography } from "@mui/material"
 const ITEMS_PER_PAGE = 100
 export const SkillsList = (props) => {
+  const curriculumId = useParam("curriculumId", "number")
   const router = useRouter()
   const page = Number(router.query.page) || 0
   const [deleteSkillMutation] = useMutation(deleteSkill)
-  const [{ skills, hasMore }] = usePaginatedQuery(getSkills, {
+
+  const [{ skills, hasMore }, { isLoading }] = usePaginatedQuery(getSkills, {
     where: {
-      curriculumId: parseInt(props.curriculumId),
+      curriculumId: 2,
     },
     orderBy: {
       id: "asc",
@@ -20,7 +22,7 @@ export const SkillsList = (props) => {
     skip: ITEMS_PER_PAGE * page,
     take: ITEMS_PER_PAGE,
   })
-
+  console.log("ola k ace 3")
   const goToPreviousPage = () =>
     router.push({
       query: {
@@ -45,25 +47,26 @@ export const SkillsList = (props) => {
         justifyContent={"center"}
         sx={{ mx: "auto", width: "100%" }}
       >
-        {skills.map((skill) => (
-          <Grid item key={skill.id}>
-            <Chip
-              label={skill.description}
-              onClick={() => {
-                router.push(Routes.EditSkillPage({ skillId: skill.id }))
-              }}
-              onDelete={async () => {
-                if (window.confirm("This will be deleted")) {
-                  await deleteSkillMutation({
-                    id: skill.id,
-                  })
+        {isLoading &&
+          skills?.map((skill) => (
+            <Grid item key={skill.id}>
+              <Chip
+                label={skill.description}
+                onClick={() => {
+                  router.push(Routes.EditSkillPage({ skillId: skill.id }))
+                }}
+                onDelete={async () => {
+                  if (window.confirm("This will be deleted")) {
+                    await deleteSkillMutation({
+                      id: skill.id,
+                    })
 
-                  router.push(Routes.EditCurriculumPage({ curriculumId: skill.curriculumId }))
-                }
-              }}
-            />
-          </Grid>
-        ))}
+                    router.push(Routes.EditCurriculumPage({ curriculumId: skill.curriculumId }))
+                  }
+                }}
+              />
+            </Grid>
+          ))}
         <Grid item xs={12} justify="center"></Grid>
       </Grid>
     </div>
@@ -99,5 +102,7 @@ const SkillsPage = (props) => {
 SkillsPage.authenticate = true
 
 SkillsPage.getLayout = (page) => <Layout>{page}</Layout>
+
+SkillsPage.suppressFirstRenderFlicker = true
 
 export default SkillsPage

@@ -19,18 +19,20 @@ import LaboralExperiencesPage from "app/pages/laboral-experiences/index"
 export const EditCurriculum = () => {
   const router = useRouter()
   const curriculumId = useParam("curriculumId", "number")
-  const [curriculum, { setQueryData }] = useQuery(
+
+  const [curriculum, { setQueryData, isLoading }] = useQuery(
     getCurriculum,
     {
       id: curriculumId,
     },
     {
       // This ensures the query never refreshes and overwrites the form data while the user is editing.
-      staleTime: Infinity,
+      //staleTime: Infinity,
     }
   )
   const [updateCurriculumMutation] = useMutation(updateCurriculum)
   const currentUser = useCurrentUser()
+  console.log(curriculum)
   return (
     <>
       <Grid
@@ -42,14 +44,13 @@ export const EditCurriculum = () => {
         sx={{ mx: "auto", width: "100%" }}
       >
         <Grid item xs={12}>
-          {currentUser && (
+          {currentUser && !isLoading && curriculum && (
             <div>
-
-            <p>
-              <Link href={Routes.PDFViewPage({ curriculumId: curriculumId })}>
-                <Button variant="outlined">Generar PDF</Button>
-              </Link>
-            </p>
+              <p>
+                <Link href={Routes.PDFViewPage({ curriculumId: curriculumId })}>
+                  <Button variant="outlined">Generar PDF</Button>
+                </Link>
+              </p>
 
               <h1>Editar el curriculum: {curriculum.name}</h1>
 
@@ -91,66 +92,6 @@ export const EditCurriculum = () => {
                   }
                 }}
               />
-              <hr
-                style={{
-                  marginTop: "3rem",
-
-                  color: "black",
-                  backgroundColor: "black",
-                  height: 1,
-                }}
-              />
-              <SkillsPage curriculumId={curriculumId} />
-              <hr
-                style={{
-                  marginTop: "3rem",
-
-                  color: "black",
-                  backgroundColor: "black",
-                  height: 1,
-                }}
-              />
-              <LaboralExperiencesPage curriculumId={curriculumId} />
-              <hr
-                style={{
-                  marginTop: "3rem",
-
-                  color: "black",
-                  backgroundColor: "black",
-                  height: 1,
-                }}
-              />
-              <AcademicEducationsPage curriculumId={curriculumId} />
-              <hr
-                style={{
-                  marginTop: "3rem",
-
-                  color: "black",
-                  backgroundColor: "black",
-                  height: 1,
-                }}
-              />
-              <TechnicalEducationsPage curriculumId={curriculumId} />
-              <hr
-                style={{
-                  marginTop: "3rem",
-
-                  color: "black",
-                  backgroundColor: "black",
-                  height: 1,
-                }}
-              />
-              <PublicationsPage curriculumId={curriculumId} />
-              <hr
-                style={{
-                  marginTop: "3rem",
-
-                  color: "black",
-                  backgroundColor: "black",
-                  height: 1,
-                }}
-              />
-              <ReferencesPage curriculumId={curriculumId} />
 
               <hr
                 style={{
@@ -167,6 +108,67 @@ export const EditCurriculum = () => {
               </Head>
             </div>
           )}
+          <SkillsPage curriculumId={curriculumId} />
+          <hr
+            style={{
+              marginTop: "3rem",
+
+              color: "black",
+              backgroundColor: "black",
+              height: 1,
+            }}
+          />
+          <LaboralExperiencesPage curriculumId={curriculumId} />
+          <hr
+            style={{
+              marginTop: "3rem",
+
+              color: "black",
+              backgroundColor: "black",
+              height: 1,
+            }}
+          />
+          <AcademicEducationsPage curriculumId={curriculumId} />
+          <hr
+            style={{
+              marginTop: "3rem",
+
+              color: "black",
+              backgroundColor: "black",
+              height: 1,
+            }}
+          />
+          <TechnicalEducationsPage curriculumId={curriculumId} />
+          <hr
+            style={{
+              marginTop: "3rem",
+
+              color: "black",
+              backgroundColor: "black",
+              height: 1,
+            }}
+          />
+          <PublicationsPage curriculumId={curriculumId} />
+          <hr
+            style={{
+              marginTop: "3rem",
+
+              color: "black",
+              backgroundColor: "black",
+              height: 1,
+            }}
+          />
+          <ReferencesPage curriculumId={curriculumId} />
+
+          <hr
+            style={{
+              marginTop: "3rem",
+
+              color: "black",
+              backgroundColor: "black",
+              height: 1,
+            }}
+          />
         </Grid>
       </Grid>
     </>
@@ -176,7 +178,6 @@ export const EditCurriculum = () => {
 const EditCurriculumPage = () => {
   return (
     <div>
-
       <Suspense fallback={<div>Loading...</div>}>
         <EditCurriculum />
       </Suspense>
@@ -193,5 +194,7 @@ const EditCurriculumPage = () => {
 EditCurriculumPage.authenticate = true
 
 EditCurriculumPage.getLayout = (page) => <Layout>{page}</Layout>
+
+EditCurriculumPage.suppressFirstRenderFlicker = true
 
 export default EditCurriculumPage

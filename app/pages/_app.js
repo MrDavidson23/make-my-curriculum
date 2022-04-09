@@ -4,6 +4,7 @@ import {
   AuthenticationError,
   AuthorizationError,
   useQueryErrorResetBoundary,
+  queryClient,
 } from "blitz"
 import LoginForm from "app/auth/components/LoginForm"
 //para manejo de fechas
@@ -11,13 +12,35 @@ import { LocalizationProvider } from "@mui/lab"
 import AdapterDateFns from "@mui/lab/AdapterDateFns"
 //para manejo de fechas
 
+//para pwa
+import { persistQueryClient } from "react-query/persistQueryClient-experimental"
+import { createWebStoragePersistor } from "react-query/createWebStoragePersistor-experimental"
+//para pwa
+
 //css global
 import "../styles.css"
-import { Suspense } from "react"
+import { Suspense, useEffect } from "react"
 //css global
 
 export default function App({ Component, pageProps }) {
   const getLayout = Component.getLayout || ((page) => page)
+
+  useEffect(() => {
+    //para pwa
+
+    queryClient.setDefaultOptions({
+      queries: {
+        cacheTime: 1000 * 60 * 60 * 24, // 24 hours
+      },
+    })
+
+    const localStoragePersistor = createWebStoragePersistor({ storage: window.localStorage })
+
+    persistQueryClient({
+      queryClient,
+      persistor: localStoragePersistor,
+    })
+  }, [])
 
   return (
     <ErrorBoundary

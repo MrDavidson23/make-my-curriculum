@@ -96,4 +96,6 @@ CurriculaPage.authenticate = true
 
 CurriculaPage.getLayout = (page) => <Layout>{page}</Layout>
 
+CurriculaPage.suppressFirstRenderFlicker = true
+
 export default CurriculaPage
