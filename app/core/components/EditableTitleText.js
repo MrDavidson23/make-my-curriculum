@@ -9,6 +9,7 @@ export const EditableTitleText = (props) => {
             <TextField {...textProps} variant="standard"
             label={title} 
             value={text}
+            InputProps={{ style: { fontSize: 20, color: "#3a298f" } }}
             onChange={(event) => {
                 setText(event.target.value)
                 updateState(event)
