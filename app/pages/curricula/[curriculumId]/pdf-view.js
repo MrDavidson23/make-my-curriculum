@@ -63,16 +63,9 @@ const styles = StyleSheet.create({
 const GetInfo = () => {
   const currentUser = useCurrentUser()
   const curriculumId = useParam("curriculumId", "number")
-  const [curriculum] = useQuery(
-    getCurriculum,
-    {
-      id: curriculumId,
-    },
-    {
-      // This ensures the query never refreshes and overwrites the form data while the user is editing.
-      staleTime: Infinity,
-    }
-  )
+  const [curriculum] = useQuery(getCurriculum, {
+    id: curriculumId,
+  })
   const { role, userId, ...user } = currentUser
   const { name, ...info } = curriculum
   return { ...info, ...user }
