@@ -17,7 +17,9 @@ export const LoginForm = (props) => {
       >
         <Grid item xs={12}>
           <h1>Login</h1>
+          <a href="/api/auth/twitter">Log In With Twitter</a>
         </Grid>
+
         <Grid item xs={12}>
           <Form
             submitText="Login"
