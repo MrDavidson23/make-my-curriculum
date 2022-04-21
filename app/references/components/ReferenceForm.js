@@ -21,9 +21,6 @@ import {
 import { Form } from "app/core/components/Form"
 import { LabeledTextField } from "app/core/components/LabeledTextField"
 
-import { DatePickerField } from "app/core/components/DatePickerField"
-
-import { SelectField } from "app/core/components/SelectField"
 export { FORM_ERROR } from "app/core/components/Form"
 export function ReferenceForm(props) {
   return (
