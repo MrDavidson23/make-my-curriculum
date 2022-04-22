@@ -46,7 +46,7 @@ const NewReferencePage = () => {
             //  - Tip: extract mutation's schema into a shared `validations.ts` file and
             //         then import and use it here
             schema={CreateReferenceValidation} ////////////////////////////
-            initialValues={{ curriculumId: parseInt(curriculumId) }}
+            //initialValues={{ curriculumId: parseInt(curriculumId) }}
             onSubmit={async (values) => {
               try {
                 const reference = await createReferenceMutation(values)

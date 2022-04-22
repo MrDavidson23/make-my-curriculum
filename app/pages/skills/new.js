@@ -29,7 +29,7 @@ const NewSkillPage = () => {
             //  - Tip: extract mutation's schema into a shared `validations.ts` file and
             //         then import and use it here
             schema={CreateSkill}
-            initialValues={{ curriculumId: parseInt(curriculumId) }}
+            //initialValues={{ curriculumId: parseInt(curriculumId) }}
             onSubmit={async (values) => {
               try {
                 await createSkillMutation(values)
