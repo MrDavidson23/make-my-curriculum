@@ -34,6 +34,13 @@ model User {
   birthDate  DateTime?
   Curriculum Curriculum[]
 
+  references          Reference[]
+  publications        Publication[]
+  technicalEducations TechnicalEducation[]
+  academicEducations  AcademicEducation[]
+  laboralExperiences  LaboralExperience[]
+  skills              Skill[]
+
 }
 
 model Session {
@@ -87,6 +94,9 @@ model Skill {
 
   curriculum   Curriculum @relation(fields: [curriculumId], references: [id])
   curriculumId Int
+
+  user   User @relation(fields: [userId], references: [id])
+  userId Int
 }
 
 model Language {
@@ -137,6 +147,9 @@ model Reference {
 
   curriculum   Curriculum @relation(fields: [curriculumId], references: [id])
   curriculumId Int
+
+  user   User @relation(fields: [userId], references: [id])
+  userId Int
 }
 
 model Publication {
@@ -149,6 +162,9 @@ model Publication {
 
   curriculum   Curriculum @relation(fields: [curriculumId], references: [id])
   curriculumId Int
+
+  user   User @relation(fields: [userId], references: [id])
+  userId Int
 }
 
 model TechnicalEducation {
@@ -160,6 +176,9 @@ model TechnicalEducation {
 
   curriculum   Curriculum @relation(fields: [curriculumId], references: [id])
   curriculumId Int
+
+  user   User @relation(fields: [userId], references: [id])
+  userId Int
 }
 
 model AcademicEducation {
@@ -172,6 +191,9 @@ model AcademicEducation {
 
   curriculum   Curriculum @relation(fields: [curriculumId], references: [id])
   curriculumId Int
+
+  user   User @relation(fields: [userId], references: [id])
+  userId Int
 }
 
 model LaboralExperience {
@@ -185,4 +207,7 @@ model LaboralExperience {
 
   curriculum   Curriculum @relation(fields: [curriculumId], references: [id])
   curriculumId Int
+
+  user   User @relation(fields: [userId], references: [id])
+  userId Int
 }
