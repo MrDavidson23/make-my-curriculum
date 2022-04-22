@@ -80,14 +80,10 @@ model Phone {
   phoneNumber String
 }
 
-model IdentificationType {
-  id   Int    @id @default(autoincrement())
-  type String
-}
-
 model Skill {
   id          Int    @id @default(autoincrement())
   description String
+  rating      Int
 
   curriculum   Curriculum @relation(fields: [curriculumId], references: [id])
   curriculumId Int
@@ -185,6 +181,7 @@ model LaboralExperience {
   startYear   DateTime
   finishYear  DateTime
   institution String
+  description String
 
   curriculum   Curriculum @relation(fields: [curriculumId], references: [id])
   curriculumId Int
