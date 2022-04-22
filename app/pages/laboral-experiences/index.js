@@ -56,6 +56,7 @@ export const LaboralExperiencesList = (props) => {
                 "  -  " +
                 laboralExperience.finishYear.toLocaleDateString()
               }
+              thirdText={laboralExperience.description}
               handleOnEdit={() => {
                 router.push(
                   Routes.EditLaboralExperiencePage({ laboralExperienceId: laboralExperience.id })
