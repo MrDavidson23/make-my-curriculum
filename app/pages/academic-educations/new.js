@@ -33,7 +33,7 @@ const NewAcademicEducationPage = () => {
             //  - Tip: extract mutation's schema into a shared `validations.ts` file and
             //         then import and use it here
             schema={CreateAcademicEducation}
-            initialValues={{ curriculumId: parseInt(curriculumId) }}
+            //initialValues={{ curriculumId: parseInt(curriculumId) }}
             onSubmit={async (values) => {
               try {
                 await createAcademicEducationMutation(values)

@@ -32,7 +32,7 @@ const NewLaboralExperiencePage = () => {
             //  - Tip: extract mutation's schema into a shared `validations.ts` file and
             //         then import and use it here
             schema={CreateLaboralExperience}
-            initialValues={{ curriculumId: parseInt(curriculumId) }}
+            //initialValues={{ curriculumId: parseInt(curriculumId) }}
             onSubmit={async (values) => {
               try {
                 await createLaboralExperienceMutation(values)
