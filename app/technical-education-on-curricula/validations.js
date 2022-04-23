@@ -11,6 +11,4 @@ export const UpdateTechnicalEducation = z.object(model).extend({
   id: z.number(),
 })
 
-export const DeleteTechnicalEducation = z.object({
-  id: z.number(),
-})
+export const DeleteTechnicalEducation = z.object(model)

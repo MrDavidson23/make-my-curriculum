@@ -3,6 +3,7 @@ import { Head, Link, usePaginatedQuery, useRouter, Routes, useMutation } from "b
 import Layout from "app/core/layouts/Layout"
 import getTechnicalEducations from "app/technical-educations/queries/getTechnicalEducations"
 import deleteTechnicalEducation from "app/technical-educations/mutations/deleteTechnicalEducation"
+import deleteTechnicalEducationOnCurriculum from "app/technical-education-on-curricula/mutations/deleteTechnicalEducationOnCurriculum"
 import InformationCard from "app/core/components/InformationCard"
 import { Button, Grid, Typography } from "@mui/material"
 const ITEMS_PER_PAGE = 100
@@ -10,6 +11,9 @@ export const TechnicalEducationsList = (props) => {
   const router = useRouter()
   const page = Number(router.query.page) || 0
   const [deleteTechnicalEducationMutation] = useMutation(deleteTechnicalEducation)
+  const [deleteTechnicalEducationOnCurriculumMutation] = useMutation(
+    deleteTechnicalEducationOnCurriculum
+  )
   const filter =
     props.curriculumId === undefined
       ? {}
@@ -69,11 +73,18 @@ export const TechnicalEducationsList = (props) => {
               }}
               handleOnDelete={async () => {
                 if (window.confirm("This will be deleted")) {
-                  await deleteTechnicalEducationMutation({
-                    id: technicalEducation.id,
-                  })
-                  //this.forceUpdate()
-                  router.push(Routes.EditCurriculumPage())
+                  if (props.curriculumId !== undefined && props.curriculumId !== "") {
+                    await deleteTechnicalEducationOnCurriculumMutation({
+                      curriculumId: props.curriculumId,
+                      technicalEducationId: technicalEducation.id,
+                    })
+                    router.push(Routes.EditCurriculumPage({ curriculumId: props.curriculumId }))
+                  } else {
+                    await deleteTechnicalEducationMutation({
+                      id: technicalEducation.id,
+                    })
+                    router.push(Routes.TechnicalEducationsPage())
+                  }
                 }
               }}
             />

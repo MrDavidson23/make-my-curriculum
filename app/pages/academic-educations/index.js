@@ -3,6 +3,7 @@ import { Head, Link, usePaginatedQuery, useRouter, Routes, useMutation } from "b
 import Layout from "app/core/layouts/Layout"
 import getAcademicEducations from "app/academic-educations/queries/getAcademicEducations"
 import deleteAcademicEducation from "app/academic-educations/mutations/deleteAcademicEducation"
+import deleteAcademicEducationOnCurriculum from "app/academic-education-on-curricula/mutations/deleteAcademicEducationOnCurriculum"
 import InformationCard from "app/core/components/InformationCard"
 import { Button, Grid, Typography } from "@mui/material"
 const ITEMS_PER_PAGE = 100
@@ -10,6 +11,9 @@ export const AcademicEducationsList = (props) => {
   const router = useRouter()
   const page = Number(router.query.page) || 0
   const [deleteAcademicEducationMutation] = useMutation(deleteAcademicEducation)
+  const [deleteAcademicEducationOnCurriculumMutation] = useMutation(
+    deleteAcademicEducationOnCurriculum
+  )
   const filter =
     props.curriculumId === undefined
       ? {}
@@ -73,11 +77,18 @@ export const AcademicEducationsList = (props) => {
               }}
               handleOnDelete={async () => {
                 if (window.confirm("This will be deleted")) {
-                  await deleteAcademicEducationMutation({
-                    id: academicEducation.id,
-                  })
-                  //this.forceUpdate()
-                  router.push(Routes.EditCurriculumPage())
+                  if (props.curriculumId !== undefined && props.curriculumId !== "") {
+                    await deleteAcademicEducationOnCurriculumMutation({
+                      curriculumId: props.curriculumId,
+                      academicEducationId: academicEducation.id,
+                    })
+                    router.push(Routes.EditCurriculumPage({ curriculumId: props.curriculumId }))
+                  } else {
+                    await deleteAcademicEducationMutation({
+                      id: academicEducation.id,
+                    })
+                    router.push(Routes.AcademicEducationsPage())
+                  }
                 }
               }}
             />

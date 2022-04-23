@@ -5,11 +5,12 @@ import { DeleteReference } from "../validations"
 export default resolver.pipe(
   resolver.zod(DeleteReference),
   resolver.authorize(),
-  async ({ id }) => {
+  async ({ curriculumId, referenceId }) => {
     // TODO: in multi-tenant app, you must add validation to ensure correct tenant
     const referenceOnCurriculum = await db.referenceOnCurriculum.deleteMany({
       where: {
-        id,
+        curriculumId,
+        referenceId,
       },
     })
     return referenceOnCurriculum

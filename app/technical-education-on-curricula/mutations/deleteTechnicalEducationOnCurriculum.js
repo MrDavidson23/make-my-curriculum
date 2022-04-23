@@ -5,11 +5,12 @@ import { DeleteTechnicalEducation } from "../validations"
 export default resolver.pipe(
   resolver.zod(DeleteTechnicalEducation),
   resolver.authorize(),
-  async ({ id }) => {
+  async ({ curriculumId, technicalEducationId }) => {
     // TODO: in multi-tenant app, you must add validation to ensure correct tenant
     const technicalEducationOnCurriculum = await db.technicalEducationOnCurriculum.deleteMany({
       where: {
-        id,
+        curriculumId,
+        technicalEducationId,
       },
     })
     return technicalEducationOnCurriculum

@@ -11,6 +11,4 @@ export const UpdateReference = z.object(model).extend({
   id: z.number(),
 })
 
-export const DeleteReference = z.object({
-  id: z.number(),
-})
+export const DeleteReference = z.object(model)
