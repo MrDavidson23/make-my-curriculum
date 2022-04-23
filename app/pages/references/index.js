@@ -3,6 +3,7 @@ import { Head, Link, usePaginatedQuery, useRouter, Routes, useMutation, Router }
 import Layout from "app/core/layouts/Layout"
 import getReferences from "app/references/queries/getReferences"
 import deleteReference from "app/references/mutations/deleteReference"
+import deleteReferenceOnCurriculum from "app/reference-on-curricula/mutations/deleteReferenceOnCurriculum"
 import InformationCard from "app/core/components/InformationCard"
 import { Grid, button, Button, Typography } from "@mui/material"
 const ITEMS_PER_PAGE = 100
@@ -10,10 +11,21 @@ export const ReferencesList = (props) => {
   const router = useRouter()
   const page = Number(router.query.page) || 0
   const [deleteReferenceMutation] = useMutation(deleteReference)
+  const [deleteReferenceOnCurriculumMutation] = useMutation(deleteReferenceOnCurriculum)
+  const filter =
+    props.curriculumId === undefined
+      ? {}
+      : {
+          ReferenceOnCurriculum: {
+            some: {
+              curriculum: {
+                id: props.curriculumId,
+              },
+            },
+          },
+        }
   const [{ references, hasMore }] = usePaginatedQuery(getReferences, {
-    where: {
-      curriculumId: parseInt(props.curriculumId),
-    },
+    where: filter,
     orderBy: {
       id: "asc",
     },
@@ -58,11 +70,18 @@ export const ReferencesList = (props) => {
               }}
               handleOnDelete={async () => {
                 if (window.confirm("This will be deleted")) {
-                  await deleteReferenceMutation({
-                    id: reference.id,
-                  })
-                  //this.forceUpdate()
-                  router.push(Routes.EditCurriculumPage({ curriculumId: reference.curriculumId }))
+                  if (props.curriculumId !== undefined && props.curriculumId !== "") {
+                    await deleteReferenceOnCurriculumMutation({
+                      curriculumId: props.curriculumId,
+                      referenceId: reference.id,
+                    })
+                    router.push(Routes.EditCurriculumPage({ curriculumId: props.curriculumId }))
+                  } else {
+                    await deleteReferenceMutation({
+                      id: reference.id,
+                    })
+                    router.push(Routes.ReferencesPage())
+                  }
                 }
               }}
             />

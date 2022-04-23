@@ -1,6 +1,7 @@
 import { Link, useRouter, useMutation, useRouterQuery, Routes } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import createTechnicalEducation from "app/technical-educations/mutations/createTechnicalEducation"
+import createTechnicalEducationOnCurriculum from "app/technical-education-on-curricula/mutations/createTechnicalEducationOnCurriculum"
 import {
   TechnicalEducationForm,
   FORM_ERROR,
@@ -12,6 +13,9 @@ const NewTechnicalEducationPage = () => {
   const router = useRouter()
   const { curriculumId } = useRouterQuery()
   const [createTechnicalEducationMutation] = useMutation(createTechnicalEducation)
+  const [createTechnicalEducationOnCurriculumMutation] = useMutation(
+    createTechnicalEducationOnCurriculum
+  )
   return (
     <div>
       <Grid
@@ -35,8 +39,16 @@ const NewTechnicalEducationPage = () => {
             initialValues={{ curriculumId: parseInt(curriculumId) }}
             onSubmit={async (values) => {
               try {
-                await createTechnicalEducationMutation(values)
-                router.push(Routes.EditCurriculumPage({ curriculumId }))
+                const techObject = await createTechnicalEducationMutation(values)
+                if (curriculumId !== undefined && curriculumId !== "") {
+                  await createTechnicalEducationOnCurriculumMutation({
+                    curriculumId: parseInt(curriculumId),
+                    technicalEducationId: techObject.id,
+                  })
+                  router.push(Routes.EditCurriculumPage({ curriculumId }))
+                } else {
+                  router.push(Routes.TechnicalEducationsPage({ curriculumId }))
+                }
               } catch (error) {
                 console.error(error)
                 return {
