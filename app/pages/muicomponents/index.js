@@ -139,12 +139,8 @@ const MuiComponents = () => {
         subtitle={"Position"}
         firstText={"Fecha de Inicio"}
         secondText={"Ubicación"}
-        handleOnEdit={() => {
-          console.log("Edit")
-        }}
-        handleOnDelete={() => {
-          console.log("Delete")
-        }}
+        handleOnEdit={() => {}}
+        handleOnDelete={() => {}}
       />
     </Layout>
   )

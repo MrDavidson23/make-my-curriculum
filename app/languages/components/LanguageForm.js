@@ -5,6 +5,7 @@ export function LanguageForm(props) {
   return (
     <Form {...props}>
       <LabeledTextField name="language" label="Name" placeholder="Name" />
+      <LabeledTextField name="code" label="Code" placeholder="Code" />
     </Form>
   )
 }
