@@ -10,10 +10,20 @@ export const ReferencesList = (props) => {
   const router = useRouter()
   const page = Number(router.query.page) || 0
   const [deleteReferenceMutation] = useMutation(deleteReference)
+  const filter =
+    props.curriculumId === undefined
+      ? {}
+      : {
+          ReferenceOnCurriculum: {
+            some: {
+              curriculum: {
+                id: props.curriculumId,
+              },
+            },
+          },
+        }
   const [{ references, hasMore }] = usePaginatedQuery(getReferences, {
-    where: {
-      curriculumId: parseInt(props.curriculumId),
-    },
+    where: filter,
     orderBy: {
       id: "asc",
     },
@@ -62,7 +72,7 @@ export const ReferencesList = (props) => {
                     id: reference.id,
                   })
                   //this.forceUpdate()
-                  router.push(Routes.EditCurriculumPage({ curriculumId: reference.curriculumId }))
+                  router.push(Routes.EditCurriculumPage())
                 }
               }}
             />

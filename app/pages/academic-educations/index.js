@@ -10,10 +10,20 @@ export const AcademicEducationsList = (props) => {
   const router = useRouter()
   const page = Number(router.query.page) || 0
   const [deleteAcademicEducationMutation] = useMutation(deleteAcademicEducation)
+  const filter =
+    props.curriculumId === undefined
+      ? {}
+      : {
+          AcademicEducationOnCurriculum: {
+            some: {
+              curriculum: {
+                id: props.curriculumId,
+              },
+            },
+          },
+        }
   const [{ academicEducations, hasMore }] = usePaginatedQuery(getAcademicEducations, {
-    where: {
-      curriculumId: parseInt(props.curriculumId),
-    },
+    where: filter,
     orderBy: {
       id: "asc",
     },
@@ -67,9 +77,7 @@ export const AcademicEducationsList = (props) => {
                     id: academicEducation.id,
                   })
                   //this.forceUpdate()
-                  router.push(
-                    Routes.EditCurriculumPage({ curriculumId: academicEducation.curriculumId })
-                  )
+                  router.push(Routes.EditCurriculumPage())
                 }
               }}
             />

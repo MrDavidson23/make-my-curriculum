@@ -1,6 +1,7 @@
 import { Link, useRouter, useMutation, useRouterQuery, Routes } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import createLaboralExperience from "app/laboral-experiences/mutations/createLaboralExperience"
+import createLaboralExperienceOnCurriculum from "app/laboral-experience-on-curricula/mutations/createLaboralExperienceOnCurriculum"
 import {
   LaboralExperienceForm,
   FORM_ERROR,
@@ -12,6 +13,9 @@ const NewLaboralExperiencePage = () => {
   const router = useRouter()
   const { curriculumId } = useRouterQuery()
   const [createLaboralExperienceMutation] = useMutation(createLaboralExperience)
+  const [createLaboralExperienceOnCurriculumMutation] = useMutation(
+    createLaboralExperienceOnCurriculum
+  )
   return (
     <div>
       <Grid
@@ -32,11 +36,19 @@ const NewLaboralExperiencePage = () => {
             //  - Tip: extract mutation's schema into a shared `validations.ts` file and
             //         then import and use it here
             schema={CreateLaboralExperience}
-            //initialValues={{ curriculumId: parseInt(curriculumId) }}
+            initialValues={{ curriculumId: parseInt(curriculumId) }}
             onSubmit={async (values) => {
               try {
-                await createLaboralExperienceMutation(values)
-                router.push(Routes.EditCurriculumPage({ curriculumId }))
+                const laboralObject = await createLaboralExperienceMutation(values)
+                if (curriculumId !== undefined && curriculumId !== "") {
+                  await createLaboralExperienceOnCurriculumMutation({
+                    curriculumId: parseInt(curriculumId),
+                    laboralExperienceId: laboralObject.id,
+                  })
+                  router.push(Routes.EditCurriculumPage({ curriculumId }))
+                } else {
+                  router.push(Routes.LaboralExperiencesPage())
+                }
               } catch (error) {
                 console.error(error)
                 return {

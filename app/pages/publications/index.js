@@ -10,10 +10,20 @@ export const PublicationsList = (props) => {
   const router = useRouter()
   const page = Number(router.query.page) || 0
   const [deletePublicationMutation] = useMutation(deletePublication)
+  const filter =
+    props.curriculumId === undefined
+      ? {}
+      : {
+          PublicationOnCurriculum: {
+            some: {
+              curriculum: {
+                id: props.curriculumId,
+              },
+            },
+          },
+        }
   const [{ publications, hasMore }] = usePaginatedQuery(getPublications, {
-    where: {
-      curriculumId: parseInt(props.curriculumId),
-    },
+    where: filter,
     orderBy: {
       id: "asc",
     },
@@ -61,7 +71,7 @@ export const PublicationsList = (props) => {
                     id: publication.id,
                   })
                   //this.forceUpdate()
-                  router.push(Routes.EditCurriculumPage({ curriculumId: publication.curriculumId }))
+                  router.push(Routes.EditCurriculumPage())
                 }
               }}
             />

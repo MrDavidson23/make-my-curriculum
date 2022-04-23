@@ -10,10 +10,20 @@ export const LaboralExperiencesList = (props) => {
   const router = useRouter()
   const page = Number(router.query.page) || 0
   const [deleteLaboralExperienceMutation] = useMutation(deleteLaboralExperience)
+  const filter =
+    props.curriculumId === undefined
+      ? {}
+      : {
+          LaboralExperienceOnCurriculum: {
+            some: {
+              curriculum: {
+                id: props.curriculumId,
+              },
+            },
+          },
+        }
   const [{ laboralExperiences, hasMore }] = usePaginatedQuery(getLaboralExperiences, {
-    where: {
-      curriculumId: parseInt(props.curriculumId),
-    },
+    where: filter,
     orderBy: {
       id: "asc",
     },
@@ -68,9 +78,7 @@ export const LaboralExperiencesList = (props) => {
                     id: laboralExperience.id,
                   })
                   //this.forceUpdate()
-                  router.push(
-                    Routes.EditCurriculumPage({ curriculumId: laboralExperience.curriculumId })
-                  )
+                  router.push(Routes.EditCurriculumPage())
                 }
               }}
             />

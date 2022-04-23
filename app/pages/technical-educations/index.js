@@ -10,10 +10,20 @@ export const TechnicalEducationsList = (props) => {
   const router = useRouter()
   const page = Number(router.query.page) || 0
   const [deleteTechnicalEducationMutation] = useMutation(deleteTechnicalEducation)
+  const filter =
+    props.curriculumId === undefined
+      ? {}
+      : {
+          TechnicalEducationOnCurriculum: {
+            some: {
+              curriculum: {
+                id: props.curriculumId,
+              },
+            },
+          },
+        }
   const [{ technicalEducations, hasMore }] = usePaginatedQuery(getTechnicalEducations, {
-    where: {
-      curriculumId: parseInt(props.curriculumId),
-    },
+    where: filter,
     orderBy: {
       id: "asc",
     },
@@ -63,9 +73,7 @@ export const TechnicalEducationsList = (props) => {
                     id: technicalEducation.id,
                   })
                   //this.forceUpdate()
-                  router.push(
-                    Routes.EditCurriculumPage({ curriculumId: technicalEducation.curriculumId })
-                  )
+                  router.push(Routes.EditCurriculumPage())
                 }
               }}
             />

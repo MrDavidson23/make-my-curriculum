@@ -10,10 +10,20 @@ export const SkillsList = (props) => {
   const router = useRouter()
   const page = Number(router.query.page) || 0
   const [deleteSkillMutation] = useMutation(deleteSkill)
+  const filter =
+    props.curriculumId === undefined
+      ? {}
+      : {
+          SkillOnCurriculum: {
+            some: {
+              curriculum: {
+                id: props.curriculumId,
+              },
+            },
+          },
+        }
   const [{ skills, hasMore }] = usePaginatedQuery(getSkills, {
-    where: {
-      curriculumId: parseInt(props.curriculumId),
-    },
+    where: filter,
     orderBy: {
       id: "asc",
     },
@@ -58,7 +68,7 @@ export const SkillsList = (props) => {
                     id: skill.id,
                   })
 
-                  router.push(Routes.EditCurriculumPage({ curriculumId: skill.curriculumId }))
+                  router.push(Routes.EditCurriculumPage())
                 }
               }}
             />

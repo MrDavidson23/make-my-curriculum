@@ -32,7 +32,6 @@ const ShowCurriculumPage = () => {
           <Button
             variant="outlined"
             onClick={async () => {
-              console.log(curriculum.id)
               if (window.confirm("This will be deleted")) {
                 await deleteCurriculumMutation({
                   id: curriculum.id,
