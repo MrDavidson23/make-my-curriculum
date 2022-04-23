@@ -61,6 +61,30 @@ export const EditCurriculum = () => {
     }
   }
 
+  const submitChange = async (values) => {  
+    const newValues = (values === undefined ? curriculum : values)   
+    try {
+      setIsLoading(true)
+      const updated = await updateCurriculumMutation({
+        id: curriculum.id,
+        ...newValues,
+        ...labels,
+      })
+      await setQueryData(updated)
+      router.push(
+        Routes.EditCurriculumPage({
+          curriculumId: updated.id,
+        })
+      )
+      setIsLoading(false)
+    } catch (error) {
+      console.error(error)
+      return {
+        [FORM_ERROR]: error.toString(),
+      }
+    }
+  }
+
   return (
     <>
       <Grid
@@ -101,46 +125,25 @@ export const EditCurriculum = () => {
                 //         then import and use it here
                 schema={UpdateCurriculum}
                 initialValues={{...curriculum,...labels}}
-                onSubmit={async (values) => {  
-                const newValues = {...values,...labels}       
-                  try {
-                    setIsLoading(true)
-                    const updated = await updateCurriculumMutation({
-                      id: curriculum.id,
-                      ...newValues,
-                    })
-                    await setQueryData(updated)
-                    router.push(
-                      Routes.EditCurriculumPage({
-                        curriculumId: updated.id,
-                      })
-                    )
-                    setIsLoading(false)
-                  } catch (error) {
-                    console.error(error)
-                    return {
-                      [FORM_ERROR]: error.toString(),
-                    }
-                  }
-                }}
+                onSubmit={submitChange}
                 />
               <hr style={style.hr}/>
-              <EditableTitleText name="skillLabel" title={curriculum.skillLabel} updateState={updateState}/>
+              <EditableTitleText name="skillLabel" title={curriculum.skillLabel} updateState={updateState} submitChange={submitChange}/>
               <SkillsPage curriculumId={curriculumId}/>
               <hr style={style.hr}/>
-              <EditableTitleText name="laboralExperienceLabel" title={curriculum.laboralExperienceLabel} updateState={updateState}/>
+              <EditableTitleText name="laboralExperienceLabel" title={curriculum.laboralExperienceLabel} updateState={updateState} submitChange={submitChange}/>
               <LaboralExperiencesPage curriculumId={curriculumId} />
               <hr style={style.hr}/>
-              <EditableTitleText name="academicEducationLabel" title={curriculum.academicEducationLabel} updateState={updateState}/>
+              <EditableTitleText name="academicEducationLabel" title={curriculum.academicEducationLabel} updateState={updateState} submitChange={submitChange}/>
               <AcademicEducationsPage curriculumId={curriculumId} />
               <hr style={style.hr}/>
-              <EditableTitleText name="technicalEducationLabel" title={curriculum.technicalEducationLabel} updateState={updateState}/>
+              <EditableTitleText name="technicalEducationLabel" title={curriculum.technicalEducationLabel} updateState={updateState} submitChange={submitChange}/>
               <TechnicalEducationsPage curriculumId={curriculumId} />
               <hr style={style.hr}/>
-              <EditableTitleText name="publicationLabel" title={curriculum.publicationLabel} updateState={updateState}/>
+              <EditableTitleText name="publicationLabel" title={curriculum.publicationLabel} updateState={updateState} submitChange={submitChange}/>
               <PublicationsPage curriculumId={curriculumId} />
               <hr style={style.hr}/>
-              <EditableTitleText name="referenceLabel" title={curriculum.referenceLabel} updateState={updateState}/>
+              <EditableTitleText name="referenceLabel" title={curriculum.referenceLabel} updateState={updateState} submitChange={submitChange}/>
               <ReferencesPage curriculumId={curriculumId} />
               <hr style={style.hr}/>
             </div>
