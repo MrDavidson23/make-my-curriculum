@@ -101,6 +101,7 @@ model Skill {
 model Language {
   id         Int          @id @default(autoincrement())
   language   String
+  code       String
   Curriculum Curriculum[]
 }
 
