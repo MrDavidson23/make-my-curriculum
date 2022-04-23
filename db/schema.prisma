@@ -34,6 +34,13 @@ model User {
   birthDate  DateTime?
   Curriculum Curriculum[]
 
+  references          Reference[]
+  publications        Publication[]
+  technicalEducations TechnicalEducation[]
+  academicEducations  AcademicEducation[]
+  laboralExperiences  LaboralExperience[]
+  skills              Skill[]
+
 }
 
 model Session {
@@ -80,22 +87,21 @@ model Phone {
   phoneNumber String
 }
 
-model IdentificationType {
-  id   Int    @id @default(autoincrement())
-  type String
-}
-
 model Skill {
   id          Int    @id @default(autoincrement())
   description String
+  rating      Int
 
-  curriculum   Curriculum @relation(fields: [curriculumId], references: [id])
-  curriculumId Int
+  user   User @relation(fields: [userId], references: [id])
+  userId Int
+
+  SkillOnCurriculum SkillOnCurriculum[]
 }
 
 model Language {
   id         Int          @id @default(autoincrement())
   language   String
+  code       String
   Curriculum Curriculum[]
 }
 
@@ -123,13 +129,12 @@ model Curriculum {
   template   Template @relation(fields: [templateId], references: [id])
   templateId Int
 
-  references          Reference[]
-  publications        Publication[]
-  technicalEducations TechnicalEducation[]
-  academicEducations  AcademicEducation[]
-  laboralExperiences  LaboralExperience[]
-  skills              Skill[]
-
+  ReferenceOnCurriculum          ReferenceOnCurriculum[]
+  PublicationOnCurriculum        PublicationOnCurriculum[]
+  TechnicalEducationOnCurriculum TechnicalEducationOnCurriculum[]
+  AcademicEducationOnCurriculum  AcademicEducationOnCurriculum[]
+  LaboralExperienceOnCurriculum  LaboralExperienceOnCurriculum[]
+  SkillOnCurriculum              SkillOnCurriculum[]
 }
 
 model Reference {
@@ -139,8 +144,10 @@ model Reference {
   name        String
   institution String
 
-  curriculum   Curriculum @relation(fields: [curriculumId], references: [id])
-  curriculumId Int
+  user   User @relation(fields: [userId], references: [id])
+  userId Int
+
+  ReferenceOnCurriculum ReferenceOnCurriculum[]
 }
 
 model Publication {
@@ -151,8 +158,10 @@ model Publication {
   institution String
   tag         String
 
-  curriculum   Curriculum @relation(fields: [curriculumId], references: [id])
-  curriculumId Int
+  user   User @relation(fields: [userId], references: [id])
+  userId Int
+
+  PublicationOnCurriculum PublicationOnCurriculum[]
 }
 
 model TechnicalEducation {
@@ -162,8 +171,10 @@ model TechnicalEducation {
   completionYear DateTime
   institution    String
 
-  curriculum   Curriculum @relation(fields: [curriculumId], references: [id])
-  curriculumId Int
+  user   User @relation(fields: [userId], references: [id])
+  userId Int
+
+  TechnicalEducationOnCurriculum TechnicalEducationOnCurriculum[]
 }
 
 model AcademicEducation {
@@ -174,8 +185,10 @@ model AcademicEducation {
   finishYear  DateTime
   institution String
 
-  curriculum   Curriculum @relation(fields: [curriculumId], references: [id])
-  curriculumId Int
+  user   User @relation(fields: [userId], references: [id])
+  userId Int
+
+  AcademicEducationOnCurriculum AcademicEducationOnCurriculum[]
 }
 
 model LaboralExperience {
@@ -185,7 +198,64 @@ model LaboralExperience {
   startYear   DateTime
   finishYear  DateTime
   institution String
+  description String
 
+  user   User @relation(fields: [userId], references: [id])
+  userId Int
+
+  LaboralExperienceOnCurriculum LaboralExperienceOnCurriculum[]
+}
+
+model ReferenceOnCurriculum {
+  reference    Reference  @relation(fields: [referenceId], references: [id])
+  referenceId  Int
   curriculum   Curriculum @relation(fields: [curriculumId], references: [id])
   curriculumId Int
+
+  @@id([referenceId, curriculumId])
+}
+
+model PublicationOnCurriculum {
+  publication   Publication @relation(fields: [publicationId], references: [id])
+  publicationId Int
+  curriculum    Curriculum  @relation(fields: [curriculumId], references: [id])
+  curriculumId  Int
+
+  @@id([publicationId, curriculumId])
+}
+
+model TechnicalEducationOnCurriculum {
+  technicalEducation   TechnicalEducation @relation(fields: [technicalEducationId], references: [id])
+  technicalEducationId Int
+  curriculum           Curriculum         @relation(fields: [curriculumId], references: [id])
+  curriculumId         Int
+
+  @@id([technicalEducationId, curriculumId])
+}
+
+model AcademicEducationOnCurriculum {
+  academicEducation   AcademicEducation @relation(fields: [academicEducationId], references: [id])
+  academicEducationId Int
+  curriculum          Curriculum        @relation(fields: [curriculumId], references: [id])
+  curriculumId        Int
+
+  @@id([academicEducationId, curriculumId])
+}
+
+model LaboralExperienceOnCurriculum {
+  laboralExperience   LaboralExperience @relation(fields: [laboralExperienceId], references: [id])
+  laboralExperienceId Int
+  curriculum          Curriculum        @relation(fields: [curriculumId], references: [id])
+  curriculumId        Int
+
+  @@id([laboralExperienceId, curriculumId])
+}
+
+model SkillOnCurriculum {
+  skill        Skill      @relation(fields: [skillId], references: [id])
+  skillId      Int
+  curriculum   Curriculum @relation(fields: [curriculumId], references: [id])
+  curriculumId Int
+
+  @@id([skillId, curriculumId])
 }
