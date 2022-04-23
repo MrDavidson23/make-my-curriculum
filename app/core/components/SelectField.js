@@ -11,7 +11,6 @@ export const SelectField = forwardRef(({ outerProps, labelProps, name, ...props 
     ? errors[name].join(", ")
     : errors[name]?.message || errors[name]
   const input = register(name)
-  console.log(input)
   return (
     <div {...outerProps}>
       <TextField select {...register(name)} {...props} fullWidth>

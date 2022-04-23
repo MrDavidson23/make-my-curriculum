@@ -49,7 +49,6 @@ export const Reference = () => {
               secondText={reference.email}
               handleOnEdit={() => {
                 router.push(Routes.EditReferencePage({ referenceId: reference.id }))
-                console.log("Edit")
               }}
               handleOnDelete={async () => {
                 if (window.confirm("This will be deleted")) {

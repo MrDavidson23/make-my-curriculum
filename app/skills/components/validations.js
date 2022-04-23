@@ -4,7 +4,12 @@ const max = 50
 
 const model = {
   description: z.string().min(1).max(max),
-  curriculumId: z.number(),
+  rating: z
+    .string()
+    .min(1)
+    .max(max)
+    .or(z.number())
+    .transform((rating) => parseInt(rating)),
 }
 
 export const CreateSkill = z.object(model)

@@ -7,7 +7,6 @@ export const CreateReferenceValidation = z.object({
   phone: z.string(),
   name: z.string(),
   institution: z.string(),
-  curriculumId: z.number(),
 })
 
 export const UpdateReferenceValidation = CreateReferenceValidation.extend({
