@@ -1,6 +1,7 @@
 import { Link, useRouter, useMutation, useRouterQuery, Routes } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import createPublication from "app/publications/mutations/createPublication"
+import createPublicationOnCurriculum from "app/publication-on-curricula/mutations/createPublicationOnCurriculum"
 import { PublicationForm, FORM_ERROR } from "app/publications/components/PublicationForm"
 import { Grid, Button, Typography } from "@mui/material"
 import { CreatePublication } from "app/publications/components/validations"
@@ -9,6 +10,7 @@ const NewPublicationPage = () => {
   const router = useRouter()
   const { curriculumId } = useRouterQuery()
   const [createPublicationMutation] = useMutation(createPublication)
+  const [createPublicationOnCurriculumMutation] = useMutation(createPublicationOnCurriculum)
   return (
     <div>
       <Grid
@@ -30,11 +32,19 @@ const NewPublicationPage = () => {
             //  - Tip: extract mutation's schema into a shared `validations.ts` file and
             //         then import and use it here
             schema={CreatePublication}
-            //initialValues={{curriculumId:parseInt(curriculumId)}}
+            initialValues={{ curriculumId: parseInt(curriculumId) }}
             onSubmit={async (values) => {
               try {
-                await createPublicationMutation(values)
-                router.push(Routes.EditCurriculumPage({ curriculumId }))
+                const pubObject = await createPublicationMutation(values)
+                if (curriculumId !== undefined && curriculumId !== "") {
+                  await createPublicationOnCurriculumMutation({
+                    curriculumId: parseInt(curriculumId),
+                    publicationId: pubObject.id,
+                  })
+                  router.push(Routes.EditCurriculumPage({ curriculumId }))
+                } else {
+                  router.push(Routes.PublicationsPage())
+                }
               } catch (error) {
                 console.error(error)
                 return {

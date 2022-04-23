@@ -1,7 +1,7 @@
 import { resolver } from "blitz"
 import db from "db"
 import { z } from "zod"
-import { UpdateSkill } from "../mutations/validations"
+import { UpdateSkill } from "../validations"
 export default resolver.pipe(
   resolver.zod(UpdateSkill),
   resolver.authorize(),

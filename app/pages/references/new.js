@@ -23,11 +23,12 @@ import {
 } from "@mui/material"
 import { CreateReferenceValidation } from "app/references/components/validaciones"
 import createReference from "app/references/mutations/createReference"
-
+import createReferenceOnCurriculum from "app/reference-on-curricula/mutations/createReferenceOnCurriculum"
 const NewReferencePage = () => {
   const router = useRouter()
   const { curriculumId } = useRouterQuery()
   const [createReferenceMutation] = useMutation(createReference)
+  const [createReferenceOnCurriculumMutation] = useMutation(createReferenceOnCurriculum)
   return (
     <div>
       <Grid
@@ -46,11 +47,19 @@ const NewReferencePage = () => {
             //  - Tip: extract mutation's schema into a shared `validations.ts` file and
             //         then import and use it here
             schema={CreateReferenceValidation} ////////////////////////////
-            //initialValues={{ curriculumId: parseInt(curriculumId) }}
+            initialValues={{ curriculumId: parseInt(curriculumId) }}
             onSubmit={async (values) => {
               try {
-                const reference = await createReferenceMutation(values)
-                router.push(Routes.EditCurriculumPage({ curriculumId }))
+                const referenceObject = await createReferenceMutation(values)
+                if (curriculumId !== undefined && curriculumId !== "") {
+                  await createReferenceOnCurriculumMutation({
+                    curriculumId: parseInt(curriculumId),
+                    referenceId: referenceObject.id,
+                  })
+                  router.push(Routes.EditCurriculumPage({ curriculumId }))
+                } else {
+                  router.push(Routes.ReferencesPage())
+                }
               } catch (error) {
                 console.error(error)
                 return {

@@ -1,6 +1,7 @@
 import { Link, useRouter, useMutation, useRouterQuery, Routes } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import createAcademicEducation from "app/academic-educations/mutations/createAcademicEducation"
+import createAcademicEducationOnCurriculum from "app/academic-education-on-curricula/mutations/createAcademicEducationOnCurriculum"
 import {
   AcademicEducationForm,
   FORM_ERROR,
@@ -12,6 +13,9 @@ const NewAcademicEducationPage = () => {
   const router = useRouter()
   const { curriculumId } = useRouterQuery()
   const [createAcademicEducationMutation] = useMutation(createAcademicEducation)
+  const [createAcademicEducationOnCurriculumMutation] = useMutation(
+    createAcademicEducationOnCurriculum
+  )
   return (
     <div>
       <Grid
@@ -33,11 +37,19 @@ const NewAcademicEducationPage = () => {
             //  - Tip: extract mutation's schema into a shared `validations.ts` file and
             //         then import and use it here
             schema={CreateAcademicEducation}
-            //initialValues={{ curriculumId: parseInt(curriculumId) }}
+            initialValues={{ curriculumId: parseInt(curriculumId) }}
             onSubmit={async (values) => {
               try {
-                await createAcademicEducationMutation(values)
-                router.push(Routes.EditCurriculumPage({ curriculumId }))
+                const academicObject = await createAcademicEducationMutation(values)
+                if (curriculumId !== undefined && curriculumId !== "") {
+                  await createAcademicEducationOnCurriculumMutation({
+                    curriculumId: parseInt(curriculumId),
+                    academicEducationId: academicObject.id,
+                  })
+                  router.push(Routes.EditCurriculumPage({ curriculumId }))
+                } else {
+                  router.push(Routes.AcademicEducationsPage())
+                }
               } catch (error) {
                 console.error(error)
                 return {
