@@ -4,9 +4,7 @@ import { Signup } from "app/auth/validations"
 export default resolver.pipe(
   resolver.zod(Signup),
   async ({ name, lastName, email, password, phone }, ctx) => {
-    console.log("signup", name, lastName, email, password, phone)
     const hashedPassword = await SecurePassword.hash(password.trim())
-    console.log("hashedPassword", hashedPassword)
     const user = await db.user.create({
       data: {
         name,

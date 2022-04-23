@@ -58,9 +58,7 @@ export const EditLaboralExperience = () => {
                     ...values,
                   })
                   await setQueryData(updated)
-                  router.push(
-                    Routes.EditCurriculumPage({ curriculumId: laboralExperience.curriculumId })
-                  )
+                  router.push(Routes.EditCurriculumPage())
                 } catch (error) {
                   console.error(error)
                   return {
