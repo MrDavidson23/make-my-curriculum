@@ -55,7 +55,7 @@ export const EditSkill = () => {
                     ...values,
                   })
                   await setQueryData(updated)
-                  router.push(Routes.EditCurriculumPage({ curriculumId: skill.curriculumId }))
+                  router.push(Routes.EditCurriculumPage())
                 } catch (error) {
                   console.error(error)
                   return {

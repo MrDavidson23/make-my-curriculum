@@ -38,38 +38,36 @@ export const EditAcademicEducation = () => {
           textAlign={"center"}
           sx={{ mx: "auto", width: "100%" }}
         >
-        <Grid item xs={12}>
-          <Typography variant="h3" component="div" gutterBottom>
-            Editar Educación Académica {academicEducation.studies}
-          </Typography>
-        </Grid>
-   
-        <Grid item xs={12}>
-        <AcademicEducationForm
-          submitText="Guardar" // TODO use a zod schema for form validation
-          //  - Tip: extract mutation's schema into a shared `validations.ts` file and
-          //         then import and use it here
-          schema={UpdateAcademicEducation}
-          initialValues={academicEducation}
-          onSubmit={async (values) => {
-            try {
-              const updated = await updateAcademicEducationMutation({
-                id: academicEducation.id,
-                ...values,
-              })
-              await setQueryData(updated)
-              router.push(
-                Routes.EditCurriculumPage({curriculumId:academicEducation.curriculumId})
-              )
-            } catch (error) {
-              console.error(error)
-              return {
-                [FORM_ERROR]: error.toString(),
-              }
-            }
-          }}
-        />
-        </Grid>
+          <Grid item xs={12}>
+            <Typography variant="h3" component="div" gutterBottom>
+              Editar Educación Académica {academicEducation.studies}
+            </Typography>
+          </Grid>
+
+          <Grid item xs={12}>
+            <AcademicEducationForm
+              submitText="Guardar" // TODO use a zod schema for form validation
+              //  - Tip: extract mutation's schema into a shared `validations.ts` file and
+              //         then import and use it here
+              schema={UpdateAcademicEducation}
+              initialValues={academicEducation}
+              onSubmit={async (values) => {
+                try {
+                  const updated = await updateAcademicEducationMutation({
+                    id: academicEducation.id,
+                    ...values,
+                  })
+                  await setQueryData(updated)
+                  router.push(Routes.EditCurriculumPage())
+                } catch (error) {
+                  console.error(error)
+                  return {
+                    [FORM_ERROR]: error.toString(),
+                  }
+                }
+              }}
+            />
+          </Grid>
         </Grid>
       </div>
     </>

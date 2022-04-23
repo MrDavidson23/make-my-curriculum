@@ -7,6 +7,8 @@ import { UpdateCurriculum } from "app/curricula/components/validations"
 import { CurriculumForm, FORM_ERROR } from "app/curricula/components/CurriculumForm"
 import { Button, Grid, Typography } from "@mui/material"
 import PDFViewPage from "./pdf-view"
+import CircularProgress from "@mui/material/CircularProgress"
+import Box from "@mui/material/Box"
 
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 
@@ -20,18 +22,12 @@ import LaboralExperiencesPage from "app/pages/laboral-experiences/index"
 import { EditableTitleText } from "app/core/components/EditableTitleText"
 
 export const EditCurriculum = () => {
+  const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
   const curriculumId = useParam("curriculumId", "number")
-  const [curriculum, { setQueryData }] = useQuery(
-    getCurriculum,
-    {
-      id: curriculumId,
-    },
-    {
-      // This ensures the query never refreshes and overwrites the form data while the user is editing.
-      staleTime: Infinity,
-    }
-  )
+  const [curriculum, { setQueryData }] = useQuery(getCurriculum, {
+    id: curriculumId,
+  })
   const [updateCurriculumMutation] = useMutation(updateCurriculum)
   const currentUser = useCurrentUser()
   const {
@@ -108,6 +104,7 @@ export const EditCurriculum = () => {
                 onSubmit={async (values) => {  
                 const newValues = {...values,...labels}       
                   try {
+                    setIsLoading(true)
                     const updated = await updateCurriculumMutation({
                       id: curriculum.id,
                       ...newValues,
@@ -118,6 +115,7 @@ export const EditCurriculum = () => {
                         curriculumId: updated.id,
                       })
                     )
+                    setIsLoading(false)
                   } catch (error) {
                     console.error(error)
                     return {
@@ -151,7 +149,13 @@ export const EditCurriculum = () => {
         <Grid item xs={8}>
           <Grid container direction="row" justifyContent="center" alignItems="center">
             <Grid item xs={12}>
-              <PDFViewPage />
+              {isLoading ? (
+                <Box sx={{ width: "100%", height: 1000, paddingTop: 50 }}>
+                  <CircularProgress />
+                </Box>
+              ) : (
+                <PDFViewPage />
+              )}
             </Grid>
             <Grid item xs={12}>
               <Typography variant="h6" gutterBottom>

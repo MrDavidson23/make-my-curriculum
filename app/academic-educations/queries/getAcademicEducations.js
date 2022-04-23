@@ -16,7 +16,12 @@ export default resolver.pipe(
         db.academicEducation.count({
           where,
         }),
-      query: (paginateArgs) => db.academicEducation.findMany({ ...paginateArgs, where, orderBy }),
+      query: (paginateArgs) =>
+        db.academicEducation.findMany({
+          ...paginateArgs,
+          where: { ...where, userId: ctx.session.userId },
+          orderBy,
+        }),
     })
     return {
       academicEducations,

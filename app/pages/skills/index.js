@@ -3,6 +3,7 @@ import { Head, Link, usePaginatedQuery, useRouter, Routes, useMutation } from "b
 import Layout from "app/core/layouts/Layout"
 import getSkills from "app/skills/queries/getSkills"
 import deleteSkill from "app/skills/mutations/deleteSkill"
+import deleteSkillOnCurriculum from "app/skill-on-curricula/mutations/deleteSkillOnCurriculum"
 import InformationCard from "app/core/components/InformationCard"
 import { Grid, Button, Chip, Typography } from "@mui/material"
 const ITEMS_PER_PAGE = 100
@@ -10,10 +11,21 @@ export const SkillsList = (props) => {
   const router = useRouter()
   const page = Number(router.query.page) || 0
   const [deleteSkillMutation] = useMutation(deleteSkill)
+  const [deleteSkillOnCurriculumMutation] = useMutation(deleteSkillOnCurriculum)
+  const filter =
+    props.curriculumId === undefined
+      ? {}
+      : {
+          SkillOnCurriculum: {
+            some: {
+              curriculum: {
+                id: props.curriculumId,
+              },
+            },
+          },
+        }
   const [{ skills, hasMore }] = usePaginatedQuery(getSkills, {
-    where: {
-      curriculumId: parseInt(props.curriculumId),
-    },
+    where: filter,
     orderBy: {
       id: "asc",
     },
@@ -54,11 +66,18 @@ export const SkillsList = (props) => {
               }}
               onDelete={async () => {
                 if (window.confirm("This will be deleted")) {
-                  await deleteSkillMutation({
-                    id: skill.id,
-                  })
-
-                  router.push(Routes.EditCurriculumPage({ curriculumId: skill.curriculumId }))
+                  if (props.curriculumId !== undefined && props.curriculumId !== "") {
+                    await deleteSkillOnCurriculumMutation({
+                      curriculumId: props.curriculumId,
+                      skillId: skill.id,
+                    })
+                    router.push(Routes.EditCurriculumPage({ curriculumId: props.curriculumId }))
+                  } else {
+                    await deleteSkillMutation({
+                      id: skill.id,
+                    })
+                    router.push(Routes.SkillsPage())
+                  }
                 }
               }}
             />

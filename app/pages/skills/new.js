@@ -1,6 +1,7 @@
 import { Link, useRouter, useMutation, useRouterQuery, Routes } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import createSkill from "app/skills/mutations/createSkill"
+import createSkillOnCurriculum from "app/skill-on-curricula/mutations/createSkillOnCurriculum"
 import { SkillForm, FORM_ERROR } from "app/skills/components/SkillForm"
 import { Grid, Button, Typography } from "@mui/material"
 import { CreateSkill } from "app/skills/components/validations"
@@ -9,6 +10,7 @@ const NewSkillPage = () => {
   const router = useRouter()
   const { curriculumId } = useRouterQuery()
   const [createSkillMutation] = useMutation(createSkill)
+  const [createSkillOnCurriculumMutation] = useMutation(createSkillOnCurriculum)
   return (
     <div>
       <Grid
@@ -32,8 +34,16 @@ const NewSkillPage = () => {
             initialValues={{ curriculumId: parseInt(curriculumId) }}
             onSubmit={async (values) => {
               try {
-                await createSkillMutation(values)
-                router.push(Routes.EditCurriculumPage({ curriculumId }))
+                const skillObject = await createSkillMutation(values)
+                if (curriculumId !== undefined && curriculumId !== "") {
+                  await createSkillOnCurriculumMutation({
+                    curriculumId: parseInt(curriculumId),
+                    skillId: skillObject.id,
+                  })
+                  router.push(Routes.EditCurriculumPage({ curriculumId }))
+                } else {
+                  router.push(Routes.SkillsPage())
+                }
               } catch (error) {
                 console.error(error)
                 return {
