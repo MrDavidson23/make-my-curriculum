@@ -1,9 +1,10 @@
-import {z} from "zod"
+import { z } from "zod"
 
-const max = 50;
+const max = 50
 
 const model = {
   language: z.string().min(1).max(max),
+  code: z.string().min(1).max(max),
 }
 
 export const CreateLanguage = z.object(model)
@@ -13,5 +14,5 @@ export const UpdateLanguage = z.object(model).extend({
 })
 
 export const DeleteLanguage = z.object({
-    id: z.number(),
+  id: z.number(),
 })

@@ -10,6 +10,9 @@ export function SkillForm(props) {
           <Grid item xs={12}>
             <LabeledTextField name="description" label="Descripción" placeholder="Descripción" />
           </Grid>
+          <Grid item xs={12}>
+            <LabeledTextField name="rating" label="Puntuación" placeholder="Puntuación" />
+          </Grid>
         </Grid>
       </div>
     </Form>
