@@ -3,6 +3,7 @@ import { Head, Link, usePaginatedQuery, useRouter, Routes, useMutation } from "b
 import Layout from "app/core/layouts/Layout"
 import getLaboralExperiences from "app/laboral-experiences/queries/getLaboralExperiences"
 import deleteLaboralExperience from "app/laboral-experiences/mutations/deleteLaboralExperience"
+import deleteLaboralExperienceOnCurriculum from "app/laboral-experience-on-curricula/mutations/deleteLaboralExperienceOnCurriculum"
 import InformationCard from "app/core/components/InformationCard"
 import { Button, Grid, Typography } from "@mui/material"
 const ITEMS_PER_PAGE = 100
@@ -10,10 +11,23 @@ export const LaboralExperiencesList = (props) => {
   const router = useRouter()
   const page = Number(router.query.page) || 0
   const [deleteLaboralExperienceMutation] = useMutation(deleteLaboralExperience)
+  const [deleteLaboralExperienceOnCurriculumMutation] = useMutation(
+    deleteLaboralExperienceOnCurriculum
+  )
+  const filter =
+    props.curriculumId === undefined
+      ? {}
+      : {
+          LaboralExperienceOnCurriculum: {
+            some: {
+              curriculum: {
+                id: props.curriculumId,
+              },
+            },
+          },
+        }
   const [{ laboralExperiences, hasMore }] = usePaginatedQuery(getLaboralExperiences, {
-    where: {
-      curriculumId: parseInt(props.curriculumId),
-    },
+    where: filter,
     orderBy: {
       id: "asc",
     },
@@ -56,20 +70,24 @@ export const LaboralExperiencesList = (props) => {
                 "  -  " +
                 laboralExperience.finishYear.toLocaleDateString()
               }
+              thirdText={laboralExperience.description}
               handleOnEdit={() => {
                 router.push(
                   Routes.EditLaboralExperiencePage({ laboralExperienceId: laboralExperience.id })
                 )
               }}
               handleOnDelete={async () => {
-                if (window.confirm("This will be deleted")) {
+                if (props.curriculumId !== undefined && props.curriculumId !== "") {
+                  await deleteLaboralExperienceOnCurriculumMutation({
+                    curriculumId: props.curriculumId,
+                    laboralExperienceId: laboralExperience.id,
+                  })
+                  router.push(Routes.EditCurriculumPage({ curriculumId: props.curriculumId }))
+                } else {
                   await deleteLaboralExperienceMutation({
                     id: laboralExperience.id,
                   })
-                  //this.forceUpdate()
-                  router.push(
-                    Routes.EditCurriculumPage({ curriculumId: laboralExperience.curriculumId })
-                  )
+                  router.push(Routes.LaboralExperiencesPage())
                 }
               }}
             />

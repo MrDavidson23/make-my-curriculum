@@ -28,7 +28,6 @@ const CurriculumList = ({ curriculumns, ctx }) => {
                 router.push(Routes.EditCurriculumPage({ curriculumId: curriculum.id }))
               }}
               handleOnDelete={async () => {
-                console.log(curriculum.id)
                 if (window.confirm("This will be deleted")) {
                   await deleteCurriculumMutation({
                     id: curriculum.id,

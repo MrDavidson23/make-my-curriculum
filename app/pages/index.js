@@ -3,11 +3,13 @@ import { Image, Link, useMutation, Routes, usePaginatedQuery } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import UserDisplay from "app/users/components/UserDisplay"
 import CurriculumList from "app/curricula/components/CurriculumList"
+import UserList from "app/users/components/UserList"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import getAllCurriculums from "app/curricula/queries/getAllCurriculums"
+import getUsers from "app/users/queries/getUsers"
 import logout from "app/auth/mutations/logout"
 import logo from "public/logo.png"
-import { Grid, Typography, Button } from "@mui/material"
+import { Grid, Typography, Button, Divider, Box } from "@mui/material"
 
 const UserInfo = () => {
   const currentUser = useCurrentUser()
@@ -66,6 +68,11 @@ const Home = () => {
       id: "asc",
     },
   })
+  const [{ user }] = usePaginatedQuery(getUsers, {
+    orderBy: {
+      id: "asc",
+    },
+  })
   return (
     <div className="container">
       <main>
@@ -88,6 +95,25 @@ const Home = () => {
               </Suspense>
             </Grid>
           </Grid>
+          {currentUser.role === "ADMIN" && (
+            <Grid item container direction="column">
+              <Grid item>
+                <Typography variant="h4">All Users</Typography>
+              </Grid>
+              <Grid
+                item
+                container
+                direction="row"
+                justifyContent="space-between"
+                alignItems="center"
+              >
+                <Suspense fallback="Loading...">
+                  <UserList users={user} />
+                </Suspense>
+              </Grid>
+            </Grid>
+          )}
+          <Divider variant="middle" />
           {currentUser.role === "ADMIN" && (
             <Grid item container direction="column">
               <Grid item>
