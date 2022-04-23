@@ -11,6 +11,4 @@ export const UpdatePublication = z.object(model).extend({
   id: z.number(),
 })
 
-export const DeletePublication = z.object({
-  id: z.number(),
-})
+export const DeletePublication = z.object(model)

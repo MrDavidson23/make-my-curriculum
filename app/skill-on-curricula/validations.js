@@ -11,6 +11,4 @@ export const UpdateSkill = z.object(model).extend({
   id: z.number(),
 })
 
-export const DeleteSkill = z.object({
-  id: z.number(),
-})
+export const DeleteSkill = z.object(model)

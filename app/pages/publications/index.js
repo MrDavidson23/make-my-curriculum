@@ -3,6 +3,7 @@ import { Head, Link, usePaginatedQuery, useRouter, Routes, useMutation } from "b
 import Layout from "app/core/layouts/Layout"
 import getPublications from "app/publications/queries/getPublications"
 import deletePublication from "app/publications/mutations/deletePublication"
+import deletePublicationOnCurriculum from "app/publication-on-curricula/mutations/deletePublicationOnCurriculum"
 import InformationCard from "app/core/components/InformationCard"
 import { Button, Grid, Typography } from "@mui/material"
 const ITEMS_PER_PAGE = 100
@@ -10,6 +11,7 @@ export const PublicationsList = (props) => {
   const router = useRouter()
   const page = Number(router.query.page) || 0
   const [deletePublicationMutation] = useMutation(deletePublication)
+  const [deletePublicationOnCurriculumMutation] = useMutation(deletePublicationOnCurriculum)
   const filter =
     props.curriculumId === undefined
       ? {}
@@ -67,11 +69,18 @@ export const PublicationsList = (props) => {
               }}
               handleOnDelete={async () => {
                 if (window.confirm("This will be deleted")) {
-                  await deletePublicationMutation({
-                    id: publication.id,
-                  })
-                  //this.forceUpdate()
-                  router.push(Routes.EditCurriculumPage())
+                  if (props.curriculumId !== undefined && props.curriculumId !== "") {
+                    await deletePublicationOnCurriculumMutation({
+                      curriculumId: props.curriculumId,
+                      publicationId: publication.id,
+                    })
+                    router.push(Routes.EditCurriculumPage({ curriculumId: props.curriculumId }))
+                  } else {
+                    await deletePublicationMutation({
+                      id: publication.id,
+                    })
+                    router.push(Routes.PublicationsPage())
+                  }
                 }
               }}
             />

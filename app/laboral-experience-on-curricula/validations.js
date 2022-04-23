@@ -11,6 +11,4 @@ export const UpdateLaboralExperience = z.object(model).extend({
   id: z.number(),
 })
 
-export const DeleteLaboralExperience = z.object({
-  id: z.number(),
-})
+export const DeleteLaboralExperience = z.object(model)
