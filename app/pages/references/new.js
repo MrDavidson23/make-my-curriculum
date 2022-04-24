@@ -27,7 +27,9 @@ const NewReferencePage = () => {
         sx={{ mx: "auto", width: "100%" }}
       >
         <Grid item xs={12}>
-          <h1>Create New Reference</h1>
+          <Typography variant="h3" component="div" gutterBottom>
+            Crear nueva Referencia
+          </Typography>
         </Grid>
         <Grid item xs={12}>
           <ReferenceForm

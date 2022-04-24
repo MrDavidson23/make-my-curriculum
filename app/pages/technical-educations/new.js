@@ -33,7 +33,7 @@ const NewTechnicalEducationPage = () => {
       >
         <Grid item xs={12}>
           <Typography variant="h3" component="div" gutterBottom>
-            Create New Technical Education
+            Crear nueva Educación Técnica
           </Typography>
         </Grid>
         <Grid item xs={12}>

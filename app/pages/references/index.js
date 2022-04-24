@@ -113,7 +113,7 @@ const ReferencesPage = (props) => {
               Router.push(Routes.NewReferencePage({ curriculumId: props.curriculumId }))
             }
           >
-            Agregar Referencia
+            Crear Referencia
           </Button>
         </p>
 

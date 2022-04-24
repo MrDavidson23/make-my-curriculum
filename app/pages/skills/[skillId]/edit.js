@@ -38,7 +38,7 @@ export const EditSkill = () => {
         >
           <Grid item xs={12}>
             <Typography variant="h3" component="div" gutterBottom>
-              Edit Skill {skill.description}
+              Editar Habilidad {skill.description}
             </Typography>
           </Grid>
 

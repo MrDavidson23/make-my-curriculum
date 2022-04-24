@@ -6,7 +6,7 @@ import getReference from "app/references/queries/getReference"
 import { ReferenceForm, FORM_ERROR } from "app/references/components/ReferenceForm"
 import updateReference from "app/references/mutations/updateReference"
 import { UpdateReferenceValidation } from "app/references/components/validaciones"
-import { Grid, Button } from "@mui/material"
+import { Grid, Button, Typography } from "@mui/material"
 
 export const EditReference = () => {
   const router = useRouter()
@@ -38,7 +38,9 @@ export const EditReference = () => {
           sx={{ mx: "auto", width: "100%" }}
         >
           <Grid item xs={12}>
-            <h1>Edit Reference {reference.id}</h1>
+            <Typography variant="h3" component="div" gutterBottom>
+              <h1>Editar Referencia {reference.name}</h1>
+            </Typography>
           </Grid>
           <Grid item xs={12}>
             <ReferenceForm

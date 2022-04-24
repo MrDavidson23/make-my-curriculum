@@ -41,7 +41,7 @@ export const EditTechnicalEducation = () => {
         >
           <Grid item xs={12}>
             <Typography variant="h3" component="div" gutterBottom>
-              Edit Technical Education {technicalEducation.studies}
+              Editar Educación Técnica {technicalEducation.studies}
             </Typography>
           </Grid>
 

@@ -10,25 +10,25 @@ export function LaboralExperienceForm(props) {
       <div>
         <Grid container direction="row" spacing={3}>
           <Grid item xs={12}>
-            <LabeledTextField name="position" label="Position" placeholder="Position" />
+            <LabeledTextField name="position" label="Posición" placeholder="Posición" />
           </Grid>
           <Grid item xs={12}>
-            <LabeledTextField name="location" label="Direction" placeholder="Direction" />
+            <LabeledTextField name="location" label="Dirección" placeholder="Dirección" />
           </Grid>
           <Grid item xs={12}>
-            <LabeledTextField name="institution" label="Institution" placeholder="Institution" />
+            <LabeledTextField name="institution" label="Institución" placeholder="Institución" />
           </Grid>
           <Grid item xs={12}>
-            <LabeledTextField name="description" label="Description" placeholder="Description" />
+            <LabeledTextField name="description" label="Descripción" placeholder="Descripción" />
           </Grid>
           <Grid item xs={12}>
-            <DatePickerField name="startYear" label="Start Year" placeholder="Start Year" />
+            <DatePickerField name="startYear" label="Año de inicio" placeholder="Año de inicio" />
           </Grid>
           <Grid item xs={12}>
             <DatePickerField
               name="finishYear"
-              label="Completion Year"
-              placeholder="Completion Year"
+              label="Año de finalización"
+              placeholder="Año de finalización"
             />
           </Grid>
         </Grid>

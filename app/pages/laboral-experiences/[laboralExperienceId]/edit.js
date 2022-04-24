@@ -41,7 +41,7 @@ export const EditLaboralExperience = () => {
         >
           <Grid item xs={12}>
             <Typography variant="h3" component="div" gutterBottom>
-              Edit Laboral Experience {laboralExperience.position}
+              Editar Experiencia Laboral {laboralExperience.position}
             </Typography>
           </Grid>
 
