@@ -37,14 +37,14 @@ export const EditPublication = () => {
           sx={{ mx: "auto", width: "100%" }}
         >
           <Grid item xs={12}>
-            <Typography variant="h3" component="div" gutterBottom>
-              Editar Publicación {publication.name}
+            <Typography variant="h6" component="div" gutterBottom>
+              <h1>Editar Publicación {publication.name}</h1>
             </Typography>
           </Grid>
 
           <Grid item xs={12}>
             <PublicationForm
-              submitText="Update Publication" // TODO use a zod schema for form validation
+              submitText="Actualizar Publicación" // TODO use a zod schema for form validation
               //  - Tip: extract mutation's schema into a shared `validations.ts` file and
               //         then import and use it here
               schema={UpdatePublication}

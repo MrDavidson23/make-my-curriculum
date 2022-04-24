@@ -26,7 +26,7 @@ export const EditReference = () => {
   return (
     <>
       <Head>
-        <title>Edit Reference {reference.id}</title>
+        <title>Edit Reference {reference.name}</title>
       </Head>
 
       <div>
@@ -38,13 +38,13 @@ export const EditReference = () => {
           sx={{ mx: "auto", width: "100%" }}
         >
           <Grid item xs={12}>
-            <Typography variant="h3" component="div" gutterBottom>
+            <Typography variant="h6" component="div" gutterBottom>
               <h1>Editar Referencia {reference.name}</h1>
             </Typography>
           </Grid>
           <Grid item xs={12}>
             <ReferenceForm
-              submitText="Update Reference" // TODO use a zod schema for form validation
+              submitText="Actualizar Referencia" // TODO use a zod schema for form validation
               //  - Tip: extract mutation's schema into a shared `validations.ts` file and
               //         then import and use it here
               // schema={UpdateReference}

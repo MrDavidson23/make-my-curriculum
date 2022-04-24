@@ -27,8 +27,8 @@ const NewPublicationPage = () => {
         sx={{ mx: "auto", width: "100%" }}
       >
         <Grid item xs={12}>
-          <Typography variant="h3" component="div" gutterBottom>
-            Crear nueva Publicación
+          <Typography variant="h6" component="div" gutterBottom>
+            <h1>Crear nueva Publicación</h1>
           </Typography>
         </Grid>
 
