@@ -33,8 +33,8 @@ const NewAcademicEducationPage = () => {
         sx={{ mx: "auto", width: "100%" }}
       >
         <Grid item xs={12}>
-          <Typography variant="h3" component="div" gutterBottom>
-            Crear nueva Educación Académica
+          <Typography variant="h6" component="div" gutterBottom>
+            <h1>Crear nueva Educación Académica</h1>
           </Typography>
         </Grid>
         <Grid item xs={12}>

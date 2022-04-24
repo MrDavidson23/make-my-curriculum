@@ -32,13 +32,13 @@ const NewTechnicalEducationPage = () => {
         sx={{ mx: "auto", width: "100%" }}
       >
         <Grid item xs={12}>
-          <Typography variant="h3" component="div" gutterBottom>
-            Crear nueva Educación Técnica
+          <Typography variant="h6" component="div" gutterBottom>
+            <h1>Crear nueva Educación Técnica </h1>
           </Typography>
         </Grid>
         <Grid item xs={12}>
           <TechnicalEducationForm
-            submitText="Save" // TODO use a zod schema for form validation
+            submitText="Guardar" // TODO use a zod schema for form validation
             //  - Tip: extract mutation's schema into a shared `validations.ts` file and
             //         then import and use it here
             schema={CreateTechnicalEducation}

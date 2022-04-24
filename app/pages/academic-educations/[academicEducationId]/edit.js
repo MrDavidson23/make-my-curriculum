@@ -40,8 +40,8 @@ export const EditAcademicEducation = () => {
           sx={{ mx: "auto", width: "100%" }}
         >
           <Grid item xs={12}>
-            <Typography variant="h3" component="div" gutterBottom>
-              Editar Educación Académica {academicEducation.studies}
+            <Typography variant="h6" component="div" gutterBottom>
+              <h1> Editar Educación Académica {academicEducation.studies} </h1>
             </Typography>
           </Grid>
 
