@@ -1,5 +1,5 @@
 import { Suspense } from "react"
-import { Head, Link, useRouter, useQuery, useMutation, useParam, Routes } from "blitz"
+import { Head, Link, useRouter, useQuery, useRouterQuery, useMutation, useParam, Routes } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getAcademicEducation from "app/academic-educations/queries/getAcademicEducation"
 import updateAcademicEducation from "app/academic-educations/mutations/updateAcademicEducation"
@@ -13,6 +13,7 @@ import {
 export const EditAcademicEducation = () => {
   const router = useRouter()
   const academicEducationId = useParam("academicEducationId", "number")
+  const { curriculumId } = useRouterQuery()
   const [academicEducation, { setQueryData }] = useQuery(
     getAcademicEducation,
     {
@@ -58,7 +59,11 @@ export const EditAcademicEducation = () => {
                     ...values,
                   })
                   await setQueryData(updated)
-                  router.push(Routes.EditCurriculumPage())
+                  if (curriculumId !== undefined && curriculumId !== "") {
+                    router.push(Routes.EditCurriculumPage({curriculumId}))
+                  }else{
+                    router.push(Routes.AcademicEducationsPage())
+                  }
                 } catch (error) {
                   console.error(error)
                   return {

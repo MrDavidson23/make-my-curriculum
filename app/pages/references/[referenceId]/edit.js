@@ -1,5 +1,5 @@
 import { Suspense } from "react"
-import { Head, Link, useRouter, useQuery, useMutation, useParam, Routes } from "blitz"
+import { Head, Link, useRouter, useQuery, useRouterQuery, useMutation, useParam, Routes } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getReference from "app/references/queries/getReference"
 
@@ -11,6 +11,7 @@ import { Grid } from "@mui/material"
 export const EditReference = () => {
   const router = useRouter()
   const referenceId = useParam("referenceId", "number")
+  const { curriculumId } = useRouterQuery()
   const [reference, { setQueryData }] = useQuery(
     getReference,
     {
@@ -54,7 +55,11 @@ export const EditReference = () => {
                     ...values,
                   })
                   await setQueryData(updated)
-                  router.push(Routes.EditCurriculumPage())
+                  if (curriculumId !== undefined && curriculumId !== "") {
+                    router.push(Routes.EditCurriculumPage({curriculumId}))
+                  }else{
+                    router.push(Routes.ReferencesPage())
+                  }
                 } catch (error) {
                   console.error(error)
                   return {

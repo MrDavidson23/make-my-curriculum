@@ -1,5 +1,5 @@
 import { Suspense } from "react"
-import { Head, Link, useRouter, useQuery, useMutation, useParam, Routes } from "blitz"
+import { Head, Link, useRouter, useQuery, useRouterQuery, useMutation, useParam, Routes } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getSkill from "app/skills/queries/getSkill"
 import updateSkill from "app/skills/mutations/updateSkill"
@@ -10,6 +10,7 @@ import { SkillForm, FORM_ERROR } from "app/skills/components/SkillForm"
 export const EditSkill = () => {
   const router = useRouter()
   const skillId = useParam("skillId", "number")
+  const { curriculumId } = useRouterQuery()
   const [skill, { setQueryData }] = useQuery(
     getSkill,
     {
@@ -55,7 +56,11 @@ export const EditSkill = () => {
                     ...values,
                   })
                   await setQueryData(updated)
-                  router.push(Routes.EditCurriculumPage())
+                  if (curriculumId !== undefined && curriculumId !== "") {
+                    router.push(Routes.EditCurriculumPage({curriculumId}))
+                  }else{
+                    router.push(Routes.SkillsPage())
+                  }
                 } catch (error) {
                   console.error(error)
                   return {

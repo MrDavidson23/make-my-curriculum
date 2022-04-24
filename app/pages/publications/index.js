@@ -65,7 +65,7 @@ export const PublicationsList = (props) => {
               firstText={publication.location + " " + publication.date.toLocaleDateString()}
               secondText={publication.tag}
               handleOnEdit={() => {
-                router.push(Routes.EditPublicationPage({ publicationId: publication.id }))
+                router.push(Routes.EditPublicationPage({ publicationId: publication.id, curriculumId: props.curriculumId }))
               }}
               handleOnDelete={async () => {
                 if (window.confirm("This will be deleted")) {
