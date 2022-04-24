@@ -6,7 +6,7 @@ import getReference from "app/references/queries/getReference"
 import { ReferenceForm, FORM_ERROR } from "app/references/components/ReferenceForm"
 import updateReference from "app/references/mutations/updateReference"
 import { UpdateReferenceValidation } from "app/references/components/validaciones"
-import { Grid } from "@mui/material"
+import { Grid, Button } from "@mui/material"
 
 export const EditReference = () => {
   const router = useRouter()
@@ -76,17 +76,25 @@ export const EditReference = () => {
 }
 
 const EditReferencePage = () => {
+  const { curriculumId } = useRouterQuery()
+  const returnPage = (
+    curriculumId !== '' ?
+      Routes.EditCurriculumPage({ curriculumId }) : Routes.ReferencesPage()
+  )
   return (
     <div>
       <Suspense fallback={<div>Loading...</div>}>
         <EditReference />
       </Suspense>
 
-      <p>
-        <Link href={Routes.ReferencesPage()}>
-          <a>References</a>
-        </Link>
-      </p>
+      <Grid item xs={12}>
+        <p>
+          <Link href={returnPage}>
+            <Button variant="outlined"> Regresar </Button>
+          </Link>
+        </p>
+      </Grid>
+      
     </div>
   )
 }

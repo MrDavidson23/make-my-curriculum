@@ -2,25 +2,7 @@ import { Link, useRouter, useMutation, useRouterQuery, Routes } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import { ReferenceForm, FORM_ERROR } from "app/references/components/ReferenceForm"
 
-import {
-  Box,
-  Typography,
-  Button,
-  Stack,
-  Checkbox,
-  FormControl,
-  FormControlLabel,
-  RadioGroup,
-  Radio,
-  InputLabel,
-  FormLabel,
-  Select,
-  MenuItem,
-  TextField,
-  InputAdornment,
-  Avatar,
-  Grid,
-} from "@mui/material"
+import { Button, Grid} from "@mui/material"
 import { CreateReferenceValidation } from "app/references/components/validaciones"
 import createReference from "app/references/mutations/createReference"
 import createReferenceOnCurriculum from "app/reference-on-curricula/mutations/createReferenceOnCurriculum"
@@ -29,6 +11,12 @@ const NewReferencePage = () => {
   const { curriculumId } = useRouterQuery()
   const [createReferenceMutation] = useMutation(createReference)
   const [createReferenceOnCurriculumMutation] = useMutation(createReferenceOnCurriculum)
+  
+  const returnPage = (
+    curriculumId !== '' ?
+      Routes.EditCurriculumPage({ curriculumId }) : Routes.ReferencesPage()
+  )
+
   return (
     <div>
       <Grid
@@ -71,8 +59,8 @@ const NewReferencePage = () => {
         </Grid>
         <Grid item xs={12}>
           <p>
-            <Link href={Routes.EditCurriculumPage({ curriculumId })}>
-              <a>References</a>
+            <Link href={returnPage}>
+              <Button variant="outlined"> Regresar </Button>
             </Link>
           </p>
         </Grid>
