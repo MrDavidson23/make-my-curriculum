@@ -28,7 +28,7 @@ const NewSkillPage = () => {
       >
         <Grid item xs={12}>
           <Typography variant="h3" component="div" gutterBottom>
-            Create New Skill
+            Crear nueva Habilidad
           </Typography>
         </Grid>
         <Grid item xs={12}>

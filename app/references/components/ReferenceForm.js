@@ -31,16 +31,16 @@ export function ReferenceForm(props) {
       <Form {...props}>
         <Grid container spacing={3}>
           <Grid item xs={12}>
-            <LabeledTextField name="name" label="Name" placeholder="Name" />
+            <LabeledTextField name="name" label="Nombre" placeholder="Nombre" />
           </Grid>
           <Grid item xs={12}>
             <LabeledTextField name="email" label="Email" placeholder="Email" />
           </Grid>
           <Grid item xs={12}>
-            <LabeledTextField name="phone" label="Phone" placeholder="Phone" />
+            <LabeledTextField name="phone" label="Teléfono" placeholder="Teléfono" />
           </Grid>
           <Grid item xs={12}>
-            <LabeledTextField name="institution" label="Institution" placeholder="Institution" />
+            <LabeledTextField name="institution" label="Institución" placeholder="Institución" />
           </Grid>
         </Grid>
       </Form>

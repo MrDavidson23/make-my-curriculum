@@ -33,7 +33,7 @@ const NewLaboralExperiencePage = () => {
       >
         <Grid item xs={12}>
           <Typography variant="h3" component="div" gutterBottom>
-            Create New Laboral Experience
+            Crear nueva Experiencia Laboral
           </Typography>
         </Grid>
         <Grid item xs={12}>

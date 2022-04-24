@@ -103,7 +103,7 @@ const SkillsPage = (props) => {
       <div>
         <p>
           <Link href={Routes.NewSkillPage({ curriculumId: props.curriculumId })}>
-            <Button variant="outlined">Agregar Nueva Habilidad</Button>
+            <Button variant="outlined">Crear Habilidad</Button>
           </Link>
         </p>
 

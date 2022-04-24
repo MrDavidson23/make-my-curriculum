@@ -110,7 +110,7 @@ const TechnicalEducationsPage = (props) => {
       <div>
         <p>
           <Link href={Routes.NewTechnicalEducationPage({ curriculumId: props.curriculumId })}>
-            <Button variant="outlined">Agregar Educación Técnica</Button>
+            <Button variant="outlined">Crear Educación Técnica</Button>
           </Link>
         </p>
 
