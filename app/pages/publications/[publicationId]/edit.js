@@ -1,5 +1,5 @@
 import { Suspense } from "react"
-import { Head, Link, useRouter, useQuery, useMutation, useParam, Routes } from "blitz"
+import { Head, Link, useRouter, useQuery, useRouterQuery, useMutation, useParam, Routes } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getPublication from "app/publications/queries/getPublication"
 import updatePublication from "app/publications/mutations/updatePublication"
@@ -10,6 +10,7 @@ import { Grid, Button, Typography } from "@mui/material"
 export const EditPublication = () => {
   const router = useRouter()
   const publicationId = useParam("publicationId", "number")
+  const { curriculumId } = useRouterQuery()
   const [publication, { setQueryData }] = useQuery(
     getPublication,
     {
@@ -55,7 +56,11 @@ export const EditPublication = () => {
                     ...values,
                   })
                   await setQueryData(updated)
-                  router.push(Routes.EditCurriculumPage())
+                  if (curriculumId !== undefined && curriculumId !== "") {
+                    router.push(Routes.EditCurriculumPage({curriculumId}))
+                  }else{
+                    router.push(Routes.PublicationsPage())
+                  }
                 } catch (error) {
                   console.error(error)
                   return {

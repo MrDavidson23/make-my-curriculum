@@ -62,7 +62,7 @@ export const SkillsList = (props) => {
             <Chip
               label={skill.description}
               onClick={() => {
-                router.push(Routes.EditSkillPage({ skillId: skill.id }))
+                router.push(Routes.EditSkillPage({ skillId: skill.id, curriculumId: props.curriculumId }))
               }}
               onDelete={async () => {
                 if (window.confirm("This will be deleted")) {

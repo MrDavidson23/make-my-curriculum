@@ -1,5 +1,5 @@
 import { Suspense } from "react"
-import { Head, Link, useRouter, useQuery, useMutation, useParam, Routes } from "blitz"
+import { Head, Link, useRouter, useQuery, useRouterQuery, useMutation, useParam, Routes } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getLaboralExperience from "app/laboral-experiences/queries/getLaboralExperience"
 import updateLaboralExperience from "app/laboral-experiences/mutations/updateLaboralExperience"
@@ -13,6 +13,7 @@ import {
 export const EditLaboralExperience = () => {
   const router = useRouter()
   const laboralExperienceId = useParam("laboralExperienceId", "number")
+  const { curriculumId } = useRouterQuery()
   const [laboralExperience, { setQueryData }] = useQuery(
     getLaboralExperience,
     {
@@ -58,7 +59,11 @@ export const EditLaboralExperience = () => {
                     ...values,
                   })
                   await setQueryData(updated)
-                  router.push(Routes.EditCurriculumPage())
+                  if (curriculumId !== undefined && curriculumId !== "") {
+                    router.push(Routes.EditCurriculumPage({curriculumId}))
+                  }else{
+                    router.push(Routes.LaboralExperiencesPage())
+                  }
                 } catch (error) {
                   console.error(error)
                   return {

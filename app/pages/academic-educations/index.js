@@ -72,7 +72,7 @@ export const AcademicEducationsList = (props) => {
               }
               handleOnEdit={() => {
                 router.push(
-                  Routes.EditAcademicEducationPage({ academicEducationId: academicEducation.id })
+                  Routes.EditAcademicEducationPage({ academicEducationId: academicEducation.id, curriculumId: props.curriculumId })
                 )
               }}
               handleOnDelete={async () => {
