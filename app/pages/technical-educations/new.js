@@ -16,6 +16,12 @@ const NewTechnicalEducationPage = () => {
   const [createTechnicalEducationOnCurriculumMutation] = useMutation(
     createTechnicalEducationOnCurriculum
   )
+
+  const returnPage = (
+    curriculumId !== '' ?
+      Routes.EditCurriculumPage({ curriculumId }) : Routes.TechnicalEducationsPage()
+  )
+
   return (
     <div>
       <Grid
@@ -60,8 +66,8 @@ const NewTechnicalEducationPage = () => {
         </Grid>
         <Grid item xs={12}>
           <p>
-            <Link href={Routes.TechnicalEducationsPage()}>
-              <Button variant="outlined"> Return </Button>
+            <Link href={returnPage}>
+              <Button variant="outlined"> Regresar </Button>
             </Link>
           </p>
         </Grid>

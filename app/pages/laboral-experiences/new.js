@@ -16,6 +16,12 @@ const NewLaboralExperiencePage = () => {
   const [createLaboralExperienceOnCurriculumMutation] = useMutation(
     createLaboralExperienceOnCurriculum
   )
+
+  const returnPage = (
+    curriculumId !== '' ?
+      Routes.EditCurriculumPage({ curriculumId }) : Routes.LaboralExperiencesPage()
+  )
+
   return (
     <div>
       <Grid
@@ -60,8 +66,8 @@ const NewLaboralExperiencePage = () => {
         </Grid>
         <Grid item xs={12}>
           <p>
-            <Link href={Routes.LaboralExperiencesPage()}>
-              <Button variant="outlined"> Return </Button>
+            <Link href={returnPage}>
+              <Button variant="outlined"> Regresar </Button>
             </Link>
           </p>
         </Grid>

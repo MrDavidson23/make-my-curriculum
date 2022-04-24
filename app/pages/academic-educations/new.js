@@ -1,4 +1,4 @@
-import { Link, useRouter, useMutation, useRouterQuery, Routes } from "blitz"
+import { Link, useRouter, useMutation, useRouterQuery, Routes, Router } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import createAcademicEducation from "app/academic-educations/mutations/createAcademicEducation"
 import createAcademicEducationOnCurriculum from "app/academic-education-on-curricula/mutations/createAcademicEducationOnCurriculum"
@@ -16,6 +16,12 @@ const NewAcademicEducationPage = () => {
   const [createAcademicEducationOnCurriculumMutation] = useMutation(
     createAcademicEducationOnCurriculum
   )
+
+  const returnPage = (
+    curriculumId !== '' ?
+      Routes.EditCurriculumPage({ curriculumId }) : Routes.AcademicEducationsPage()
+  )
+
   return (
     <div>
       <Grid
@@ -61,7 +67,7 @@ const NewAcademicEducationPage = () => {
         </Grid>
         <Grid item xs={12}>
           <p>
-            <Link href={Routes.EditCurriculumPage({ curriculumId })}>
+            <Link href={returnPage}>
               <Button variant="outlined"> Regresar </Button>
             </Link>
           </p>

@@ -77,6 +77,11 @@ export const EditSkill = () => {
 }
 
 const EditSkillPage = () => {
+  const { curriculumId } = useRouterQuery()
+  const returnPage = (
+    curriculumId !== '' ?
+      Routes.EditCurriculumPage({ curriculumId }) : Routes.SkillsPage()
+  )
   return (
     <div>
       <Suspense fallback={<div>Loading...</div>}>
@@ -85,8 +90,8 @@ const EditSkillPage = () => {
 
       <Grid item xs={12}>
         <p>
-          <Link href={Routes.SkillsPage()}>
-            <Button variant="outlined"> Skills </Button>
+          <Link href={returnPage}>
+            <Button variant="outlined"> Regresar </Button>
           </Link>
         </p>
       </Grid>

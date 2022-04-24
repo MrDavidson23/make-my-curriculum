@@ -11,6 +11,12 @@ const NewSkillPage = () => {
   const { curriculumId } = useRouterQuery()
   const [createSkillMutation] = useMutation(createSkill)
   const [createSkillOnCurriculumMutation] = useMutation(createSkillOnCurriculum)
+  
+  const returnPage = (
+    curriculumId !== '' ?
+      Routes.EditCurriculumPage({ curriculumId }) : Routes.SkillsPage()
+  )
+  
   return (
     <div>
       <Grid
@@ -55,8 +61,8 @@ const NewSkillPage = () => {
         </Grid>
         <Grid item xs={12}>
           <p>
-            <Link href={Routes.EditCurriculumPage({ curriculumId })}>
-              <Button variant="outlined"> Return </Button>
+            <Link href={returnPage}>
+              <Button variant="outlined"> Regresar </Button>
             </Link>
           </p>
         </Grid>

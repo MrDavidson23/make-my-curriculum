@@ -80,6 +80,11 @@ export const EditLaboralExperience = () => {
 }
 
 const EditLaboralExperiencePage = () => {
+  const { curriculumId } = useRouterQuery()
+  const returnPage = (
+    curriculumId !== '' ?
+      Routes.EditCurriculumPage({ curriculumId }) : Routes.LaboralExperiencesPage()
+  )
   return (
     <div>
       <Suspense fallback={<div>Loading...</div>}>
@@ -88,8 +93,8 @@ const EditLaboralExperiencePage = () => {
 
       <Grid item xs={12}>
         <p>
-          <Link href={Routes.LaboralExperiencesPage()}>
-            <Button variant="outlined"> LaboralExperiences </Button>
+          <Link href={returnPage}>
+            <Button variant="outlined"> Regresar </Button>
           </Link>
         </p>
       </Grid>
