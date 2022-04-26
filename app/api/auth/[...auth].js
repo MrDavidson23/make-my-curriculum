@@ -3,7 +3,6 @@ import db from "db"
 import { Strategy as TwitterStrategy } from "passport-twitter"
 import { Strategy as GoogleStrategy } from "passport-google-oidc"
 import { Strategy as LinkedInStrategy } from "passport-linkedin-oauth2"
-import { Strategy as FacebookStrategy } from "passport-facebook"
 
 export default passportAuth({
   successRedirectUrl: "/",
@@ -94,15 +93,7 @@ export default passportAuth({
     },
     {
       authenticateOptions: { scope: "r_emailaddress r_liteprofile" },
-      profileFields: [
-        "id",
-        "first-name",
-        "last-name",
-        "email-address",
-        "headline",
-        "r_emailaddress",
-        "email",
-      ],
+      profileFields: ["id", "first-name", "last-name", "email-address", "headline"],
       strategy: new LinkedInStrategy(
         {
           clientID: process.env.LINKEDIN_KEY,
@@ -114,54 +105,6 @@ export default passportAuth({
               : "http://localhost:3000/api/auth/linkedin/callback",
           includeEmail: true,
         },
-        async function (_token, _r_emailaddress, _tokenSecret, profile, done) {
-          console.log("profile", profile)
-          console.log("_token", _token)
-          console.log("_tokenSecret", _tokenSecret)
-          console.log("_r_emailaddress", _r_emailaddress)
-
-          const email = profile.emails && profile.emails[0]?.value
-          //const email = profile.emails && profile.emails[0]?.value
-
-          if (!email) {
-            // This can happen if you haven't enabled email access in your twitter app permissions
-            return done(new Error("LinkedIn OAuth response doesn't have email."))
-          }
-
-          const user = await db.user.upsert({
-            where: { email },
-            create: {
-              email,
-              name: profile.name.givenName,
-              lastName: profile.name.familyName,
-            },
-            update: { email },
-          })
-
-          const publicData = {
-            userId: user.id,
-            roles: [user.role],
-            source: "Linkedin",
-          }
-          done(undefined, { publicData })
-        }
-      ),
-    },
-    {
-      authType: "reauthenticate",
-      profileFields: ["id", "displayName", "photos", "email"],
-      authenticateOptions: { scope: ["email"] },
-      strategy: new FacebookStrategy(
-        {
-          clientID: process.env.FACEBOOK_APP_ID,
-          clientSecret: process.env.FACEBOOK_APP_SECRET,
-          //callbackURL: 'https://www.example.com/oauth2/redirect/google'
-          callbackURL:
-            process.env.NODE_ENV === "production"
-              ? "https://makemycurriculum.plataformaelectronicacr.com/api/auth/facebook/callback"
-              : "http://localhost:3000/api/auth/facebook/callback",
-          enableProof: true,
-        },
         async function (_token, _tokenSecret, profile, done) {
           console.log("profile", profile)
           console.log("_token", _token)
@@ -172,7 +115,7 @@ export default passportAuth({
 
           if (!email) {
             // This can happen if you haven't enabled email access in your twitter app permissions
-            return done(new Error("Facebook OAuth response doesn't have email."))
+            return done(new Error("LinkedIn OAuth response doesn't have email."))
           }
 
           const user = await db.user.upsert({
