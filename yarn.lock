@@ -2730,11 +2730,6 @@
   "resolved" "https://registry.npmjs.org/base64-js/-/base64-js-1.5.1.tgz"
   "version" "1.5.1"
 
-"base64url@3.x.x":
-  "integrity" "sha512-ir1UPr3dkwexU7FdV8qBBbNDRUhMmIekYMFZfi+C/sLNnRESKPl23nB9b2pltqfOQNnGzsDdId90AEtG5tCx4A=="
-  "resolved" "https://registry.npmjs.org/base64url/-/base64url-3.0.1.tgz"
-  "version" "3.0.1"
-
 "better-path-resolve@^1.0.0":
   "integrity" "sha512-pbnl5XzGBdrFU/wT4jqmJVPn2B6UHPBOhzMQkY/SPUPB6QtUXtmBHBIwCbXJol93mOpGMnQyP/+BB19q04xj7g=="
   "resolved" "https://registry.npmjs.org/better-path-resolve/-/better-path-resolve-1.0.0.tgz"
@@ -8091,13 +8086,6 @@
   dependencies:
     "passport-openidconnect" "0.1.x"
 
-"passport-linkedin-oauth2@2.0.0":
-  "integrity" "sha512-PnSeq2HzFQ/y1/p2RTF/kG2zhJ7kwGVg4xO3E+JNxz2aI0pFJGAqC503FVpUksYbhQdNhL6QYlK9qrEXD7ZYCg=="
-  "resolved" "https://registry.npmjs.org/passport-linkedin-oauth2/-/passport-linkedin-oauth2-2.0.0.tgz"
-  "version" "2.0.0"
-  dependencies:
-    "passport-oauth2" "1.x.x"
-
 "passport-oauth1@1.x.x":
   "integrity" "sha512-Sv2YWodC6jN12M/OXwmR4BIXeeIHjjbwYTQw4kS6tHK4zYzSEpxBgSJJnknBjICA5cj0ju3FSnG1XmHgIhYnLg=="
   "resolved" "https://registry.npmjs.org/passport-oauth1/-/passport-oauth1-1.2.0.tgz"
@@ -8105,17 +8093,6 @@
   dependencies:
     "oauth" "0.9.x"
     "passport-strategy" "1.x.x"
-    "utils-merge" "1.x.x"
-
-"passport-oauth2@1.x.x":
-  "integrity" "sha512-ZbV43Hq9d/SBSYQ22GOiglFsjsD1YY/qdiptA+8ej+9C1dL1TVB+mBE5kDH/D4AJo50+2i8f4bx0vg4/yDDZCQ=="
-  "resolved" "https://registry.npmjs.org/passport-oauth2/-/passport-oauth2-1.6.1.tgz"
-  "version" "1.6.1"
-  dependencies:
-    "base64url" "3.x.x"
-    "oauth" "0.9.x"
-    "passport-strategy" "1.x.x"
-    "uid2" "0.0.x"
     "utils-merge" "1.x.x"
 
 "passport-openidconnect@0.1.x":
@@ -10346,11 +10323,6 @@
   "integrity" "sha512-8Y75pvTYkLJW2hWQHXxoqRgV7qb9B+9vFEtidML+7koHUFapnVJAZ6cKs+Qjz5Aw3aZWHMC6u0wJE3At+nSGwA=="
   "resolved" "https://registry.npmjs.org/uc.micro/-/uc.micro-1.0.6.tgz"
   "version" "1.0.6"
-
-"uid2@0.0.x":
-  "integrity" "sha512-IevTus0SbGwQzYh3+fRsAMTVVPOoIVufzacXcHPmdlle1jUpq7BRL+mw3dgeLanvGZdwwbWhRV6XrcFNdBmjWA=="
-  "resolved" "https://registry.npmjs.org/uid2/-/uid2-0.0.4.tgz"
-  "version" "0.0.4"
 
 "unbox-primitive@^1.0.1":
   "integrity" "sha512-tZU/3NqK3dA5gpE1KtyiJUrEB0lxnGkMFHptJ7q6ewdZ8s12QrODwNbhIJStmJkd1QDXa1NRA8aF2A1zk/Ypyw=="
