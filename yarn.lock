@@ -2272,11 +2272,6 @@
     "require-from-string" "^2.0.2"
     "uri-js" "^4.2.2"
 
-"all@0.0.0":
-  "integrity" "sha1-+yqnXUdZ1A457LsRj6vwzBH/VU8="
-  "resolved" "https://registry.npmjs.org/all/-/all-0.0.0.tgz"
-  "version" "0.0.0"
-
 "amdefine@>=0.0.4":
   "integrity" "sha1-SlKCrBZHKek2Gbz9OtFR+BfOkfU="
   "resolved" "https://registry.npmjs.org/amdefine/-/amdefine-1.0.1.tgz"
@@ -8083,6 +8078,13 @@
   "integrity" "sha1-s2PlXoAGym/iF4TS2yK9FdeRfxQ="
   "resolved" "https://registry.npmjs.org/pascalcase/-/pascalcase-0.1.1.tgz"
   "version" "0.1.1"
+
+"passport-facebook@3.0.0":
+  "integrity" "sha512-K/qNzuFsFISYAyC1Nma4qgY/12V3RSLFdFVsPKXiKZt434wOvthFW1p7zKa1iQihQMRhaWorVE1o3Vi1o+ZgeQ=="
+  "resolved" "https://registry.npmjs.org/passport-facebook/-/passport-facebook-3.0.0.tgz"
+  "version" "3.0.0"
+  dependencies:
+    "passport-oauth2" "1.x.x"
 
 "passport-google-oidc@0.1.0":
   "integrity" "sha512-/TtFXaWvmubm5kXNoJMyzBfxhnZ0lnBPA6w6rmQMP9klmHZf0ArE8IrIEt3yAHoiDzGx4eTO7YasKQFbPsNtVA=="
