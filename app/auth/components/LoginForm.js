@@ -23,6 +23,8 @@ export const LoginForm = (props) => {
           <p></p>
           <a href="/api/auth/linkedin">Log In With LinkedIn</a>
           <p></p>
+          <a href="/api/auth/facebook">Log In With Facebook</a>
+          <p></p>
           <p>{process.env.NODE_ENV}</p>
         </Grid>
         <Grid item xs={12}>
