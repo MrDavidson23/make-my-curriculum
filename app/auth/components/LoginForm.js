@@ -20,6 +20,10 @@ export const LoginForm = (props) => {
           <a href="/api/auth/twitter">Log In With Twitter</a>
           <p></p>
           <a href="/api/auth/google">Log In With Google</a>
+          <p></p>
+          <a href="/api/auth/linkedin">Log In With Google</a>
+          <p></p>
+          <a href="/api/auth/facebook">Log In With Google</a>
         </Grid>
 
         <Grid item xs={12}>
