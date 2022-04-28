@@ -15,10 +15,11 @@ import logo from "../../../public/logoOnly.png"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 
 import { Suspense, useState } from "react"
-import { useSession, Routes, Link as LinkBlitz } from "blitz"
+import { useSession, Routes, Link as LinkBlitz, useMutation } from "blitz"
 
 import { Image, useRouter } from "blitz" //user router es para usar react
 import { borderRadius, width } from "@mui/system"
+import logout from "app/auth/mutations/logout"
 
 const pages = [
   {
@@ -35,10 +36,11 @@ const pages = [
   },
 ]
 
-const settings = ["Perfil", "Suscripcion", "Logout"]
+const settings = ["Perfil", "Mis Curriculums", "Logout"]
 
 const ResponsiveAppBar = () => {
   const router = useRouter()
+  const [logoutMutation] = useMutation(logout)
   const currentUser = useCurrentUser()
   const [anchorElNav, setAnchorElNav] = useState(null)
   const [anchorElUser, setAnchorElUser] = useState(null)
@@ -66,7 +68,9 @@ const ResponsiveAppBar = () => {
       const targetPage = e.currentTarget.firstChild.innerHTML
       switch (targetPage) {
         case "Logout":
-          router.push(Routes.Logout())
+          logoutMutation()
+        case "Mis Curriculums":
+          router.push(Routes.CurriculaPage())
         case "Perfil":
           //window.location.href = `/users/${currentUser?.id}/edit`
           router.push(Routes.EditUserPage({ userId: currentUser?.id }))
