@@ -3,6 +3,7 @@ import { Head, Link, useRouter, useQuery, useParam, useMutation, Routes } from "
 import Layout from "app/core/layouts/Layout"
 import getAcademicEducation from "app/academic-educations/queries/getAcademicEducation"
 import deleteAcademicEducation from "app/academic-educations/mutations/deleteAcademicEducation"
+import CustomSpinner from "app/core/components/CustomSpinner"
 export const AcademicEducation = () => {
   const router = useRouter()
   const academicEducationId = useParam("academicEducationId", "number")
@@ -58,7 +59,7 @@ const ShowAcademicEducationPage = () => {
         </Link>
       </p>
 
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<CustomSpinner />}>
         <AcademicEducation />
       </Suspense>
     </div>

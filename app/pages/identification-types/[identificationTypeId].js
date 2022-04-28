@@ -3,6 +3,7 @@ import { Head, Link, useRouter, useQuery, useParam, useMutation, Routes } from "
 import Layout from "app/core/layouts/Layout"
 import getIdentificationType from "app/identification-types/queries/getIdentificationType"
 import deleteIdentificationType from "app/identification-types/mutations/deleteIdentificationType"
+import CustomSpinner from "app/core/components/CustomSpinner"
 export const IdentificationType = () => {
   const router = useRouter()
   const identificationTypeId = useParam("identificationTypeId", "number")
@@ -58,7 +59,7 @@ const ShowIdentificationTypePage = () => {
         </Link>
       </p>
 
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<CustomSpinner />}>
         <IdentificationType />
       </Suspense>
     </div>

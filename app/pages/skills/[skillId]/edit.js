@@ -1,5 +1,14 @@
 import { Suspense } from "react"
-import { Head, Link, useRouter, useQuery, useRouterQuery, useMutation, useParam, Routes } from "blitz"
+import {
+  Head,
+  Link,
+  useRouter,
+  useQuery,
+  useRouterQuery,
+  useMutation,
+  useParam,
+  Routes,
+} from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getSkill from "app/skills/queries/getSkill"
 import updateSkill from "app/skills/mutations/updateSkill"
@@ -7,6 +16,7 @@ import { UpdateSkill } from "app/skills/components/validations"
 import { Grid, Button, Typography } from "@mui/material"
 
 import { SkillForm, FORM_ERROR } from "app/skills/components/SkillForm"
+import CustomSpinner from "app/core/components/CustomSpinner"
 export const EditSkill = () => {
   const router = useRouter()
   const skillId = useParam("skillId", "number")
@@ -57,8 +67,8 @@ export const EditSkill = () => {
                   })
                   await setQueryData(updated)
                   if (curriculumId !== undefined && curriculumId !== "") {
-                    router.push(Routes.EditCurriculumPage({curriculumId}))
-                  }else{
+                    router.push(Routes.EditCurriculumPage({ curriculumId }))
+                  } else {
                     router.push(Routes.SkillsPage())
                   }
                 } catch (error) {
@@ -78,13 +88,11 @@ export const EditSkill = () => {
 
 const EditSkillPage = () => {
   const { curriculumId } = useRouterQuery()
-  const returnPage = (
-    curriculumId !== '' ?
-      Routes.EditCurriculumPage({ curriculumId }) : Routes.SkillsPage()
-  )
+  const returnPage =
+    curriculumId !== "" ? Routes.EditCurriculumPage({ curriculumId }) : Routes.SkillsPage()
   return (
     <div>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<CustomSpinner />}>
         <EditSkill />
       </Suspense>
 

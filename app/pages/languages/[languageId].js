@@ -3,6 +3,7 @@ import { Head, Link, useRouter, useQuery, useParam, useMutation, Routes } from "
 import Layout from "app/core/layouts/Layout"
 import getLanguage from "app/languages/queries/getLanguage"
 import deleteLanguage from "app/languages/mutations/deleteLanguage"
+import CustomSpinner from "app/core/components/CustomSpinner"
 export const Language = () => {
   const router = useRouter()
   const languageId = useParam("languageId", "number")
@@ -58,7 +59,7 @@ const ShowLanguagePage = () => {
         </Link>
       </p>
 
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<CustomSpinner />}>
         <Language />
       </Suspense>
     </div>

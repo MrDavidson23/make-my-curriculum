@@ -4,6 +4,7 @@ import Layout from "app/core/layouts/Layout"
 import getCurricula from "app/curricula/queries/getCurricula"
 import CurriculumList from "app/curricula/components/CurriculumList"
 import { Button, Grid } from "@mui/material"
+import CustomSpinner from "app/core/components/CustomSpinner"
 const ITEMS_PER_PAGE = 100
 export const CurriculaList = () => {
   const router = useRouter()
@@ -68,7 +69,7 @@ const CurriculaPage = () => {
           </Button>
         </Grid>
 
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<CustomSpinner />}>
           <CurriculaList />
         </Suspense>
       </Grid>

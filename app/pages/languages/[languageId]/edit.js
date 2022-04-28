@@ -5,6 +5,7 @@ import getLanguage from "app/languages/queries/getLanguage"
 import updateLanguage from "app/languages/mutations/updateLanguage"
 import { LanguageForm, FORM_ERROR } from "app/languages/components/LanguageForm"
 import { UpdateLanguage } from "app/languages/components/validations"
+import CustomSpinner from "app/core/components/CustomSpinner"
 
 export const EditLanguage = () => {
   const router = useRouter()
@@ -64,7 +65,7 @@ export const EditLanguage = () => {
 const EditLanguagePage = () => {
   return (
     <div>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<CustomSpinner />}>
         <EditLanguage />
       </Suspense>
 

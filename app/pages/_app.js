@@ -14,6 +14,9 @@ import AdapterDateFns from "@mui/lab/AdapterDateFns"
 //css global
 import "../styles.css"
 import { Suspense } from "react"
+import { CircularProgress } from "@mui/material"
+import Spinner from "app/core/components/CustomSpinner"
+import CustomSpinner from "app/core/components/CustomSpinner"
 //css global
 
 export default function App({ Component, pageProps }) {
@@ -25,7 +28,10 @@ export default function App({ Component, pageProps }) {
       onReset={useQueryErrorResetBoundary().reset}
     >
       <LocalizationProvider dateAdapter={AdapterDateFns}>
-        <Suspense fallback={"loading..."}>{getLayout(<Component {...pageProps} />)}</Suspense>
+        <Suspense fallback={<CustomSpinner />}>
+          {getLayout(<Component {...pageProps} />)}
+          <CustomSpinner />
+        </Suspense>
       </LocalizationProvider>
     </ErrorBoundary>
   )
