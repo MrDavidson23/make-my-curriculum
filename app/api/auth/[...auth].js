@@ -114,13 +114,24 @@ export default passportAuth({
               : "http://localhost:3000/api/auth/linkedin/callback",
           includeEmail: true,
         },
-        async function (_token, _r_emailaddress, _tokenSecret, profile, done) {
+        async function (_token, _tokenSecret, profile, done) {
           console.log("profile", profile)
           console.log("_token", _token)
           console.log("_tokenSecret", _tokenSecret)
-          console.log("_r_emailaddress", _r_emailaddress)
 
-          const email = profile.emails && profile.emails[0]?.value
+          const profile2 = await fetch(
+            `https://api.linkedin.com/v2/clientAwareMemberHandles?q=members&projection=(elements*(primary,type,handle~))`,
+            {
+              headers: {
+                Authorization: `Bearer ${_token}`,
+                "Content-Type": "application/json",
+              },
+            }
+          )
+          //console.log("profile2", JSON.stringify(await profile2.json(), null, 4))
+
+          //const email = _r_emailaddress.elements[0].handle~.emailAddress
+          const email = (await profile2.json()).elements[0]["handle~"].emailAddress
           //const email = profile.emails && profile.emails[0]?.value
 
           if (!email) {
@@ -149,8 +160,8 @@ export default passportAuth({
     },
     {
       authType: "reauthenticate",
-      profileFields: ["id", "displayName", "photos", "email"],
-      authenticateOptions: { scope: ["email"] },
+      profileFields: ["user_birthday", "id", "displayName", "photos", "email"],
+      authenticateOptions: { scope: "email public_profile user_birthday" },
       strategy: new FacebookStrategy(
         {
           clientID: process.env.FACEBOOK_APP_ID,
@@ -163,11 +174,18 @@ export default passportAuth({
           enableProof: true,
         },
         async function (_token, _tokenSecret, profile, done) {
-          console.log("profile", profile)
+          console.log("profile s", profile)
           console.log("_token", _token)
           console.log("_tokenSecret", _tokenSecret)
+          const email2 = await fetch(
+            "https://graph.facebook.com/v13.0/me?" +
+              "fields=id,name,email,first_name,last_name&access_token=" +
+              _token,
+            { method: "POST" }
+          )
 
-          const email = profile.emails && profile.emails[0]?.value
+          //const email2 = "https://graph.facebook.com/v3.2/me?" + "fields=id,name,email,first_name,last_name&access_token=" + token
+          const email = (await email2.json()).email
           //const email = profile.emails && profile.emails[0]?.value
 
           if (!email) {
