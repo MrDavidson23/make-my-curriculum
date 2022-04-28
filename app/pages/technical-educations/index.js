@@ -68,7 +68,7 @@ export const TechnicalEducationsList = (props) => {
               secondText={technicalEducation.completionYear.toLocaleDateString()}
               handleOnEdit={() => {
                 router.push(
-                  Routes.EditTechnicalEducationPage({ technicalEducationId: technicalEducation.id })
+                  Routes.EditTechnicalEducationPage({ technicalEducationId: technicalEducation.id, curriculumId: props.curriculumId })
                 )
               }}
               handleOnDelete={async () => {
@@ -99,18 +99,10 @@ export const TechnicalEducationsList = (props) => {
 const TechnicalEducationsPage = (props) => {
   return (
     <>
-      <Head>
-        <title>TechnicalEducations</title>
-      </Head>
-
-      <Typography variant="h6" component="div" gutterBottom>
-        Educación Técnica
-      </Typography>
-
       <div>
         <p>
           <Link href={Routes.NewTechnicalEducationPage({ curriculumId: props.curriculumId })}>
-            <Button variant="outlined">Agregar Educación Técnica</Button>
+            <Button variant="outlined">Crear Educación Técnica</Button>
           </Link>
         </p>
 

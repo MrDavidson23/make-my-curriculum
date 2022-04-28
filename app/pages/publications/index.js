@@ -65,7 +65,7 @@ export const PublicationsList = (props) => {
               firstText={publication.location + " " + publication.date.toLocaleDateString()}
               secondText={publication.tag}
               handleOnEdit={() => {
-                router.push(Routes.EditPublicationPage({ publicationId: publication.id }))
+                router.push(Routes.EditPublicationPage({ publicationId: publication.id, curriculumId: props.curriculumId }))
               }}
               handleOnDelete={async () => {
                 if (window.confirm("This will be deleted")) {
@@ -95,14 +95,6 @@ export const PublicationsList = (props) => {
 const PublicationsPage = (props) => {
   return (
     <>
-      <Head>
-        <title>Publications</title>
-      </Head>
-
-      <Typography variant="h6" component="div" gutterBottom>
-        Mis publicaciones
-      </Typography>
-
       <div>
         <p>
           <Link href={Routes.NewPublicationPage({ curriculumId: props.curriculumId })}>

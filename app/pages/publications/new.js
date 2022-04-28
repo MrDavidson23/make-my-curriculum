@@ -11,6 +11,12 @@ const NewPublicationPage = () => {
   const { curriculumId } = useRouterQuery()
   const [createPublicationMutation] = useMutation(createPublication)
   const [createPublicationOnCurriculumMutation] = useMutation(createPublicationOnCurriculum)
+  
+  const returnPage = (
+    curriculumId !== '' ?
+      Routes.EditCurriculumPage({ curriculumId }) : Routes.PublicationsPage()
+  )
+
   return (
     <div>
       <Grid
@@ -21,8 +27,8 @@ const NewPublicationPage = () => {
         sx={{ mx: "auto", width: "100%" }}
       >
         <Grid item xs={12}>
-          <Typography variant="h3" component="div" gutterBottom>
-            Crear nueva Publicación
+          <Typography variant="h6" component="div" gutterBottom>
+            <h1>Crear nueva Publicación</h1>
           </Typography>
         </Grid>
 
@@ -56,7 +62,7 @@ const NewPublicationPage = () => {
         </Grid>
         <Grid item xs={12}>
           <p>
-            <Link href={Routes.EditCurriculumPage({ curriculumId })}>
+            <Link href={returnPage}>
               <Button variant="outlined"> Regresar </Button>
             </Link>
           </p>

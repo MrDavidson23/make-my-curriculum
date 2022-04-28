@@ -19,6 +19,8 @@ import ReferencesPage from "app/pages/references/index"
 import SkillsPage from "app/pages/skills/index"
 import LaboralExperiencesPage from "app/pages/laboral-experiences/index"
 
+import { EditableTitleText } from "app/core/components/EditableTitleText"
+
 export const EditCurriculum = () => {
   const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
@@ -28,6 +30,61 @@ export const EditCurriculum = () => {
   })
   const [updateCurriculumMutation] = useMutation(updateCurriculum)
   const currentUser = useCurrentUser()
+  const {
+    skillLabel,
+    laboralExperienceLabel,
+    academicEducationLabel,
+    technicalEducationLabel,
+    publicationLabel,
+    referenceLabel
+  } = curriculum  
+  const [labels, setLabels] = useState({
+    skillLabel,
+    laboralExperienceLabel,
+    academicEducationLabel,
+    technicalEducationLabel,
+    publicationLabel,
+    referenceLabel
+  })
+
+  const updateState = (event) => {
+    const target = event.target
+    setLabels({...labels, [target.name]:target.value})
+  }
+
+  const style = {
+    hr: {
+      marginTop: "3rem",
+      color: "black",
+      backgroundColor: "black",
+      height: 1,
+    }
+  }
+
+  const submitChange = async (values) => {  
+    const newValues = (values === undefined ? curriculum : values)   
+    try {
+      setIsLoading(true)
+      const updated = await updateCurriculumMutation({
+        id: curriculum.id,
+        ...newValues,
+        ...labels,
+      })
+      await setQueryData(updated)
+      router.push(
+        Routes.EditCurriculumPage({
+          curriculumId: updated.id,
+        })
+      )
+      setIsLoading(false)
+    } catch (error) {
+      console.error(error)
+      return {
+        [FORM_ERROR]: error.toString(),
+      }
+    }
+  }
+
   return (
     <>
       <Grid
@@ -41,6 +98,9 @@ export const EditCurriculum = () => {
         <Grid item xs={4}>
           {currentUser && (
             <div>
+              <Head>
+                <title>Edit Curriculum {curriculum.name}</title>
+              </Head>
               <p>
                 <Link href={Routes.PDFViewPage({ curriculumId: curriculumId })}>
                   <Button variant="outlined">Generar PDF</Button>
@@ -60,107 +120,32 @@ export const EditCurriculum = () => {
               </Typography>
 
               <CurriculumForm
-                submitText="Update Curriculum" // TODO use a zod schema for form validation
+                submitText="Actualizar Currículum" // TODO use a zod schema for form validation
                 //  - Tip: extract mutation's schema into a shared `validations.ts` file and
                 //         then import and use it here
                 schema={UpdateCurriculum}
-                initialValues={curriculum}
-                onSubmit={async (values) => {
-                  try {
-                    setIsLoading(true)
-                    const updated = await updateCurriculumMutation({
-                      id: curriculum.id,
-                      ...values,
-                    })
-                    await setQueryData(updated)
-                    router.push(
-                      Routes.EditCurriculumPage({
-                        curriculumId: updated.id,
-                      })
-                    )
-                    setIsLoading(false)
-                  } catch (error) {
-                    console.error(error)
-                    return {
-                      [FORM_ERROR]: error.toString(),
-                    }
-                  }
-                }}
-              />
-              <hr
-                style={{
-                  marginTop: "3rem",
-
-                  color: "black",
-                  backgroundColor: "black",
-                  height: 1,
-                }}
-              />
-              <SkillsPage curriculumId={curriculumId} />
-              <hr
-                style={{
-                  marginTop: "3rem",
-
-                  color: "black",
-                  backgroundColor: "black",
-                  height: 1,
-                }}
-              />
+                initialValues={{...curriculum,...labels}}
+                onSubmit={submitChange}
+                />
+              <hr style={style.hr}/>
+              <EditableTitleText name="skillLabel" title={curriculum.skillLabel} updateState={updateState} submitChange={submitChange}/>
+              <SkillsPage curriculumId={curriculumId}/>
+              <hr style={style.hr}/>
+              <EditableTitleText name="laboralExperienceLabel" title={curriculum.laboralExperienceLabel} updateState={updateState} submitChange={submitChange}/>
               <LaboralExperiencesPage curriculumId={curriculumId} />
-              <hr
-                style={{
-                  marginTop: "3rem",
-
-                  color: "black",
-                  backgroundColor: "black",
-                  height: 1,
-                }}
-              />
+              <hr style={style.hr}/>
+              <EditableTitleText name="academicEducationLabel" title={curriculum.academicEducationLabel} updateState={updateState} submitChange={submitChange}/>
               <AcademicEducationsPage curriculumId={curriculumId} />
-              <hr
-                style={{
-                  marginTop: "3rem",
-
-                  color: "black",
-                  backgroundColor: "black",
-                  height: 1,
-                }}
-              />
+              <hr style={style.hr}/>
+              <EditableTitleText name="technicalEducationLabel" title={curriculum.technicalEducationLabel} updateState={updateState} submitChange={submitChange}/>
               <TechnicalEducationsPage curriculumId={curriculumId} />
-              <hr
-                style={{
-                  marginTop: "3rem",
-
-                  color: "black",
-                  backgroundColor: "black",
-                  height: 1,
-                }}
-              />
+              <hr style={style.hr}/>
+              <EditableTitleText name="publicationLabel" title={curriculum.publicationLabel} updateState={updateState} submitChange={submitChange}/>
               <PublicationsPage curriculumId={curriculumId} />
-              <hr
-                style={{
-                  marginTop: "3rem",
-
-                  color: "black",
-                  backgroundColor: "black",
-                  height: 1,
-                }}
-              />
+              <hr style={style.hr}/>
+              <EditableTitleText name="referenceLabel" title={curriculum.referenceLabel} updateState={updateState} submitChange={submitChange}/>
               <ReferencesPage curriculumId={curriculumId} />
-
-              <hr
-                style={{
-                  marginTop: "3rem",
-
-                  color: "black",
-                  backgroundColor: "black",
-                  height: 1,
-                }}
-              />
-
-              <Head>
-                <title>Edit Curriculum {curriculum.name}</title>
-              </Head>
+              <hr style={style.hr}/>
             </div>
           )}
         </Grid>

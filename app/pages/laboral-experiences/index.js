@@ -73,7 +73,7 @@ export const LaboralExperiencesList = (props) => {
               thirdText={laboralExperience.description}
               handleOnEdit={() => {
                 router.push(
-                  Routes.EditLaboralExperiencePage({ laboralExperienceId: laboralExperience.id })
+                  Routes.EditLaboralExperiencePage({ laboralExperienceId: laboralExperience.id, curriculumId: props.curriculumId })
                 )
               }}
               handleOnDelete={async () => {
@@ -102,18 +102,10 @@ export const LaboralExperiencesList = (props) => {
 const LaboralExperiencesPage = (props) => {
   return (
     <>
-      <Head>
-        <title>LaboralExperiences</title>
-      </Head>
-
-      <Typography variant="h6" component="div" gutterBottom>
-        Experiencia Laboral
-      </Typography>
-
       <div>
         <p>
           <Link href={Routes.NewLaboralExperiencePage({ curriculumId: props.curriculumId })}>
-            <Button variant="outlined">Create Laboral Experience</Button>
+            <Button variant="outlined">Crear Experiencia Laboral</Button>
           </Link>
         </p>
 
