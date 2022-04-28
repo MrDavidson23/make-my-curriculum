@@ -66,7 +66,7 @@ export const ReferencesList = (props) => {
               firstText={reference.phone}
               secondText={reference.email}
               handleOnEdit={() => {
-                router.push(Routes.EditReferencePage({ referenceId: reference.id }))
+                router.push(Routes.EditReferencePage({ referenceId: reference.id, curriculumId: props.curriculumId }))
               }}
               handleOnDelete={async () => {
                 if (window.confirm("This will be deleted")) {
@@ -105,7 +105,7 @@ const ReferencesPage = (props) => {
               Router.push(Routes.NewReferencePage({ curriculumId: props.curriculumId }))
             }
           >
-            Agregar Referencia
+            Crear Referencia
           </Button>
         </p>
 

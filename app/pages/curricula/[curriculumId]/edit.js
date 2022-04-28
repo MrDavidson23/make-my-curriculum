@@ -120,7 +120,7 @@ export const EditCurriculum = () => {
               </Typography>
 
               <CurriculumForm
-                submitText="Update Curriculum" // TODO use a zod schema for form validation
+                submitText="Actualizar Currículum" // TODO use a zod schema for form validation
                 //  - Tip: extract mutation's schema into a shared `validations.ts` file and
                 //         then import and use it here
                 schema={UpdateCurriculum}

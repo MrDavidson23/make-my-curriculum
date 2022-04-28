@@ -11,6 +11,12 @@ const NewSkillPage = () => {
   const { curriculumId } = useRouterQuery()
   const [createSkillMutation] = useMutation(createSkill)
   const [createSkillOnCurriculumMutation] = useMutation(createSkillOnCurriculum)
+  
+  const returnPage = (
+    curriculumId !== '' ?
+      Routes.EditCurriculumPage({ curriculumId }) : Routes.SkillsPage()
+  )
+  
   return (
     <div>
       <Grid
@@ -21,13 +27,13 @@ const NewSkillPage = () => {
         sx={{ mx: "auto", width: "100%" }}
       >
         <Grid item xs={12}>
-          <Typography variant="h3" component="div" gutterBottom>
-            Create New Skill
+          <Typography variant="h6" component="div" gutterBottom>
+            <h1> Crear nueva Habilidad </h1>
           </Typography>
         </Grid>
         <Grid item xs={12}>
           <SkillForm
-            submitText="Save" // TODO use a zod schema for form validation
+            submitText="Guardar" // TODO use a zod schema for form validation
             //  - Tip: extract mutation's schema into a shared `validations.ts` file and
             //         then import and use it here
             schema={CreateSkill}
@@ -55,8 +61,8 @@ const NewSkillPage = () => {
         </Grid>
         <Grid item xs={12}>
           <p>
-            <Link href={Routes.EditCurriculumPage({ curriculumId })}>
-              <Button variant="outlined"> Return </Button>
+            <Link href={returnPage}>
+              <Button variant="outlined"> Regresar </Button>
             </Link>
           </p>
         </Grid>

@@ -1,5 +1,5 @@
 import { Suspense } from "react"
-import { Head, Link, useRouter, useQuery, useMutation, useParam, Routes } from "blitz"
+import { Head, Link, useRouter, useQuery, useRouterQuery, useMutation, useParam, Routes } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getAcademicEducation from "app/academic-educations/queries/getAcademicEducation"
 import updateAcademicEducation from "app/academic-educations/mutations/updateAcademicEducation"
@@ -13,6 +13,7 @@ import {
 export const EditAcademicEducation = () => {
   const router = useRouter()
   const academicEducationId = useParam("academicEducationId", "number")
+  const { curriculumId } = useRouterQuery()
   const [academicEducation, { setQueryData }] = useQuery(
     getAcademicEducation,
     {
@@ -39,8 +40,8 @@ export const EditAcademicEducation = () => {
           sx={{ mx: "auto", width: "100%" }}
         >
           <Grid item xs={12}>
-            <Typography variant="h3" component="div" gutterBottom>
-              Editar Educación Académica {academicEducation.studies}
+            <Typography variant="h6" component="div" gutterBottom>
+              <h1> Editar Educación Académica {academicEducation.studies} </h1>
             </Typography>
           </Grid>
 
@@ -58,7 +59,11 @@ export const EditAcademicEducation = () => {
                     ...values,
                   })
                   await setQueryData(updated)
-                  router.push(Routes.EditCurriculumPage())
+                  if (curriculumId !== undefined && curriculumId !== "") {
+                    router.push(Routes.EditCurriculumPage({curriculumId}))
+                  }else{
+                    router.push(Routes.AcademicEducationsPage())
+                  }
                 } catch (error) {
                   console.error(error)
                   return {
@@ -75,6 +80,11 @@ export const EditAcademicEducation = () => {
 }
 
 const EditAcademicEducationPage = () => {
+  const { curriculumId } = useRouterQuery()
+  const returnPage = (
+    curriculumId !== '' ?
+      Routes.EditCurriculumPage({ curriculumId }) : Routes.AcademicEducationsPage()
+  )
   return (
     <div>
       <Suspense fallback={<div>Loading...</div>}>
@@ -83,7 +93,7 @@ const EditAcademicEducationPage = () => {
 
       <Grid item xs={12}>
         <p>
-          <Link href={Routes.AcademicEducationsPage()}>
+          <Link href={returnPage}>
             <Button variant="outlined"> Regresar </Button>
           </Link>
         </p>
