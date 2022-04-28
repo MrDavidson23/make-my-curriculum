@@ -92,14 +92,6 @@ export const SkillsList = (props) => {
 const SkillsPage = (props) => {
   return (
     <>
-      <Head>
-        <title>Skills</title>
-      </Head>
-
-      <Typography variant="h6" component="div" gutterBottom>
-        Mis habilidades
-      </Typography>
-
       <div>
         <p>
           <Link href={Routes.NewSkillPage({ curriculumId: props.curriculumId })}>
