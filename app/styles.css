@@ -72,3 +72,30 @@ footer a {
 
 .MuiCircularProgress-svg {
 }
+
+logo {
+  width: 100% !important;
+  height: auto !important;
+}
+
+.image-container {
+  width: 100%;
+}
+.image-container > div {
+  position: unset !important;
+}
+
+.image-container .image {
+  padding-top: 4px;
+  object-fit: contain;
+  width: 100% !important;
+  position: relative !important;
+  height: unset !important;
+  max-height: 240px !important;
+}
+
+@media (max-width: 1000px) {
+  .logo {
+    display: none !important;
+  }
+}

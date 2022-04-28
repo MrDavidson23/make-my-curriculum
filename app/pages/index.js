@@ -86,8 +86,8 @@ const Home = () => {
         >
           <Grid item container direction="row">
             <Grid item>
-              <div className="logo" style={{ marginTop: "2rem", width: "300px" }}>
-                <Image src={logo} alt="blitzjs" />
+              <div className={"image-container"}>
+                <Image src={logo} alt="blitzjs" layout="fill" className={"image logo"} />
               </div>
             </Grid>
             <Grid item>
