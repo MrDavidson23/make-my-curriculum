@@ -13,9 +13,9 @@ const Publications = (props) => {
     styles = {...styles, ...props.styles}
     return (
         <>
-        { props.publications && (
+        { props.publications.length > 0  && (
             <View>
-            <Text style={styles.title}>Publicaciones</Text>
+            <Text style={styles.title}>{props.label}</Text>
                 <View style={styles.text}>
                 {props.publications.map((publication) => (
                     <>

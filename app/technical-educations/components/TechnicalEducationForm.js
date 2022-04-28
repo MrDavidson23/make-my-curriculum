@@ -10,19 +10,19 @@ export function TechnicalEducationForm(props) {
       <div>
         <Grid container direction="row" spacing={3}>
           <Grid item xs={12}>
-            <LabeledTextField name="studies" label="Studies" placeholder="Studies" />
+            <LabeledTextField name="studies" label="Estudios" placeholder="Estudios" />
           </Grid>
           <Grid item xs={12}>
-            <LabeledTextField name="location" label="Location" placeholder="Location" />
+            <LabeledTextField name="location" label="Dirección" placeholder="Dirección" />
           </Grid>
           <Grid item xs={12}>
-            <LabeledTextField name="institution" label="Institution" placeholder="Institution" />
+            <LabeledTextField name="institution" label="Institución" placeholder="Institución" />
           </Grid>
           <Grid item xs={12}>
             <DatePickerField
               name="completionYear"
-              label="Completion Year"
-              placeholder="Completion Year"
+              label="Año de finalización"
+              placeholder="Año de finalización"
             />
           </Grid>
         </Grid>

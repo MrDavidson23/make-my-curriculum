@@ -1,29 +1,21 @@
+// app.js
+const blitz = require("blitz/custom-server")
 const { createServer } = require("http")
 const { parse } = require("url")
-const next = require("next")
+const { log } = require("next/dist/server/lib/logging")
 
-const port = process.env.PORT || 3000
-
-// Create the Express-Next App
-const app = next({
-  dev: false,
-})
+const { PORT = "3000" } = process.env
+const dev = process.env.NODE_ENV !== "production"
+const app = blitz({ dev })
 const handle = app.getRequestHandler()
 
-app
-  .prepare()
-  .then(() => {
-    createServer((req, res) => {
-      const parsedUrl = parse(req.url, true)
-      const { pathname, query } = parsedUrl
-      handle(req, res, parsedUrl)
-      console.log("pathname", pathname)
-    }).listen(port, (err) => {
-      if (err) throw err
-      console.log(`> Ready on http://localhost:${port}`)
-    })
+app.prepare().then(() => {
+  createServer((req, res) => {
+    const parsedUrl = parse(req.url, true)
+    const { pathname, query } = parsedUrl
+    handle(req, res, parsedUrl)
+    console.log("pathname", pathname)
+  }).listen(PORT, () => {
+    log.success(`Ready on http://localhost:${PORT}`)
   })
-  .catch((ex) => {
-    console.error(ex.stack)
-    process.exit(1)
-  })
+})

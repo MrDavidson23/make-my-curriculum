@@ -18,6 +18,14 @@ export const LoginForm = (props) => {
         <Grid item xs={12}>
           <h1>Login</h1>
           <a href="/api/auth/twitter">Log In With Twitter</a>
+          <p></p>
+          <a href="/api/auth/google">Log In With Google</a>
+          <p></p>
+          <a href="/api/auth/linkedin">Log In With Linkedin</a>
+          <p></p>
+          <a href="/api/auth/facebook">Log In With Facebook</a>
+          <p></p>
+          <p>{process.env.NODE_ENV}</p>
         </Grid>
 
         <Grid item xs={12}>

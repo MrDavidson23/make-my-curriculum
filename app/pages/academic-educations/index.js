@@ -72,7 +72,7 @@ export const AcademicEducationsList = (props) => {
               }
               handleOnEdit={() => {
                 router.push(
-                  Routes.EditAcademicEducationPage({ academicEducationId: academicEducation.id })
+                  Routes.EditAcademicEducationPage({ academicEducationId: academicEducation.id, curriculumId: props.curriculumId })
                 )
               }}
               handleOnDelete={async () => {
@@ -103,14 +103,6 @@ export const AcademicEducationsList = (props) => {
 const AcademicEducationsPage = (props) => {
   return (
     <>
-      <Head>
-        <title>AcademicEducations</title>
-      </Head>
-
-      <Typography variant="h6" component="div" gutterBottom>
-        Educación Académica
-      </Typography>
-
       <div>
         <p>
           <Link href={Routes.NewAcademicEducationPage({ curriculumId: props.curriculumId })}>
