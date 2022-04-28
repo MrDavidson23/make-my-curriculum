@@ -21,27 +21,33 @@ import { Image, useRouter } from "blitz" //user router es para usar react
 import { borderRadius, width } from "@mui/system"
 import logout from "app/auth/mutations/logout"
 
-const pages = [
-  {
-    name: "Inicio",
-    path: Routes.Home(),
-  },
-  {
-    name: "Crear Curriculum",
-    path: Routes.NewCurriculumPage(),
-  },
-  {
-    name: "Ver Curriculums",
-    path: Routes.CurriculaPage(),
-  },
-]
-
-const settings = ["Perfil", "Mis Curriculums", "Logout"]
-
 const ResponsiveAppBar = () => {
+  const pages = [
+    {
+      name: "Inicio",
+      path: Routes.Home(),
+    },
+    {
+      name: "Crear Curriculum",
+      path: Routes.NewCurriculumPage(),
+    },
+    {
+      name: "Ver Curriculums",
+      path: Routes.CurriculaPage(),
+    },
+  ]
+
   const router = useRouter()
   const [logoutMutation] = useMutation(logout)
   const currentUser = useCurrentUser()
+
+  let settings = ["Inicio"]
+  if (currentUser) {
+    settings = ["Perfil", "Mis Curriculums", "Logout"]
+  } else {
+    settings = ["Registrarse", "Login"]
+  }
+
   const [anchorElNav, setAnchorElNav] = useState(null)
   const [anchorElUser, setAnchorElUser] = useState(null)
 
@@ -69,8 +75,10 @@ const ResponsiveAppBar = () => {
       switch (targetPage) {
         case "Logout":
           logoutMutation()
+          break
         case "Mis Curriculums":
           router.push(Routes.CurriculaPage())
+          break
         case "Perfil":
           //window.location.href = `/users/${currentUser?.id}/edit`
           router.push(Routes.EditUserPage({ userId: currentUser?.id }))
