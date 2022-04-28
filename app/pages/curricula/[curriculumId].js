@@ -3,6 +3,7 @@ import { Head, Link, useRouter, useQuery, useParam, useMutation, Routes } from "
 import { Grid, Button } from "@mui/material"
 import Layout from "app/core/layouts/Layout"
 import PDFViewPage from "./[curriculumId]/pdf-view"
+import CustomSpinner from "app/core/components/CustomSpinner"
 
 const ShowCurriculumPage = () => {
   const curriculumId = useParam("curriculumId", "number")
@@ -45,7 +46,7 @@ const ShowCurriculumPage = () => {
         </Grid>
       </Grid>
 
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<CustomSpinner />}>
         <PDFViewPage />
       </Suspense>
     </div>

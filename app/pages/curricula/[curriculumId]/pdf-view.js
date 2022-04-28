@@ -12,6 +12,7 @@ import AcademicEducations from "app/curricula/components/structure/academicEduca
 import TechnicalEducations from "app/curricula/components/structure/technicalEducations"
 import Publications from "app/curricula/components/structure/publications"
 import References from "app/curricula/components/structure/references"
+import CustomSpinner from "app/core/components/CustomSpinner"
 
 // Create styles
 const styles = StyleSheet.create({
@@ -92,11 +93,31 @@ const CurriculumDocument = (props) => {
             <Skills skills={info.skills} label={info.skillLabel} styles={styles} />
           </View>
           <View style={styles.rightColumn}>
-            <Experiences experiences={info.laboralExperiences} label={info.laboralExperienceLabel} styles={{ text }} />
-            <AcademicEducations academicEducations={info.academicEducations} label={info.academicEducationLabel} styles={{ text }} />
-            <TechnicalEducations technicalEducations={info.technicalEducations} label={info.technicalEducationLabel} styles={{ text }} />
-            <Publications publications={info.publications} label={info.publicationLabel} styles={{ text }} />
-            <References references={info.references} label={info.referenceLabel} styles={{ text }} />
+            <Experiences
+              experiences={info.laboralExperiences}
+              label={info.laboralExperienceLabel}
+              styles={{ text }}
+            />
+            <AcademicEducations
+              academicEducations={info.academicEducations}
+              label={info.academicEducationLabel}
+              styles={{ text }}
+            />
+            <TechnicalEducations
+              technicalEducations={info.technicalEducations}
+              label={info.technicalEducationLabel}
+              styles={{ text }}
+            />
+            <Publications
+              publications={info.publications}
+              label={info.publicationLabel}
+              styles={{ text }}
+            />
+            <References
+              references={info.references}
+              label={info.referenceLabel}
+              styles={{ text }}
+            />
           </View>
         </View>
       </Page>
@@ -107,7 +128,7 @@ const CurriculumDocument = (props) => {
 const PDFViewPage = () => {
   return (
     <div style={{ minHeight: "100vh" }}>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<CustomSpinner />}>
         <PDFViewer style={{ width: "100%", height: "90vh" }}>
           <CurriculumDocument curriculum={GetInfo()} />
         </PDFViewer>

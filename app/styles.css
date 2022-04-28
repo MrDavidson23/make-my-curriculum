@@ -69,3 +69,6 @@ footer a {
 .MuiTypography-h6 {
   color: var(--main-color) !important;
 }
+
+.MuiCircularProgress-svg {
+}

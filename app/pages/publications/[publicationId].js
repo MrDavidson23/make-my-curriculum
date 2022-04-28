@@ -3,6 +3,7 @@ import { Head, Link, useRouter, useQuery, useParam, useMutation, Routes } from "
 import Layout from "app/core/layouts/Layout"
 import getPublication from "app/publications/queries/getPublication"
 import deletePublication from "app/publications/mutations/deletePublication"
+import CustomSpinner from "app/core/components/CustomSpinner"
 export const Publication = () => {
   const router = useRouter()
   const publicationId = useParam("publicationId", "number")
@@ -58,7 +59,7 @@ const ShowPublicationPage = () => {
         </Link>
       </p>
 
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<CustomSpinner />}>
         <Publication />
       </Suspense>
     </div>

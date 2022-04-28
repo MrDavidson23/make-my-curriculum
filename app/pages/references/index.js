@@ -6,6 +6,7 @@ import deleteReference from "app/references/mutations/deleteReference"
 import deleteReferenceOnCurriculum from "app/reference-on-curricula/mutations/deleteReferenceOnCurriculum"
 import InformationCard from "app/core/components/InformationCard"
 import { Grid, button, Button, Typography } from "@mui/material"
+import CustomSpinner from "app/core/components/CustomSpinner"
 const ITEMS_PER_PAGE = 100
 export const ReferencesList = (props) => {
   const router = useRouter()
@@ -66,7 +67,12 @@ export const ReferencesList = (props) => {
               firstText={reference.phone}
               secondText={reference.email}
               handleOnEdit={() => {
-                router.push(Routes.EditReferencePage({ referenceId: reference.id, curriculumId: props.curriculumId }))
+                router.push(
+                  Routes.EditReferencePage({
+                    referenceId: reference.id,
+                    curriculumId: props.curriculumId,
+                  })
+                )
               }}
               handleOnDelete={async () => {
                 if (window.confirm("This will be deleted")) {
@@ -109,7 +115,7 @@ const ReferencesPage = (props) => {
           </Button>
         </p>
 
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<CustomSpinner />}>
           <ReferencesList curriculumId={props.curriculumId} />
         </Suspense>
       </div>

@@ -1,5 +1,14 @@
 import { Suspense } from "react"
-import { Head, Link, useRouter, useQuery, useRouterQuery, useMutation, useParam, Routes } from "blitz"
+import {
+  Head,
+  Link,
+  useRouter,
+  useQuery,
+  useRouterQuery,
+  useMutation,
+  useParam,
+  Routes,
+} from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getTechnicalEducation from "app/technical-educations/queries/getTechnicalEducation"
 import updateTechnicalEducation from "app/technical-educations/mutations/updateTechnicalEducation"
@@ -10,6 +19,7 @@ import {
   TechnicalEducationForm,
   FORM_ERROR,
 } from "app/technical-educations/components/TechnicalEducationForm"
+import CustomSpinner from "app/core/components/CustomSpinner"
 export const EditTechnicalEducation = () => {
   const router = useRouter()
   const technicalEducationId = useParam("technicalEducationId", "number")
@@ -60,8 +70,8 @@ export const EditTechnicalEducation = () => {
                   })
                   await setQueryData(updated)
                   if (curriculumId !== undefined && curriculumId !== "") {
-                    router.push(Routes.EditCurriculumPage({curriculumId}))
-                  }else{
+                    router.push(Routes.EditCurriculumPage({ curriculumId }))
+                  } else {
                     router.push(Routes.TechnicalEducationsPage())
                   }
                 } catch (error) {
@@ -81,13 +91,13 @@ export const EditTechnicalEducation = () => {
 
 const EditTechnicalEducationPage = () => {
   const { curriculumId } = useRouterQuery()
-  const returnPage = (
-    curriculumId !== '' ?
-      Routes.EditCurriculumPage({ curriculumId }) : Routes.TechnicalEducationsPage()
-  )
+  const returnPage =
+    curriculumId !== ""
+      ? Routes.EditCurriculumPage({ curriculumId })
+      : Routes.TechnicalEducationsPage()
   return (
     <div>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<CustomSpinner />}>
         <EditTechnicalEducation />
       </Suspense>
 

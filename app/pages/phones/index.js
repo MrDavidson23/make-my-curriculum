@@ -2,6 +2,7 @@ import { Suspense } from "react"
 import { Head, Link, usePaginatedQuery, useRouter, Routes } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getPhones from "app/phones/queries/getPhones"
+import CustomSpinner from "app/core/components/CustomSpinner"
 const ITEMS_PER_PAGE = 100
 export const PhonesList = () => {
   const router = useRouter()
@@ -68,7 +69,7 @@ const PhonesPage = () => {
           </Link>
         </p>
 
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<CustomSpinner />}>
           <PhonesList />
         </Suspense>
       </div>

@@ -10,6 +10,7 @@ import getUsers from "app/users/queries/getUsers"
 import logout from "app/auth/mutations/logout"
 import logo from "public/logo.png"
 import { Grid, Typography, Button, Divider, Box } from "@mui/material"
+import CustomSpinner from "app/core/components/CustomSpinner"
 
 const UserInfo = () => {
   const currentUser = useCurrentUser()
@@ -90,7 +91,7 @@ const Home = () => {
               </div>
             </Grid>
             <Grid item>
-              <Suspense fallback="Loading...">
+              <Suspense fallback={<CustomSpinner />}>
                 <UserDisplay />
               </Suspense>
             </Grid>
@@ -107,7 +108,7 @@ const Home = () => {
                 justifyContent="space-between"
                 alignItems="center"
               >
-                <Suspense fallback="Loading...">
+                <Suspense fallback={<CustomSpinner />}>
                   <UserList users={user} />
                 </Suspense>
               </Grid>
@@ -126,7 +127,7 @@ const Home = () => {
                 justifyContent="space-between"
                 alignItems="center"
               >
-                <Suspense fallback="Loading...">
+                <Suspense fallback={<CustomSpinner />}>
                   <CurriculumList curriculumns={curricula} />
                 </Suspense>
               </Grid>

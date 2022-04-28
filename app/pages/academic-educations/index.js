@@ -6,6 +6,7 @@ import deleteAcademicEducation from "app/academic-educations/mutations/deleteAca
 import deleteAcademicEducationOnCurriculum from "app/academic-education-on-curricula/mutations/deleteAcademicEducationOnCurriculum"
 import InformationCard from "app/core/components/InformationCard"
 import { Button, Grid, Typography } from "@mui/material"
+import CustomSpinner from "app/core/components/CustomSpinner"
 const ITEMS_PER_PAGE = 100
 export const AcademicEducationsList = (props) => {
   const router = useRouter()
@@ -72,7 +73,10 @@ export const AcademicEducationsList = (props) => {
               }
               handleOnEdit={() => {
                 router.push(
-                  Routes.EditAcademicEducationPage({ academicEducationId: academicEducation.id, curriculumId: props.curriculumId })
+                  Routes.EditAcademicEducationPage({
+                    academicEducationId: academicEducation.id,
+                    curriculumId: props.curriculumId,
+                  })
                 )
               }}
               handleOnDelete={async () => {
@@ -110,7 +114,7 @@ const AcademicEducationsPage = (props) => {
           </Link>
         </p>
 
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<CustomSpinner />}>
           <AcademicEducationsList curriculumId={props.curriculumId} />
         </Suspense>
       </div>
