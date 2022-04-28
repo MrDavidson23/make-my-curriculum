@@ -1,5 +1,5 @@
 import { Suspense } from "react"
-import { Head, Link, useRouter, useQuery, useMutation, useParam, Routes } from "blitz"
+import { Head, Link, useRouter, useQuery, useRouterQuery, useMutation, useParam, Routes } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getPublication from "app/publications/queries/getPublication"
 import updatePublication from "app/publications/mutations/updatePublication"
@@ -10,6 +10,7 @@ import { Grid, Button, Typography } from "@mui/material"
 export const EditPublication = () => {
   const router = useRouter()
   const publicationId = useParam("publicationId", "number")
+  const { curriculumId } = useRouterQuery()
   const [publication, { setQueryData }] = useQuery(
     getPublication,
     {
@@ -36,14 +37,14 @@ export const EditPublication = () => {
           sx={{ mx: "auto", width: "100%" }}
         >
           <Grid item xs={12}>
-            <Typography variant="h3" component="div" gutterBottom>
-              Editar Publicación {publication.name}
+            <Typography variant="h6" component="div" gutterBottom>
+              <h1>Editar Publicación {publication.name}</h1>
             </Typography>
           </Grid>
 
           <Grid item xs={12}>
             <PublicationForm
-              submitText="Update Publication" // TODO use a zod schema for form validation
+              submitText="Actualizar Publicación" // TODO use a zod schema for form validation
               //  - Tip: extract mutation's schema into a shared `validations.ts` file and
               //         then import and use it here
               schema={UpdatePublication}
@@ -55,7 +56,11 @@ export const EditPublication = () => {
                     ...values,
                   })
                   await setQueryData(updated)
-                  router.push(Routes.EditCurriculumPage())
+                  if (curriculumId !== undefined && curriculumId !== "") {
+                    router.push(Routes.EditCurriculumPage({curriculumId}))
+                  }else{
+                    router.push(Routes.PublicationsPage())
+                  }
                 } catch (error) {
                   console.error(error)
                   return {
@@ -72,6 +77,11 @@ export const EditPublication = () => {
 }
 
 const EditPublicationPage = () => {
+  const { curriculumId } = useRouterQuery()
+  const returnPage = (
+    curriculumId !== '' ?
+      Routes.EditCurriculumPage({ curriculumId }) : Routes.PublicationsPage()
+  )
   return (
     <div>
       <Suspense fallback={<div>Loading...</div>}>
@@ -80,8 +90,8 @@ const EditPublicationPage = () => {
 
       <Grid item xs={12}>
         <p>
-          <Link href={Routes.PublicationsPage()}>
-            <Button variant="outlined"> Publications </Button>
+          <Link href={returnPage}>
+            <Button variant="outlined"> Regresar </Button>
           </Link>
         </p>
       </Grid>

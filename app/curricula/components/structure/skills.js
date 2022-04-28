@@ -12,9 +12,9 @@ const Skills = (props) => {
   styles = { ...styles, ...props.styles }
   return (
     <>
-      {props.skills && (
+      {props.skills.length > 0  && (
         <View>
-          <Text style={styles.title}>Habilidades</Text>
+          <Text style={styles.title}>{props.label}</Text>
           <View style={styles.text}>
             {props.skills.map((skill) => (
               <Text key={skill.id}>{skill.description}</Text>
@@ -23,7 +23,7 @@ const Skills = (props) => {
         </View>
       )}
     </>
-  )
+  ) 
 }
 
 export default Skills
