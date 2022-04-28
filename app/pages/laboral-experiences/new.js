@@ -16,6 +16,12 @@ const NewLaboralExperiencePage = () => {
   const [createLaboralExperienceOnCurriculumMutation] = useMutation(
     createLaboralExperienceOnCurriculum
   )
+
+  const returnPage = (
+    curriculumId !== '' ?
+      Routes.EditCurriculumPage({ curriculumId }) : Routes.LaboralExperiencesPage()
+  )
+
   return (
     <div>
       <Grid
@@ -26,13 +32,13 @@ const NewLaboralExperiencePage = () => {
         sx={{ mx: "auto", width: "100%" }}
       >
         <Grid item xs={12}>
-          <Typography variant="h3" component="div" gutterBottom>
-            Create New Laboral Experience
+          <Typography variant="h6" component="div" gutterBottom>
+            <h1> Crear nueva Experiencia Laboral </h1>
           </Typography>
         </Grid>
         <Grid item xs={12}>
           <LaboralExperienceForm
-            submitText="Save" // TODO use a zod schema for form validation
+            submitText="Guardar" // TODO use a zod schema for form validation
             //  - Tip: extract mutation's schema into a shared `validations.ts` file and
             //         then import and use it here
             schema={CreateLaboralExperience}
@@ -60,8 +66,8 @@ const NewLaboralExperiencePage = () => {
         </Grid>
         <Grid item xs={12}>
           <p>
-            <Link href={Routes.LaboralExperiencesPage()}>
-              <Button variant="outlined"> Return </Button>
+            <Link href={returnPage}>
+              <Button variant="outlined"> Regresar </Button>
             </Link>
           </p>
         </Grid>

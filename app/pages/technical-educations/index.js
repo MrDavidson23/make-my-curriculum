@@ -68,7 +68,7 @@ export const TechnicalEducationsList = (props) => {
               secondText={technicalEducation.completionYear.toLocaleDateString()}
               handleOnEdit={() => {
                 router.push(
-                  Routes.EditTechnicalEducationPage({ technicalEducationId: technicalEducation.id })
+                  Routes.EditTechnicalEducationPage({ technicalEducationId: technicalEducation.id, curriculumId: props.curriculumId })
                 )
               }}
               handleOnDelete={async () => {
@@ -102,7 +102,7 @@ const TechnicalEducationsPage = (props) => {
       <div>
         <p>
           <Link href={Routes.NewTechnicalEducationPage({ curriculumId: props.curriculumId })}>
-            <Button variant="outlined">Agregar Educación Técnica</Button>
+            <Button variant="outlined">Crear Educación Técnica</Button>
           </Link>
         </p>
 

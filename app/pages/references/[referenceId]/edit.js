@@ -1,16 +1,17 @@
 import { Suspense } from "react"
-import { Head, Link, useRouter, useQuery, useMutation, useParam, Routes } from "blitz"
+import { Head, Link, useRouter, useQuery, useRouterQuery, useMutation, useParam, Routes } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getReference from "app/references/queries/getReference"
 
 import { ReferenceForm, FORM_ERROR } from "app/references/components/ReferenceForm"
 import updateReference from "app/references/mutations/updateReference"
 import { UpdateReferenceValidation } from "app/references/components/validaciones"
-import { Grid } from "@mui/material"
+import { Grid, Button, Typography } from "@mui/material"
 
 export const EditReference = () => {
   const router = useRouter()
   const referenceId = useParam("referenceId", "number")
+  const { curriculumId } = useRouterQuery()
   const [reference, { setQueryData }] = useQuery(
     getReference,
     {
@@ -25,7 +26,7 @@ export const EditReference = () => {
   return (
     <>
       <Head>
-        <title>Edit Reference {reference.id}</title>
+        <title>Edit Reference {reference.name}</title>
       </Head>
 
       <div>
@@ -37,11 +38,13 @@ export const EditReference = () => {
           sx={{ mx: "auto", width: "100%" }}
         >
           <Grid item xs={12}>
-            <h1>Edit Reference {reference.id}</h1>
+            <Typography variant="h6" component="div" gutterBottom>
+              <h1>Editar Referencia {reference.name}</h1>
+            </Typography>
           </Grid>
           <Grid item xs={12}>
             <ReferenceForm
-              submitText="Update Reference" // TODO use a zod schema for form validation
+              submitText="Actualizar Referencia" // TODO use a zod schema for form validation
               //  - Tip: extract mutation's schema into a shared `validations.ts` file and
               //         then import and use it here
               // schema={UpdateReference}
@@ -54,7 +57,11 @@ export const EditReference = () => {
                     ...values,
                   })
                   await setQueryData(updated)
-                  router.push(Routes.EditCurriculumPage())
+                  if (curriculumId !== undefined && curriculumId !== "") {
+                    router.push(Routes.EditCurriculumPage({curriculumId}))
+                  }else{
+                    router.push(Routes.ReferencesPage())
+                  }
                 } catch (error) {
                   console.error(error)
                   return {
@@ -71,17 +78,25 @@ export const EditReference = () => {
 }
 
 const EditReferencePage = () => {
+  const { curriculumId } = useRouterQuery()
+  const returnPage = (
+    curriculumId !== '' ?
+      Routes.EditCurriculumPage({ curriculumId }) : Routes.ReferencesPage()
+  )
   return (
     <div>
       <Suspense fallback={<div>Loading...</div>}>
         <EditReference />
       </Suspense>
 
-      <p>
-        <Link href={Routes.ReferencesPage()}>
-          <a>References</a>
-        </Link>
-      </p>
+      <Grid item xs={12}>
+        <p>
+          <Link href={returnPage}>
+            <Button variant="outlined"> Regresar </Button>
+          </Link>
+        </p>
+      </Grid>
+      
     </div>
   )
 }

@@ -1,5 +1,5 @@
 import { Suspense } from "react"
-import { Head, Link, useRouter, useQuery, useMutation, useParam, Routes } from "blitz"
+import { Head, Link, useRouter, useQuery, useRouterQuery, useMutation, useParam, Routes } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getTechnicalEducation from "app/technical-educations/queries/getTechnicalEducation"
 import updateTechnicalEducation from "app/technical-educations/mutations/updateTechnicalEducation"
@@ -13,6 +13,7 @@ import {
 export const EditTechnicalEducation = () => {
   const router = useRouter()
   const technicalEducationId = useParam("technicalEducationId", "number")
+  const { curriculumId } = useRouterQuery()
   const [technicalEducation, { setQueryData }] = useQuery(
     getTechnicalEducation,
     {
@@ -39,14 +40,14 @@ export const EditTechnicalEducation = () => {
           sx={{ mx: "auto", width: "100%" }}
         >
           <Grid item xs={12}>
-            <Typography variant="h3" component="div" gutterBottom>
-              Edit Technical Education {technicalEducation.studies}
+            <Typography variant="h6" component="div" gutterBottom>
+              <h1> Editar Educación Técnica {technicalEducation.studies} </h1>
             </Typography>
           </Grid>
 
           <Grid item xs={12}>
             <TechnicalEducationForm
-              submitText="Save" // TODO use a zod schema for form validation
+              submitText="Actualizar Educación Técnica" // TODO use a zod schema for form validation
               //  - Tip: extract mutation's schema into a shared `validations.ts` file and
               //         then import and use it here
               schema={UpdateTechnicalEducation}
@@ -58,7 +59,11 @@ export const EditTechnicalEducation = () => {
                     ...values,
                   })
                   await setQueryData(updated)
-                  router.push(Routes.EditCurriculumPage())
+                  if (curriculumId !== undefined && curriculumId !== "") {
+                    router.push(Routes.EditCurriculumPage({curriculumId}))
+                  }else{
+                    router.push(Routes.TechnicalEducationsPage())
+                  }
                 } catch (error) {
                   console.error(error)
                   return {
@@ -75,6 +80,11 @@ export const EditTechnicalEducation = () => {
 }
 
 const EditTechnicalEducationPage = () => {
+  const { curriculumId } = useRouterQuery()
+  const returnPage = (
+    curriculumId !== '' ?
+      Routes.EditCurriculumPage({ curriculumId }) : Routes.TechnicalEducationsPage()
+  )
   return (
     <div>
       <Suspense fallback={<div>Loading...</div>}>
@@ -83,8 +93,8 @@ const EditTechnicalEducationPage = () => {
 
       <Grid item xs={12}>
         <p>
-          <Link href={Routes.TechnicalEducationsPage()}>
-            <Button variant="outlined"> TechnicalEducations </Button>
+          <Link href={returnPage}>
+            <Button variant="outlined"> Regresar </Button>
           </Link>
         </p>
       </Grid>
