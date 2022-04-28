@@ -63,17 +63,28 @@ const UserInfo = () => {
 }
 
 const Home = () => {
-  const currentUser = useCurrentUser()
-  const [{ curricula }] = usePaginatedQuery(getAllCurriculums, {
-    orderBy: {
-      id: "asc",
-    },
-  })
-  const [{ user }] = usePaginatedQuery(getUsers, {
-    orderBy: {
-      id: "asc",
-    },
-  })
+  let currentUser = useCurrentUser()
+
+  if (currentUser) {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const [{ curricula }] = usePaginatedQuery(getAllCurriculums, {
+      orderBy: {
+        id: "asc",
+      },
+    })
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const [{ user }] = usePaginatedQuery(getUsers, {
+      orderBy: {
+        id: "asc",
+      },
+    })
+  } else {
+    currentUser = {
+      id: -1,
+      role: "guest",
+    }
+  }
+
   return (
     <div className="container">
       <main>
