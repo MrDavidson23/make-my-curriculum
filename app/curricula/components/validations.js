@@ -8,6 +8,13 @@ const model = {
   templateId: z.number(),
   profession: z.string().min(0).max(max).optional(),
   description: z.string().min(0).max(max).optional(),
+  
+  skillLabel: z.string().min(0).max(max).optional(), 
+  laboralExperienceLabel: z.string().min(1).max(max).optional(), 
+  academicEducationLabel: z.string().min(1).max(max).optional(), 
+  technicalEducationLabel: z.string().min(1).max(max).optional(), 
+  publicationLabel: z.string().min(1).max(max).optional(), 
+  referenceLabel: z.string().min(1).max(max).optional(), 
 }
 
 export const CreateCurriculum = z.object(model)

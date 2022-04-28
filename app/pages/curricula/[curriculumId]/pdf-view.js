@@ -89,14 +89,14 @@ const CurriculumDocument = (props) => {
         <View style={styles.container}>
           <View style={styles.leftColumn}>
             <PersonalInfo info={info} />
-            <Skills skills={info.skills} styles={styles} />
+            <Skills skills={info.skills} label={info.skillLabel} styles={styles} />
           </View>
           <View style={styles.rightColumn}>
-            <Experiences experiences={info.laboralExperiences} styles={{ text }} />
-            <AcademicEducations academicEducations={info.academicEducations} styles={{ text }} />
-            <TechnicalEducations technicalEducations={info.technicalEducations} styles={{ text }} />
-            <Publications publications={info.publications} styles={{ text }} />
-            <References references={info.references} styles={{ text }} />
+            <Experiences experiences={info.laboralExperiences} label={info.laboralExperienceLabel} styles={{ text }} />
+            <AcademicEducations academicEducations={info.academicEducations} label={info.academicEducationLabel} styles={{ text }} />
+            <TechnicalEducations technicalEducations={info.technicalEducations} label={info.technicalEducationLabel} styles={{ text }} />
+            <Publications publications={info.publications} label={info.publicationLabel} styles={{ text }} />
+            <References references={info.references} label={info.referenceLabel} styles={{ text }} />
           </View>
         </View>
       </Page>

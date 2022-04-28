@@ -102,14 +102,6 @@ export const LaboralExperiencesList = (props) => {
 const LaboralExperiencesPage = (props) => {
   return (
     <>
-      <Head>
-        <title>LaboralExperiences</title>
-      </Head>
-
-      <Typography variant="h6" component="div" gutterBottom>
-        Experiencia Laboral
-      </Typography>
-
       <div>
         <p>
           <Link href={Routes.NewLaboralExperiencePage({ curriculumId: props.curriculumId })}>
