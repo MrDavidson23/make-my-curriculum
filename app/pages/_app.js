@@ -28,10 +28,7 @@ export default function App({ Component, pageProps }) {
       onReset={useQueryErrorResetBoundary().reset}
     >
       <LocalizationProvider dateAdapter={AdapterDateFns}>
-        <Suspense fallback={<CustomSpinner />}>
-          {getLayout(<Component {...pageProps} />)}
-          <CustomSpinner />
-        </Suspense>
+        <Suspense fallback={<CustomSpinner />}>{getLayout(<Component {...pageProps} />)}</Suspense>
       </LocalizationProvider>
     </ErrorBoundary>
   )
