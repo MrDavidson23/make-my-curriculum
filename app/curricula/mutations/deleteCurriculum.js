@@ -6,12 +6,14 @@ export default resolver.pipe(
   resolver.zod(DeleteCurriculum),
   resolver.authorize(),
   async ({ id }) => {
-    await db.skill.deleteMany({ where: { curriculumId: id } })
-    await db.laboralExperience.deleteMany({ where: { curriculumId: id } })
-    await db.academicEducation.deleteMany({ where: { curriculumId: id } })
-    await db.technicalEducation.deleteMany({ where: { curriculumId: id } })
-    await db.publication.deleteMany({ where: { curriculumId: id } })
-    await db.reference.deleteMany({ where: { curriculumId: id } })
+
+    // Deletes Many to Many relations
+    await db.skillOnCurriculum.deleteMany({ where: { curriculumId: id } })
+    await db.laboralExperienceOnCurriculum.deleteMany({ where: { curriculumId: id } })
+    await db.academicEducationOnCurriculum.deleteMany({ where: { curriculumId: id } })
+    await db.technicalEducationOnCurriculum.deleteMany({ where: { curriculumId: id } })
+    await db.publicationOnCurriculum.deleteMany({ where: { curriculumId: id } })
+    await db.referenceOnCurriculum.deleteMany({ where: { curriculumId: id } })
 
     const curriculum = await db.curriculum.delete({
       where: {

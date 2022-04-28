@@ -32,11 +32,9 @@ const CurriculumList = ({ curriculumns, ctx }) => {
                   await deleteCurriculumMutation({
                     id: curriculum.id,
                   })
+                  router.push(Routes.CurriculaPage({}))
                   router.reload()
                 }
-              }}
-              handleOnClick={() => {
-                router.push(Routes.ShowCurriculumPage({ curriculumId: curriculum.id }))
               }}
             />
           </Grid>
