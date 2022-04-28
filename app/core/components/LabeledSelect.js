@@ -13,7 +13,8 @@ export const LabeledSelect = forwardRef(
       : errors[name]?.message || errors[name]
 
     const [selected, setSelected] = useState(
-      props.options.length === 0 ? "" : props.options[0].value
+      props.options.length === 0 ? "" : 
+      (props.selected === undefined ? props.options[0].value : props.selected)
     )
 
     return (

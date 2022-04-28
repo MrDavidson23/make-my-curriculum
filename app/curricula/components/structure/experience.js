@@ -13,9 +13,9 @@ const Experiences = (props) => {
     styles = {...styles, ...props.styles}
     return (
         <>
-        { props.experiences && (
+        { props.experiences.length > 0  && (
             <View>
-            <Text style={styles.title}>Experiencia Laboral</Text>
+            <Text style={styles.title}>{props.label}</Text>
                 <View style={styles.text}>
                 {props.experiences.map((xp) => (
                     <>

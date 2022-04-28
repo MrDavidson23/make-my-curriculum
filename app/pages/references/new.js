@@ -2,25 +2,7 @@ import { Link, useRouter, useMutation, useRouterQuery, Routes } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import { ReferenceForm, FORM_ERROR } from "app/references/components/ReferenceForm"
 
-import {
-  Box,
-  Typography,
-  Button,
-  Stack,
-  Checkbox,
-  FormControl,
-  FormControlLabel,
-  RadioGroup,
-  Radio,
-  InputLabel,
-  FormLabel,
-  Select,
-  MenuItem,
-  TextField,
-  InputAdornment,
-  Avatar,
-  Grid,
-} from "@mui/material"
+import { Button, Grid, Typography} from "@mui/material"
 import { CreateReferenceValidation } from "app/references/components/validaciones"
 import createReference from "app/references/mutations/createReference"
 import createReferenceOnCurriculum from "app/reference-on-curricula/mutations/createReferenceOnCurriculum"
@@ -29,6 +11,12 @@ const NewReferencePage = () => {
   const { curriculumId } = useRouterQuery()
   const [createReferenceMutation] = useMutation(createReference)
   const [createReferenceOnCurriculumMutation] = useMutation(createReferenceOnCurriculum)
+  
+  const returnPage = (
+    curriculumId !== '' ?
+      Routes.EditCurriculumPage({ curriculumId }) : Routes.ReferencesPage()
+  )
+
   return (
     <div>
       <Grid
@@ -39,11 +27,13 @@ const NewReferencePage = () => {
         sx={{ mx: "auto", width: "100%" }}
       >
         <Grid item xs={12}>
-          <h1>Create New Reference</h1>
+          <Typography variant="h6" component="div" gutterBottom>
+            <h1> Crear nueva Referencia </h1>
+          </Typography>
         </Grid>
         <Grid item xs={12}>
           <ReferenceForm
-            submitText="Create Reference" // TODO use a zod schema for form validation
+            submitText="Guardar" // TODO use a zod schema for form validation
             //  - Tip: extract mutation's schema into a shared `validations.ts` file and
             //         then import and use it here
             schema={CreateReferenceValidation} ////////////////////////////
@@ -71,8 +61,8 @@ const NewReferencePage = () => {
         </Grid>
         <Grid item xs={12}>
           <p>
-            <Link href={Routes.EditCurriculumPage({ curriculumId })}>
-              <a>References</a>
+            <Link href={returnPage}>
+              <Button variant="outlined"> Regresar </Button>
             </Link>
           </p>
         </Grid>

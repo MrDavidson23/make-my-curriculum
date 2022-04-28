@@ -13,9 +13,9 @@ const AcademicEducations = (props) => {
     styles = {...styles, ...props.styles}
     return (
         <>
-        { props.academicEducations && (
+        { props.academicEducations.length > 0  && (
             <View>
-            <Text style={styles.title}>Educación Académica</Text>
+            <Text style={styles.title}>{props.label}</Text>
                 <View style={styles.text}>
                 {props.academicEducations.map((ac) => (
                     <>
