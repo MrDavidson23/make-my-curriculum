@@ -24,6 +24,7 @@ export function LaboralExperienceForm(props) {
               label="Descripción"
               placeholder="Descripción"
               multiline="true"
+              className="textArea"
             />
           </Grid>
           <Grid item xs={12}>
