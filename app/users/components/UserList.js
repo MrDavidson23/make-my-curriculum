@@ -7,6 +7,11 @@ const UserList = ({ users, ctx }) => {
   const router = useRouter()
   const [deleteUserMutation] = useMutation(deleteUser)
 
+  console.log(users)
+  if (!users) {
+    return null
+  }
+
   return (
     <>
       <Grid
@@ -17,7 +22,7 @@ const UserList = ({ users, ctx }) => {
         justifyContent={"center"}
         sx={{ mx: "auto", width: "100%" }}
       >
-        {users.map((user) => (
+        {users.users.map((user) => (
           <Grid key={user.id} item>
             <InformationCard
               key={user.id}

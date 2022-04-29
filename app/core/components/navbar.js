@@ -21,6 +21,8 @@ import { Image, useRouter } from "blitz" //user router es para usar react
 import { borderRadius, width } from "@mui/system"
 import logout from "app/auth/mutations/logout"
 
+import Gravatar from "react-gravatar"
+
 const ResponsiveAppBar = () => {
   const pages = [
     {
@@ -175,7 +177,11 @@ const ResponsiveAppBar = () => {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <Gravatar
+                  email={currentUser?.email}
+                  alt={"imagen" + currentUser?.name}
+                  style={{ borderRadius: "50%" }}
+                />
               </IconButton>
             </Tooltip>
             <Menu

@@ -3,10 +3,13 @@ import { LabeledTextField } from "app/core/components/LabeledTextField"
 import { Form, FORM_ERROR } from "app/core/components/Form"
 import { UpdateUser } from "app/users/validations"
 import updateUser from "app/users/mutations/updateUser"
+import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import { Grid } from "@mui/material"
+import Gravatar from "react-gravatar"
 export const UserForm = (props) => {
   const [updateUserMutation] = useMutation(updateUser)
   const { initialValues } = props
+  const currentUser = useCurrentUser()
   return (
     <div>
       <Grid
@@ -18,6 +21,13 @@ export const UserForm = (props) => {
       >
         <Grid item xs={12}>
           <h1>Editar Información</h1>
+          <Gravatar
+            email={currentUser.email}
+            alt={"imagen" + currentUser.name}
+            size={200}
+            style={{ borderRadius: "50%" }}
+          />
+          <p style={{ color: "grey" }}>Imagen capturada de gravatar</p>
         </Grid>
         <Grid item xs={12} sx={{ mx: "auto", width: "100%" }}>
           <Form

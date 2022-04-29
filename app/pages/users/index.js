@@ -29,10 +29,14 @@ export const UsersList = () => {
       },
     })
 
+  if (!users) {
+    return null
+  }
+
   return (
     <div>
       <ul>
-        {users.map((user) => (
+        {users?.map((user) => (
           <li key={user.id}>
             <Link
               href={Routes.ShowUserPage({

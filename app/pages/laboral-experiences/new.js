@@ -17,10 +17,10 @@ const NewLaboralExperiencePage = () => {
     createLaboralExperienceOnCurriculum
   )
 
-  const returnPage = (
-    curriculumId !== '' ?
-      Routes.EditCurriculumPage({ curriculumId }) : Routes.LaboralExperiencesPage()
-  )
+  const returnPage =
+    curriculumId !== ""
+      ? Routes.EditCurriculumPage({ curriculumId })
+      : Routes.LaboralExperiencesPage()
 
   return (
     <div>
@@ -42,7 +42,10 @@ const NewLaboralExperiencePage = () => {
             //  - Tip: extract mutation's schema into a shared `validations.ts` file and
             //         then import and use it here
             schema={CreateLaboralExperience}
-            initialValues={{ curriculumId: parseInt(curriculumId) }}
+            initialValues={{
+              curriculumId: parseInt(curriculumId),
+              startYear: new Date(new Date().getTime() - 24 * 60 * 60 * 1000),
+            }}
             onSubmit={async (values) => {
               try {
                 const laboralObject = await createLaboralExperienceMutation(values)
