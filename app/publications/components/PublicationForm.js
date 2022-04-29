@@ -1,16 +1,10 @@
 import { Form } from "app/core/components/Form"
 import { LabeledTextField } from "app/core/components/LabeledTextField"
-import { LabeledSelect } from "app/core/components/LabeledSelect"
 import { DatePickerField } from "app/core/components/DatePickerField"
 
 import { Grid } from "@mui/material"
 
 export { FORM_ERROR } from "app/core/components/Form"
-
-const options = [
-  { value: "Videojuego", item: "Videojuego" },
-  { value: "Artículo", item: "Artículo" },
-]
 
 export function PublicationForm(props) {
   return (
@@ -34,7 +28,7 @@ export function PublicationForm(props) {
             <LabeledTextField name="institution" label="Institución" placeholder="Institución" />
           </Grid>
           <Grid item xs={12}>
-            <LabeledSelect name="tag" label="Tipo de Publicación" options={options} />
+            <LabeledTextField name="tag" label="Tipo de Publicación" placeholder="Tipo de Publicación" />
           </Grid>
         </Grid>
       </div>

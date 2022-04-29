@@ -75,6 +75,8 @@ const PersonalInfo = (props) => {
   return (
     <View style={styles.text}>
       <Text>{info.name + " " + info.lastName} </Text>
+      <Text>{info.email} </Text>
+      <Text>{info.phone} </Text>
       <Text>{info.profession}</Text>
       <Text>{info.description}</Text>
     </View>
