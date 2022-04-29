@@ -18,12 +18,12 @@ const AcademicEducations = (props) => {
             <Text style={styles.title}>{props.label}</Text>
                 <View style={styles.text}>
                 {props.academicEducations.map((ac) => (
-                    <>
-                    <Text>{ac.studies}</Text>
-                    <Text>{ac.institution}</Text>
-                    <Text>{ac.location}</Text>
-                    <Text>{ac.startYear.toLocaleDateString()+" - "+ac.finishYear.toLocaleDateString()}</Text>
-                    </>
+                    <View key={ac.id}>
+                        <Text>{ac.studies}</Text>
+                        <Text>{ac.institution}</Text>
+                        <Text>{ac.location}</Text>
+                        <Text>{ac.startYear.toLocaleDateString()+" - "+ac.finishYear.toLocaleDateString()}</Text>
+                    </View>
                 ))}
                 </View>
             </View>  
