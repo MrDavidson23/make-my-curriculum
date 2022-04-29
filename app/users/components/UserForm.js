@@ -54,13 +54,13 @@ export const UserForm = (props) => {
             <Grid item xs={12} mb={5}>
               <LabeledTextField name="name" label="Nombre" placeholder="Nombre" />
             </Grid>
-            <Grid item xs={12} mb={5}>
-              <LabeledTextField name="email" label="Email" placeholder="Email" disabled />
-            </Grid>
+
             <Grid item xs={12} mb={5}>
               <LabeledTextField name="lastName" label="Apellido" placeholder="Apellido" />
             </Grid>
-
+            <Grid item xs={12} mb={5}>
+              <LabeledTextField name="email" label="Email" placeholder="Email" disabled />
+            </Grid>
             <Grid item xs={12} mb={5}>
               <LabeledTextField name="phone" label="Telefono" placeholder="Número de teléfono" />
             </Grid>
