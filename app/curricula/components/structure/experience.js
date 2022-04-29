@@ -18,12 +18,12 @@ const Experiences = (props) => {
             <Text style={styles.title}>{props.label}</Text>
                 <View style={styles.text}>
                 {props.experiences.map((xp) => (
-                    <>
-                    <Text>{xp.position}</Text>
-                    <Text>{xp.institution}</Text>
-                    <Text>{xp.location}</Text>
-                    <Text>{xp.startYear.toLocaleDateString()+" - "+xp.finishYear.toLocaleDateString()}</Text>
-                    </>
+                    <View key={xp.id}>
+                        <Text>{xp.position}</Text>
+                        <Text>{xp.institution}</Text>
+                        <Text>{xp.location}</Text>
+                        <Text>{xp.startYear.toLocaleDateString()+" - "+xp.finishYear.toLocaleDateString()}</Text>
+                    </View>
                 ))}
                 </View>
             </View>  

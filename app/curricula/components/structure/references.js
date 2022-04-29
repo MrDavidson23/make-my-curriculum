@@ -18,12 +18,12 @@ const References = (props) => {
             <Text style={styles.title}>{props.label}</Text>
                 <View style={styles.text}>                 
                 {props.references.map((reference) => (
-                    <>
-                    <Text>{reference.name}</Text>
-                    <Text>{reference.email}</Text>
-                    <Text>{reference.phone}</Text>
-                    <Text>{reference.location}</Text>
-                    </>
+                    <View key={reference.id}>
+                        <Text>{reference.name}</Text>
+                        <Text>{reference.email}</Text>
+                        <Text>{reference.phone}</Text>
+                        <Text>{reference.location}</Text>
+                    </View>
                 ))}
                 </View>
             </View>  
