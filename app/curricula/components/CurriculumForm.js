@@ -21,7 +21,12 @@ export function CurriculumForm(props) {
         selected={props.initialValues.languageId}
       />
       <LabeledTextField name="profession" label="Profesión" placeholder="Profesión" />
-      <LabeledTextField name="description" label="Descripcion" placeholder="Descripcion" />
+      <LabeledTextField
+        name="description"
+        label="Descripcion"
+        placeholder="Descripcion"
+        multiline="true"
+      />
     </Form>
   )
 }
