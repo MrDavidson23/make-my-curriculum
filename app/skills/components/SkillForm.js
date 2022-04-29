@@ -8,7 +8,12 @@ export function SkillForm(props) {
       <div>
         <Grid container direction="row" spacing={3}>
           <Grid item xs={12}>
-            <LabeledTextField name="description" label="Descripción" placeholder="Descripción" />
+            <LabeledTextField
+              name="description"
+              label="Descripción"
+              placeholder="Descripción"
+              multiline="true"
+            />
           </Grid>
           <Grid item xs={12}>
             <LabeledTextField name="rating" label="Puntuación" placeholder="Puntuación" />
