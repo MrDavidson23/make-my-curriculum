@@ -111,6 +111,16 @@ const Home = () => {
           justifyContent={"center"}
           sx={{ mx: "auto", width: "100%" }}
         >
+          <br />
+          <br />
+          <Grid item container direction="row">
+            <Grid item xs={12}>
+              <Suspense fallback="Loading...">
+                <UserInfo />
+              </Suspense>
+            </Grid>
+          </Grid>
+
           <Grid item container direction="row">
             <Grid item xs={0} md={1}></Grid>
             <Grid item xs={0} md={2}>
@@ -293,9 +303,6 @@ const Home = () => {
               </Grid>
             </Grid>
           )}
-          <Suspense fallback="Loading...">
-            <UserInfo />
-          </Suspense>
         </Grid>
       </main>
 
