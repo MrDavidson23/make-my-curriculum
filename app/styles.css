@@ -25,6 +25,10 @@ input {
   background-color: white !important;
 }
 
+.textArea {
+  background-color: white !important;
+}
+
 label {
   color: var(--main-color-2) !important;
 }

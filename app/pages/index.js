@@ -96,7 +96,7 @@ const Home = () => {
   if (!currentUser) {
     currentUser = {
       id: "-1",
-      role: "admin",
+      role: "guest",
     }
   }
 
@@ -139,7 +139,7 @@ const Home = () => {
             </Grid>
             <Grid item xs={12} md={6}>
               <iframe
-                width="560"
+                width="90%"
                 height="315"
                 src="https://www.youtube.com/embed/dQw4w9WgXcQ"
                 title="YouTube video player"
@@ -149,10 +149,10 @@ const Home = () => {
               ></iframe>
             </Grid>
           </Grid>
-          <Grid item container direction="row">
+          <Grid item container direction="row" paddingTop={15}>
             <Grid item xs={12} md={6}>
               <iframe
-                width="560"
+                width="90%"
                 height="315"
                 src="https://www.youtube.com/embed/dQw4w9WgXcQ"
                 title="YouTube video player"
@@ -161,28 +161,104 @@ const Home = () => {
                 allowFullScreen
               ></iframe>
             </Grid>
-            <Grid item xs={12} md={6} paddingTop={5}>
-              <a href="/curricula"> Mis curriculums </a>
-              <a href="/laboral-experiences"> Mis Experiencias laborales </a>
-              <a href="/skills"> Mis habilidades </a>
-              <a href="/publications"> Mis publicaciones </a>
-              <a href="/references"> Mis referencias </a>
-              <a href="/academic-educations"> Mis experiencias academicas </a>
-              <a href="/technical-educations"> Mis experiencias tecnicas </a>
+            {currentUser.role !== "guest" && (
+              <Grid item xs={12} md={6}>
+                <Grid
+                  container
+                  direction="column"
+                  spacing={1}
+                  sx={{ mx: "auto" }}
+                  style={{ width: "95%" }}
+                >
+                  <LinkBlitz href="/curricula">
+                    <Button
+                      size="large"
+                      color="primary"
+                      variant="outlined"
+                      style={{ marginTop: "4px" }}
+                    >
+                      Mis curriculums
+                    </Button>
+                  </LinkBlitz>
+                  <LinkBlitz href="/laboral-experiences">
+                    <Button
+                      size="large"
+                      color="primary"
+                      variant="outlined"
+                      style={{ marginTop: "4px" }}
+                    >
+                      Mis Experiencias laborales
+                    </Button>
+                  </LinkBlitz>
+                  <LinkBlitz href="/skills">
+                    <Button
+                      size="large"
+                      color="primary"
+                      variant="outlined"
+                      style={{ marginTop: "4px" }}
+                    >
+                      Mis habilidades
+                    </Button>
+                  </LinkBlitz>
+                  <LinkBlitz href="/publications">
+                    <Button
+                      size="large"
+                      color="primary"
+                      variant="outlined"
+                      style={{ marginTop: "4px" }}
+                    >
+                      Mis publicaciones
+                    </Button>
+                  </LinkBlitz>
+                  <LinkBlitz href="/references">
+                    <Button
+                      size="large"
+                      color="primary"
+                      variant="outlined"
+                      style={{ marginTop: "4px" }}
+                    >
+                      Mis referencias
+                    </Button>
+                  </LinkBlitz>
+                  <LinkBlitz href="/academic-educations">
+                    <Button
+                      size="large"
+                      color="primary"
+                      variant="outlined"
+                      style={{ marginTop: "4px" }}
+                    >
+                      Mis experiencias academicas
+                    </Button>
+                  </LinkBlitz>
+                  <LinkBlitz href="/technical-educations">
+                    <Button
+                      size="large"
+                      color="primary"
+                      variant="outlined"
+                      style={{ marginTop: "4px" }}
+                    >
+                      Mis experiencias tecnicas
+                    </Button>
+                  </LinkBlitz>
+                </Grid>
 
-              <a href="/curricula/new"> Crear Curriculum </a>
-              <a href="/users/new"> Crear Usuario </a>
+                <LinkBlitz href="/curricula/new"> Crear Curriculum </LinkBlitz>
+                <LinkBlitz href="/users/new"> Crear Usuario </LinkBlitz>
 
-              <div> 1. Crear un curriculum </div>
-              <div> 2. Agregar sus habilidades, experiencias, y demas informacion importante </div>
-              <div> 3. Haga click en actualizar curriculum</div>
-              <LinkBlitz href="http://localhost:3000/curricula/new">
-                <Button size="large" variant="contained" color="primary" sx={{ my: 2 }}>
-                  Crear Curriculum
-                </Button>
-              </LinkBlitz>
-              <p>haga click aqui para crear su curriculum</p>
-            </Grid>
+                <div> 1. Crear un curriculum </div>
+                <div>
+                  {" "}
+                  2. Agregar sus habilidades, experiencias, y demas informacion importante{" "}
+                </div>
+                <div> 3. Haga click en actualizar curriculum</div>
+                <LinkBlitz href="http://localhost:3000/curricula/new">
+                  <Button size="large" variant="contained" color="primary" sx={{ my: 2 }}>
+                    Crear Curriculum
+                  </Button>
+                </LinkBlitz>
+                <p>haga click aqui para crear su curriculum</p>
+              </Grid>
+            )}
           </Grid>
           {currentUser.role === "ADMIN" && (
             <Grid item container direction="column">

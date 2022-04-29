@@ -26,6 +26,7 @@ export function CurriculumForm(props) {
         label="Descripcion"
         placeholder="Descripcion"
         multiline="true"
+        className="textArea"
       />
     </Form>
   )
