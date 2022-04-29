@@ -45,7 +45,15 @@ const ResponsiveAppBar = () => {
 
   let settings = ["Inicio"]
   if (currentUser) {
-    settings = ["Perfil", "Mis Curriculums", "Logout"]
+    settings = [
+      "Perfil",
+      "Mis Curriculums",
+      "Mis Experiencias laborales",
+      "Mis Curriculums",
+      "Mis Curriculums",
+      "Mis Curriculums",
+      "Logout",
+    ]
   } else {
     settings = ["Registrarse", "Login"]
   }

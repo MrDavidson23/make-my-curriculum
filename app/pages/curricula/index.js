@@ -9,13 +9,15 @@ const ITEMS_PER_PAGE = 100
 export const CurriculaList = () => {
   const router = useRouter()
   const page = Number(router.query.page) || 0
-  const [{ curricula, hasMore }] = usePaginatedQuery(getCurricula, {
+  const [curricula] = usePaginatedQuery(getCurricula, {
+    //const [{ curricula, hasMore }] = usePaginatedQuery(getCurricula, {
     orderBy: {
       id: "asc",
     },
     skip: ITEMS_PER_PAGE * page,
     take: ITEMS_PER_PAGE,
   })
+  const hasMore = curricula.hasMore
 
   const goToPreviousPage = () =>
     router.push({
