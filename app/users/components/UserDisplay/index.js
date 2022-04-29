@@ -5,6 +5,7 @@ import Paper from "@mui/material/Paper"
 import AccountCircleIcon from "@mui/icons-material/AccountCircle"
 import { Typography, Grid, Button, Stack } from "@mui/material"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
+import Gravatar from "react-gravatar"
 
 const UserDisplay = ({}) => {
   const currentUser = useCurrentUser()
@@ -28,7 +29,7 @@ const UserDisplay = ({}) => {
           <Paper elevation={3}>
             <Grid container direction="row" justifyContent="space-between" pl={5} pr={5} pb={2}>
               <Grid item sx={2}>
-                <AccountCircleIcon sx={{ fontSize: 200, color: "#b3b3b3" }} />
+                <Gravatar email={currentUser.email} size={200} style={{ borderRadius: "50%" }} />
               </Grid>
               <Grid item sx={2}>
                 <Typography variant="h3" gutterBottom>

@@ -94,7 +94,7 @@ logo {
   max-height: 240px !important;
 }
 
-@media (max-width: 1000px) {
+@media (max-width: 868px) {
   .logo {
     display: none !important;
   }
