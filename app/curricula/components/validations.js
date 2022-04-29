@@ -24,5 +24,9 @@ export const UpdateCurriculum = z.object(model).extend({
 })
 
 export const DeleteCurriculum = z.object({
+  id: z.number(),
+})
+
+export const CloneCurriculum = z.object({
     id: z.number(),
 })
