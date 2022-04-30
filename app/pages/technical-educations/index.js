@@ -6,6 +6,7 @@ import deleteTechnicalEducation from "app/technical-educations/mutations/deleteT
 import deleteTechnicalEducationOnCurriculum from "app/technical-education-on-curricula/mutations/deleteTechnicalEducationOnCurriculum"
 import InformationCard from "app/core/components/InformationCard"
 import { Button, Grid, Typography } from "@mui/material"
+import CustomSpinner from "app/core/components/CustomSpinner"
 const ITEMS_PER_PAGE = 100
 export const TechnicalEducationsList = (props) => {
   const router = useRouter()
@@ -68,7 +69,10 @@ export const TechnicalEducationsList = (props) => {
               secondText={technicalEducation.completionYear.toLocaleDateString()}
               handleOnEdit={() => {
                 router.push(
-                  Routes.EditTechnicalEducationPage({ technicalEducationId: technicalEducation.id, curriculumId: props.curriculumId })
+                  Routes.EditTechnicalEducationPage({
+                    technicalEducationId: technicalEducation.id,
+                    curriculumId: props.curriculumId,
+                  })
                 )
               }}
               handleOnDelete={async () => {
@@ -106,7 +110,7 @@ const TechnicalEducationsPage = (props) => {
           </Link>
         </p>
 
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<CustomSpinner />}>
           <TechnicalEducationsList curriculumId={props.curriculumId} />
         </Suspense>
       </div>

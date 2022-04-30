@@ -3,6 +3,7 @@ import { Head, Link, useQuery, useParam, Routes } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getUser from "app/users/queries/getUser"
 import { UserForm } from "app/users/components/UserForm"
+import CustomSpinner from "app/core/components/CustomSpinner"
 export const EditUser = () => {
   const userId = useParam("userId", "number")
   const [user, { setQueryData }] = useQuery(
@@ -29,7 +30,7 @@ export const EditUser = () => {
 const EditUserPage = () => {
   return (
     <>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<CustomSpinner />}>
         <EditUser />
       </Suspense>
     </>

@@ -15,31 +15,49 @@ import logo from "../../../public/logoOnly.png"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 
 import { Suspense, useState } from "react"
-import { useSession, Routes, Link as LinkBlitz } from "blitz"
+import { useSession, Routes, Link as LinkBlitz, useMutation } from "blitz"
 
 import { Image, useRouter } from "blitz" //user router es para usar react
 import { borderRadius, width } from "@mui/system"
+import logout from "app/auth/mutations/logout"
 
-const pages = [
-  {
-    name: "Inicio",
-    path: Routes.Home(),
-  },
-  {
-    name: "Crear Curriculum",
-    path: Routes.NewCurriculumPage(),
-  },
-  {
-    name: "Ver Curriculums",
-    path: Routes.CurriculaPage(),
-  },
-]
-
-const settings = ["Perfil", "Suscripcion", "Logout"]
+import Gravatar from "react-gravatar"
 
 const ResponsiveAppBar = () => {
+  const pages = [
+    {
+      name: "Inicio",
+      path: Routes.Home(),
+    },
+    {
+      name: "Crear Curriculum",
+      path: Routes.NewCurriculumPage(),
+    },
+    {
+      name: "Ver Curriculums",
+      path: Routes.CurriculaPage(),
+    },
+  ]
+
   const router = useRouter()
+  const [logoutMutation] = useMutation(logout)
   const currentUser = useCurrentUser()
+
+  let settings = ["Inicio"]
+  if (currentUser) {
+    settings = [
+      "Perfil",
+      "Mis Curriculums",
+      "Mis Experiencias laborales",
+      "Mis Curriculums",
+      "Mis Curriculums",
+      "Mis Curriculums",
+      "Logout",
+    ]
+  } else {
+    settings = ["Registrarse", "Login"]
+  }
+
   const [anchorElNav, setAnchorElNav] = useState(null)
   const [anchorElUser, setAnchorElUser] = useState(null)
 
@@ -66,7 +84,11 @@ const ResponsiveAppBar = () => {
       const targetPage = e.currentTarget.firstChild.innerHTML
       switch (targetPage) {
         case "Logout":
-          router.push(Routes.Logout())
+          logoutMutation()
+          break
+        case "Mis Curriculums":
+          router.push(Routes.CurriculaPage())
+          break
         case "Perfil":
           //window.location.href = `/users/${currentUser?.id}/edit`
           router.push(Routes.EditUserPage({ userId: currentUser?.id }))
@@ -163,7 +185,11 @@ const ResponsiveAppBar = () => {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <Gravatar
+                  email={currentUser?.email}
+                  alt={"imagen" + currentUser?.name}
+                  style={{ borderRadius: "50%" }}
+                />
               </IconButton>
             </Tooltip>
             <Menu

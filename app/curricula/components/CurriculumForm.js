@@ -5,19 +5,29 @@ import { useQuery } from "blitz"
 import getLanguages from "app/languages/queries/getLanguages"
 export { FORM_ERROR } from "app/core/components/Form"
 export function CurriculumForm(props) {
-
-  const [query] = useQuery(getLanguages,{})
+  const [query] = useQuery(getLanguages, {})
   let options = []
   query.languages.forEach((x) => {
-    options.push({value:x.id,item:x.language})
+    options.push({ value: x.id, item: x.language })
   })
 
   return (
     <Form {...props}>
-      <LabeledTextField name="name" label="Nombre" placeholder="Name" />
-      <LabeledSelect name="languageId" label="Idioma" options={options} selected={props.initialValues.languageId}/>
-      <LabeledTextField name="profession" label="Profesión" placeholder="Profession" />
-      <LabeledTextField name="description" label="Descripcion" placeholder="Descripción" />
+      <LabeledTextField name="name" label="Nombre" placeholder="Nombre del curriculum" />
+      <LabeledSelect
+        name="languageId"
+        label="Idioma"
+        options={options}
+        selected={props.initialValues.languageId}
+      />
+      <LabeledTextField name="profession" label="Profesión" placeholder="Profesión" />
+      <LabeledTextField
+        name="description"
+        label="Descripcion"
+        placeholder="Descripcion"
+        multiline="true"
+        className="textArea"
+      />
     </Form>
   )
 }

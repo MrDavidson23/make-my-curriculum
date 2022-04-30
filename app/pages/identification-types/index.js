@@ -2,6 +2,7 @@ import { Suspense } from "react"
 import { Head, Link, usePaginatedQuery, useRouter, Routes } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getIdentificationTypes from "app/identification-types/queries/getIdentificationTypes"
+import CustomSpinner from "app/core/components/CustomSpinner"
 const ITEMS_PER_PAGE = 100
 export const IdentificationTypesList = () => {
   const router = useRouter()
@@ -61,7 +62,7 @@ const IdentificationTypesPage = () => {
           </Link>
         </p>
 
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<CustomSpinner />}>
           <IdentificationTypesList />
         </Suspense>
       </div>

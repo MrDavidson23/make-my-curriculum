@@ -20,6 +20,7 @@ import SkillsPage from "app/pages/skills/index"
 import LaboralExperiencesPage from "app/pages/laboral-experiences/index"
 
 import { EditableTitleText } from "app/core/components/EditableTitleText"
+import CustomSpinner from "app/core/components/CustomSpinner"
 
 export const EditCurriculum = () => {
   const [isLoading, setIsLoading] = useState(false)
@@ -36,20 +37,20 @@ export const EditCurriculum = () => {
     academicEducationLabel,
     technicalEducationLabel,
     publicationLabel,
-    referenceLabel
-  } = curriculum  
+    referenceLabel,
+  } = curriculum
   const [labels, setLabels] = useState({
     skillLabel,
     laboralExperienceLabel,
     academicEducationLabel,
     technicalEducationLabel,
     publicationLabel,
-    referenceLabel
+    referenceLabel,
   })
 
   const updateState = (event) => {
     const target = event.target
-    setLabels({...labels, [target.name]:target.value})
+    setLabels({ ...labels, [target.name]: target.value })
   }
 
   const style = {
@@ -58,11 +59,11 @@ export const EditCurriculum = () => {
       color: "black",
       backgroundColor: "black",
       height: 1,
-    }
+    },
   }
 
-  const submitChange = async (values) => {  
-    const newValues = (values === undefined ? curriculum : values)   
+  const submitChange = async (values) => {
+    const newValues = values === undefined ? curriculum : values
     try {
       setIsLoading(true)
       const updated = await updateCurriculumMutation({
@@ -124,28 +125,58 @@ export const EditCurriculum = () => {
                 //  - Tip: extract mutation's schema into a shared `validations.ts` file and
                 //         then import and use it here
                 schema={UpdateCurriculum}
-                initialValues={{...curriculum,...labels}}
+                initialValues={{ ...curriculum, ...labels }}
                 onSubmit={submitChange}
-                />
-              <hr style={style.hr}/>
-              <EditableTitleText name="skillLabel" title={curriculum.skillLabel} updateState={updateState} submitChange={submitChange}/>
-              <SkillsPage curriculumId={curriculumId}/>
-              <hr style={style.hr}/>
-              <EditableTitleText name="laboralExperienceLabel" title={curriculum.laboralExperienceLabel} updateState={updateState} submitChange={submitChange}/>
+              />
+              <hr style={style.hr} />
+              <EditableTitleText
+                name="skillLabel"
+                title={curriculum.skillLabel}
+                updateState={updateState}
+                submitChange={submitChange}
+              />
+              <SkillsPage curriculumId={curriculumId} />
+              <hr style={style.hr} />
+              <EditableTitleText
+                name="laboralExperienceLabel"
+                title={curriculum.laboralExperienceLabel}
+                updateState={updateState}
+                submitChange={submitChange}
+              />
               <LaboralExperiencesPage curriculumId={curriculumId} />
-              <hr style={style.hr}/>
-              <EditableTitleText name="academicEducationLabel" title={curriculum.academicEducationLabel} updateState={updateState} submitChange={submitChange}/>
+              <hr style={style.hr} />
+              <EditableTitleText
+                name="academicEducationLabel"
+                title={curriculum.academicEducationLabel}
+                updateState={updateState}
+                submitChange={submitChange}
+              />
               <AcademicEducationsPage curriculumId={curriculumId} />
-              <hr style={style.hr}/>
-              <EditableTitleText name="technicalEducationLabel" title={curriculum.technicalEducationLabel} updateState={updateState} submitChange={submitChange}/>
+              <hr style={style.hr} />
+              <EditableTitleText
+                name="technicalEducationLabel"
+                title={curriculum.technicalEducationLabel}
+                updateState={updateState}
+                submitChange={submitChange}
+              />
               <TechnicalEducationsPage curriculumId={curriculumId} />
-              <hr style={style.hr}/>
-              <EditableTitleText name="publicationLabel" title={curriculum.publicationLabel} updateState={updateState} submitChange={submitChange}/>
+              <hr style={style.hr} />
+              <EditableTitleText
+                name="publicationLabel"
+                title={curriculum.publicationLabel}
+                updateState={updateState}
+                submitChange={submitChange}
+              />
               <PublicationsPage curriculumId={curriculumId} />
-              <hr style={style.hr}/>
-              <EditableTitleText name="referenceLabel" title={curriculum.referenceLabel} updateState={updateState} submitChange={submitChange}/>
+              <hr style={style.hr} />
+              <EditableTitleText
+                name="referenceLabel"
+                title={curriculum.referenceLabel}
+                updateState={updateState}
+                submitChange={submitChange}
+              />
               <ReferencesPage curriculumId={curriculumId} />
-              <hr style={style.hr}/>
+              <hr style={style.hr} />
             </div>
           )}
         </Grid>
@@ -175,7 +206,7 @@ export const EditCurriculum = () => {
 const EditCurriculumPage = () => {
   return (
     <div>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<CustomSpinner />}>
         <EditCurriculum />
       </Suspense>
 

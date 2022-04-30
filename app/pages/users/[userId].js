@@ -3,6 +3,7 @@ import { Head, Link, useRouter, useQuery, useParam, useMutation, Routes } from "
 import Layout from "app/core/layouts/Layout"
 import getUser from "app/users/queries/getUser"
 import deleteUser from "app/users/mutations/deleteUser"
+import CustomSpinner from "app/core/components/CustomSpinner"
 export const User = () => {
   const router = useRouter()
   const userId = useParam("userId", "number")
@@ -58,7 +59,7 @@ const ShowUserPage = () => {
         </Link>
       </p>
 
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<CustomSpinner />}>
         <User />
       </Suspense>
     </div>

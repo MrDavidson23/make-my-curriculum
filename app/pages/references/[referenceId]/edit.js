@@ -1,5 +1,14 @@
 import { Suspense } from "react"
-import { Head, Link, useRouter, useQuery, useRouterQuery, useMutation, useParam, Routes } from "blitz"
+import {
+  Head,
+  Link,
+  useRouter,
+  useQuery,
+  useRouterQuery,
+  useMutation,
+  useParam,
+  Routes,
+} from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getReference from "app/references/queries/getReference"
 
@@ -7,6 +16,7 @@ import { ReferenceForm, FORM_ERROR } from "app/references/components/ReferenceFo
 import updateReference from "app/references/mutations/updateReference"
 import { UpdateReferenceValidation } from "app/references/components/validaciones"
 import { Grid, Button, Typography } from "@mui/material"
+import CustomSpinner from "app/core/components/CustomSpinner"
 
 export const EditReference = () => {
   const router = useRouter()
@@ -58,8 +68,8 @@ export const EditReference = () => {
                   })
                   await setQueryData(updated)
                   if (curriculumId !== undefined && curriculumId !== "") {
-                    router.push(Routes.EditCurriculumPage({curriculumId}))
-                  }else{
+                    router.push(Routes.EditCurriculumPage({ curriculumId }))
+                  } else {
                     router.push(Routes.ReferencesPage())
                   }
                 } catch (error) {
@@ -79,13 +89,11 @@ export const EditReference = () => {
 
 const EditReferencePage = () => {
   const { curriculumId } = useRouterQuery()
-  const returnPage = (
-    curriculumId !== '' ?
-      Routes.EditCurriculumPage({ curriculumId }) : Routes.ReferencesPage()
-  )
+  const returnPage =
+    curriculumId !== "" ? Routes.EditCurriculumPage({ curriculumId }) : Routes.ReferencesPage()
   return (
     <div>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<CustomSpinner />}>
         <EditReference />
       </Suspense>
 
@@ -96,7 +104,6 @@ const EditReferencePage = () => {
           </Link>
         </p>
       </Grid>
-      
     </div>
   )
 }

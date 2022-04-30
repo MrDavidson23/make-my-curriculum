@@ -1,5 +1,13 @@
 import { Suspense } from "react"
-import { Image, Link, useMutation, Routes, usePaginatedQuery } from "blitz"
+import {
+  Image,
+  Link,
+  useMutation,
+  Routes,
+  usePaginatedQuery,
+  Link as LinkBlitz,
+  Router,
+} from "blitz"
 import Layout from "app/core/layouts/Layout"
 import UserDisplay from "app/users/components/UserDisplay"
 import CurriculumList from "app/curricula/components/CurriculumList"
@@ -10,6 +18,7 @@ import getUsers from "app/users/queries/getUsers"
 import logout from "app/auth/mutations/logout"
 import logo from "public/logo.png"
 import { Grid, Typography, Button, Divider, Box } from "@mui/material"
+import CustomSpinner from "app/core/components/CustomSpinner"
 
 const UserInfo = () => {
   const currentUser = useCurrentUser()
@@ -62,38 +71,204 @@ const UserInfo = () => {
 }
 
 const Home = () => {
-  const currentUser = useCurrentUser()
-  const [{ curricula }] = usePaginatedQuery(getAllCurriculums, {
-    orderBy: {
-      id: "asc",
+  let currentUser = useCurrentUser()
+
+  const [curricula] = usePaginatedQuery(
+    getAllCurriculums,
+    {
+      orderBy: {
+        id: "asc",
+      },
     },
-  })
-  const [{ user }] = usePaginatedQuery(getUsers, {
-    orderBy: {
-      id: "asc",
+    { enabled: currentUser && currentUser.role === "ADMIN" }
+  )
+
+  const [user] = usePaginatedQuery(
+    getUsers,
+    {
+      orderBy: {
+        id: "asc",
+      },
     },
-  })
+    { enabled: currentUser && currentUser.role === "ADMIN" }
+  )
+
+  if (!currentUser) {
+    currentUser = {
+      id: "-1",
+      role: "guest",
+    }
+  }
+
   return (
     <div className="container">
       <main>
         <Grid
           container
-          direction="column"
+          direction="row"
           spacing={2}
           textAlign={"center"}
+          justifyContent={"center"}
           sx={{ mx: "auto", width: "100%" }}
         >
+          <br />
+          <br />
           <Grid item container direction="row">
-            <Grid item>
-              <div className="logo" style={{ marginTop: "2rem", width: "300px" }}>
-                <Image src={logo} alt="blitzjs" />
+            <Grid item xs={12}>
+              <Suspense fallback="Loading...">
+                <UserInfo />
+              </Suspense>
+            </Grid>
+          </Grid>
+
+          <Grid item container direction="row">
+            <Grid item xs={0} md={1}></Grid>
+            <Grid item xs={0} md={2}>
+              <div className={"image-container"}>
+                <Image src={logo} alt="blitzjs" layout="fill" className={"image logo"} />
               </div>
             </Grid>
-            <Grid item>
-              <Suspense fallback="Loading...">
+            <Grid item xs={12} md={8}>
+              <Suspense fallback={<CustomSpinner />}>
                 <UserDisplay />
               </Suspense>
             </Grid>
+          </Grid>
+          <Grid item container direction="row">
+            <Grid item xs={12} md={6} paddingTop={5}>
+              <div>Cree su curriculum personalizado aqui, siga estos sencillos pasos</div>
+              <div> 1. Crear un curriculum </div>
+              <div> 2. Agregar sus habilidades, experiencias, y demas informacion importante </div>
+              <div> 3. Haga click en actualizar curriculum</div>
+              <LinkBlitz href="http://localhost:3000/curricula/new">
+                <Button size="large" variant="contained" color="primary" sx={{ my: 2 }}>
+                  Crear Curriculum
+                </Button>
+              </LinkBlitz>
+              <p>haga click aqui para crear su curriculum</p>
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <iframe
+                width="90%"
+                height="315"
+                src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+                title="YouTube video player"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              ></iframe>
+            </Grid>
+          </Grid>
+          <Grid item container direction="row" paddingTop={15}>
+            <Grid item xs={12} md={6}>
+              <iframe
+                width="90%"
+                height="315"
+                src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+                title="YouTube video player"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              ></iframe>
+            </Grid>
+            {currentUser.role !== "guest" && (
+              <Grid item xs={12} md={6}>
+                <Grid
+                  container
+                  direction="column"
+                  spacing={1}
+                  sx={{ mx: "auto" }}
+                  style={{ width: "95%" }}
+                >
+                  <LinkBlitz href="/curricula">
+                    <Button
+                      size="large"
+                      color="primary"
+                      variant="outlined"
+                      style={{ marginTop: "4px" }}
+                    >
+                      Mis curriculums
+                    </Button>
+                  </LinkBlitz>
+                  <LinkBlitz href="/laboral-experiences">
+                    <Button
+                      size="large"
+                      color="primary"
+                      variant="outlined"
+                      style={{ marginTop: "4px" }}
+                    >
+                      Mis Experiencias laborales
+                    </Button>
+                  </LinkBlitz>
+                  <LinkBlitz href="/skills">
+                    <Button
+                      size="large"
+                      color="primary"
+                      variant="outlined"
+                      style={{ marginTop: "4px" }}
+                    >
+                      Mis habilidades
+                    </Button>
+                  </LinkBlitz>
+                  <LinkBlitz href="/publications">
+                    <Button
+                      size="large"
+                      color="primary"
+                      variant="outlined"
+                      style={{ marginTop: "4px" }}
+                    >
+                      Mis publicaciones
+                    </Button>
+                  </LinkBlitz>
+                  <LinkBlitz href="/references">
+                    <Button
+                      size="large"
+                      color="primary"
+                      variant="outlined"
+                      style={{ marginTop: "4px" }}
+                    >
+                      Mis referencias
+                    </Button>
+                  </LinkBlitz>
+                  <LinkBlitz href="/academic-educations">
+                    <Button
+                      size="large"
+                      color="primary"
+                      variant="outlined"
+                      style={{ marginTop: "4px" }}
+                    >
+                      Mis experiencias academicas
+                    </Button>
+                  </LinkBlitz>
+                  <LinkBlitz href="/technical-educations">
+                    <Button
+                      size="large"
+                      color="primary"
+                      variant="outlined"
+                      style={{ marginTop: "4px" }}
+                    >
+                      Mis experiencias tecnicas
+                    </Button>
+                  </LinkBlitz>
+                </Grid>
+
+                <LinkBlitz href="/curricula/new"> Crear Curriculum </LinkBlitz>
+                <LinkBlitz href="/users/new"> Crear Usuario </LinkBlitz>
+
+                <div> 1. Crear un curriculum </div>
+                <div>
+                  {" "}
+                  2. Agregar sus habilidades, experiencias, y demas informacion importante{" "}
+                </div>
+                <div> 3. Haga click en actualizar curriculum</div>
+                <LinkBlitz href="http://localhost:3000/curricula/new">
+                  <Button size="large" variant="contained" color="primary" sx={{ my: 2 }}>
+                    Crear Curriculum
+                  </Button>
+                </LinkBlitz>
+                <p>haga click aqui para crear su curriculum</p>
+              </Grid>
+            )}
           </Grid>
           {currentUser.role === "ADMIN" && (
             <Grid item container direction="column">
@@ -107,9 +282,7 @@ const Home = () => {
                 justifyContent="space-between"
                 alignItems="center"
               >
-                <Suspense fallback="Loading...">
-                  <UserList users={user} />
-                </Suspense>
+                <UserList users={user} />
               </Grid>
             </Grid>
           )}
@@ -126,94 +299,10 @@ const Home = () => {
                 justifyContent="space-between"
                 alignItems="center"
               >
-                <Suspense fallback="Loading...">
-                  <CurriculumList curriculumns={curricula} />
-                </Suspense>
+                <CurriculumList curriculumns={curricula} />
               </Grid>
             </Grid>
           )}
-          <Grid item>
-            <Suspense fallback="Loading...">
-              <UserInfo />
-            </Suspense>
-          </Grid>
-
-          {/* <p>
-            <strong>Congrats!</strong> Your app is ready, including user sign-up and log-in.
-          </p>
-          <div
-            className="buttons"
-            style={{
-              marginTop: "1rem",
-              marginBottom: "1rem",
-            }}
-          >
-
-          </div>
-          <p>
-            <strong>
-              To add a new model to your app, <br />
-              run the following in your terminal:
-            </strong>
-          </p>
-          <pre>
-            <code>blitz generate all project name:string</code>
-          </pre>
-          <div
-            style={{
-              marginBottom: "1rem",
-            }}
-          >
-            (And select Yes to run prisma migrate)
-          </div>
-          <div>
-            <p>
-              Then <strong>restart the server</strong>
-            </p>
-            <pre>
-              <code>Ctrl + c</code>
-            </pre>
-            <pre>
-              <code>blitz dev</code>
-            </pre>
-            <p>
-              and go to{" "}
-              <Link href="/projects">
-                <a>/projects</a>
-              </Link>
-            </p>
-          </div>
-          <div
-            className="buttons"
-            style={{
-              marginTop: "5rem",
-            }}
-          >
-            <a
-              className="button"
-              href="https://blitzjs.com/docs/getting-started?utm_source=blitz-new&utm_medium=app-template&utm_campaign=blitz-new"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Documentation
-            </a>
-            <a
-              className="button-outline"
-              href="https://github.com/blitz-js/blitz"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Github Repo
-            </a>
-            <a
-              className="button-outline"
-              href="https://discord.blitzjs.com"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Discord Community
-            </a>
-          </div> */}
         </Grid>
       </main>
 
