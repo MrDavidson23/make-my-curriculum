@@ -4,17 +4,20 @@ import Layout from "app/core/layouts/Layout"
 import getCurricula from "app/curricula/queries/getCurricula"
 import CurriculumList from "app/curricula/components/CurriculumList"
 import { Button, Grid } from "@mui/material"
+import CustomSpinner from "app/core/components/CustomSpinner"
 const ITEMS_PER_PAGE = 100
 export const CurriculaList = () => {
   const router = useRouter()
   const page = Number(router.query.page) || 0
-  const [{ curricula, hasMore }] = usePaginatedQuery(getCurricula, {
+  const [curricula] = usePaginatedQuery(getCurricula, {
+    //const [{ curricula, hasMore }] = usePaginatedQuery(getCurricula, {
     orderBy: {
       id: "asc",
     },
     skip: ITEMS_PER_PAGE * page,
     take: ITEMS_PER_PAGE,
   })
+  const hasMore = curricula.hasMore
 
   const goToPreviousPage = () =>
     router.push({
@@ -68,7 +71,7 @@ const CurriculaPage = () => {
           </Button>
         </Grid>
 
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<CustomSpinner />}>
           <CurriculaList />
         </Suspense>
       </Grid>

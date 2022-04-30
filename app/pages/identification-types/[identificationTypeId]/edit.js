@@ -7,6 +7,7 @@ import {
   IdentificationTypeForm,
   FORM_ERROR,
 } from "app/identification-types/components/IdentificationTypeForm"
+import CustomSpinner from "app/core/components/CustomSpinner"
 export const EditIdentificationType = () => {
   const router = useRouter()
   const identificationTypeId = useParam("identificationTypeId", "number")
@@ -65,7 +66,7 @@ export const EditIdentificationType = () => {
 const EditIdentificationTypePage = () => {
   return (
     <div>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<CustomSpinner />}>
         <EditIdentificationType />
       </Suspense>
 

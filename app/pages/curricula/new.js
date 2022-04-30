@@ -31,7 +31,7 @@ const NewCurriculumPage = () => {
               try {
                 const curriculum = await createCurriculumMutation(values)
                 router.push(
-                  Routes.ShowCurriculumPage({
+                  Routes.EditCurriculumPage({
                     curriculumId: curriculum.id,
                   })
                 )

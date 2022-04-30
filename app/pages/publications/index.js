@@ -6,6 +6,7 @@ import deletePublication from "app/publications/mutations/deletePublication"
 import deletePublicationOnCurriculum from "app/publication-on-curricula/mutations/deletePublicationOnCurriculum"
 import InformationCard from "app/core/components/InformationCard"
 import { Button, Grid, Typography } from "@mui/material"
+import CustomSpinner from "app/core/components/CustomSpinner"
 const ITEMS_PER_PAGE = 100
 export const PublicationsList = (props) => {
   const router = useRouter()
@@ -65,7 +66,12 @@ export const PublicationsList = (props) => {
               firstText={publication.location + " " + publication.date.toLocaleDateString()}
               secondText={publication.tag}
               handleOnEdit={() => {
-                router.push(Routes.EditPublicationPage({ publicationId: publication.id, curriculumId: props.curriculumId }))
+                router.push(
+                  Routes.EditPublicationPage({
+                    publicationId: publication.id,
+                    curriculumId: props.curriculumId,
+                  })
+                )
               }}
               handleOnDelete={async () => {
                 if (window.confirm("This will be deleted")) {
@@ -102,7 +108,7 @@ const PublicationsPage = (props) => {
           </Link>
         </p>
 
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<CustomSpinner />}>
           <PublicationsList curriculumId={props.curriculumId} />
         </Suspense>
       </div>

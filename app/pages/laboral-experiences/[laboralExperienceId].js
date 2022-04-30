@@ -3,6 +3,7 @@ import { Head, Link, useRouter, useQuery, useParam, useMutation, Routes } from "
 import Layout from "app/core/layouts/Layout"
 import getLaboralExperience from "app/laboral-experiences/queries/getLaboralExperience"
 import deleteLaboralExperience from "app/laboral-experiences/mutations/deleteLaboralExperience"
+import CustomSpinner from "app/core/components/CustomSpinner"
 export const LaboralExperience = () => {
   const router = useRouter()
   const laboralExperienceId = useParam("laboralExperienceId", "number")
@@ -58,7 +59,7 @@ const ShowLaboralExperiencePage = () => {
         </Link>
       </p>
 
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<CustomSpinner />}>
         <LaboralExperience />
       </Suspense>
     </div>

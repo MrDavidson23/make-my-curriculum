@@ -3,6 +3,7 @@ import { Head, Link, useRouter, useQuery, useParam, useMutation, Routes } from "
 import Layout from "app/core/layouts/Layout"
 import getTemplate from "app/templates/queries/getTemplate"
 import deleteTemplate from "app/templates/mutations/deleteTemplate"
+import CustomSpinner from "app/core/components/CustomSpinner"
 export const Template = () => {
   const router = useRouter()
   const templateId = useParam("templateId", "number")
@@ -58,7 +59,7 @@ const ShowTemplatePage = () => {
         </Link>
       </p>
 
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<CustomSpinner />}>
         <Template />
       </Suspense>
     </div>

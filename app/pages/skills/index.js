@@ -6,6 +6,7 @@ import deleteSkill from "app/skills/mutations/deleteSkill"
 import deleteSkillOnCurriculum from "app/skill-on-curricula/mutations/deleteSkillOnCurriculum"
 import InformationCard from "app/core/components/InformationCard"
 import { Grid, Button, Chip, Typography } from "@mui/material"
+import CustomSpinner from "app/core/components/CustomSpinner"
 const ITEMS_PER_PAGE = 100
 export const SkillsList = (props) => {
   const router = useRouter()
@@ -62,7 +63,9 @@ export const SkillsList = (props) => {
             <Chip
               label={skill.description}
               onClick={() => {
-                router.push(Routes.EditSkillPage({ skillId: skill.id, curriculumId: props.curriculumId }))
+                router.push(
+                  Routes.EditSkillPage({ skillId: skill.id, curriculumId: props.curriculumId })
+                )
               }}
               onDelete={async () => {
                 if (window.confirm("This will be deleted")) {
@@ -99,7 +102,7 @@ const SkillsPage = (props) => {
           </Link>
         </p>
 
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<CustomSpinner />}>
           <SkillsList curriculumId={props.curriculumId} />
         </Suspense>
       </div>

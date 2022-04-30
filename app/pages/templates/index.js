@@ -2,6 +2,7 @@ import { Suspense } from "react"
 import { Head, Link, usePaginatedQuery, useRouter, Routes } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getTemplates from "app/templates/queries/getTemplates"
+import CustomSpinner from "app/core/components/CustomSpinner"
 const ITEMS_PER_PAGE = 100
 export const TemplatesList = () => {
   const router = useRouter()
@@ -68,7 +69,7 @@ const TemplatesPage = () => {
           </Link>
         </p>
 
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<CustomSpinner />}>
           <TemplatesList />
         </Suspense>
       </div>
