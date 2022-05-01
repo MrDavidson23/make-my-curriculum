@@ -54,11 +54,11 @@ const CurriculumList = ({
               />
 
               <Switch
-                defaultChecked={curriculumsHighlight.includes(curriculum.id)}
+                defaultChecked={curriculumsHighlight?.includes(curriculum.id)}
                 onChange={(event) =>
                   onChangeCurriculumHighlight(
                     event,
-                    curriculumsHighlight.includes(curriculum.id),
+                    curriculumsHighlight?.includes(curriculum.id),
                     curriculum.id
                   )
                 }
