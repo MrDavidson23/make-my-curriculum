@@ -23,8 +23,23 @@ export default resolver.pipe(
           orderBy,
         }),
     })
+    const { items: allSkills } = await paginate({
+      skip,
+      take,
+      count: () =>
+        db.skill.count({
+          where,
+        }),
+      query: (paginateArgs) =>
+        db.skill.findMany({
+          ...paginateArgs,
+          where: { userId: ctx.session.userId },
+          orderBy,
+        }),
+    })
     return {
       skills,
+      allSkills,
       nextPage,
       hasMore,
       count,

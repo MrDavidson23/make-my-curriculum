@@ -1,18 +1,21 @@
-import { Suspense } from "react"
+import { Suspense, useEffect, useState } from "react"
 import { Head, Link, usePaginatedQuery, useRouter, Routes, useMutation } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getSkills from "app/skills/queries/getSkills"
 import deleteSkill from "app/skills/mutations/deleteSkill"
 import deleteSkillOnCurriculum from "app/skill-on-curricula/mutations/deleteSkillOnCurriculum"
-import InformationCard from "app/core/components/InformationCard"
-import { Grid, Button, Chip, Typography } from "@mui/material"
+import createSkillOnCurriculum from "app/skill-on-curricula/mutations/createSkillOnCurriculum"
+import { Grid, Button, Chip, Select, MenuItem, InputLabel, FormControl } from "@mui/material"
 import CustomSpinner from "app/core/components/CustomSpinner"
 const ITEMS_PER_PAGE = 100
 export const SkillsList = (props) => {
   const router = useRouter()
   const page = Number(router.query.page) || 0
   const [deleteSkillMutation] = useMutation(deleteSkill)
+  const [options, setOptions] = useState([])
+  const [optionSelected, setOptionSelected] = useState("")
   const [deleteSkillOnCurriculumMutation] = useMutation(deleteSkillOnCurriculum)
+  const [createSkillOnCurriculumMutation] = useMutation(createSkillOnCurriculum)
   const filter =
     props.curriculumId === undefined
       ? {}
@@ -25,7 +28,7 @@ export const SkillsList = (props) => {
             },
           },
         }
-  const [{ skills, hasMore }] = usePaginatedQuery(getSkills, {
+  const [{ skills, allSkills, hasMore }] = usePaginatedQuery(getSkills, {
     where: filter,
     orderBy: {
       id: "asc",
@@ -34,19 +37,28 @@ export const SkillsList = (props) => {
     take: ITEMS_PER_PAGE,
   })
 
-  const goToPreviousPage = () =>
-    router.push({
-      query: {
-        page: page - 1,
-      },
-    })
+  useEffect(() => {
+    if (allSkills) {
+      const options = allSkills.filter((skill) => !skills.some((s) => s.id === skill.id))
+      setOptions(options)
+    }
+  }, [allSkills, skills])
 
-  const goToNextPage = () =>
-    router.push({
-      query: {
-        page: page + 1,
-      },
+  const handleOnSelectOption = (event) => {
+    setOptionSelected(event.target.value)
+    const newSkill = {
+      id: event.target.key,
+      description: event.target.value,
+    }
+    skills.push(newSkill)
+    const newOptions = options.pop(newSkill)
+    setOptions(newOptions)
+    createSkillOnCurriculumMutation({
+      curriculumId: props.curriculumId,
+      skillId: newOptions.id,
     })
+    setOptionSelected("")
+  }
 
   return (
     <div>
@@ -86,7 +98,30 @@ export const SkillsList = (props) => {
             />
           </Grid>
         ))}
-        <Grid item xs={12} justify="center"></Grid>
+        {props.onCurriculum && (
+          <Grid item xs={12} justify="center">
+            <FormControl variant="standard" sx={{ m: 1, minWidth: 220 }}>
+              <InputLabel id="demo-simple-select-standard-label">
+                Seleccione una habilidad
+              </InputLabel>
+              <Select
+                value={optionSelected}
+                label="Seleccione una habilidad"
+                onChange={handleOnSelectOption}
+              >
+                {options.length > 0 ? (
+                  options.map((skill) => (
+                    <MenuItem key={skill.id} value={skill.description}>
+                      {skill.description}
+                    </MenuItem>
+                  ))
+                ) : (
+                  <MenuItem disabled>No hay habilidades disponibles</MenuItem>
+                )}
+              </Select>
+            </FormControl>
+          </Grid>
+        )}
       </Grid>
     </div>
   )
@@ -103,7 +138,7 @@ const SkillsPage = (props) => {
         </p>
 
         <Suspense fallback={<CustomSpinner />}>
-          <SkillsList curriculumId={props.curriculumId} />
+          <SkillsList curriculumId={props.curriculumId} onCurriculum />
         </Suspense>
       </div>
     </>

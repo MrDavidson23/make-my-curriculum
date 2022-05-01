@@ -9,9 +9,13 @@ import {
   useParam,
   Routes,
 } from "blitz"
+import { CurriculaList } from "app/pages/curricula"
 import Layout from "app/core/layouts/Layout"
 import getSkill from "app/skills/queries/getSkill"
 import updateSkill from "app/skills/mutations/updateSkill"
+import getSkillOnCurriculum from "app/skill-on-curricula/queries/getSkillOnCurriculum"
+import createSkillOnCurriculum from "app/skill-on-curricula/mutations/createSkillOnCurriculum"
+import deleteSkillOnCurriculum from "app/skill-on-curricula/mutations/deleteSkillOnCurriculum"
 import { UpdateSkill } from "app/skills/components/validations"
 import { Grid, Button, Typography } from "@mui/material"
 
@@ -31,6 +35,7 @@ export const EditSkill = () => {
       staleTime: Infinity,
     }
   )
+
   //const [updateSkillMutation] = useMutation(updateSkill)
   return (
     <>
@@ -88,8 +93,27 @@ export const EditSkill = () => {
 
 const EditSkillPage = () => {
   const { curriculumId } = useRouterQuery()
+  const skillId = useParam("skillId", "number")
+  const [skillOnCurriculum] = useQuery(getSkillOnCurriculum, {
+    id: skillId,
+  })
+  const [createSkillOnCurriculumMutation] = useMutation(createSkillOnCurriculum)
+  const [deleteSkillOnCurriculumMutation] = useMutation(deleteSkillOnCurriculum)
   const returnPage =
     curriculumId !== "" ? Routes.EditCurriculumPage({ curriculumId }) : Routes.SkillsPage()
+  const onChange = async (_event, isOnCV, curriculumId) => {
+    if (isOnCV) {
+      await deleteSkillOnCurriculumMutation({
+        curriculumId: curriculumId,
+        skillId,
+      })
+    } else {
+      await createSkillOnCurriculumMutation({
+        curriculumId: curriculumId,
+        skillId,
+      })
+    }
+  }
   return (
     <div>
       <Suspense fallback={<CustomSpinner />}>
@@ -103,6 +127,15 @@ const EditSkillPage = () => {
           </Link>
         </p>
       </Grid>
+
+      <Suspense fallback={<CustomSpinner />}>
+        <CurriculaList
+          curriculumsHighlight={skillOnCurriculum.map((cv) => {
+            return cv.curriculumId
+          })}
+          onChangeCurriculumHighlight={onChange}
+        />
+      </Suspense>
     </div>
   )
 }
