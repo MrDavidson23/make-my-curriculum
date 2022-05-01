@@ -3,49 +3,42 @@ import db from "db"
 import { CloneCurriculum } from "../components/validations"
 
 export default resolver.pipe(
-  resolver.zod(CloneCurriculum),
+  //resolver.zod(CloneCurriculum),
   resolver.authorize(),
-  async ({ id }, ctx) => {
+  async ({id, sections}, ctx) => {
     // TODO: in multi-tenant app, you must add validation to ensure correct tenant
-    const changeCurriculumId = (list,curriculumId) => {
-        return list.map((x)=>{
-            x.curriculumId=curriculumId;
-            return x
-        })
-    }
-    
+
+    // Gets the original curriculum
     const { id:original_id,...original } = await db.curriculum.findFirst({
         where: {
             id,
             userId: ctx.session.userId,
         },
     })
+
+    // Creates the new one
     const curriculum = await db.curriculum.create({
         data:{
             ...original
         }
     })
-
-    // All N:M relations with curriculum
-    const models = [
-        db.skillOnCurriculum,
-        db.laboralExperienceOnCurriculum,
-        db.academicEducationOnCurriculum,
-        db.technicalEducationOnCurriculum,
-        db.publicationOnCurriculum,
-        db.referenceOnCurriculum,
-    ]
-
-    // Insert the references to new curriculum
-    models.forEach(async (section)=>{
-        let list = await section.findMany({
-            where:{
-                curriculumId: original_id
-            }
-        })
+    
+    // Inserts the references to new curriculum
+    Object.getOwnPropertyNames(sections).forEach(async (name)=>{
+        const sectionName = name.substring(0,name.length-1)
+        let list = await Promise.all(sections[name].map(async (section)=>{
+            const reference = await db[sectionName+"OnCurriculum"].findUnique({
+                where:{
+                    [sectionName+"Id_curriculumId"] : {[sectionName+"Id"]:section.id,curriculumId:original_id}
+                }
+            }) 
+            reference.curriculumId = curriculum.id
+            return reference
+        }))
+        
         if(list.length !== 0){
-            await section.createMany({
-                data:changeCurriculumId(list,curriculum.id),
+            await db[sectionName+"OnCurriculum"].createMany({
+                data:list,
                 skipDuplicates: true,
             })
         }

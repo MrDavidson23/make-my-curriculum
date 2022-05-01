@@ -215,12 +215,6 @@ const EditCurriculumPage = () => {
       <Suspense fallback={<CustomSpinner />}>
         <EditCurriculum />
       </Suspense>
-
-      <p>
-        <Link href={Routes.CurriculaPage()}>
-          <a>Curricula</a>
-        </Link>
-      </p>
     </div>
   )
 }
