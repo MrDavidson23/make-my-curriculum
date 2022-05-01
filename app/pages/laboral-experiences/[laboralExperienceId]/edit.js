@@ -10,8 +10,12 @@ import {
   Routes,
 } from "blitz"
 import Layout from "app/core/layouts/Layout"
+import { CurriculaList } from "app/pages/curricula"
 import getLaboralExperience from "app/laboral-experiences/queries/getLaboralExperience"
 import updateLaboralExperience from "app/laboral-experiences/mutations/updateLaboralExperience"
+import getLaboralExperienceOnCurriculum from "app/laboral-experience-on-curricula/queries/getLaboralExperienceOnCurriculum"
+import createLaboralExperienceOnCurriculum from "app/laboral-experience-on-curricula/mutations/createLaboralExperienceOnCurriculum"
+import deleteLaboralExperienceOnCurriculum from "app/laboral-experience-on-curricula/mutations/deleteLaboralExperienceOnCurriculum"
 import { UpdateLaboralExperience } from "app/laboral-experiences/components/validations"
 import { Grid, Button, Typography } from "@mui/material"
 
@@ -91,10 +95,29 @@ export const EditLaboralExperience = () => {
 
 const EditLaboralExperiencePage = () => {
   const { curriculumId } = useRouterQuery()
+  const laboralExperienceId = useParam("laboralExperienceId", "number")
   const returnPage =
     curriculumId !== ""
       ? Routes.EditCurriculumPage({ curriculumId })
       : Routes.LaboralExperiencesPage()
+  const [laboralExperienceOnCurriculum] = useQuery(getLaboralExperienceOnCurriculum, {
+    id: laboralExperienceId,
+  })
+  const [createLaboralExperienceMutation] = useMutation(createLaboralExperienceOnCurriculum)
+  const [deleteLaboralExperienceMutation] = useMutation(deleteLaboralExperienceOnCurriculum)
+  const onChange = async (_event, isOnCV, curriculumId) => {
+    if (isOnCV) {
+      await deleteLaboralExperienceMutation({
+        curriculumId: curriculumId,
+        laboralExperienceId,
+      })
+    } else {
+      await createLaboralExperienceMutation({
+        curriculumId: curriculumId,
+        laboralExperienceId,
+      })
+    }
+  }
   return (
     <div>
       <Suspense fallback={<CustomSpinner />}>
@@ -108,6 +131,14 @@ const EditLaboralExperiencePage = () => {
           </Link>
         </p>
       </Grid>
+      <Suspense fallback={<CustomSpinner />}>
+        <CurriculaList
+          curriculumsHighlight={laboralExperienceOnCurriculum.map((cv) => {
+            return cv.curriculumId
+          })}
+          onChangeCurriculumHighlight={onChange}
+        />
+      </Suspense>
     </div>
   )
 }
