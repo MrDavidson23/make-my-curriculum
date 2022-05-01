@@ -39,12 +39,12 @@ export const CurriculaList = () => {
 
       <Grid item xs={12}>
         <Button disabled={page === 0} onClick={goToPreviousPage}>
-          Previous
+          Página Anterior
         </Button>
       </Grid>
       <Grid item xs={12}>
         <Button disabled={!hasMore} onClick={goToNextPage}>
-          Next
+          Página Siguiente
         </Button>
       </Grid>
     </>

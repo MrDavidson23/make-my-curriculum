@@ -140,7 +140,7 @@ const Home = () => {
               <div> 1. Crear un curriculum </div>
               <div> 2. Agregar sus habilidades, experiencias, y demas informacion importante </div>
               <div> 3. Haga click en actualizar curriculum</div>
-              <LinkBlitz href="http://localhost:3000/curricula/new">
+              <LinkBlitz href="/curricula/new">
                 <Button size="large" variant="contained" color="primary" sx={{ my: 2 }}>
                   Crear Curriculum
                 </Button>
@@ -197,7 +197,7 @@ const Home = () => {
                       variant="outlined"
                       style={{ marginTop: "4px" }}
                     >
-                      Mis Experiencias laborales
+                      Mi experiencia laboral
                     </Button>
                   </LinkBlitz>
                   <LinkBlitz href="/skills">
@@ -237,7 +237,7 @@ const Home = () => {
                       variant="outlined"
                       style={{ marginTop: "4px" }}
                     >
-                      Mis experiencias academicas
+                      Mi educacion academica
                     </Button>
                   </LinkBlitz>
                   <LinkBlitz href="/technical-educations">
@@ -247,7 +247,7 @@ const Home = () => {
                       variant="outlined"
                       style={{ marginTop: "4px" }}
                     >
-                      Mis experiencias tecnicas
+                      Mi educacion Tecnica
                     </Button>
                   </LinkBlitz>
                 </Grid>

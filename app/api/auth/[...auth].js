@@ -34,6 +34,7 @@ export default passportAuth({
             create: {
               email,
               name: profile.displayName,
+              phone: "88888888",
             },
             update: { email },
           })
@@ -79,6 +80,7 @@ export default passportAuth({
               email,
               name: _tokenSecret.name.GivenName,
               lastName: _tokenSecret.name.familyName,
+              phone: "88888888",
             },
             update: { email },
           })
@@ -145,6 +147,7 @@ export default passportAuth({
               email,
               name: profile.name.givenName,
               lastName: profile.name.familyName,
+              phone: "88888888",
             },
             update: { email },
           })
@@ -199,6 +202,7 @@ export default passportAuth({
               email,
               name: profile.name.givenName,
               lastName: profile.name.familyName,
+              phone: "88888888",
             },
             update: { email },
           })
