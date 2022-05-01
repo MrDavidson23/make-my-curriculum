@@ -2,6 +2,7 @@ import { Suspense } from "react"
 import { Head, Link, usePaginatedQuery, useRouter, Routes } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getUsers from "app/users/queries/getUsers"
+import CustomSpinner from "app/core/components/CustomSpinner"
 const ITEMS_PER_PAGE = 100
 export const UsersList = () => {
   const router = useRouter()
@@ -28,10 +29,14 @@ export const UsersList = () => {
       },
     })
 
+  if (!users) {
+    return null
+  }
+
   return (
     <div>
       <ul>
-        {users.map((user) => (
+        {users?.map((user) => (
           <li key={user.id}>
             <Link
               href={Routes.ShowUserPage({
@@ -62,7 +67,7 @@ const UsersPage = () => {
       </Head>
 
       <div>
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<CustomSpinner />}>
           <UsersList />
         </Suspense>
       </div>

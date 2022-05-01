@@ -3,6 +3,7 @@ import { Head, Link, useRouter, useQuery, useParam, useMutation, Routes } from "
 import Layout from "app/core/layouts/Layout"
 import getTechnicalEducation from "app/technical-educations/queries/getTechnicalEducation"
 import deleteTechnicalEducation from "app/technical-educations/mutations/deleteTechnicalEducation"
+import CustomSpinner from "app/core/components/CustomSpinner"
 export const TechnicalEducation = () => {
   const router = useRouter()
   const technicalEducationId = useParam("technicalEducationId", "number")
@@ -58,7 +59,7 @@ const ShowTechnicalEducationPage = () => {
         </Link>
       </p>
 
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<CustomSpinner />}>
         <TechnicalEducation />
       </Suspense>
     </div>

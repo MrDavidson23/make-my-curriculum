@@ -4,6 +4,7 @@ import Layout from "app/core/layouts/Layout"
 import getPhone from "app/phones/queries/getPhone"
 import updatePhone from "app/phones/mutations/updatePhone"
 import { PhoneForm, FORM_ERROR } from "app/phones/components/PhoneForm"
+import CustomSpinner from "app/core/components/CustomSpinner"
 export const EditPhone = () => {
   const router = useRouter()
   const phoneId = useParam("phoneId", "number")
@@ -62,7 +63,7 @@ export const EditPhone = () => {
 const EditPhonePage = () => {
   return (
     <div>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<CustomSpinner />}>
         <EditPhone />
       </Suspense>
 

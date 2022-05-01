@@ -3,6 +3,7 @@ import { Head, Link, useRouter, useQuery, useParam, useMutation, Routes } from "
 import Layout from "app/core/layouts/Layout"
 import getSkill from "app/skills/queries/getSkill"
 import deleteSkill from "app/skills/mutations/deleteSkill"
+import CustomSpinner from "app/core/components/CustomSpinner"
 export const Skill = () => {
   const router = useRouter()
   const skillId = useParam("skillId", "number")
@@ -58,7 +59,7 @@ const ShowSkillPage = () => {
         </Link>
       </p>
 
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<CustomSpinner />}>
         <Skill />
       </Suspense>
     </div>

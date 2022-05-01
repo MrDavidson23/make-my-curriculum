@@ -25,6 +25,10 @@ input {
   background-color: white !important;
 }
 
+.textArea {
+  background-color: white !important;
+}
+
 label {
   color: var(--main-color-2) !important;
 }
@@ -68,4 +72,34 @@ footer a {
 
 .MuiTypography-h6 {
   color: var(--main-color) !important;
+}
+
+.MuiCircularProgress-svg {
+}
+
+logo {
+  width: 100% !important;
+  height: auto !important;
+}
+
+.image-container {
+  width: 100%;
+}
+.image-container > div {
+  position: unset !important;
+}
+
+.image-container .image {
+  padding-top: 4px;
+  object-fit: contain;
+  width: 100% !important;
+  position: relative !important;
+  height: unset !important;
+  max-height: 240px !important;
+}
+
+@media (max-width: 868px) {
+  .logo {
+    display: none !important;
+  }
 }

@@ -1,4 +1,6 @@
-Demo de explicar branches
+Para hacer blitz seed, renombre seeds.js a seeds.ts y renombre tsconfig.json.backup a tsconfig.json
+
+Luego, revierta esto para que funcione normal la aplicacion
 
 [![Blitz.js](https://raw.githubusercontent.com/blitz-js/art/master/github-cover-photo.png)](https://blitzjs.com)
 

@@ -2,18 +2,20 @@ import { z } from "zod"
 
 const max = 50
 
+const actualday = Date.now()
+
 const model = {
   position: z.string().min(1).max(max),
   location: z.string().min(1).max(max),
   startYear: z
     .instanceof(Date)
     .or(z.string())
-    .refine((date) => new Date(date) < new Date(Date.now()))
+    .refine((date) => new Date(date) < new Date(actualday))
     .transform((date) => new Date(date)),
   finishYear: z
     .instanceof(Date)
     .or(z.string())
-    .refine((date) => new Date(date) < new Date(Date.now()))
+    .refine((date) => new Date(date) < new Date(actualday))
     .transform((date) => new Date(date)),
   institution: z.string().min(1).max(max),
   description: z.string().min(1).max(max),

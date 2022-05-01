@@ -3,6 +3,7 @@ import { Head, Link, useRouter, useQuery, useParam, useMutation, Routes } from "
 import Layout from "app/core/layouts/Layout"
 import getPhone from "app/phones/queries/getPhone"
 import deletePhone from "app/phones/mutations/deletePhone"
+import CustomSpinner from "app/core/components/CustomSpinner"
 export const Phone = () => {
   const router = useRouter()
   const phoneId = useParam("phoneId", "number")
@@ -58,7 +59,7 @@ const ShowPhonePage = () => {
         </Link>
       </p>
 
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<CustomSpinner />}>
         <Phone />
       </Suspense>
     </div>

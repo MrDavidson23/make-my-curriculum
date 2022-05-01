@@ -6,6 +6,7 @@ import deleteLaboralExperience from "app/laboral-experiences/mutations/deleteLab
 import deleteLaboralExperienceOnCurriculum from "app/laboral-experience-on-curricula/mutations/deleteLaboralExperienceOnCurriculum"
 import InformationCard from "app/core/components/InformationCard"
 import { Button, Grid, Typography } from "@mui/material"
+import CustomSpinner from "app/core/components/CustomSpinner"
 const ITEMS_PER_PAGE = 100
 export const LaboralExperiencesList = (props) => {
   const router = useRouter()
@@ -73,7 +74,10 @@ export const LaboralExperiencesList = (props) => {
               thirdText={laboralExperience.description}
               handleOnEdit={() => {
                 router.push(
-                  Routes.EditLaboralExperiencePage({ laboralExperienceId: laboralExperience.id, curriculumId: props.curriculumId })
+                  Routes.EditLaboralExperiencePage({
+                    laboralExperienceId: laboralExperience.id,
+                    curriculumId: props.curriculumId,
+                  })
                 )
               }}
               handleOnDelete={async () => {
@@ -109,7 +113,7 @@ const LaboralExperiencesPage = (props) => {
           </Link>
         </p>
 
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<CustomSpinner />}>
           <LaboralExperiencesList curriculumId={props.curriculumId} />
         </Suspense>
       </div>
