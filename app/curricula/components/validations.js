@@ -33,4 +33,5 @@ export const DeleteCurriculum = z.object({
 
 export const CloneCurriculum = z.object({
     id: z.number(),
+    sections: z.object(),
 })
