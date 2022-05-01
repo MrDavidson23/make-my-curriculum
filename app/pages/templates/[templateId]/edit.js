@@ -4,7 +4,8 @@ import Layout from "app/core/layouts/Layout"
 import getTemplate from "app/templates/queries/getTemplate"
 import updateTemplate from "app/templates/mutations/updateTemplate"
 import { TemplateForm, FORM_ERROR } from "app/templates/components/TemplateForm"
-import {UpdateTemplate} from "app/templates/components/validations"
+import { UpdateTemplate } from "app/templates/components/validations"
+import CustomSpinner from "app/core/components/CustomSpinner"
 
 export const EditTemplate = () => {
   const router = useRouter()
@@ -64,7 +65,7 @@ export const EditTemplate = () => {
 const EditTemplatePage = () => {
   return (
     <div>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<CustomSpinner />}>
         <EditTemplate />
       </Suspense>
 

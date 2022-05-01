@@ -19,7 +19,13 @@ export function LaboralExperienceForm(props) {
             <LabeledTextField name="institution" label="Institución" placeholder="Institución" />
           </Grid>
           <Grid item xs={12}>
-            <LabeledTextField name="description" label="Descripción" placeholder="Descripción" />
+            <LabeledTextField
+              name="description"
+              label="Descripción"
+              placeholder="Descripción"
+              multiline="true"
+              className="textArea"
+            />
           </Grid>
           <Grid item xs={12}>
             <DatePickerField name="startYear" label="Año de inicio" placeholder="Año de inicio" />

@@ -7,6 +7,10 @@ const CurriculumList = ({ curriculumns, ctx }) => {
   const router = useRouter()
   const [deleteCurriculumMutation] = useMutation(deleteCurriculum)
 
+  if (!curriculumns) {
+    return null
+  }
+
   return (
     <>
       <Grid
@@ -17,7 +21,7 @@ const CurriculumList = ({ curriculumns, ctx }) => {
         justifyContent={"center"}
         sx={{ mx: "auto", width: "100%" }}
       >
-        {curriculumns.map((curriculum) => (
+        {curriculumns.curricula.map((curriculum) => (
           <Grid key={curriculum.id} item>
             <InformationCard
               key={curriculum.id}

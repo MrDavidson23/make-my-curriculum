@@ -8,6 +8,7 @@ import { createTheme, ThemeProvider, styled } from "@mui/material/styles"
 
 // Custom components
 import InformationCard from "app/core/components/InformationCard"
+import CustomSpinner from "app/core/components/CustomSpinner"
 
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
@@ -103,7 +104,7 @@ const ShowReferencePage = () => {
         </Link>
       </p>
 
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<CustomSpinner />}>
         <Reference />
       </Suspense>
     </div>

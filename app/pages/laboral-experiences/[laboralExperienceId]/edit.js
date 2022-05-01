@@ -1,5 +1,14 @@
 import { Suspense } from "react"
-import { Head, Link, useRouter, useQuery, useRouterQuery, useMutation, useParam, Routes } from "blitz"
+import {
+  Head,
+  Link,
+  useRouter,
+  useQuery,
+  useRouterQuery,
+  useMutation,
+  useParam,
+  Routes,
+} from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getLaboralExperience from "app/laboral-experiences/queries/getLaboralExperience"
 import updateLaboralExperience from "app/laboral-experiences/mutations/updateLaboralExperience"
@@ -10,6 +19,7 @@ import {
   LaboralExperienceForm,
   FORM_ERROR,
 } from "app/laboral-experiences/components/LaboralExperienceForm"
+import CustomSpinner from "app/core/components/CustomSpinner"
 export const EditLaboralExperience = () => {
   const router = useRouter()
   const laboralExperienceId = useParam("laboralExperienceId", "number")
@@ -60,8 +70,8 @@ export const EditLaboralExperience = () => {
                   })
                   await setQueryData(updated)
                   if (curriculumId !== undefined && curriculumId !== "") {
-                    router.push(Routes.EditCurriculumPage({curriculumId}))
-                  }else{
+                    router.push(Routes.EditCurriculumPage({ curriculumId }))
+                  } else {
                     router.push(Routes.LaboralExperiencesPage())
                   }
                 } catch (error) {
@@ -81,13 +91,13 @@ export const EditLaboralExperience = () => {
 
 const EditLaboralExperiencePage = () => {
   const { curriculumId } = useRouterQuery()
-  const returnPage = (
-    curriculumId !== '' ?
-      Routes.EditCurriculumPage({ curriculumId }) : Routes.LaboralExperiencesPage()
-  )
+  const returnPage =
+    curriculumId !== ""
+      ? Routes.EditCurriculumPage({ curriculumId })
+      : Routes.LaboralExperiencesPage()
   return (
     <div>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<CustomSpinner />}>
         <EditLaboralExperience />
       </Suspense>
 

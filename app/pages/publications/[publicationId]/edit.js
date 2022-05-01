@@ -1,11 +1,21 @@
 import { Suspense } from "react"
-import { Head, Link, useRouter, useQuery, useRouterQuery, useMutation, useParam, Routes } from "blitz"
+import {
+  Head,
+  Link,
+  useRouter,
+  useQuery,
+  useRouterQuery,
+  useMutation,
+  useParam,
+  Routes,
+} from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getPublication from "app/publications/queries/getPublication"
 import updatePublication from "app/publications/mutations/updatePublication"
 import { PublicationForm, FORM_ERROR } from "app/publications/components/PublicationForm"
 import { UpdatePublication } from "app/publications/components/validations"
 import { Grid, Button, Typography } from "@mui/material"
+import CustomSpinner from "app/core/components/CustomSpinner"
 
 export const EditPublication = () => {
   const router = useRouter()
@@ -57,8 +67,8 @@ export const EditPublication = () => {
                   })
                   await setQueryData(updated)
                   if (curriculumId !== undefined && curriculumId !== "") {
-                    router.push(Routes.EditCurriculumPage({curriculumId}))
-                  }else{
+                    router.push(Routes.EditCurriculumPage({ curriculumId }))
+                  } else {
                     router.push(Routes.PublicationsPage())
                   }
                 } catch (error) {
@@ -78,13 +88,11 @@ export const EditPublication = () => {
 
 const EditPublicationPage = () => {
   const { curriculumId } = useRouterQuery()
-  const returnPage = (
-    curriculumId !== '' ?
-      Routes.EditCurriculumPage({ curriculumId }) : Routes.PublicationsPage()
-  )
+  const returnPage =
+    curriculumId !== "" ? Routes.EditCurriculumPage({ curriculumId }) : Routes.PublicationsPage()
   return (
     <div>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<CustomSpinner />}>
         <EditPublication />
       </Suspense>
 
