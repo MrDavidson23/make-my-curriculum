@@ -1,18 +1,22 @@
-import { Suspense } from "react"
+import { Suspense, useState, useEffect } from "react"
 import { Head, Link, usePaginatedQuery, useRouter, Routes, useMutation, Router } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getReferences from "app/references/queries/getReferences"
 import deleteReference from "app/references/mutations/deleteReference"
 import deleteReferenceOnCurriculum from "app/reference-on-curricula/mutations/deleteReferenceOnCurriculum"
+import createReferenceOnCurriculum from "app/reference-on-curricula/mutations/createReferenceOnCurriculum"
 import InformationCard from "app/core/components/InformationCard"
-import { Grid, button, Button, Typography } from "@mui/material"
+import { Grid, Button, Chip, Select, MenuItem, InputLabel, FormControl } from "@mui/material"
 import CustomSpinner from "app/core/components/CustomSpinner"
 const ITEMS_PER_PAGE = 100
 export const ReferencesList = (props) => {
   const router = useRouter()
   const page = Number(router.query.page) || 0
   const [deleteReferenceMutation] = useMutation(deleteReference)
+  const [options, setOptions] = useState([])
+  const [optionSelected, setOptionSelected] = useState("")
   const [deleteReferenceOnCurriculumMutation] = useMutation(deleteReferenceOnCurriculum)
+  const [createReferenceOnCurriculumMutation] = useMutation(createReferenceOnCurriculum)
   const filter =
     props.curriculumId === undefined
       ? {}
@@ -25,7 +29,7 @@ export const ReferencesList = (props) => {
             },
           },
         }
-  const [{ references, hasMore }] = usePaginatedQuery(getReferences, {
+  const [{ references, allReferences, hasMore }] = usePaginatedQuery(getReferences, {
     where: filter,
     orderBy: {
       id: "asc",
@@ -34,19 +38,25 @@ export const ReferencesList = (props) => {
     take: ITEMS_PER_PAGE,
   })
 
-  const goToPreviousPage = () =>
-    router.push({
-      query: {
-        page: page - 1,
-      },
-    })
+  useEffect(() => {
+    if (allReferences) {
+      const options = allReferences.filter(
+        (reference) => !references.some((s) => s.id === reference.id)
+      )
+      setOptions(options)
+    }
+  }, [allReferences, references])
 
-  const goToNextPage = () =>
-    router.push({
-      query: {
-        page: page + 1,
-      },
+  const handleOnSelectOption = (event) => {
+    const newReferences = allReferences.find((reference) => reference.id === event.target.value)
+    references.push(newReferences)
+    const newOptions = options.pop(newReferences)
+    setOptions(newOptions)
+    createReferenceOnCurriculumMutation({
+      curriculumId: props.curriculumId,
+      referenceId: newOptions.id,
     })
+  }
 
   return (
     <div>
@@ -59,28 +69,38 @@ export const ReferencesList = (props) => {
         sx={{ mx: "auto", width: "100%" }}
         //columnSpacing={{ xs: 1, sm: 2, md: 3 }}
       >
-        {references.map((reference) => (
-          <Grid item key={reference.id}>
-            <InformationCard
-              title={reference.name}
-              subtitle={reference.institution}
-              firstText={reference.phone}
-              secondText={reference.email}
-              handleOnEdit={() => {
-                router.push(
-                  Routes.EditReferencePage({
-                    referenceId: reference.id,
-                    curriculumId: props.curriculumId,
-                  })
-                )
-              }}
-              handleOnDelete={async () => {
-                if (window.confirm("This will be deleted")) {
-                  if (props.curriculumId !== undefined && props.curriculumId !== "") {
+        <Suspense fallback={<CustomSpinner />}>
+          {references.map((reference) => (
+            <Grid item key={reference.id}>
+              <InformationCard
+                title={reference.name}
+                subtitle={reference.institution}
+                firstText={reference.phone}
+                secondText={reference.email}
+                handleOnEdit={() => {
+                  router.push(
+                    Routes.EditReferencePage({
+                      referenceId: reference.id,
+                      curriculumId: props.curriculumId,
+                    })
+                  )
+                }}
+                handleOnDelete={async () => {
+                  // if (window.confirm("This will be deleted")) {
+                  if (
+                    (props.curriculumId !== undefined && props.curriculumId !== "") ||
+                    props.onCurriculum
+                  ) {
                     await deleteReferenceOnCurriculumMutation({
                       curriculumId: props.curriculumId,
                       referenceId: reference.id,
                     })
+                    const referenceToDelete = allReferences.find((ref) => ref.id === reference.id)
+                    references.pop(referenceToDelete)
+                    const options = allReferences.filter(
+                      (reference) => !references.some((s) => s.id === reference.id)
+                    )
+                    setOptions(options)
                     router.push(Routes.EditCurriculumPage({ curriculumId: props.curriculumId }))
                   } else {
                     await deleteReferenceMutation({
@@ -88,12 +108,36 @@ export const ReferencesList = (props) => {
                     })
                     router.push(Routes.ReferencesPage())
                   }
-                }
-              }}
-            />
+                  // }
+                }}
+              />
+            </Grid>
+          ))}
+        </Suspense>
+        {props.onCurriculum && (
+          <Grid item xs={12} justify="center">
+            <FormControl variant="standard" sx={{ m: 1, minWidth: 220 }}>
+              <InputLabel id="demo-simple-select-standard-label">
+                Seleccione una Referencia
+              </InputLabel>
+              <Select
+                value={optionSelected}
+                label="Seleccione una Referencia"
+                onChange={handleOnSelectOption}
+              >
+                {options.length > 0 ? (
+                  options.map((reference) => (
+                    <MenuItem key={reference.id} value={reference.id}>
+                      {reference.name} en {reference.institution}
+                    </MenuItem>
+                  ))
+                ) : (
+                  <MenuItem disabled>No hay registros disponibles</MenuItem>
+                )}
+              </Select>
+            </FormControl>
           </Grid>
-        ))}
-        <Grid item xs={12} justify="center"></Grid>
+        )}
       </Grid>
     </div>
   )
@@ -116,7 +160,7 @@ const ReferencesPage = (props) => {
         </p>
 
         <Suspense fallback={<CustomSpinner />}>
-          <ReferencesList curriculumId={props.curriculumId} />
+          <ReferencesList curriculumId={props.curriculumId} onCurriculum />
         </Suspense>
       </div>
     </>

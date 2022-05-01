@@ -10,10 +10,13 @@ import {
   Routes,
 } from "blitz"
 import Layout from "app/core/layouts/Layout"
+import { CurriculaList } from "app/pages/curricula"
 import getReference from "app/references/queries/getReference"
-
 import { ReferenceForm, FORM_ERROR } from "app/references/components/ReferenceForm"
 import updateReference from "app/references/mutations/updateReference"
+import getReferenceOnCurriculum from "app/reference-on-curricula/queries/getReferenceOnCurriculum"
+import createReferenceOnCurriculumMutation from "app/reference-on-curricula/mutations/createReferenceOnCurriculum"
+import deleteReferenceOnCurriculumMutation from "app/reference-on-curricula/mutations/deleteReferenceOnCurriculum"
 import { UpdateReferenceValidation } from "app/references/components/validaciones"
 import { Grid, Button, Typography } from "@mui/material"
 import CustomSpinner from "app/core/components/CustomSpinner"
@@ -89,8 +92,27 @@ export const EditReference = () => {
 
 const EditReferencePage = () => {
   const { curriculumId } = useRouterQuery()
+  const referenceId = useParam("referenceId", "number")
   const returnPage =
     curriculumId !== "" ? Routes.EditCurriculumPage({ curriculumId }) : Routes.ReferencesPage()
+  const [referenceOnCurriculum] = useQuery(getReferenceOnCurriculum, {
+    id: referenceId,
+  })
+  const [createReferenceOnCurriculum] = useMutation(createReferenceOnCurriculumMutation)
+  const [deleteReferenceOnCurriculum] = useMutation(deleteReferenceOnCurriculumMutation)
+  const onChange = async (_event, isOnCV, curriculumId) => {
+    if (isOnCV) {
+      await deleteReferenceOnCurriculum({
+        curriculumId: curriculumId,
+        referenceId,
+      })
+    } else {
+      await createReferenceOnCurriculum({
+        curriculumId: curriculumId,
+        referenceId,
+      })
+    }
+  }
   return (
     <div>
       <Suspense fallback={<CustomSpinner />}>
@@ -104,6 +126,14 @@ const EditReferencePage = () => {
           </Link>
         </p>
       </Grid>
+      <Suspense fallback={<CustomSpinner />}>
+        <CurriculaList
+          curriculumsHighlight={referenceOnCurriculum.map((cv) => {
+            return cv.curriculumId
+          })}
+          onChangeCurriculumHighlight={onChange}
+        />
+      </Suspense>
     </div>
   )
 }
