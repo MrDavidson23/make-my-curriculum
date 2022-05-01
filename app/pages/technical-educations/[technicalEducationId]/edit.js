@@ -10,8 +10,12 @@ import {
   Routes,
 } from "blitz"
 import Layout from "app/core/layouts/Layout"
+import { CurriculaList } from "app/pages/curricula"
 import getTechnicalEducation from "app/technical-educations/queries/getTechnicalEducation"
 import updateTechnicalEducation from "app/technical-educations/mutations/updateTechnicalEducation"
+import getTechnicalEducationOnCurriculum from "app/technical-education-on-curricula/queries/getTechnicalEducationOnCurriculum"
+import createTechnicalEducationOnCurriculumMutation from "app/technical-education-on-curricula/mutations/createTechnicalEducationOnCurriculum"
+import deleteTechnicalEducationOnCurriculumMutation from "app/technical-education-on-curricula/mutations/deleteTechnicalEducationOnCurriculum"
 import { UpdateTechnicalEducation } from "app/technical-educations/components/validations"
 import { Grid, Button, Typography } from "@mui/material"
 
@@ -91,10 +95,33 @@ export const EditTechnicalEducation = () => {
 
 const EditTechnicalEducationPage = () => {
   const { curriculumId } = useRouterQuery()
+  const technicalEducationId = useParam("technicalEducationId", "number")
   const returnPage =
     curriculumId !== ""
       ? Routes.EditCurriculumPage({ curriculumId })
       : Routes.TechnicalEducationsPage()
+  const [technicalEducationOnCurriculum] = useQuery(getTechnicalEducationOnCurriculum, {
+    id: technicalEducationId,
+  })
+  const [createTechnicalEducationOnCurriculum] = useMutation(
+    createTechnicalEducationOnCurriculumMutation
+  )
+  const [deleteTechnicalEducationOnCurriculum] = useMutation(
+    deleteTechnicalEducationOnCurriculumMutation
+  )
+  const onChange = async (_event, isOnCV, curriculumId) => {
+    if (isOnCV) {
+      await deleteTechnicalEducationOnCurriculum({
+        curriculumId: curriculumId,
+        technicalEducationId,
+      })
+    } else {
+      await createTechnicalEducationOnCurriculum({
+        curriculumId: curriculumId,
+        technicalEducationId,
+      })
+    }
+  }
   return (
     <div>
       <Suspense fallback={<CustomSpinner />}>
@@ -108,6 +135,14 @@ const EditTechnicalEducationPage = () => {
           </Link>
         </p>
       </Grid>
+      <Suspense fallback={<CustomSpinner />}>
+        <CurriculaList
+          curriculumsHighlight={technicalEducationOnCurriculum.map((cv) => {
+            return cv.curriculumId
+          })}
+          onChangeCurriculumHighlight={onChange}
+        />
+      </Suspense>
     </div>
   )
 }
