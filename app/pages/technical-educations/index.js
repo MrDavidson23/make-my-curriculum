@@ -125,31 +125,33 @@ export const TechnicalEducationsList = (props) => {
             </Grid>
           ))}
         </Suspense>
-        {props.onCurriculum && (
-          <Grid item xs={12} justify="center">
-            <FormControl variant="standard" sx={{ m: 1, minWidth: 220 }}>
-              <InputLabel id="demo-simple-select-standard-label">
-                Seleccione una Educación Técnica
-              </InputLabel>
-              <Select
-                value={optionSelected}
-                label="Seleccione una Educación Técnica"
-                onChange={handleOnSelectOption}
-              >
-                {options.length > 0 ? (
-                  options.map((technicalEducation) => (
-                    <MenuItem key={technicalEducation.id} value={technicalEducation.id}>
-                      {technicalEducation.studies} en {technicalEducation.institution} en
-                      {technicalEducation.location}
-                    </MenuItem>
-                  ))
-                ) : (
-                  <MenuItem disabled>No hay registros disponibles</MenuItem>
-                )}
-              </Select>
-            </FormControl>
-          </Grid>
-        )}
+        <Suspense fallback={<CustomSpinner />}>
+          {props.onCurriculum && (
+            <Grid item xs={12} justify="center">
+              <FormControl variant="standard" sx={{ m: 1, minWidth: 220 }}>
+                <InputLabel id="demo-simple-select-standard-label">
+                  Seleccione una Educación Técnica
+                </InputLabel>
+                <Select
+                  value={optionSelected}
+                  label="Seleccione una Educación Técnica"
+                  onChange={handleOnSelectOption}
+                >
+                  {options.length > 0 ? (
+                    options.map((technicalEducation) => (
+                      <MenuItem key={technicalEducation.id} value={technicalEducation.id}>
+                        {technicalEducation.studies} en {technicalEducation.institution} en
+                        {technicalEducation.location}
+                      </MenuItem>
+                    ))
+                  ) : (
+                    <MenuItem disabled>No hay registros disponibles</MenuItem>
+                  )}
+                </Select>
+              </FormControl>
+            </Grid>
+          )}
+        </Suspense>
       </Grid>
     </div>
   )
