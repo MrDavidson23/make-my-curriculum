@@ -129,31 +129,33 @@ export const AcademicEducationsList = (props) => {
             </Grid>
           ))}
         </Suspense>
-        {props.onCurriculum && (
-          <Grid item xs={12} justify="center">
-            <FormControl variant="standard" sx={{ m: 1, minWidth: 220 }}>
-              <InputLabel id="demo-simple-select-standard-label">
-                Seleccione una Educación Académica
-              </InputLabel>
-              <Select
-                value={optionSelected}
-                label="Seleccione una Educación Académica"
-                onChange={handleOnSelectOption}
-              >
-                {options.length > 0 ? (
-                  options.map((academicEducation) => (
-                    <MenuItem key={academicEducation.id} value={academicEducation.id}>
-                      {academicEducation.studies} en {academicEducation.institution} en{" "}
-                      {academicEducation.location}
-                    </MenuItem>
-                  ))
-                ) : (
-                  <MenuItem disabled>No hay registros disponibles</MenuItem>
-                )}
-              </Select>
-            </FormControl>
-          </Grid>
-        )}
+        <Suspense fallback={<CustomSpinner />}>
+          {props.onCurriculum && (
+            <Grid item xs={12} justify="center">
+              <FormControl variant="standard" sx={{ m: 1, minWidth: 220 }}>
+                <InputLabel id="demo-simple-select-standard-label">
+                  Seleccione una Educación Académica
+                </InputLabel>
+                <Select
+                  value={optionSelected}
+                  label="Seleccione una Educación Académica"
+                  onChange={handleOnSelectOption}
+                >
+                  {options.length > 0 ? (
+                    options.map((academicEducation) => (
+                      <MenuItem key={academicEducation.id} value={academicEducation.id}>
+                        {academicEducation.studies} en {academicEducation.institution} en{" "}
+                        {academicEducation.location}
+                      </MenuItem>
+                    ))
+                  ) : (
+                    <MenuItem disabled>No hay registros disponibles</MenuItem>
+                  )}
+                </Select>
+              </FormControl>
+            </Grid>
+          )}
+        </Suspense>
       </Grid>
     </div>
   )

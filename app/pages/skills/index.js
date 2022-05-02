@@ -81,7 +81,10 @@ export const SkillsList = (props) => {
               }}
               onDelete={async () => {
                 if (window.confirm("This will be deleted")) {
-                  if (props.curriculumId !== undefined && props.curriculumId !== "") {
+                  if (
+                    (props.curriculumId !== undefined && props.curriculumId !== "") ||
+                    props.onCurriculum
+                  ) {
                     await deleteSkillOnCurriculumMutation({
                       curriculumId: props.curriculumId,
                       skillId: skill.id,
@@ -98,30 +101,32 @@ export const SkillsList = (props) => {
             />
           </Grid>
         ))}
-        {props.onCurriculum && (
-          <Grid item xs={12} justify="center">
-            <FormControl variant="standard" sx={{ m: 1, minWidth: 220 }}>
-              <InputLabel id="demo-simple-select-standard-label">
-                Seleccione una habilidad
-              </InputLabel>
-              <Select
-                value={optionSelected}
-                label="Seleccione una habilidad"
-                onChange={handleOnSelectOption}
-              >
-                {options.length > 0 ? (
-                  options.map((skill) => (
-                    <MenuItem key={skill.id} value={skill.description}>
-                      {skill.description}
-                    </MenuItem>
-                  ))
-                ) : (
-                  <MenuItem disabled>No hay habilidades disponibles</MenuItem>
-                )}
-              </Select>
-            </FormControl>
-          </Grid>
-        )}
+        <Suspense fallback={<CustomSpinner />}>
+          {props.onCurriculum && (
+            <Grid item xs={12} justify="center">
+              <FormControl variant="standard" sx={{ m: 1, minWidth: 220 }}>
+                <InputLabel id="demo-simple-select-standard-label">
+                  Seleccione una habilidad
+                </InputLabel>
+                <Select
+                  value={optionSelected}
+                  label="Seleccione una habilidad"
+                  onChange={handleOnSelectOption}
+                >
+                  {options.length > 0 ? (
+                    options.map((skill) => (
+                      <MenuItem key={skill.id} value={skill.description}>
+                        {skill.description}
+                      </MenuItem>
+                    ))
+                  ) : (
+                    <MenuItem disabled>No hay habilidades disponibles</MenuItem>
+                  )}
+                </Select>
+              </FormControl>
+            </Grid>
+          )}
+        </Suspense>
       </Grid>
     </div>
   )

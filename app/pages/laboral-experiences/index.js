@@ -128,31 +128,33 @@ export const LaboralExperiencesList = (props) => {
             </Grid>
           ))}
         </Suspense>
-        {props.onCurriculum && (
-          <Grid item xs={12} justify="center">
-            <FormControl variant="standard" sx={{ m: 1, minWidth: 220 }}>
-              <InputLabel id="demo-simple-select-standard-label">
-                Seleccione una Experiencia Laboral
-              </InputLabel>
-              <Select
-                value={optionSelected}
-                label="Seleccione una Experiencia Laboral"
-                onChange={handleOnSelectOption}
-              >
-                {options.length > 0 ? (
-                  options.map((laboralExperience) => (
-                    <MenuItem key={laboralExperience.id} value={laboralExperience.id}>
-                      {laboralExperience.position} en {laboralExperience.location} (
-                      {laboralExperience.description})
-                    </MenuItem>
-                  ))
-                ) : (
-                  <MenuItem disabled>No hay experiencas disponibles</MenuItem>
-                )}
-              </Select>
-            </FormControl>
-          </Grid>
-        )}
+        <Suspense fallback={<CustomSpinner />}>
+          {props.onCurriculum && (
+            <Grid item xs={12} justify="center">
+              <FormControl variant="standard" sx={{ m: 1, minWidth: 220 }}>
+                <InputLabel id="demo-simple-select-standard-label">
+                  Seleccione una Experiencia Laboral
+                </InputLabel>
+                <Select
+                  value={optionSelected}
+                  label="Seleccione una Experiencia Laboral"
+                  onChange={handleOnSelectOption}
+                >
+                  {options.length > 0 ? (
+                    options.map((laboralExperience) => (
+                      <MenuItem key={laboralExperience.id} value={laboralExperience.id}>
+                        {laboralExperience.position} en {laboralExperience.location} (
+                        {laboralExperience.description})
+                      </MenuItem>
+                    ))
+                  ) : (
+                    <MenuItem disabled>No hay experiencas disponibles</MenuItem>
+                  )}
+                </Select>
+              </FormControl>
+            </Grid>
+          )}
+        </Suspense>
       </Grid>
     </div>
   )
