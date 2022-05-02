@@ -59,11 +59,11 @@ export const TechnicalEducationsList = (props) => {
       (technicalEducation) => technicalEducation.id === event.target.value
     )
     technicalEducations.push(newTechnicalEducations)
-    const newOptions = options.pop(newTechnicalEducations)
+    const newOptions = options.filter((option) => option.id !== event.target.value)
     setOptions(newOptions)
     createTechnicalEducationOnCurriculumMutation({
       curriculumId: props.curriculumId,
-      technicalEducationId: newOptions.id,
+      technicalEducationId: event.target.value,
     })
   }
 

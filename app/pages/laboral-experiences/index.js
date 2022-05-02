@@ -59,11 +59,11 @@ export const LaboralExperiencesList = (props) => {
       (laboralExperience) => laboralExperience.id === event.target.value
     )
     laboralExperiences.push(newLaboralExperience)
-    const newOptions = options.pop(newLaboralExperience)
+    const newOptions = options.filter((option) => option.id !== event.target.value)
     setOptions(newOptions)
     createLaboralExperienceOnCurriculumMutation({
       curriculumId: props.curriculumId,
-      laboralExperienceId: newOptions.id,
+      laboralExperienceId: event.target.value,
     })
   }
 

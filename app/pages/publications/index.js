@@ -52,11 +52,11 @@ export const PublicationsList = (props) => {
       (publication) => publication.id === event.target.value
     )
     publications.push(newPublication)
-    const newOptions = options.pop(newPublication)
+    const newOptions = options.filter((option) => option.id !== event.target.value)
     setOptions(newOptions)
     createPublicationOnCurriculumMutation({
       curriculumId: props.curriculumId,
-      publicationId: newOptions.id,
+      publicationId: event.target.value,
     })
   }
 

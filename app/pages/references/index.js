@@ -50,11 +50,11 @@ export const ReferencesList = (props) => {
   const handleOnSelectOption = (event) => {
     const newReferences = allReferences.find((reference) => reference.id === event.target.value)
     references.push(newReferences)
-    const newOptions = options.pop(newReferences)
+    const newOptions = options.filter((option) => option.id !== event.target.value)
     setOptions(newOptions)
     createReferenceOnCurriculumMutation({
       curriculumId: props.curriculumId,
-      referenceId: newOptions.id,
+      referenceId: event.target.value,
     })
   }
 
