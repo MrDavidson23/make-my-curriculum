@@ -14,13 +14,17 @@ export const CloneCurriculum = () => {
     id: curriculumId,
   })
 
+  const sectionsName = ["skills","laboralExperiences","academicEducations","technicalEducations","publications","references"]
+    
   // Gets the non-empty sections of the curriculum
   const getCurriculumSections = (curriculum)=>{
-    const sectionsName = ["skills","laboralExperiences","academicEducations","technicalEducations","publications","references"]
     const obj = {}
     sectionsName.forEach((name)=>{
       if(curriculum[name].length!==0){
         obj[name] = curriculum[name]
+        obj[name].forEach((e)=>{
+          e.state = "add"
+        })
       }
     })
     return obj
@@ -48,24 +52,39 @@ export const CloneCurriculum = () => {
         </Grid>
 
         <CloneForm
-          curriculumId={curriculumId}
+          curriculum={curriculum}
+          sections={sections}
+          setSections={setSections}
           submitText="Clonar Currículum"
-          onSubmit = { async (values) => {
+          onSubmit = { async () => {
             try {
-              const curriculum = await cloneCurriculumMutation({id:curriculumId,sections:sections})
+              
+              // Gets only those sections with state "add"
+              let values = {}
+              sectionsName.forEach((name) => {
+                values[name] = []
+                sections[name].forEach( (elem) => {
+                  if(elem.state === "add"){
+                    const {state, ...newElem} = elem
+                    values[name].push(newElem)
+                  }
+                })
+              })
+
+              const curriculum = await cloneCurriculumMutation({id:curriculumId,sections:values})
               router.push(
                 Routes.EditCurriculumPage({
                   curriculumId: curriculum.id,
                 })
-                )
-              } catch (error) {
-                console.error(error)
-                return {
-                  [FORM_ERROR]: error.toString(),
-                }
+              )
+
+            } catch (error) {
+              console.error(error)
+              return {
+                [FORM_ERROR]: error.toString(),
               }
             }
-          }
+          }}
         />
       </Grid>
     </Grid>
