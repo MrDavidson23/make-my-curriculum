@@ -15,7 +15,8 @@ export const CloneCurriculum = () => {
   })
 
   const sectionsName = ["skills","laboralExperiences","academicEducations","technicalEducations","publications","references"]
-    
+  const INCLUDED = "add"
+  
   // Gets the non-empty sections of the curriculum
   const getCurriculumSections = (curriculum)=>{
     const obj = {}
@@ -23,7 +24,7 @@ export const CloneCurriculum = () => {
       if(curriculum[name].length!==0){
         obj[name] = curriculum[name]
         obj[name].forEach((e)=>{
-          e.state = "add"
+          e.state = INCLUDED
         })
       }
     })
@@ -47,7 +48,7 @@ export const CloneCurriculum = () => {
 
         <Grid item xs={12}>
           <Typography variant="h6" component="div" gutterBottom>
-            <h1> Clonar currículum </h1>
+            <h1> Clonar currículum {curriculum.name}</h1>
           </Typography>
         </Grid>
 
@@ -64,7 +65,7 @@ export const CloneCurriculum = () => {
               sectionsName.forEach((name) => {
                 values[name] = []
                 sections[name].forEach( (elem) => {
-                  if(elem.state === "add"){
+                  if(elem.state === INCLUDED){
                     const {state, ...newElem} = elem
                     values[name].push(newElem)
                   }
