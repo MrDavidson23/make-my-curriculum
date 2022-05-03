@@ -143,7 +143,7 @@ const SkillsPage = (props) => {
         </p>
 
         <Suspense fallback={<CustomSpinner />}>
-          <SkillsList curriculumId={props.curriculumId} onCurriculum />
+          <SkillsList curriculumId={props.curriculumId} onCurriculum={props.onCurriculum} />
         </Suspense>
       </div>
     </>

@@ -52,17 +52,18 @@ const CurriculumList = ({
                   router.push(Routes.ShowCurriculumPage({ curriculumId: curriculum.id }))
                 }}
               />
-
-              <Switch
-                defaultChecked={curriculumsHighlight?.includes(curriculum.id)}
-                onChange={(event) =>
-                  onChangeCurriculumHighlight(
-                    event,
-                    curriculumsHighlight?.includes(curriculum.id),
-                    curriculum.id
-                  )
-                }
-              />
+              {curriculumsHighlight && (
+                <Switch
+                  defaultChecked={curriculumsHighlight?.includes(curriculum.id)}
+                  onChange={(event) =>
+                    onChangeCurriculumHighlight(
+                      event,
+                      curriculumsHighlight?.includes(curriculum.id),
+                      curriculum.id
+                    )
+                  }
+                />
+              )}
             </Grid>
           ))}
         </Suspense>
