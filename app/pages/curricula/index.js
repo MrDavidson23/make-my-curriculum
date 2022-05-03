@@ -6,7 +6,7 @@ import CurriculumList from "app/curricula/components/CurriculumList"
 import { Button, Grid } from "@mui/material"
 import CustomSpinner from "app/core/components/CustomSpinner"
 const ITEMS_PER_PAGE = 100
-export const CurriculaList = () => {
+export const CurriculaList = (props) => {
   const router = useRouter()
   const page = Number(router.query.page) || 0
   const [curricula] = usePaginatedQuery(getCurricula, {
@@ -35,7 +35,11 @@ export const CurriculaList = () => {
 
   return (
     <>
-      <CurriculumList curriculumns={curricula} />
+      <CurriculumList
+        curriculumns={curricula}
+        curriculumsHighlight={props.curriculumsHighlight}
+        onChangeCurriculumHighlight={props.onChangeCurriculumHighlight}
+      />
 
       <Grid item xs={12}>
         <Button disabled={page === 0} onClick={goToPreviousPage}>

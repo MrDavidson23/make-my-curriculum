@@ -1,9 +1,17 @@
+import { Suspense } from "react"
+import CustomSpinner from "app/core/components/CustomSpinner"
 import InformationCard from "app/core/components/InformationCard"
 import { Routes, useRouter, useMutation } from "blitz"
 import deleteCurriculum from "app/curricula/mutations/deleteCurriculum"
 import { Grid } from "@mui/material"
+import Switch from "@mui/material/Switch"
 
-const CurriculumList = ({ curriculumns, ctx }) => {
+const CurriculumList = ({
+  curriculumns,
+  curriculumsHighlight,
+  onChangeCurriculumHighlight,
+  ctx,
+}) => {
   const router = useRouter()
   const [deleteCurriculumMutation] = useMutation(deleteCurriculum)
 
@@ -21,30 +29,44 @@ const CurriculumList = ({ curriculumns, ctx }) => {
         justifyContent={"center"}
         sx={{ mx: "auto", width: "100%" }}
       >
-        {curriculumns.curricula.map((curriculum) => (
-          <Grid key={curriculum.id} item>
-            <InformationCard
-              key={curriculum.id}
-              title={curriculum.name}
-              subtitle={curriculum.profession}
-              firstText={curriculum.description}
-              handleOnEdit={() => {
-                router.push(Routes.EditCurriculumPage({ curriculumId: curriculum.id }))
-              }}
-              handleOnDelete={async () => {
-                if (window.confirm("This will be deleted")) {
-                  await deleteCurriculumMutation({
-                    id: curriculum.id,
-                  })
-                  router.reload()
-                }
-              }}
-              handleOnClick={() => {
-                router.push(Routes.ShowCurriculumPage({ curriculumId: curriculum.id }))
-              }}
-            />
-          </Grid>
-        ))}
+        <Suspense fallback={<CustomSpinner />}>
+          {curriculumns.curricula.map((curriculum) => (
+            <Grid key={curriculum.id} item>
+              <InformationCard
+                key={curriculum.id}
+                title={curriculum.name}
+                subtitle={curriculum.profession}
+                firstText={curriculum.description}
+                handleOnEdit={() => {
+                  router.push(Routes.EditCurriculumPage({ curriculumId: curriculum.id }))
+                }}
+                handleOnDelete={async () => {
+                  if (window.confirm("This will be deleted")) {
+                    await deleteCurriculumMutation({
+                      id: curriculum.id,
+                    })
+                    router.reload()
+                  }
+                }}
+                handleOnClick={() => {
+                  router.push(Routes.ShowCurriculumPage({ curriculumId: curriculum.id }))
+                }}
+              />
+              {curriculumsHighlight && (
+                <Switch
+                  defaultChecked={curriculumsHighlight?.includes(curriculum.id)}
+                  onChange={(event) =>
+                    onChangeCurriculumHighlight(
+                      event,
+                      curriculumsHighlight?.includes(curriculum.id),
+                      curriculum.id
+                    )
+                  }
+                />
+              )}
+            </Grid>
+          ))}
+        </Suspense>
       </Grid>
     </>
   )

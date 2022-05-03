@@ -1,18 +1,22 @@
-import { Suspense } from "react"
+import { Suspense, useEffect, useState } from "react"
 import { Head, Link, usePaginatedQuery, useRouter, Routes, useMutation } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getSkills from "app/skills/queries/getSkills"
 import deleteSkill from "app/skills/mutations/deleteSkill"
 import deleteSkillOnCurriculum from "app/skill-on-curricula/mutations/deleteSkillOnCurriculum"
-import InformationCard from "app/core/components/InformationCard"
-import { Grid, Button, Chip, Typography } from "@mui/material"
+import createSkillOnCurriculum from "app/skill-on-curricula/mutations/createSkillOnCurriculum"
+import { Grid, Button, Chip, Select, MenuItem, InputLabel, FormControl } from "@mui/material"
 import CustomSpinner from "app/core/components/CustomSpinner"
 const ITEMS_PER_PAGE = 100
 export const SkillsList = (props) => {
   const router = useRouter()
   const page = Number(router.query.page) || 0
   const [deleteSkillMutation] = useMutation(deleteSkill)
+  const [options, setOptions] = useState([])
+  const [selected, setSelected] = useState([])
+  const [optionSelected, setOptionSelected] = useState("")
   const [deleteSkillOnCurriculumMutation] = useMutation(deleteSkillOnCurriculum)
+  const [createSkillOnCurriculumMutation] = useMutation(createSkillOnCurriculum)
   const filter =
     props.curriculumId === undefined
       ? {}
@@ -25,7 +29,7 @@ export const SkillsList = (props) => {
             },
           },
         }
-  const [{ skills, hasMore }] = usePaginatedQuery(getSkills, {
+  const [{ skills, allSkills, hasMore }] = usePaginatedQuery(getSkills, {
     where: filter,
     orderBy: {
       id: "asc",
@@ -34,19 +38,49 @@ export const SkillsList = (props) => {
     take: ITEMS_PER_PAGE,
   })
 
-  const goToPreviousPage = () =>
-    router.push({
-      query: {
-        page: page - 1,
-      },
-    })
+  useEffect(() => {
+    if (skills) {
+      setSelected(skills)
+    }
+  }, [skills])
 
-  const goToNextPage = () =>
-    router.push({
-      query: {
-        page: page + 1,
-      },
+  useEffect(() => {
+    if (allSkills) {
+      const options = allSkills.filter((skill) => !skills.some((s) => s.id === skill.id))
+      setOptions(options)
+    }
+  }, [allSkills, skills])
+
+  const handleOnSelectOption = (event) => {
+    const skillSelected = options.find((skill) => skill.id === event.target.value)
+    setOptionSelected(skillSelected.description)
+    setSelected([...selected, skillSelected])
+    const newOptions = options.filter((option) => option.id !== event.target.value)
+    setOptions(newOptions)
+    createSkillOnCurriculumMutation({
+      curriculumId: props.curriculumId,
+      skillId: event.target.value,
     })
+    setOptionSelected("")
+  }
+
+  const handleOnDelete = async (id) => {
+    if ((props.curriculumId !== undefined && props.curriculumId !== "") || props.onCurriculum) {
+      await deleteSkillOnCurriculumMutation({
+        curriculumId: props.curriculumId,
+        skillId: id,
+      })
+      const newSelected = selected.filter((skill) => skill.id !== id)
+      setSelected(newSelected)
+      const newOptions = [...options, allSkills.find((s) => s.id === id)]
+      setOptions(newOptions)
+    } else {
+      await deleteSkillMutation({
+        id,
+      })
+      router.push(Routes.SkillsPage())
+    }
+  }
 
   return (
     <div>
@@ -58,7 +92,7 @@ export const SkillsList = (props) => {
         justifyContent={"center"}
         sx={{ mx: "auto", width: "100%" }}
       >
-        {skills.map((skill) => (
+        {selected.map((skill) => (
           <Grid item key={skill.id}>
             <Chip
               label={skill.description}
@@ -67,26 +101,36 @@ export const SkillsList = (props) => {
                   Routes.EditSkillPage({ skillId: skill.id, curriculumId: props.curriculumId })
                 )
               }}
-              onDelete={async () => {
-                if (window.confirm("This will be deleted")) {
-                  if (props.curriculumId !== undefined && props.curriculumId !== "") {
-                    await deleteSkillOnCurriculumMutation({
-                      curriculumId: props.curriculumId,
-                      skillId: skill.id,
-                    })
-                    router.push(Routes.EditCurriculumPage({ curriculumId: props.curriculumId }))
-                  } else {
-                    await deleteSkillMutation({
-                      id: skill.id,
-                    })
-                    router.push(Routes.SkillsPage())
-                  }
-                }
-              }}
+              onDelete={() => handleOnDelete(skill.id)}
             />
           </Grid>
         ))}
-        <Grid item xs={12} justify="center"></Grid>
+        <Suspense fallback={<CustomSpinner />}>
+          {props.onCurriculum && (
+            <Grid item xs={12} justify="center">
+              <FormControl variant="standard" sx={{ m: 1, minWidth: 220 }}>
+                <InputLabel id="demo-simple-select-standard-label">
+                  Seleccione una habilidad
+                </InputLabel>
+                <Select
+                  value={optionSelected}
+                  label="Seleccione una habilidad"
+                  onChange={handleOnSelectOption}
+                >
+                  {options.length > 0 ? (
+                    options.map((skill) => (
+                      <MenuItem key={skill.id} value={skill.id}>
+                        {skill.description}
+                      </MenuItem>
+                    ))
+                  ) : (
+                    <MenuItem disabled>No hay habilidades disponibles</MenuItem>
+                  )}
+                </Select>
+              </FormControl>
+            </Grid>
+          )}
+        </Suspense>
       </Grid>
     </div>
   )
@@ -103,7 +147,7 @@ const SkillsPage = (props) => {
         </p>
 
         <Suspense fallback={<CustomSpinner />}>
-          <SkillsList curriculumId={props.curriculumId} />
+          <SkillsList curriculumId={props.curriculumId} onCurriculum={props.onCurriculum} />
         </Suspense>
       </div>
     </>

@@ -10,9 +10,9 @@ export default resolver.pipe(
   resolver.authorize(),
   async ({ id }) => {
     // TODO: in multi-tenant app, you must add validation to ensure correct tenant
-    const publicationOnCurriculum = await db.publicationOnCurriculum.findFirst({
+    const publicationOnCurriculum = await db.publicationOnCurriculum.findMany({
       where: {
-        id,
+        publicationId: id,
       },
     })
     if (!publicationOnCurriculum) throw new NotFoundError()
