@@ -23,8 +23,23 @@ export default resolver.pipe(
           orderBy,
         }),
     })
+    const { items: allAcademicEducations } = await paginate({
+      skip,
+      take,
+      count: () =>
+        db.academicEducation.count({
+          where,
+        }),
+      query: (paginateArgs) =>
+        db.academicEducation.findMany({
+          ...paginateArgs,
+          where: { userId: ctx.session.userId },
+          orderBy,
+        }),
+    })
     return {
       academicEducations,
+      allAcademicEducations,
       nextPage,
       hasMore,
       count,

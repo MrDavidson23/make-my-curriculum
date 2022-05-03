@@ -140,8 +140,9 @@ export const EditCurriculum = () => {
                 title={curriculum.skillLabel}
                 updateState={updateState}
                 submitChange={submitChange}
+                onCurriculum
               />
-              <SkillsPage curriculumId={curriculumId} />
+              <SkillsPage curriculumId={curriculumId} onCurriculum />
               <hr style={style.hr} />
               <EditableTitleText
                 name="laboralExperienceLabel"
@@ -149,7 +150,7 @@ export const EditCurriculum = () => {
                 updateState={updateState}
                 submitChange={submitChange}
               />
-              <LaboralExperiencesPage curriculumId={curriculumId} />
+              <LaboralExperiencesPage curriculumId={curriculumId} onCurriculum />
               <hr style={style.hr} />
               <EditableTitleText
                 name="academicEducationLabel"
@@ -157,7 +158,7 @@ export const EditCurriculum = () => {
                 updateState={updateState}
                 submitChange={submitChange}
               />
-              <AcademicEducationsPage curriculumId={curriculumId} />
+              <AcademicEducationsPage curriculumId={curriculumId} onCurriculum />
               <hr style={style.hr} />
               <EditableTitleText
                 name="technicalEducationLabel"
@@ -165,7 +166,7 @@ export const EditCurriculum = () => {
                 updateState={updateState}
                 submitChange={submitChange}
               />
-              <TechnicalEducationsPage curriculumId={curriculumId} />
+              <TechnicalEducationsPage curriculumId={curriculumId} onCurriculum />
               <hr style={style.hr} />
               <EditableTitleText
                 name="publicationLabel"
@@ -173,7 +174,7 @@ export const EditCurriculum = () => {
                 updateState={updateState}
                 submitChange={submitChange}
               />
-              <PublicationsPage curriculumId={curriculumId} />
+              <PublicationsPage curriculumId={curriculumId} onCurriculum />
               <hr style={style.hr} />
               <EditableTitleText
                 name="referenceLabel"
@@ -181,7 +182,7 @@ export const EditCurriculum = () => {
                 updateState={updateState}
                 submitChange={submitChange}
               />
-              <ReferencesPage curriculumId={curriculumId} />
+              <ReferencesPage curriculumId={curriculumId} onCurriculum />
               <hr style={style.hr} />
             </div>
           )}
