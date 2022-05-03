@@ -13,6 +13,7 @@ export const SkillsList = (props) => {
   const page = Number(router.query.page) || 0
   const [deleteSkillMutation] = useMutation(deleteSkill)
   const [options, setOptions] = useState([])
+  const [selected, setSelected] = useState([])
   const [optionSelected, setOptionSelected] = useState("")
   const [deleteSkillOnCurriculumMutation] = useMutation(deleteSkillOnCurriculum)
   const [createSkillOnCurriculumMutation] = useMutation(createSkillOnCurriculum)
@@ -38,6 +39,12 @@ export const SkillsList = (props) => {
   })
 
   useEffect(() => {
+    if (skills) {
+      setSelected(skills)
+    }
+  }, [skills])
+
+  useEffect(() => {
     if (allSkills) {
       const options = allSkills.filter((skill) => !skills.some((s) => s.id === skill.id))
       setOptions(options)
@@ -45,19 +52,34 @@ export const SkillsList = (props) => {
   }, [allSkills, skills])
 
   const handleOnSelectOption = (event) => {
-    setOptionSelected(event.target.value)
-    const newSkill = {
-      id: event.target.key,
-      description: event.target.value,
-    }
-    skills.push(newSkill)
-    const newOptions = options.pop(newSkill)
+    const skillSelected = options.find((skill) => skill.id === event.target.value)
+    setOptionSelected(skillSelected.description)
+    setSelected([...selected, skillSelected])
+    const newOptions = options.filter((option) => option.id !== event.target.value)
     setOptions(newOptions)
     createSkillOnCurriculumMutation({
       curriculumId: props.curriculumId,
-      skillId: newOptions.id,
+      skillId: event.target.value,
     })
     setOptionSelected("")
+  }
+
+  const handleOnDelete = async (id) => {
+    if ((props.curriculumId !== undefined && props.curriculumId !== "") || props.onCurriculum) {
+      await deleteSkillOnCurriculumMutation({
+        curriculumId: props.curriculumId,
+        skillId: id,
+      })
+      const newSelected = selected.filter((skill) => skill.id !== id)
+      setSelected(newSelected)
+      const newOptions = [...options, allSkills.find((s) => s.id === id)]
+      setOptions(newOptions)
+    } else {
+      await deleteSkillMutation({
+        id,
+      })
+      router.push(Routes.SkillsPage())
+    }
   }
 
   return (
@@ -70,7 +92,7 @@ export const SkillsList = (props) => {
         justifyContent={"center"}
         sx={{ mx: "auto", width: "100%" }}
       >
-        {skills.map((skill) => (
+        {selected.map((skill) => (
           <Grid item key={skill.id}>
             <Chip
               label={skill.description}
@@ -79,25 +101,7 @@ export const SkillsList = (props) => {
                   Routes.EditSkillPage({ skillId: skill.id, curriculumId: props.curriculumId })
                 )
               }}
-              onDelete={async () => {
-                if (window.confirm("This will be deleted")) {
-                  if (
-                    (props.curriculumId !== undefined && props.curriculumId !== "") ||
-                    props.onCurriculum
-                  ) {
-                    await deleteSkillOnCurriculumMutation({
-                      curriculumId: props.curriculumId,
-                      skillId: skill.id,
-                    })
-                    router.push(Routes.EditCurriculumPage({ curriculumId: props.curriculumId }))
-                  } else {
-                    await deleteSkillMutation({
-                      id: skill.id,
-                    })
-                    router.push(Routes.SkillsPage())
-                  }
-                }
-              }}
+              onDelete={() => handleOnDelete(skill.id)}
             />
           </Grid>
         ))}
@@ -115,7 +119,7 @@ export const SkillsList = (props) => {
                 >
                   {options.length > 0 ? (
                     options.map((skill) => (
-                      <MenuItem key={skill.id} value={skill.description}>
+                      <MenuItem key={skill.id} value={skill.id}>
                         {skill.description}
                       </MenuItem>
                     ))
