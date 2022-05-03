@@ -14,6 +14,7 @@ export const LaboralExperiencesList = (props) => {
   const page = Number(router.query.page) || 0
   const [deleteLaboralExperienceMutation] = useMutation(deleteLaboralExperience)
   const [options, setOptions] = useState([])
+  const [laboralExperiencesList, setLaboralExperiencesList] = useState([])
   const [optionSelected, setOptionSelected] = useState("")
   const [deleteLaboralExperienceOnCurriculumMutation] = useMutation(
     deleteLaboralExperienceOnCurriculum
@@ -46,6 +47,12 @@ export const LaboralExperiencesList = (props) => {
   )
 
   useEffect(() => {
+    if (laboralExperiences) {
+      setLaboralExperiencesList(laboralExperiences)
+    }
+  }, [laboralExperiences])
+
+  useEffect(() => {
     if (allLaboralExperiencies) {
       const options = allLaboralExperiencies.filter(
         (laboralExperience) => !laboralExperiences.some((s) => s.id === laboralExperience.id)
@@ -58,13 +65,36 @@ export const LaboralExperiencesList = (props) => {
     const newLaboralExperience = allLaboralExperiencies.find(
       (laboralExperience) => laboralExperience.id === event.target.value
     )
-    laboralExperiences.push(newLaboralExperience)
+    setLaboralExperiencesList([...laboralExperiences, newLaboralExperience])
     const newOptions = options.filter((option) => option.id !== event.target.value)
     setOptions(newOptions)
     createLaboralExperienceOnCurriculumMutation({
       curriculumId: props.curriculumId,
       laboralExperienceId: event.target.value,
     })
+  }
+
+  const handleOnDelete = async (id) => {
+    if ((props.curriculumId !== undefined && props.curriculumId !== "") || props.onCurriculum) {
+      await deleteLaboralExperienceOnCurriculumMutation({
+        curriculumId: props.curriculumId,
+        laboralExperienceId: id,
+      })
+      const newLaboralExperiences = laboralExperiencesList.filter(
+        (laboralExperience) => laboralExperience.id !== id
+      )
+      setLaboralExperiencesList(newLaboralExperiences)
+      const newOptions = [
+        ...options,
+        allLaboralExperiencies.find((laboralExperience) => laboralExperience.id === id),
+      ]
+      setOptions(newOptions)
+    } else {
+      await deleteLaboralExperienceMutation({
+        id,
+      })
+      router.push(Routes.LaboralExperiencesPage())
+    }
   }
 
   return (
@@ -78,7 +108,7 @@ export const LaboralExperiencesList = (props) => {
         sx={{ mx: "auto", width: "100%" }}
       >
         <Suspense fallback={<CustomSpinner />}>
-          {laboralExperiences.map((laboralExperience) => (
+          {laboralExperiencesList.map((laboralExperience) => (
             <Grid item key={laboralExperience.id}>
               <InformationCard
                 title={laboralExperience.position}
@@ -98,32 +128,7 @@ export const LaboralExperiencesList = (props) => {
                     })
                   )
                 }}
-                handleOnDelete={async () => {
-                  if (
-                    (props.curriculumId !== undefined && props.curriculumId !== "") ||
-                    props.onCurriculum
-                  ) {
-                    await deleteLaboralExperienceOnCurriculumMutation({
-                      curriculumId: props.curriculumId,
-                      laboralExperienceId: laboralExperience.id,
-                    })
-                    const laboralExperienceToDelete = allLaboralExperiencies.find(
-                      (labExperience) => labExperience.id === laboralExperience.id
-                    )
-                    laboralExperiences.pop(laboralExperienceToDelete)
-                    const options = allLaboralExperiencies.filter(
-                      (laboralExperience) =>
-                        !laboralExperiences.some((s) => s.id === laboralExperience.id)
-                    )
-                    setOptions(options)
-                    router.push(Routes.EditCurriculumPage({ curriculumId: props.curriculumId }))
-                  } else {
-                    await deleteLaboralExperienceMutation({
-                      id: laboralExperience.id,
-                    })
-                    router.push(Routes.LaboralExperiencesPage())
-                  }
-                }}
+                handleOnDelete={() => handleOnDelete(laboralExperience.id)}
               />
             </Grid>
           ))}
@@ -171,7 +176,10 @@ const LaboralExperiencesPage = (props) => {
         </p>
 
         <Suspense fallback={<CustomSpinner />}>
-          <LaboralExperiencesList curriculumId={props.curriculumId} onCurriculum />
+          <LaboralExperiencesList
+            curriculumId={props.curriculumId}
+            onCurriculum={props.onCurriculum}
+          />
         </Suspense>
       </div>
     </>

@@ -14,6 +14,7 @@ export const ReferencesList = (props) => {
   const page = Number(router.query.page) || 0
   const [deleteReferenceMutation] = useMutation(deleteReference)
   const [options, setOptions] = useState([])
+  const [referencesList, setReferencesList] = useState([])
   const [optionSelected, setOptionSelected] = useState("")
   const [deleteReferenceOnCurriculumMutation] = useMutation(deleteReferenceOnCurriculum)
   const [createReferenceOnCurriculumMutation] = useMutation(createReferenceOnCurriculum)
@@ -39,6 +40,12 @@ export const ReferencesList = (props) => {
   })
 
   useEffect(() => {
+    if (references) {
+      setReferencesList(references)
+    }
+  }, [references])
+
+  useEffect(() => {
     if (allReferences) {
       const options = allReferences.filter(
         (reference) => !references.some((s) => s.id === reference.id)
@@ -48,14 +55,32 @@ export const ReferencesList = (props) => {
   }, [allReferences, references])
 
   const handleOnSelectOption = (event) => {
-    const newReferences = allReferences.find((reference) => reference.id === event.target.value)
-    references.push(newReferences)
+    const newReference = allReferences.find((reference) => reference.id === event.target.value)
+    setReferencesList([...referencesList, newReference])
     const newOptions = options.filter((option) => option.id !== event.target.value)
     setOptions(newOptions)
     createReferenceOnCurriculumMutation({
       curriculumId: props.curriculumId,
       referenceId: event.target.value,
     })
+  }
+
+  const handleOnDelete = async (id) => {
+    if ((props.curriculumId !== undefined && props.curriculumId !== "") || props.onCurriculum) {
+      await deleteReferenceOnCurriculumMutation({
+        curriculumId: props.curriculumId,
+        referenceId: id,
+      })
+      const newReferences = referencesList.filter((reference) => reference.id !== id)
+      setReferencesList(newReferences)
+      const newOptions = [...options, allReferences.find((reference) => reference.id === id)]
+      setOptions(newOptions)
+    } else {
+      await deleteReferenceMutation({
+        id,
+      })
+      router.push(Routes.ReferencesPage())
+    }
   }
 
   return (
@@ -67,10 +92,9 @@ export const ReferencesList = (props) => {
         textAlign={"center"}
         justifyContent={"center"}
         sx={{ mx: "auto", width: "100%" }}
-        //columnSpacing={{ xs: 1, sm: 2, md: 3 }}
       >
         <Suspense fallback={<CustomSpinner />}>
-          {references.map((reference) => (
+          {referencesList.map((reference) => (
             <Grid item key={reference.id}>
               <InformationCard
                 title={reference.name}
@@ -85,31 +109,7 @@ export const ReferencesList = (props) => {
                     })
                   )
                 }}
-                handleOnDelete={async () => {
-                  // if (window.confirm("This will be deleted")) {
-                  if (
-                    (props.curriculumId !== undefined && props.curriculumId !== "") ||
-                    props.onCurriculum
-                  ) {
-                    await deleteReferenceOnCurriculumMutation({
-                      curriculumId: props.curriculumId,
-                      referenceId: reference.id,
-                    })
-                    const referenceToDelete = allReferences.find((ref) => ref.id === reference.id)
-                    references.pop(referenceToDelete)
-                    const options = allReferences.filter(
-                      (reference) => !references.some((s) => s.id === reference.id)
-                    )
-                    setOptions(options)
-                    router.push(Routes.EditCurriculumPage({ curriculumId: props.curriculumId }))
-                  } else {
-                    await deleteReferenceMutation({
-                      id: reference.id,
-                    })
-                    router.push(Routes.ReferencesPage())
-                  }
-                  // }
-                }}
+                handleOnDelete={async () => handleOnDelete(reference.id)}
               />
             </Grid>
           ))}
@@ -128,7 +128,7 @@ export const ReferencesList = (props) => {
                 >
                   {options.length > 0 ? (
                     options.map((reference) => (
-                      <MenuItem key={reference.id} value={reference.id}>
+                      <MenuItem key={reference} value={reference.id}>
                         {reference.name} en {reference.institution}
                       </MenuItem>
                     ))
@@ -162,7 +162,7 @@ const ReferencesPage = (props) => {
         </p>
 
         <Suspense fallback={<CustomSpinner />}>
-          <ReferencesList curriculumId={props.curriculumId} onCurriculum />
+          <ReferencesList curriculumId={props.curriculumId} onCurriculum={props.onCurriculum} />
         </Suspense>
       </div>
     </>

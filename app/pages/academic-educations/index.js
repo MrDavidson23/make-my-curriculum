@@ -13,6 +13,7 @@ export const AcademicEducationsList = (props) => {
   const router = useRouter()
   const page = Number(router.query.page) || 0
   const [options, setOptions] = useState([])
+  const [academicEducationsList, setAcademicEducationsList] = useState([])
   const [optionSelected, setOptionSelected] = useState("")
   const [deleteAcademicEducationMutation] = useMutation(deleteAcademicEducation)
   const [deleteAcademicEducationOnCurriculumMutation] = useMutation(
@@ -46,6 +47,12 @@ export const AcademicEducationsList = (props) => {
   )
 
   useEffect(() => {
+    if (academicEducations) {
+      setAcademicEducationsList(academicEducations)
+    }
+  }, [academicEducations])
+
+  useEffect(() => {
     if (allAcademicEducations) {
       const options = allAcademicEducations.filter(
         (academicEducation) => !academicEducations.some((s) => s.id === academicEducation.id)
@@ -58,13 +65,36 @@ export const AcademicEducationsList = (props) => {
     const newAcademicEducation = allAcademicEducations.find(
       (academicEducation) => academicEducation.id === event.target.value
     )
-    academicEducations.push(newAcademicEducation)
+    setAcademicEducationsList([...academicEducationsList, newAcademicEducation])
     const newOptions = options.filter((option) => option.id !== event.target.value)
     setOptions(newOptions)
     createAcademicEducationOnCurriculumMutation({
       curriculumId: props.curriculumId,
       academicEducationId: event.target.value,
     })
+  }
+
+  const handleOnDeleteAcademicEducation = async (id) => {
+    if ((props.curriculumId !== undefined && props.curriculumId !== "") || props.onCurriculum) {
+      await deleteAcademicEducationOnCurriculumMutation({
+        curriculumId: props.curriculumId,
+        academicEducationId: id,
+      })
+      const newAcademicEducation = academicEducationsList.filter(
+        (academicEducation) => academicEducation.id !== id
+      )
+      setAcademicEducationsList(newAcademicEducation)
+      const newOptions = [
+        ...options,
+        ...academicEducationsList.filter((academicEducation) => academicEducation.id === id),
+      ]
+      setOptions(newOptions)
+    } else {
+      await deleteAcademicEducationMutation({
+        id: id,
+      })
+      router.push(Routes.AcademicEducationsPage())
+    }
   }
 
   return (
@@ -78,7 +108,7 @@ export const AcademicEducationsList = (props) => {
         sx={{ mx: "auto", width: "100%" }}
       >
         <Suspense fallback={<CustomSpinner />}>
-          {academicEducations.map((academicEducation) => (
+          {academicEducationsList.map((academicEducation) => (
             <Grid item key={academicEducation.id}>
               <InformationCard
                 title={academicEducation.studies}
@@ -97,34 +127,7 @@ export const AcademicEducationsList = (props) => {
                     })
                   )
                 }}
-                handleOnDelete={async () => {
-                  // if (window.confirm("This will be deleted")) {
-                  if (
-                    (props.curriculumId !== undefined && props.curriculumId !== "") ||
-                    props.onCurriculum
-                  ) {
-                    await deleteAcademicEducationOnCurriculumMutation({
-                      curriculumId: props.curriculumId,
-                      academicEducationId: academicEducation.id,
-                    })
-                    const academicEducationToDelete = allAcademicEducations.find(
-                      (acEducation) => acEducation.id === academicEducation.id
-                    )
-                    academicEducations.pop(academicEducationToDelete)
-                    const options = allAcademicEducations.filter(
-                      (academicEducation) =>
-                        !academicEducations.some((s) => s.id === academicEducation.id)
-                    )
-                    setOptions(options)
-                    router.push(Routes.EditCurriculumPage({ curriculumId: props.curriculumId }))
-                  } else {
-                    await deleteAcademicEducationMutation({
-                      id: academicEducation.id,
-                    })
-                    router.push(Routes.AcademicEducationsPage())
-                  }
-                  // }
-                }}
+                handleOnDelete={() => handleOnDeleteAcademicEducation(academicEducation.id)}
               />
             </Grid>
           ))}
@@ -172,7 +175,10 @@ const AcademicEducationsPage = (props) => {
         </p>
 
         <Suspense fallback={<CustomSpinner />}>
-          <AcademicEducationsList curriculumId={props.curriculumId} onCurriculum />
+          <AcademicEducationsList
+            curriculumId={props.curriculumId}
+            onCurriculum={props.onCurriculum}
+          />
         </Suspense>
       </div>
     </>

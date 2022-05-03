@@ -14,6 +14,7 @@ export const PublicationsList = (props) => {
   const page = Number(router.query.page) || 0
   const [deletePublicationMutation] = useMutation(deletePublication)
   const [options, setOptions] = useState([])
+  const [publicationsList, setPublicationsList] = useState([])
   const [optionSelected, setOptionSelected] = useState("")
   const [deletePublicationOnCurriculumMutation] = useMutation(deletePublicationOnCurriculum)
   const [createPublicationOnCurriculumMutation] = useMutation(createPublicationOnCurriculum)
@@ -39,6 +40,12 @@ export const PublicationsList = (props) => {
   })
 
   useEffect(() => {
+    if (publications) {
+      setPublicationsList(publications)
+    }
+  }, [publications])
+
+  useEffect(() => {
     if (allPublications) {
       const options = allPublications.filter(
         (publication) => !publications.some((s) => s.id === publication.id)
@@ -51,13 +58,31 @@ export const PublicationsList = (props) => {
     const newPublication = allPublications.find(
       (publication) => publication.id === event.target.value
     )
-    publications.push(newPublication)
+    setPublicationsList([...publications, newPublication])
     const newOptions = options.filter((option) => option.id !== event.target.value)
     setOptions(newOptions)
     createPublicationOnCurriculumMutation({
       curriculumId: props.curriculumId,
       publicationId: event.target.value,
     })
+  }
+
+  const handleOnDelete = async (id) => {
+    if ((props.curriculumId !== undefined && props.curriculumId !== "") || props.onCurriculum) {
+      await deletePublicationOnCurriculumMutation({
+        curriculumId: props.curriculumId,
+        publicationId: id,
+      })
+      const newPublications = publicationsList.filter((publication) => publication.id !== id)
+      setPublicationsList(newPublications)
+      const newOptions = [...options, allPublications.find((publication) => publication.id === id)]
+      setOptions(newOptions)
+    } else {
+      await deletePublicationMutation({
+        id,
+      })
+      router.push(Routes.PublicationsPage())
+    }
   }
 
   return (
@@ -71,7 +96,7 @@ export const PublicationsList = (props) => {
         sx={{ mx: "auto", width: "100%" }}
       >
         <Suspense fallback={<CustomSpinner />}>
-          {publications.map((publication) => (
+          {publicationsList.map((publication) => (
             <Grid item key={publication.id}>
               <InformationCard
                 title={publication.name}
@@ -86,33 +111,7 @@ export const PublicationsList = (props) => {
                     })
                   )
                 }}
-                handleOnDelete={async () => {
-                  // if (window.confirm("This will be deleted")) {
-                  if (
-                    (props.curriculumId !== undefined && props.curriculumId !== "") ||
-                    props.onCurriculum
-                  ) {
-                    await deletePublicationOnCurriculumMutation({
-                      curriculumId: props.curriculumId,
-                      publicationId: publication.id,
-                    })
-                    const publicationToDelete = allPublications.find(
-                      (publi) => publi.id === publication.id
-                    )
-                    publications.pop(publicationToDelete)
-                    const options = allPublications.filter(
-                      (publication) => !publications.some((s) => s.id === publication.id)
-                    )
-                    setOptions(options)
-                    router.push(Routes.EditCurriculumPage({ curriculumId: props.curriculumId }))
-                  } else {
-                    await deletePublicationMutation({
-                      id: publication.id,
-                    })
-                    router.push(Routes.PublicationsPage())
-                  }
-                  // }
-                }}
+                handleOnDelete={() => handleOnDelete(publication.id)}
               />
             </Grid>
           ))}
@@ -159,7 +158,7 @@ const PublicationsPage = (props) => {
         </p>
 
         <Suspense fallback={<CustomSpinner />}>
-          <PublicationsList curriculumId={props.curriculumId} onCurriculum />
+          <PublicationsList curriculumId={props.curriculumId} onCurriculum={props.onCurriculum} />
         </Suspense>
       </div>
     </>

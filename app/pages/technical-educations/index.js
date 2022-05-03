@@ -14,6 +14,7 @@ export const TechnicalEducationsList = (props) => {
   const page = Number(router.query.page) || 0
   const [deleteTechnicalEducationMutation] = useMutation(deleteTechnicalEducation)
   const [options, setOptions] = useState([])
+  const [technicalEducationsList, setTechnicalEducationsList] = useState([])
   const [optionSelected, setOptionSelected] = useState("")
   const [deleteTechnicalEducationOnCurriculumMutation] = useMutation(
     deleteTechnicalEducationOnCurriculum
@@ -46,6 +47,12 @@ export const TechnicalEducationsList = (props) => {
   )
 
   useEffect(() => {
+    if (technicalEducations) {
+      setTechnicalEducationsList(technicalEducations)
+    }
+  }, [technicalEducations])
+
+  useEffect(() => {
     if (allTechnicalEducations) {
       const options = allTechnicalEducations.filter(
         (technicalEducation) => !technicalEducations.some((s) => s.id === technicalEducation.id)
@@ -58,13 +65,36 @@ export const TechnicalEducationsList = (props) => {
     const newTechnicalEducations = allTechnicalEducations.find(
       (technicalEducation) => technicalEducation.id === event.target.value
     )
-    technicalEducations.push(newTechnicalEducations)
+    setTechnicalEducationsList([...technicalEducationsList, newTechnicalEducations])
     const newOptions = options.filter((option) => option.id !== event.target.value)
     setOptions(newOptions)
     createTechnicalEducationOnCurriculumMutation({
       curriculumId: props.curriculumId,
       technicalEducationId: event.target.value,
     })
+  }
+
+  const handleOnDelete = async (id) => {
+    if ((props.curriculumId !== undefined && props.curriculumId !== "") || props.onCurriculum) {
+      await deleteTechnicalEducationOnCurriculumMutation({
+        curriculumId: props.curriculumId,
+        technicalEducationId: id,
+      })
+      const newTechnicalEducations = technicalEducationsList.filter(
+        (technicalEducation) => technicalEducation.id !== id
+      )
+      setTechnicalEducationsList(newTechnicalEducations)
+      const newOptions = [
+        ...options,
+        allTechnicalEducations.find((technicalEducation) => technicalEducation.id === id),
+      ]
+      setOptions(newOptions)
+    } else {
+      await deleteTechnicalEducationMutation({
+        id,
+      })
+      router.push(Routes.TechnicalEducationsPage())
+    }
   }
 
   return (
@@ -93,34 +123,7 @@ export const TechnicalEducationsList = (props) => {
                     })
                   )
                 }}
-                handleOnDelete={async () => {
-                  // if (window.confirm("This will be deleted")) {
-                  if (
-                    (props.curriculumId !== undefined && props.curriculumId !== "") ||
-                    props.onCurriculum
-                  ) {
-                    await deleteTechnicalEducationOnCurriculumMutation({
-                      curriculumId: props.curriculumId,
-                      technicalEducationId: technicalEducation.id,
-                    })
-                    const technicalEducationToDelete = allTechnicalEducations.find(
-                      (techEducation) => techEducation.id === technicalEducation.id
-                    )
-                    technicalEducations.pop(technicalEducationToDelete)
-                    const options = allTechnicalEducations.filter(
-                      (technicalEducation) =>
-                        !technicalEducations.some((s) => s.id === technicalEducation.id)
-                    )
-                    setOptions(options)
-                    router.push(Routes.EditCurriculumPage({ curriculumId: props.curriculumId }))
-                  } else {
-                    await deleteTechnicalEducationMutation({
-                      id: technicalEducation.id,
-                    })
-                    router.push(Routes.TechnicalEducationsPage())
-                  }
-                  // }
-                }}
+                handleOnDelete={async () => handleOnDelete(technicalEducation.id)}
               />
             </Grid>
           ))}
@@ -168,7 +171,10 @@ const TechnicalEducationsPage = (props) => {
         </p>
 
         <Suspense fallback={<CustomSpinner />}>
-          <TechnicalEducationsList curriculumId={props.curriculumId} onCurriculum />
+          <TechnicalEducationsList
+            curriculumId={props.curriculumId}
+            onCurriculum={props.onCurriculum}
+          />
         </Suspense>
       </div>
     </>
