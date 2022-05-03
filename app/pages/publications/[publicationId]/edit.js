@@ -10,8 +10,12 @@ import {
   Routes,
 } from "blitz"
 import Layout from "app/core/layouts/Layout"
+import { CurriculaList } from "app/pages/curricula"
 import getPublication from "app/publications/queries/getPublication"
 import updatePublication from "app/publications/mutations/updatePublication"
+import getPublicationOnCurriculum from "app/publication-on-curricula/queries/getPublicationOnCurriculum"
+import createPublicationOnCurriculumMutation from "app/publication-on-curricula/mutations/createPublicationOnCurriculum"
+import deletePublicationOnCurriculumMutation from "app/publication-on-curricula/mutations/deletePublicationOnCurriculum"
 import { PublicationForm, FORM_ERROR } from "app/publications/components/PublicationForm"
 import { UpdatePublication } from "app/publications/components/validations"
 import { Grid, Button, Typography } from "@mui/material"
@@ -88,8 +92,27 @@ export const EditPublication = () => {
 
 const EditPublicationPage = () => {
   const { curriculumId } = useRouterQuery()
+  const publicationId = useParam("publicationId", "number")
   const returnPage =
     curriculumId !== "" ? Routes.EditCurriculumPage({ curriculumId }) : Routes.PublicationsPage()
+  const [publicationOnCurriculum] = useQuery(getPublicationOnCurriculum, {
+    id: publicationId,
+  })
+  const [createPublicationOnCurriculum] = useMutation(createPublicationOnCurriculumMutation)
+  const [deletePublicationOnCurriculum] = useMutation(deletePublicationOnCurriculumMutation)
+  const onChange = async (_event, isOnCV, curriculumId) => {
+    if (isOnCV) {
+      await deletePublicationOnCurriculum({
+        curriculumId: curriculumId,
+        publicationId,
+      })
+    } else {
+      await createPublicationOnCurriculum({
+        curriculumId: curriculumId,
+        publicationId,
+      })
+    }
+  }
   return (
     <div>
       <Suspense fallback={<CustomSpinner />}>
@@ -103,6 +126,14 @@ const EditPublicationPage = () => {
           </Link>
         </p>
       </Grid>
+      <Suspense fallback={<CustomSpinner />}>
+        <CurriculaList
+          curriculumsHighlight={publicationOnCurriculum.map((cv) => {
+            return cv.curriculumId
+          })}
+          onChangeCurriculumHighlight={onChange}
+        />
+      </Suspense>
     </div>
   )
 }
