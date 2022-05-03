@@ -23,8 +23,23 @@ export default resolver.pipe(
           orderBy,
         }),
     })
+    const { items: allLaboralExperiencies } = await paginate({
+      skip,
+      take,
+      count: () =>
+        db.laboralExperience.count({
+          where,
+        }),
+      query: (paginateArgs) =>
+        db.laboralExperience.findMany({
+          ...paginateArgs,
+          where: { userId: ctx.session.userId },
+          orderBy,
+        }),
+    })
     return {
       laboralExperiences,
+      allLaboralExperiencies,
       nextPage,
       hasMore,
       count,
