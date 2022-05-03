@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import { Typography, Radio, FormControlLabel } from "@mui/material";
+import { Typography, Radio, Grid, FormControlLabel } from "@mui/material";
 export const RadioButton = (props) => {
   
   const INCLUDED = "add"
@@ -48,27 +48,46 @@ export const RadioButton = (props) => {
 
   return (
     <Typography variant="h6" component="div" gutterBottom>
-        <FormControlLabel
-        value={props.label}
-        label={props.label}
-        labelPlacement="start"
-        control={
-          <>
+      {props.label}
+      <FormControlLabel
+      value={props.label}
+      label={""}
+      labelPlacement="start"
+      control={
+        <>      
+        <Grid
+        container
+        direction="row">
+        <Grid item xs={12}>
+          {props.label === "Todas" ? "No incluir" : ""}
+        </Grid>
+        <Grid item xs={12}>
           <Radio
             checked={currentValue() === NO_INCLUDED}
             onChange={handleChange}
             value={NO_INCLUDED}
             color="secondary"
           />
+          </Grid>
+        </Grid>
+        <Grid
+        container
+        direction="row">
+        <Grid item xs={12}>
+          {props.label === "Todas" ? "Agregar" : ""}
+        </Grid>
+        <Grid item xs={12}>
           <Radio
             checked={currentValue() === INCLUDED}
             onChange={handleChange}
             value={INCLUDED}
             color="primary"
           />
-          </>
-          }
-        />
+        </Grid>
+        </Grid>
+        </>
+        }
+      />
     </Typography>
   )
 }
