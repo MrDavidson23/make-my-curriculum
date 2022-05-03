@@ -1,5 +1,6 @@
 import { sessionMiddleware, simpleRolesIsAuthorized } from "blitz"
 const config = {
+  basePath: "/app",
   middleware: [
     sessionMiddleware({
       cookiePrefix: "makeMyCurriculum",
