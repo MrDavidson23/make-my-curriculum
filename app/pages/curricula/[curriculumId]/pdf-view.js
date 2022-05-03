@@ -51,11 +51,11 @@ const styles = StyleSheet.create({
     backgroundColor: "#FAF6F6",
   },
   title: {
-    fontSize: "18pt",
+    fontSize: "16pt",
     fontWeight: "bold",
   },
   text: {
-    fontSize: "14pt",
+    fontSize: "12pt",
     margin: "10px",
     lineHeight: 1.6,
   },

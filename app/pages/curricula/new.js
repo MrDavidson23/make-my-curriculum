@@ -1,6 +1,7 @@
 import { useRouter, useMutation, Routes } from "blitz"
-import { useEffect } from "react"
+import { useEffect, Suspense } from "react"
 import Layout from "app/core/layouts/Layout"
+import CustomSpinner from "app/core/components/CustomSpinner"
 import createCurriculum from "app/curricula/mutations/createCurriculum"
 
 const NewCurriculumPage = () => {
@@ -24,7 +25,9 @@ const NewCurriculumPage = () => {
     }
     createCurriculum()
   }, []);
-  return (null)
+  return (
+    <Suspense fallback={<CustomSpinner />} />
+  )
 }
 
 NewCurriculumPage.authenticate = true

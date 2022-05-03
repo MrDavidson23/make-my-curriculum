@@ -64,12 +64,14 @@ export const CloneCurriculum = () => {
               let values = {}
               sectionsName.forEach((name) => {
                 values[name] = []
-                sections[name].forEach( (elem) => {
-                  if(elem.state === INCLUDED){
-                    const {state, ...newElem} = elem
-                    values[name].push(newElem)
-                  }
-                })
+                if(sections[name] !== undefined){
+                  sections[name].forEach( (elem) => {
+                    if(elem.state === INCLUDED){
+                      const {state, ...newElem} = elem
+                      values[name].push(newElem)
+                    }
+                  })
+                }
               })
 
               const curriculum = await cloneCurriculumMutation({id:curriculumId,sections:values})
