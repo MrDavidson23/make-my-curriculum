@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react"
-import { Typography, Radio, Grid, FormControlLabel } from "@mui/material";
+import { useState } from "react"
+import { Typography, Radio, Grid } from "@mui/material";
 export const RadioButton = (props) => {
   
   const INCLUDED = "add"
@@ -35,12 +35,6 @@ export const RadioButton = (props) => {
 
   };
 
-  useEffect(() => {
-    if(props.pos !== undefined){
-      setSelectedValue(props.sections[props.name][props.pos].state)
-    }
-  }, []);
-
   const currentValue = () => {
     return (props.pos === undefined ? 
       selectedValue : props.sections[props.name][props.pos].state)
@@ -48,35 +42,18 @@ export const RadioButton = (props) => {
 
   return (
     <Typography variant="h6" component="div" gutterBottom>
-      {props.label}
-      <FormControlLabel
-      value={props.label}
-      label={""}
-      labelPlacement="start"
-      control={
-        <>      
-        <Grid
-        container
-        direction="row">
-        <Grid item xs={12}>
-          {props.label === "Todas" ? "No incluir" : ""}
-        </Grid>
-        <Grid item xs={12}>
-          <Radio
-            checked={currentValue() === NO_INCLUDED}
-            onChange={handleChange}
-            value={NO_INCLUDED}
-            color="secondary"
-          />
-          </Grid>
-        </Grid>
-        <Grid
-        container
-        direction="row">
-        <Grid item xs={12}>
+      <Grid container direction="row">
+        <Grid item xs={6}/>
+        <Grid item xs={3}>
           {props.label === "Todas" ? "Agregar" : ""}
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={3}>
+          {props.label === "Todas" ? "No incluir" : ""}
+        </Grid>
+      </Grid>
+      <Grid container direction="row">
+        <Grid item xs={6}>{props.label}</Grid>
+        <Grid item xs={3}>
           <Radio
             checked={currentValue() === INCLUDED}
             onChange={handleChange}
@@ -84,10 +61,15 @@ export const RadioButton = (props) => {
             color="primary"
           />
         </Grid>
+        <Grid item xs={3}>
+          <Radio
+            checked={currentValue() === NO_INCLUDED}
+            onChange={handleChange}
+            value={NO_INCLUDED}
+            color="secondary"
+          />
         </Grid>
-        </>
-        }
-      />
+      </Grid>
     </Typography>
   )
 }

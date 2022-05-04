@@ -1,13 +1,13 @@
 import { Form } from "app/core/components/Form"
 import { RadioButton } from "app/core/components/CloneSelection"
 export { FORM_ERROR } from "app/core/components/Form"
-import { Grid, Typography } from "@mui/material"
+import { Box, Grid, Typography } from "@mui/material"
 import { useState } from "react"
 
 export function CloneForm({curriculum,sections,setSections,...props}) {
   const spacing = 2
   const justify = "center"
-  const textAlign = "center"
+  const align = "center"
   const sx = { mx: "auto", width: "100%" }
 
   const allLabel = "Todas"
@@ -25,13 +25,22 @@ export function CloneForm({curriculum,sections,setSections,...props}) {
 
   return (
     <Form {...props}>
-      <RadioButton name="all" label={allLabel} sections={sections} setSections={setSections} forceRender={forceRender}/>
+      <Grid
+        display="flex"
+        justifyContent={justify}
+        alignItems={align}
+      >
+        <Grid item xs={4}>
+          <RadioButton name="all" label={allLabel} sections={sections} setSections={setSections} forceRender={forceRender}/>
+        </Grid>
+      </Grid>
+
       <Grid
         container
         direction="row"
-        spacing={spacing}
-        textAlign={textAlign}
+        textAlign={align}
         justify={justify}
+        justifyContent={justify}
         sx={sx}
       >
 
@@ -59,6 +68,16 @@ export function CloneForm({curriculum,sections,setSections,...props}) {
         </Grid>
       }
 
+      </Grid>
+      <Grid
+        container
+        direction="row"
+        textAlign={align}
+        justify={justify}
+        justifyContent={justify}
+        sx={sx}
+      >
+
       { sections["academicEducations"] !== undefined &&
         <Grid item xs={4}>
           <Typography component="div" gutterBottom>
@@ -71,16 +90,6 @@ export function CloneForm({curriculum,sections,setSections,...props}) {
         </Grid>
       }
 
-      </Grid>
-      <Grid
-        container
-        direction="row"
-        spacing={spacing}
-        textAlign={textAlign}
-        justify={justify}
-        sx={sx}
-      >
-
       { sections["technicalEducations"] !== undefined &&
         <Grid item xs={4}>
           <Typography component="div" gutterBottom>
@@ -92,6 +101,16 @@ export function CloneForm({curriculum,sections,setSections,...props}) {
             ))}
         </Grid>
       }
+
+      </Grid>
+      <Grid
+        container
+        direction="row"
+        textAlign={align}
+        justify={justify}
+        justifyContent={justify}
+        sx={sx}
+      >
 
       { sections["publications"] !== undefined &&
         <Grid item xs={4}>
@@ -118,6 +137,7 @@ export function CloneForm({curriculum,sections,setSections,...props}) {
       }
 
       </Grid>
+      
     </Form>
   )
 }
