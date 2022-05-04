@@ -1,5 +1,5 @@
 import { Suspense, useState } from "react"
-import { useRouter, useQuery, useMutation, useParam, Routes } from "blitz"
+import { Head, useRouter, useQuery, useRouterQuery, useMutation, useParam, Routes, Link } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import { CloneForm, FORM_ERROR } from "app/curricula/components/CloneForm"
 import getCurriculum from "app/curricula/queries/getAllCurriculum"
@@ -90,6 +90,15 @@ export const CloneCurriculum = () => {
           }}
         />
       </Grid>
+
+      <Grid item xs={12}>
+        <p>
+          <Link href={Routes.EditCurriculumPage({ curriculumId })}>
+            <Button variant="outlined"> Regresar </Button>
+          </Link>
+        </p>
+      </Grid>
+
     </Grid>
     </>
   )
@@ -98,9 +107,15 @@ export const CloneCurriculum = () => {
 const CloneCurriculumPage = () => {
   return (
     <div>
+
+      <Head>
+        <title>Clone Curriculum</title>
+      </Head>
+
       <Suspense fallback={<CustomSpinner />}>
         <CloneCurriculum />
       </Suspense>
+
     </div>
   )
 }
