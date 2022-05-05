@@ -18,12 +18,12 @@ const Publications = (props) => {
             <Text style={styles.title}>{props.label}</Text>
                 <View style={styles.text}>
                 {props.publications.map((publication) => (
-                    <>
-                    <Text>{publication.name} - {publication.tag}</Text>
-                    <Text>{publication.institution}</Text>
-                    <Text>{publication.location}</Text>
-                    <Text>{publication.date.toLocaleDateString()}</Text>
-                    </>
+                    <View key={publication.id}>
+                        <Text>{publication.name} - {publication.tag}</Text>
+                        <Text>{publication.institution}</Text>
+                        <Text>{publication.location}</Text>
+                        <Text>{publication.date.toLocaleDateString()}</Text>
+                    </View>
                 ))}
                 </View>
             </View>  

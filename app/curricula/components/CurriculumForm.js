@@ -13,7 +13,7 @@ export function CurriculumForm(props) {
 
   return (
     <Form {...props}>
-      <LabeledTextField name="name" label="Nombre" placeholder="Nombre del curriculum" />
+      <LabeledTextField name="name" label="Nombre" placeholder="Nombre del currículum" />
       <LabeledSelect
         name="languageId"
         label="Idioma"
@@ -23,8 +23,8 @@ export function CurriculumForm(props) {
       <LabeledTextField name="profession" label="Profesión" placeholder="Profesión" />
       <LabeledTextField
         name="description"
-        label="Descripcion"
-        placeholder="Descripcion"
+        label="Descripción"
+        placeholder="Descripción"
         multiline="true"
         className="textArea"
       />

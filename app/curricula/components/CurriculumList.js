@@ -48,9 +48,6 @@ const CurriculumList = ({
                     router.reload()
                   }
                 }}
-                handleOnClick={() => {
-                  router.push(Routes.ShowCurriculumPage({ curriculumId: curriculum.id }))
-                }}
               />
               {curriculumsHighlight && (
                 <Switch

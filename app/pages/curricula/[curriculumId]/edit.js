@@ -7,6 +7,7 @@ import { UpdateCurriculum } from "app/curricula/components/validations"
 import { CurriculumForm, FORM_ERROR } from "app/curricula/components/CurriculumForm"
 import { Button, Grid, Typography } from "@mui/material"
 import PDFViewPage from "./pdf-view"
+import CloneCurriculumPage from "./clone"
 import CircularProgress from "@mui/material/CircularProgress"
 import Box from "@mui/material/Box"
 
@@ -107,8 +108,13 @@ export const EditCurriculum = () => {
                   <Button variant="outlined">Generar PDF</Button>
                 </Link>
               </p>
+              <p>
+                <Link href={Routes.CloneCurriculumPage({ curriculumId: curriculumId })}>
+                  <Button variant="outlined">Clonar Currículum</Button>
+                </Link>
+              </p>
 
-              <h1>Editar el curriculum: {curriculum.name}</h1>
+              <h1>Editar el currículum: {curriculum.name}</h1>
 
               <Typography variant="h6" gutterBottom>
                 {currentUser.name} {currentUser.lastName}
@@ -210,12 +216,6 @@ const EditCurriculumPage = () => {
       <Suspense fallback={<CustomSpinner />}>
         <EditCurriculum />
       </Suspense>
-
-      <p>
-        <Link href={Routes.CurriculaPage()}>
-          <a>Curricula</a>
-        </Link>
-      </p>
     </div>
   )
 }
