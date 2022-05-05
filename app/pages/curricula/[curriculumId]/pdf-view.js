@@ -51,11 +51,11 @@ const styles = StyleSheet.create({
     backgroundColor: "#FAF6F6",
   },
   title: {
-    fontSize: "18pt",
+    fontSize: "16pt",
     fontWeight: "bold",
   },
   text: {
-    fontSize: "14pt",
+    fontSize: "12pt",
     margin: "10px",
     lineHeight: 1.6,
   },
@@ -76,6 +76,8 @@ const PersonalInfo = (props) => {
   return (
     <View style={styles.text}>
       <Text>{info.name + " " + info.lastName} </Text>
+      <Text>{info.email} </Text>
+      <Text>{info.phone} </Text>
       <Text>{info.profession}</Text>
       <Text>{info.description}</Text>
     </View>
