@@ -16,8 +16,8 @@ export default passportAuth({
           consumerSecret: process.env.TWITTER_CONSUMER_SECRET,
           callbackURL:
             process.env.NODE_ENV === "production"
-              ? "https://makemycurriculum.plataformaelectronicacr.com/api/auth/twitter/callback"
-              : "http://localhost:3000/api/auth/twitter/callback",
+              ? "https://makemycurriculum.plataformaelectronicacr.com/app/api/auth/twitter/callback"
+              : "http://localhost:3000/app/api/auth/twitter/callback",
           includeEmail: true,
         },
         async function (_token, _tokenSecret, profile, done) {
@@ -56,8 +56,8 @@ export default passportAuth({
           //callbackURL: 'https://www.example.com/oauth2/redirect/google'
           callbackURL:
             process.env.NODE_ENV === "production"
-              ? "https://makemycurriculum.plataformaelectronicacr.com/api/auth/google/callback"
-              : "http://localhost:3000/api/auth/google/callback",
+              ? "https://makemycurriculum.plataformaelectronicacr.com/app/api/auth/google/callback"
+              : "http://localhost:3000/app/api/auth/google/callback",
           includeEmail: true,
         },
         async function (_token, _tokenSecret, profile, done) {
@@ -110,8 +110,8 @@ export default passportAuth({
           //callbackURL: 'https://www.example.com/oauth2/redirect/google'
           callbackURL:
             process.env.NODE_ENV === "production"
-              ? "https://makemycurriculum.plataformaelectronicacr.com/api/auth/linkedin/callback"
-              : "http://localhost:3000/api/auth/linkedin/callback",
+              ? "https://makemycurriculum.plataformaelectronicacr.com/app/api/auth/linkedin/callback"
+              : "http://localhost:3000/app/api/auth/linkedin/callback",
           includeEmail: true,
         },
         async function (_token, _tokenSecret, profile, done) {
@@ -169,8 +169,8 @@ export default passportAuth({
           //callbackURL: 'https://www.example.com/oauth2/redirect/google'
           callbackURL:
             process.env.NODE_ENV === "production"
-              ? "https://makemycurriculum.plataformaelectronicacr.com/api/auth/facebook/callback"
-              : "http://localhost:3000/api/auth/facebook/callback",
+              ? "https://makemycurriculum.plataformaelectronicacr.com/app/api/auth/facebook/callback"
+              : "http://localhost:3000/app/api/auth/facebook/callback",
           enableProof: true,
         },
         async function (_token, _tokenSecret, profile, done) {
