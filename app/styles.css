@@ -15,6 +15,7 @@
   --main-color-2: #db5461;
   --main-color-dark: #9587a4;
   --main-color-darkest: #000000;
+  --main-footer-height: 60px;
 }
 
 body {
@@ -46,7 +47,7 @@ h5 {
 
 footer {
   width: 100%;
-  height: 60px;
+  height: var(--main-footer-height);
   border-top: 1px solid #eaeaea;
   display: flex;
   justify-content: center;
@@ -96,6 +97,10 @@ logo {
   position: relative !important;
   height: unset !important;
   max-height: 240px !important;
+}
+
+main {
+  margin-bottom: var(--main-footer-height);
 }
 
 @media (max-width: 868px) {
