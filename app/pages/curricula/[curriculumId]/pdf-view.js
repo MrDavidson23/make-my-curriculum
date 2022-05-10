@@ -1,21 +1,18 @@
 import { Suspense } from "react"
-import { Head, Link, useRouter, useQuery, useMutation, useParam, Routes, Router } from "blitz"
+import { useQuery, useParam } from "blitz"
 import getCurriculum from "app/curricula/queries/getAllCurriculum"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import Layout from "app/core/layouts/Layout"
+
 import { Document, Page, Text, View, StyleSheet } from "@react-pdf/renderer"
 import { PDFViewer } from "@react-pdf/renderer"
 
-import Skills from "app/curricula/components/structure/skills"
-import Experiences from "app/curricula/components/structure/experience"
-import AcademicEducations from "app/curricula/components/structure/academicEducations"
-import TechnicalEducations from "app/curricula/components/structure/technicalEducations"
-import Publications from "app/curricula/components/structure/publications"
-import References from "app/curricula/components/structure/references"
+import PDFSection from "app/curricula/components/PDFSection"
 import CustomSpinner from "app/core/components/CustomSpinner"
+import getTemplate from "app/templates/queries/getTemplate"
 
 // Create styles
-const styles = StyleSheet.create({
+const json_styles = {
   container: {
     flex: 1,
     flexDirection: "row",
@@ -59,13 +56,17 @@ const styles = StyleSheet.create({
     margin: "10px",
     lineHeight: 1.6,
   },
-})
+}
+const styles = StyleSheet.create(json_styles)
 
 const GetInfo = () => {
   const currentUser = useCurrentUser()
   const curriculumId = useParam("curriculumId", "number")
   const [curriculum] = useQuery(getCurriculum, {
     id: curriculumId,
+  })
+  const [template] = useQuery(getTemplate, {
+    id: curriculum.templateId,
   })
   const { role, userId, ...user } = currentUser
   const { name, ...info } = curriculum
@@ -92,34 +93,23 @@ const CurriculumDocument = (props) => {
         <View style={styles.container}>
           <View style={styles.leftColumn}>
             <PersonalInfo info={info} />
-            <Skills skills={info.skills} label={info.skillLabel} styles={styles} />
+            <PDFSection list={info.skills} attributes={["description"]} label={info.skillLabel} styles={styles}/>
           </View>
           <View style={styles.rightColumn}>
-            <Experiences
-              experiences={info.laboralExperiences}
-              label={info.laboralExperienceLabel}
-              styles={{ text }}
+            <PDFSection list={info.laboralExperiences} 
+                        attributes={["position","institution","location","startYear-finishYear"]}
+                        label={info.laboralExperienceLabel} styles={styles}
             />
-            <AcademicEducations
-              academicEducations={info.academicEducations}
-              label={info.academicEducationLabel}
-              styles={{ text }}
+            <PDFSection list={info.academicEducations} 
+                        attributes={["studies","institution","location","startYear-finishYear"]}
+                        label={info.academicEducationLabel} styles={styles}
             />
-            <TechnicalEducations
-              technicalEducations={info.technicalEducations}
-              label={info.technicalEducationLabel}
-              styles={{ text }}
+            <PDFSection list={info.technicalEducations} 
+                        attributes={["studies","institution","location","completionYear"]}
+                        label={info.technicalEducationLabel} styles={styles}
             />
-            <Publications
-              publications={info.publications}
-              label={info.publicationLabel}
-              styles={{ text }}
-            />
-            <References
-              references={info.references}
-              label={info.referenceLabel}
-              styles={{ text }}
-            />
+            <PDFSection list={info.publications} attributes={["name-tag","institution","location","date"]} label={info.publicationLabel} styles={styles}/>
+            <PDFSection list={info.references} attributes={["name","email","phone"]} label={info.referenceLabel} styles={styles}/>
           </View>
         </View>
       </Page>
