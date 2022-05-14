@@ -16,7 +16,7 @@ const NewTemplatePage = () => {
         //  - Tip: extract mutation's schema into a shared `validations.ts` file and
         //         then import and use it here
         schema={CreateTemplate}
-        initialValues={{isPremium:false, design:"basic",}}
+        initialValues={{isPremium:false}}
         onSubmit={async (values) => {
           try {
             const template = await createTemplateMutation(values)
