@@ -4,7 +4,7 @@ import getCurriculum from "app/curricula/queries/getAllCurriculum"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import Layout from "app/core/layouts/Layout"
 
-import { Document, Page, Text, View, StyleSheet } from "@react-pdf/renderer"
+import { Document, Page, View } from "@react-pdf/renderer"
 import { PDFViewer } from "@react-pdf/renderer"
 
 import PDFSection from "app/curricula/components/PDFSection"

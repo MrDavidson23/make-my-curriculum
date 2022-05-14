@@ -5,33 +5,35 @@ const max = 50
 const model = {
     name: z.string().min(1).max(max),
     isPremium: z.boolean(),
-    design: z.string(),
-    /*
-    z.object()
-    .or(z.string()
-    .transform((value => {
-        try{
-            return JSON.parse(value)
-        }catch(error){
-            return {}
-        }
-    }))
-    .or(z.object({
+    design: z.object({
         container: z.object({
-            required_error: "container is needed",
-          }),
+            required_message: "The container is needed"
+        }),
         left: z.object({
+            required_message: "The left is needed",
             container: z.object({
-                required_error: "left container is needed",
-              })
+                required_message: "The left container is needed"
+            }),
+            text: z.object({
+                required_message: "The left text is needed"
+            }),
+            title: z.object({
+                required_message: "The left title is needed"
+            })
         }),
         right: z.object({
+            required_message: "The right is needed",
             container: z.object({
-                required_error: "right container is needed",
-              })
-        }),
-    }))),
-    */
+                required_message: "The right container is needed"
+            }),
+            text: z.object({
+                required_message: "The right text is needed"
+            }),
+            title: z.object({
+                required_message: "The right title is needed"
+            })
+        })
+    })
 }
 
 export const CreateTemplate = z.object(model)
