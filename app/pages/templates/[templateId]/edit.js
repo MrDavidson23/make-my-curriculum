@@ -3,9 +3,11 @@ import { Head, Link, useRouter, useQuery, useMutation, useParam, Routes } from "
 import Layout from "app/core/layouts/Layout"
 import getTemplate from "app/templates/queries/getTemplate"
 import updateTemplate from "app/templates/mutations/updateTemplate"
-import { TemplateForm, FORM_ERROR } from "app/templates/components/TemplateForm"
 import { UpdateTemplate } from "app/templates/components/validations"
 import CustomSpinner from "app/core/components/CustomSpinner"
+import { Grid, Button, Typography, Slider } from "@mui/material"
+import { EditablePreview } from "app/templates/components/EditablePreview"
+import { useState } from "react"
 
 export const EditTemplate = () => {
   const router = useRouter()
@@ -27,37 +29,23 @@ export const EditTemplate = () => {
         <title>Edit Template {template.id}</title>
       </Head>
 
-      <div>
-        <h1>Edit Template {template.id}</h1>
-        <pre>{JSON.stringify(template, null, 2)}</pre>
+      <Grid
+        container
+        direction="row"
+        spacing={2}
+        textAlign={"center"}
+        sx={{ mx: "auto", width: "100%" }}
+      >
 
-        <TemplateForm
-          submitText="Update Template" // TODO use a zod schema for form validation
-          //  - Tip: extract mutation's schema into a shared `validations.ts` file and
-          //         then import and use it here
-          schema={UpdateTemplate}
-          initialValues={template}
-          onSubmit={async (values) => {
-            try {
-              const updated = await updateTemplateMutation({
-                id: template.id,
-                ...values,
-              })
-              await setQueryData(updated)
-              router.push(
-                Routes.ShowTemplatePage({
-                  templateId: updated.id,
-                })
-              )
-            } catch (error) {
-              console.error(error)
-              return {
-                [FORM_ERROR]: error.toString(),
-              }
-            }
-          }}
-        />
-      </div>
+        <Grid item xs={12}>
+          <Typography variant="h6" component="div" gutterBottom>
+            <h1> Editar Plantilla </h1>
+          </Typography>
+        </Grid>
+
+        <pre>{JSON.stringify(template, null, 2)}</pre>
+        
+      </Grid>
     </>
   )
 }

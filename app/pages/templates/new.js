@@ -3,32 +3,37 @@ import Layout from "app/core/layouts/Layout"
 import createTemplate from "app/templates/mutations/createTemplate"
 import { CreateTemplate } from "app/templates/components/validations"
 import { Grid, Button, Typography, Slider } from "@mui/material"
-import { Preview } from "app/templates/components/Preview"
+import { EditablePreview } from "app/templates/components/EditablePreview"
 import { useState } from "react"
 
 const NewTemplatePage = () => {
   const router = useRouter()
   const [createTemplateMutation] = useMutation(createTemplate)
+  const [name,setName] = useState("Plantilla")
   const [leftStyles,setLeftStyles] = useState(
     {container: {
       backgroundColor: "#3A298F",
-      color: "#FAF6F6"},
+      width: 300
+      },
       text: {
-        fontSize: "12pt",
+        color: "#FAF6F6",
+        fontSize: "12pt"
       },
       title: {
         fontSize: "16pt",
         fontWeight: "bold",
+        color: "#FAF6F6"
       }
     })
   const [rightStyles,setRightStyles] = useState(
     {container: {
       backgroundColor: "#FAF6F6",
-      color: "#00000"},
+      },
       text: {
+        color: "#000000",
         fontSize: "12pt",
         margin: "10px",
-        lineHeight: 1.6,
+        lineHeight: 1.6
       },
       title: {
         fontSize: "14pt",
@@ -38,11 +43,70 @@ const NewTemplatePage = () => {
     })
   const defaultPercentage = 50
   const [percentage,setPercentage] = useState(defaultPercentage)
-  const getPercentage = () => {
-    return percentage > 0.5 ? 
-        Math.floor(12*(percentage/100)) :
-        Math.ceil(12*(percentage/100))
+  const newTemplate = async () => {
+  
+    const left = {
+      "container": {
+        ...leftStyles.container,
+        "paddingTop": 30,
+        "paddingLeft": 15,
+        "paddingRight": 15,
+        "flexDirection": "column",
+        "@media max-width: 400": {
+            "width": "100%",
+            "paddingRight": 0
+        },
+        "@media orientation: landscape": {
+            "width": 300
+        }
+      },
+      text:leftStyles.text,
+      title:leftStyles.title
+    }
+
+    const right = {
+      "container": {
+        ...rightStyles.container,
+        "paddingTop": 30,
+        "paddingLeft": 10,
+        "paddingRight": 15,
+        "@media max-width: 400": {
+            "width": "100%",
+            "paddingRight": 0
+        }
+      },
+      text: rightStyles.text,
+      title: rightStyles.title
+    }
+
+    const design = {
+      "container": {
+        "flex": 1,
+        "margin": "2px",
+        "flexDirection": "row",
+        "@media max-width: 400": {
+            "flexDirection": "column"
+        }
+      },
+      left:left,
+      right:right
+    }
+
+    const values = {design:(JSON.parse(JSON.stringify(design))),name:name,isPremium:false}
+    
+    try {
+      const template = await createTemplateMutation(values)
+      router.push(
+        Routes.ShowTemplatePage({
+          templateId: template.id,
+        })
+      )
+    } catch (error) {
+      console.error(error)
+    }
+    
   }
+
   return (
     <div>
       <Grid
@@ -57,55 +121,20 @@ const NewTemplatePage = () => {
             <h1> Crear nueva Plantilla </h1>
           </Typography>
         </Grid>
-
-      {/* <TemplateForm
-        submitText="Create Template" // TODO use a zod schema for form validation
-        //  - Tip: extract mutation's schema into a shared `validations.ts` file and
-        //         then import and use it here
-        schema={CreateTemplate}
-        initialValues={{isPremium:false}}
-        onSubmit={async (values) => {
-          try {
-            values.design = '{"container": { "flex": 1, "flexDirection": "row", "@media max-width: 400": { "flexDirection": "column" }, "margin": "2px" }, "left":{ "container":{ "backgroundColor": "#000000",  "color": "#FAF6F6", "flexDirection": "column", "width": 170, "paddingTop": 30, "paddingRight": 15,"paddingLeft": 15,"@media max-width: 400": {"width": "100%","paddingRight": 0},"@media orientation: landscape": {"width": 200 }},"text": {"fontSize": "12pt","margin": "10px","lineHeight": 1.6 },"title": { "fontSize": "16pt","fontWeight": "bold" }},"right":{"title": {"fontSize": "14pt", "fontWeight": "bold","color": "#DB5461"}, "text": { "fontSize": "12pt","margin": "10px","lineHeight": 1.6}, "container":{"backgroundColor": "#FAF6F6","paddingTop": 30,"paddingRight": 15,"paddingLeft": 10,"@media max-width: 400": { "width": "100%","paddingRight": 0  } }} }'
-            const template = await createTemplateMutation(values)
-            router.push(
-              Routes.ShowTemplatePage({
-                templateId: template.id,
-              })
-            )
-          } catch (error) {
-            console.error(error)
-            return {
-              [FORM_ERROR]: error.toString(),
-            }
-          }
-        }}
-      />*/}
-      <Grid item xs={12}>
-        <Preview 
-          left={getPercentage()} 
-          leftStyles={leftStyles}
-          right={12 - getPercentage()}
-          rightStyles={rightStyles}
-          minWidth={300*(percentage/100)}
-        />
-      </Grid>
-
-      <Grid item xs={12}>
-        <Grid item xs={6}>
-          <Slider
-            defaultValue={defaultPercentage}
-            getAriaValueText={(value) => value+"%"}
-            valueLabelDisplay="auto"
-            step={10}
-            marks
-            min={10}
-            max={90}
-            onChange={(e)=>{setPercentage(e.target.value)}}
-          />
-        </Grid>
-      </Grid>
-
+      
+      <EditablePreview
+        percentage={percentage}
+        setPercentage={setPercentage}
+        defaultValue={defaultPercentage}
+        leftStyles={leftStyles}
+        setLeftStyles={setLeftStyles}
+        rightStyles={rightStyles}
+        setRightStyles={setRightStyles}
+        name={name}
+        setName={setName}
+        submitText={"Crear Plantilla"}
+        onClickSubmit={()=>{newTemplate()}}
+      />
 
       <Grid item xs={12}>
         <p>
