@@ -66,21 +66,33 @@ export const ReferencesList = (props) => {
   }
 
   const handleOnDelete = async (id) => {
-    if ((props.curriculumId !== undefined && props.curriculumId !== "") || props.onCurriculum) {
-      await deleteReferenceOnCurriculumMutation({
-        curriculumId: props.curriculumId,
-        referenceId: id,
-      })
-      const newReferences = referencesList.filter((reference) => reference.id !== id)
-      setReferencesList(newReferences)
-      const newOptions = [...options, allReferences.find((reference) => reference.id === id)]
-      setOptions(newOptions)
-    } else {
-      await deleteReferenceMutation({
-        id,
-      })
-      router.push(Routes.ReferencesPage())
-    }
+    Swal.fire({
+      title: "La referencia se eliminará, esta seguro?",
+      showDenyButton: true,
+      confirmButtonText: "Eliminar",
+      denyButtonText: `No eliminar`,
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        Swal.fire("La referencia se elimino", "", "info")
+        if ((props.curriculumId !== undefined && props.curriculumId !== "") || props.onCurriculum) {
+          await deleteReferenceOnCurriculumMutation({
+            curriculumId: props.curriculumId,
+            referenceId: id,
+          })
+          const newReferences = referencesList.filter((reference) => reference.id !== id)
+          setReferencesList(newReferences)
+          const newOptions = [...options, allReferences.find((reference) => reference.id === id)]
+          setOptions(newOptions)
+        } else {
+          await deleteReferenceMutation({
+            id,
+          })
+          router.push(Routes.ReferencesPage())
+        }
+      } else if (result.isDenied) {
+        Swal.fire("La referencia no se elimino", "", "info")
+      }
+    })
   }
 
   return (
