@@ -1,7 +1,9 @@
 import { Suspense } from "react"
-import { Head, Link, usePaginatedQuery, useRouter, Routes } from "blitz"
+import { Head, Link, usePaginatedQuery, useRouter, Routes, Router } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getTemplates from "app/templates/queries/getTemplates"
+import { Preview } from "app/templates/components/Preview"
+import { Button, Grid, Typography } from "@mui/material"
 import CustomSpinner from "app/core/components/CustomSpinner"
 const ITEMS_PER_PAGE = 100
 export const TemplatesList = () => {
@@ -31,19 +33,25 @@ export const TemplatesList = () => {
 
   return (
     <div>
-      <ul>
-        {templates.map((template) => (
-          <li key={template.id}>
-            <Link
-              href={Routes.ShowTemplatePage({
-                templateId: template.id,
-              })}
-            >
-              <a>{template.name}</a>
-            </Link>
-          </li>
-        ))}
-      </ul>
+      <Grid
+        container
+        direction="row"
+        spacing={2}
+        textAlign={"center"}
+        justifyContent={"center"}
+        sx={{ mx: "auto", width: "100%" }}
+      >
+      {templates.map((template) => (
+          <Grid item key={template.id}>
+          <Typography variant="h5" gutterBottom> {template.name} </Typography>
+          <Preview
+            percentage={template.design.left.container.width/3}
+            leftStyles={template.design.left}
+            rightStyles={template.design.right}
+          />
+          </Grid>
+      ))}
+      </Grid>
 
       <button disabled={page === 0} onClick={goToPreviousPage}>
         Previous
@@ -62,17 +70,24 @@ const TemplatesPage = () => {
         <title>Templates</title>
       </Head>
 
-      <div>
-        <p>
-          <Link href={Routes.NewTemplatePage()}>
-            <a>Create Template</a>
-          </Link>
-        </p>
+      <Grid
+        container
+        direction="row"
+        spacing={2}
+        textAlign={"center"}
+        justifyContent={"center"}
+        sx={{ mx: "auto", width: "100%" }}
+      >
+        <Grid item xs={12} justify="center" mt={3} mb={3}>
+          <Button variant="outlined" onClick={() => Router.push(Routes.NewTemplatePage())}>
+            Crear Nueva Plantilla
+          </Button>
+        </Grid>
 
         <Suspense fallback={<CustomSpinner />}>
           <TemplatesList />
         </Suspense>
-      </div>
+      </Grid>
     </>
   )
 }

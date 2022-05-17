@@ -22,7 +22,36 @@ export const EditTemplate = () => {
       staleTime: Infinity,
     }
   )
+
+  const initialPercentage = template.design.left.container.width/3
+  
+  const [name,setName] = useState(template.name)
+  const [leftStyles,setLeftStyles] = useState(template.design.left)
+  const [rightStyles,setRightStyles] = useState(template.design.right)
+  const [percentage,setPercentage] = useState(initialPercentage)
+  
   const [updateTemplateMutation] = useMutation(updateTemplate)
+
+  const EditTemplate = async () => {
+    const values = JSON.parse(JSON.stringify(template))
+    values.name = name
+    values.design.left = leftStyles
+    values.design.right = rightStyles
+    try {
+      const template = await updateTemplateMutation({
+        id: templateId,
+        ...values
+      })
+      router.push(
+        Routes.ShowTemplatePage({
+          templateId: template.id,
+        })
+      )
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
   return (
     <>
       <Head>
@@ -43,7 +72,19 @@ export const EditTemplate = () => {
           </Typography>
         </Grid>
 
-        <pre>{JSON.stringify(template, null, 2)}</pre>
+        <EditablePreview
+          percentage={percentage}
+          setPercentage={setPercentage}
+          defaultValue={initialPercentage}
+          leftStyles={leftStyles}
+          setLeftStyles={setLeftStyles}
+          rightStyles={rightStyles}
+          setRightStyles={setRightStyles}
+          name={name}
+          setName={setName}
+          submitText={"Editar Plantilla"}
+          onClickSubmit={async ()=>{await EditTemplate()}}
+        />
         
       </Grid>
     </>
@@ -53,15 +94,28 @@ export const EditTemplate = () => {
 const EditTemplatePage = () => {
   return (
     <div>
+
+      <Grid
+        container
+        direction="row"
+        spacing={2}
+        textAlign={"center"}
+        sx={{ mx: "auto", width: "100%" }}
+      > 
+
       <Suspense fallback={<CustomSpinner />}>
         <EditTemplate />
       </Suspense>
 
-      <p>
-        <Link href={Routes.TemplatesPage()}>
-          <a>Templates</a>
-        </Link>
-      </p>
+      <Grid item xs={12}>
+        <p>
+          <Link href={Routes.TemplatesPage()}>
+            <Button variant="outlined"> Regresar </Button>
+          </Link>
+        </p>
+      </Grid>
+
+      </Grid>
     </div>
   )
 }

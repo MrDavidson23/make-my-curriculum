@@ -133,7 +133,7 @@ const NewTemplatePage = () => {
         name={name}
         setName={setName}
         submitText={"Crear Plantilla"}
-        onClickSubmit={()=>{newTemplate()}}
+        onClickSubmit={async ()=>{await newTemplate()}}
       />
 
       <Grid item xs={12}>
