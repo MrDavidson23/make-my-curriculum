@@ -6,7 +6,7 @@ import { Strategy as LinkedInStrategy } from "passport-linkedin-oauth2"
 import { Strategy as FacebookStrategy } from "passport-facebook"
 
 export default passportAuth({
-  successRedirectUrl: "/",
+  successRedirectUrl: "/app",
   errorRedirectUrl: "/",
   strategies: [
     {
