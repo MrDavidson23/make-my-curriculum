@@ -80,14 +80,14 @@ export const ReferencesList = (props) => {
             curriculumId: props.curriculumId,
             referenceId: id,
           })
-          const newReferences = referencesList.filter((reference) => reference.id !== id)
-          setReferencesList(newReferences)
           const newOptions = [...options, allReferences.find((reference) => reference.id === id)]
           setOptions(newOptions)
         } else {
           await deleteReferenceMutation({
             id,
           })
+          const newReferences = referencesList.filter((reference) => reference.id !== id)
+          setReferencesList(newReferences)
           router.push(Routes.ReferencesPage())
         }
       } else if (result.isDenied) {
