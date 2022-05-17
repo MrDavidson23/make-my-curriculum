@@ -8,6 +8,7 @@ import createReferenceOnCurriculum from "app/reference-on-curricula/mutations/cr
 import InformationCard from "app/core/components/InformationCard"
 import { Grid, Button, Chip, Select, MenuItem, InputLabel, FormControl } from "@mui/material"
 import CustomSpinner from "app/core/components/CustomSpinner"
+import Swal from "sweetalert2"
 const ITEMS_PER_PAGE = 100
 export const ReferencesList = (props) => {
   const router = useRouter()
