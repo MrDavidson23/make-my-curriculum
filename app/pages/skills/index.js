@@ -7,6 +7,7 @@ import deleteSkillOnCurriculum from "app/skill-on-curricula/mutations/deleteSkil
 import createSkillOnCurriculum from "app/skill-on-curricula/mutations/createSkillOnCurriculum"
 import { Grid, Button, Chip, Select, MenuItem, InputLabel, FormControl } from "@mui/material"
 import CustomSpinner from "app/core/components/CustomSpinner"
+import Swal from "sweetalert2"
 const ITEMS_PER_PAGE = 100
 export const SkillsList = (props) => {
   const router = useRouter()
@@ -65,21 +66,33 @@ export const SkillsList = (props) => {
   }
 
   const handleOnDelete = async (id) => {
-    if ((props.curriculumId !== undefined && props.curriculumId !== "") || props.onCurriculum) {
-      await deleteSkillOnCurriculumMutation({
-        curriculumId: props.curriculumId,
-        skillId: id,
-      })
-      const newSelected = selected.filter((skill) => skill.id !== id)
-      setSelected(newSelected)
-      const newOptions = [...options, allSkills.find((s) => s.id === id)]
-      setOptions(newOptions)
-    } else {
-      await deleteSkillMutation({
-        id,
-      })
-      router.push(Routes.SkillsPage())
-    }
+    Swal.fire({
+      title: "La habilidad se eliminará, esta seguro?",
+      showDenyButton: true,
+      confirmButtonText: "Eliminar",
+      denyButtonText: `No eliminar`,
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        Swal.fire("La habilidad se elimino", "", "info")
+        if ((props.curriculumId !== undefined && props.curriculumId !== "") || props.onCurriculum) {
+          await deleteSkillOnCurriculumMutation({
+            curriculumId: props.curriculumId,
+            skillId: id,
+          })
+          const newSelected = selected.filter((skill) => skill.id !== id)
+          setSelected(newSelected)
+          const newOptions = [...options, allSkills.find((s) => s.id === id)]
+          setOptions(newOptions)
+        } else {
+          await deleteSkillMutation({
+            id,
+          })
+          router.push(Routes.SkillsPage())
+        }
+      } else if (result.isDenied) {
+        Swal.fire("La habilidad no se elimino", "", "info")
+      }
+    })
   }
 
   return (
