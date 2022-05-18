@@ -35,11 +35,11 @@ const CurriculumDocument = (props) => {
         <View  style={styles.container}>
           <View style={styles.left.container}>
             <PDFSection list={[info]} attributes={["name","email","phone","profession","description"]} label={""} styles={styles.left}/>          
-            <PDFSection list={info.skills} attributes={["description"]} label={info.skillLabel} styles={styles.left}/>
+            <PDFSection list={info.skills} attributes={["description-rating"]} label={info.skillLabel} styles={styles.left}/>
           </View>
           <View style={styles.right.container}>
             <PDFSection list={info.laboralExperiences} 
-                        attributes={["position","institution","location","startYear-finishYear"]}
+                        attributes={["position","description","institution","location","startYear-finishYear"]}
                         label={info.laboralExperienceLabel} styles={styles.right}
             />
             <PDFSection list={info.academicEducations} 
@@ -51,7 +51,7 @@ const CurriculumDocument = (props) => {
                         label={info.technicalEducationLabel} styles={styles.right}
             />
             <PDFSection list={info.publications} attributes={["name-tag","institution","location","date"]} label={info.publicationLabel} styles={styles.right}/>
-            <PDFSection list={info.references} attributes={["name","email","phone"]} label={info.referenceLabel} styles={styles.right}/>
+            <PDFSection list={info.references} attributes={["name","institution","email","phone"]} label={info.referenceLabel} styles={styles.right}/>
           </View>
         </View>
       </Page>

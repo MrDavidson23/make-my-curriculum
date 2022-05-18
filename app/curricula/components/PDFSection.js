@@ -15,7 +15,7 @@ const PDFSection = (props) => {
         if(result instanceof Date){
             result = result.toLocaleDateString()
         }
-        return (result === undefined ? "" : result)
+        return ( (result === undefined || result === null) ? "" : result)
     }
 
     // Gets the attributes of the object
