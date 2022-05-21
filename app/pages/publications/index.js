@@ -70,10 +70,13 @@ export const PublicationsList = (props) => {
 
   const handleOnDelete = async (id) => {
     Swal.fire({
-      title: "La publicación se eliminará, esta seguro?",
-      showDenyButton: true,
+      title: props.onCurriculum
+        ? "¿La publicación se excluirá de este curriculum, esta seguro?"
+        : "¿La publicación se eliminará, esta seguro?",
+      showCancelButton: true,
       confirmButtonText: "Eliminar",
-      denyButtonText: `No eliminar`,
+      cancelButtonText: `No eliminar`,
+      cancelButtonColor: "#d33",
     }).then(async (result) => {
       if (result.isConfirmed) {
         Swal.fire("La publicación se elimino", "", "info")
@@ -95,7 +98,7 @@ export const PublicationsList = (props) => {
           })
           router.push(Routes.PublicationsPage())
         }
-      } else if (result.isDenied) {
+      } else {
         Swal.fire("La publicación no se elimino", "", "info")
       }
     })

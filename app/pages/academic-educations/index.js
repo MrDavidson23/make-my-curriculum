@@ -77,10 +77,13 @@ export const AcademicEducationsList = (props) => {
 
   const handleOnDeleteAcademicEducation = async (id) => {
     Swal.fire({
-      title: "La educación acádemica se eliminará, esta seguro?",
-      showDenyButton: true,
+      title: props.onCurriculum
+        ? "¿La educación academica se excluirá de este curriculum, esta seguro?"
+        : "¿La educación academica se eliminará, esta seguro?",
+      showCancelButton: true,
       confirmButtonText: "Eliminar",
-      denyButtonText: `No eliminar`,
+      cancelButtonText: `No eliminar`,
+      cancelButtonColor: "#d33",
     }).then(async (result) => {
       if (result.isConfirmed) {
         Swal.fire("La educación acádemica se elimino", "", "info")
@@ -104,7 +107,7 @@ export const AcademicEducationsList = (props) => {
           })
           router.push(Routes.AcademicEducationsPage())
         }
-      } else if (result.isDenied) {
+      } else {
         Swal.fire("La educación acádemica no se elimino", "", "info")
       }
     })

@@ -67,10 +67,13 @@ export const SkillsList = (props) => {
 
   const handleOnDelete = async (id) => {
     Swal.fire({
-      title: "La habilidad se eliminará, esta seguro?",
-      showDenyButton: true,
+      title: props.onCurriculum
+        ? "¿La habilidad se excluirá de este curriculum, esta seguro?"
+        : "¿La habilidad se eliminará, esta seguro?",
+      showCancelButton: true,
       confirmButtonText: "Eliminar",
-      denyButtonText: `No eliminar`,
+      cancelButtonText: `No eliminar`,
+      cancelButtonColor: "#d33",
     }).then(async (result) => {
       if (result.isConfirmed) {
         Swal.fire("La habilidad se elimino", "", "info")
@@ -89,7 +92,7 @@ export const SkillsList = (props) => {
           })
           router.push(Routes.SkillsPage())
         }
-      } else if (result.isDenied) {
+      } else {
         Swal.fire("La habilidad no se elimino", "", "info")
       }
     })

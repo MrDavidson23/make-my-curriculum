@@ -77,10 +77,13 @@ export const LaboralExperiencesList = (props) => {
 
   const handleOnDelete = async (id) => {
     Swal.fire({
-      title: "La experiencia laboral se eliminará, esta seguro?",
-      showDenyButton: true,
+      title: props.onCurriculum
+        ? "¿La experiencia laboral se excluirá de este curriculum, esta seguro?"
+        : "¿La experiencia laboral se eliminará, esta seguro?",
+      showCancelButton: true,
       confirmButtonText: "Eliminar",
-      denyButtonText: `No eliminar`,
+      cancelButtonText: `No eliminar`,
+      cancelButtonColor: "#d33",
     }).then(async (result) => {
       if (result.isConfirmed) {
         Swal.fire("La experiencia se elimino", "", "info")
@@ -104,7 +107,7 @@ export const LaboralExperiencesList = (props) => {
           })
           router.push(Routes.LaboralExperiencesPage())
         }
-      } else if (result.isDenied) {
+      } else {
         Swal.fire("La experiencia no se elimino", "", "info")
       }
     })

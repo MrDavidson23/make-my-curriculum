@@ -77,10 +77,13 @@ export const TechnicalEducationsList = (props) => {
 
   const handleOnDelete = async (id) => {
     Swal.fire({
-      title: "La educación técnica se eliminará, esta seguro?",
-      showDenyButton: true,
+      title: props.onCurriculum
+        ? "¿La educación técnica se excluirá de este curriculum, esta seguro?"
+        : "¿La educación técnica se eliminará, esta seguro?",
+      showCancelButton: true,
       confirmButtonText: "Eliminar",
-      denyButtonText: `No eliminar`,
+      cancelButtonText: `No eliminar`,
+      cancelButtonColor: "#d33",
     }).then(async (result) => {
       if (result.isConfirmed) {
         Swal.fire("La educación técnica se elimino", "", "info")
@@ -104,7 +107,7 @@ export const TechnicalEducationsList = (props) => {
           })
           router.push(Routes.TechnicalEducationsPage())
         }
-      } else if (result.isDenied) {
+      } else {
         Swal.fire("La educación técnica no se elimino", "", "info")
       }
     })
