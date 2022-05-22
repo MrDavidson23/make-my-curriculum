@@ -8,6 +8,7 @@ import createLaboralExperienceOnCurriculum from "app/laboral-experience-on-curri
 import InformationCard from "app/core/components/InformationCard"
 import { Grid, Button, Chip, Select, MenuItem, InputLabel, FormControl } from "@mui/material"
 import CustomSpinner from "app/core/components/CustomSpinner"
+import Swal from "sweetalert2"
 const ITEMS_PER_PAGE = 100
 export const LaboralExperiencesList = (props) => {
   const router = useRouter()
@@ -75,26 +76,41 @@ export const LaboralExperiencesList = (props) => {
   }
 
   const handleOnDelete = async (id) => {
-    if ((props.curriculumId !== undefined && props.curriculumId !== "") || props.onCurriculum) {
-      await deleteLaboralExperienceOnCurriculumMutation({
-        curriculumId: props.curriculumId,
-        laboralExperienceId: id,
-      })
-      const newLaboralExperiences = laboralExperiencesList.filter(
-        (laboralExperience) => laboralExperience.id !== id
-      )
-      setLaboralExperiencesList(newLaboralExperiences)
-      const newOptions = [
-        ...options,
-        allLaboralExperiencies.find((laboralExperience) => laboralExperience.id === id),
-      ]
-      setOptions(newOptions)
-    } else {
-      await deleteLaboralExperienceMutation({
-        id,
-      })
-      router.push(Routes.LaboralExperiencesPage())
-    }
+    Swal.fire({
+      title: props.onCurriculum
+        ? "¿La experiencia laboral se excluirá de este curriculum, esta seguro?"
+        : "¿La experiencia laboral se eliminará, esta seguro?",
+      showCancelButton: true,
+      confirmButtonText: "Eliminar",
+      cancelButtonText: `No eliminar`,
+      cancelButtonColor: "#d33",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        Swal.fire("La experiencia se elimino", "", "info")
+        if ((props.curriculumId !== undefined && props.curriculumId !== "") || props.onCurriculum) {
+          await deleteLaboralExperienceOnCurriculumMutation({
+            curriculumId: props.curriculumId,
+            laboralExperienceId: id,
+          })
+          const newLaboralExperiences = laboralExperiencesList.filter(
+            (laboralExperience) => laboralExperience.id !== id
+          )
+          setLaboralExperiencesList(newLaboralExperiences)
+          const newOptions = [
+            ...options,
+            allLaboralExperiencies.find((laboralExperience) => laboralExperience.id === id),
+          ]
+          setOptions(newOptions)
+        } else {
+          await deleteLaboralExperienceMutation({
+            id,
+          })
+          router.push(Routes.LaboralExperiencesPage())
+        }
+      } else {
+        Swal.fire("La experiencia no se elimino", "", "info")
+      }
+    })
   }
 
   return (
