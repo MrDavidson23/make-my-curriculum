@@ -8,6 +8,7 @@ import createTechnicalEducationOnCurriculum from "app/technical-education-on-cur
 import InformationCard from "app/core/components/InformationCard"
 import { Grid, Button, Chip, Select, MenuItem, InputLabel, FormControl } from "@mui/material"
 import CustomSpinner from "app/core/components/CustomSpinner"
+import Swal from "sweetalert2"
 const ITEMS_PER_PAGE = 100
 export const TechnicalEducationsList = (props) => {
   const router = useRouter()
@@ -75,26 +76,41 @@ export const TechnicalEducationsList = (props) => {
   }
 
   const handleOnDelete = async (id) => {
-    if ((props.curriculumId !== undefined && props.curriculumId !== "") || props.onCurriculum) {
-      await deleteTechnicalEducationOnCurriculumMutation({
-        curriculumId: props.curriculumId,
-        technicalEducationId: id,
-      })
-      const newTechnicalEducations = technicalEducationsList.filter(
-        (technicalEducation) => technicalEducation.id !== id
-      )
-      setTechnicalEducationsList(newTechnicalEducations)
-      const newOptions = [
-        ...options,
-        allTechnicalEducations.find((technicalEducation) => technicalEducation.id === id),
-      ]
-      setOptions(newOptions)
-    } else {
-      await deleteTechnicalEducationMutation({
-        id,
-      })
-      router.push(Routes.TechnicalEducationsPage())
-    }
+    Swal.fire({
+      title: props.onCurriculum
+        ? "¿La educación técnica se excluirá de este curriculum, esta seguro?"
+        : "¿La educación técnica se eliminará, esta seguro?",
+      showCancelButton: true,
+      confirmButtonText: "Eliminar",
+      cancelButtonText: `No eliminar`,
+      cancelButtonColor: "#d33",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        Swal.fire("La educación técnica se elimino", "", "info")
+        if ((props.curriculumId !== undefined && props.curriculumId !== "") || props.onCurriculum) {
+          await deleteTechnicalEducationOnCurriculumMutation({
+            curriculumId: props.curriculumId,
+            technicalEducationId: id,
+          })
+          const newTechnicalEducations = technicalEducationsList.filter(
+            (technicalEducation) => technicalEducation.id !== id
+          )
+          setTechnicalEducationsList(newTechnicalEducations)
+          const newOptions = [
+            ...options,
+            allTechnicalEducations.find((technicalEducation) => technicalEducation.id === id),
+          ]
+          setOptions(newOptions)
+        } else {
+          await deleteTechnicalEducationMutation({
+            id,
+          })
+          router.push(Routes.TechnicalEducationsPage())
+        }
+      } else {
+        Swal.fire("La educación técnica no se elimino", "", "info")
+      }
+    })
   }
 
   return (
