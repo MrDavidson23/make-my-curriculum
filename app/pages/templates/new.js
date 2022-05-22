@@ -16,8 +16,9 @@ const NewTemplatePage = () => {
       width: 300
       },
       text: {
+        fontSize: "12pt",
+        fontWeight: "normal",
         color: "#FAF6F6",
-        fontSize: "12pt"
       },
       title: {
         fontSize: "16pt",
@@ -30,10 +31,11 @@ const NewTemplatePage = () => {
       backgroundColor: "#FAF6F6",
       },
       text: {
-        color: "#000000",
         fontSize: "12pt",
+        fontWeight: "normal",
+        color: "#000000",
         margin: "10px",
-        lineHeight: 1.6
+        lineHeight: 1.6,
       },
       title: {
         fontSize: "14pt",
