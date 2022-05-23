@@ -17,13 +17,15 @@ const NewTemplatePage = () => {
       },
       text: {
         fontSize: "12pt",
-        fontWeight: "normal",
         color: "#FAF6F6",
+        fontFamily: "Arial",
+        fontWeight: "normal"
       },
       title: {
         fontSize: "16pt",
-        fontWeight: "bold",
-        color: "#FAF6F6"
+        color: "#FAF6F6",
+        fontFamily: "Arial",
+        fontWeight: "bold"
       }
     })
   const [rightStyles,setRightStyles] = useState(
@@ -32,15 +34,15 @@ const NewTemplatePage = () => {
       },
       text: {
         fontSize: "12pt",
-        fontWeight: "normal",
+        fontFamily: "Arial",
         color: "#000000",
-        margin: "10px",
-        lineHeight: 1.6,
+        fontWeight: "normal"
       },
       title: {
-        fontSize: "14pt",
-        fontWeight: "bold",
-        color: '#DB5461'
+        fontSize: "16pt",
+        fontFamily: "Arial",
+        color: '#DB5461',
+        fontWeight: "bold"
       },
     })
   const defaultPercentage = 50

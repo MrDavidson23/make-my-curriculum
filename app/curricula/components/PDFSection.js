@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View } from '@react-pdf/renderer';
+import { StyleSheet, Text, View } from '@react-pdf/renderer';
 
 const PDFSection = (props) => {
 
@@ -26,18 +26,22 @@ const PDFSection = (props) => {
         })
         return result.substring(0,result.length-3)
     }
+    
+    const titleStyles = StyleSheet.create(props.styles.title)
+    const textStyles = StyleSheet.create(props.styles.text)
+
     return (
         <>
         { props.list.length > 0  && props.attributes.length > 0 && (
             <View>
-                <Text style={props.styles.title}>
+                <Text style={titleStyles}>
                     {props.label}
                 </Text>
-                <View style={props.styles.text}>
+                <View>
                 {props.list.map((elem) => ( 
                     <View key={elem.id}>
                     {props.attributes.map((attrib,i) => ( 
-                        <Text key={i}>{getAttribute(elem,attrib)}</Text>
+                        <Text key={i} style={textStyles}>{getAttribute(elem,attrib)}</Text>
                     ))}
                     </View>
                 ))}

@@ -4,12 +4,14 @@ import getCurriculum from "app/curricula/queries/getAllCurriculum"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import Layout from "app/core/layouts/Layout"
 
-import { Document, Page, View } from "@react-pdf/renderer"
-import { PDFViewer } from "@react-pdf/renderer"
+import { Document, Page, PDFViewer, View } from "@react-pdf/renderer"
 
 import PDFSection from "app/curricula/components/PDFSection"
 import CustomSpinner from "app/core/components/CustomSpinner"
 import getTemplate from "app/templates/queries/getTemplate"
+import FontRegister from "app/core/components/FontRegister"
+
+FontRegister()
 
 const GetInfo = () => {
   const currentUser = useCurrentUser()

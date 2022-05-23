@@ -2,6 +2,7 @@ import React from "react"
 import { Button, Slider, Grid, TextField, Typography, Select, MenuItem } from "@mui/material"
 import { ChromePicker } from "react-color"
 import { Preview } from "./Preview"
+import FontRegister from "app/core/components/FontRegister"
 
 export const EditablePreview = (props) => {
     const { 
@@ -20,11 +21,12 @@ export const EditablePreview = (props) => {
         justifyContent="center" 
         alignItems="center">
 
+        <Grid item xs={8}>
         <Grid container  
             justifyContent="space-between"
             alignItems="center"
             spacing={3}
-            xs={8}>
+        >
             <Grid item xs={12}>
                 <TextField name="name" label="Nombre" placeholder="Nombre"
                 value={props.name}
@@ -107,6 +109,62 @@ export const EditablePreview = (props) => {
                             bold
                         </MenuItem>
                     </Select>
+                    <Select
+                        label={"Titulo"}
+                        value={props.leftStyles.title.fontSize}
+                        onChange={(event) => {
+                            const newLeftStyles = JSON.parse(JSON.stringify(props.leftStyles))
+                            const newRightStyles = JSON.parse(JSON.stringify(props.rightStyles))
+                            newLeftStyles.title.fontSize = event.target.value
+                            newRightStyles.title.fontSize = event.target.value
+                            setLeftStyles(newLeftStyles)
+                            setRightStyles(newRightStyles)
+                        }}
+                    >
+                        {[12, 14, 16, 18, 21, 24, 36, 48, 60, 72].map((item,i) => (
+                            <MenuItem key={i} value={item}>
+                            {item}pt
+                            </MenuItem>
+                        ))}
+                    </Select>
+                    <Select
+                        label={"Titulo"}
+                        value={props.leftStyles.text.fontSize}
+                        onChange={(event) => {
+                            const newLeftStyles = JSON.parse(JSON.stringify(props.leftStyles))
+                            const newRightStyles = JSON.parse(JSON.stringify(props.rightStyles))
+                            newLeftStyles.text.fontSize = event.target.value
+                            newRightStyles.text.fontSize = event.target.value
+                            setLeftStyles(newLeftStyles)
+                            setRightStyles(newRightStyles)
+                        }}
+                    >
+                        {[12, 14, 16, 18, 21, 24, 36, 48, 60, 72].map((item,i) => (
+                            <MenuItem key={i} value={item}>
+                            {item}pt
+                            </MenuItem>
+                        ))}
+                    </Select>
+                    <Select
+                        label={"Titulo"}
+                        value={props.leftStyles.text.fontFamily}
+                        onChange={(event) => {
+                            const newLeftStyles = JSON.parse(JSON.stringify(props.leftStyles))
+                            const newRightStyles = JSON.parse(JSON.stringify(props.rightStyles))
+                            newLeftStyles.text.fontFamily = event.target.value
+                            newRightStyles.text.fontFamily = event.target.value
+                            newLeftStyles.title.fontFamily = event.target.value
+                            newRightStyles.title.fontFamily = event.target.value
+                            setLeftStyles(newLeftStyles)
+                            setRightStyles(newRightStyles)
+                        }}
+                    >
+                        {Object.getOwnPropertyNames(FontRegister()).map((item,i) => (
+                            <MenuItem key={i} value={item}>
+                            {item}
+                            </MenuItem>
+                        ))}
+                    </Select>
                 </Grid>
                 <Grid item xs={6}>
                 <ChromePicker
@@ -182,6 +240,7 @@ export const EditablePreview = (props) => {
                 }}
                 />
             </Grid>
+        </Grid>
         </Grid>
 
         <Grid item>
