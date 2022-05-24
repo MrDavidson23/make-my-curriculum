@@ -8,7 +8,7 @@ const NewCurriculumPage = () => {
   const router = useRouter()
   const [createCurriculumMutation] = useMutation(createCurriculum)
   useEffect(() => {
-    const createCurriculum = async () => {
+    const createNewCurriculum = async () => {
       try {
         const curriculum = await createCurriculumMutation({ name:"Curriculum", languageId: 1, templateId: 1 })
         router.push(
@@ -23,8 +23,8 @@ const NewCurriculumPage = () => {
         )
       }
     }
-    createCurriculum()
-  }, []);
+    createNewCurriculum()
+  }, [createCurriculumMutation,router]);
   return (
     <Suspense fallback={<CustomSpinner />} />
   )

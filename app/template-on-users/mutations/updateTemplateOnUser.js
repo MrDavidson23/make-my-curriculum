@@ -1,18 +1,21 @@
 import { resolver } from "blitz"
 import db from "db"
-import { UpdateTemplate } from "../components/validations"
-
+import { z } from "zod"
+const UpdateTemplateOnUser = z.object({
+  id: z.number(),
+  name: z.string(),
+})
 export default resolver.pipe(
-  /*resolver.zod(UpdateTemplate),*/
+  resolver.zod(UpdateTemplateOnUser),
   resolver.authorize(),
   async ({ id, ...data }) => {
     // TODO: in multi-tenant app, you must add validation to ensure correct tenant
-    const template = await db.template.update({
+    const templateOnUser = await db.templateOnUser.update({
       where: {
         id,
       },
       data,
     })
-    return template
+    return templateOnUser
   }
 )

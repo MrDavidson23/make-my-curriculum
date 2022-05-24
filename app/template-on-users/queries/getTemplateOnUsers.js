@@ -2,10 +2,10 @@ import { paginate, resolver } from "blitz"
 import db from "db"
 export default resolver.pipe(
   resolver.authorize(),
-  async ({ where, orderBy, skip = 0, take = 100 }, ctx) => {
+  async ({ where, orderBy, skip = 0, take = 100 }) => {
     // TODO: in multi-tenant app, you must add validation to ensure correct tenant
     const {
-      items: templates,
+      items: templateOnUsers,
       hasMore,
       nextPage,
       count,
@@ -13,21 +13,13 @@ export default resolver.pipe(
       skip,
       take,
       count: () =>
-        db.template.count({
+        db.templateOnUser.count({
           where,
         }),
-      query: (paginateArgs) => db.template.findMany({ 
-          ...paginateArgs,
-          where: { ...where, 
-            OR: [
-              {userId: ctx.session.userId},
-              {userId: null}
-            ]},
-          orderBy 
-      }),
+      query: (paginateArgs) => db.templateOnUser.findMany({ ...paginateArgs, where, orderBy }),
     })
     return {
-      templates,
+      templateOnUsers,
       nextPage,
       hasMore,
       count,

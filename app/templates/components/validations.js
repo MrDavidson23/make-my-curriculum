@@ -5,7 +5,7 @@ const max = 50
 const model = {
     name: z.string().min(1).max(max),
     isPremium: z.boolean(),
-    design: z.string().min(1).max(max),
+    design: z.object()
 }
 
 export const CreateTemplate = z.object(model)
