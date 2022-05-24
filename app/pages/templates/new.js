@@ -18,13 +18,13 @@ const NewTemplatePage = () => {
       text: {
         fontSize: "12pt",
         color: "#FAF6F6",
-        fontFamily: "Arial",
+        fontFamily: "Lato",
         fontWeight: "normal"
       },
       title: {
         fontSize: "16pt",
         color: "#FAF6F6",
-        fontFamily: "Arial",
+        fontFamily: "Lato",
         fontWeight: "bold"
       }
     })
@@ -34,13 +34,13 @@ const NewTemplatePage = () => {
       },
       text: {
         fontSize: "12pt",
-        fontFamily: "Arial",
+        fontFamily: "Lato",
         color: "#000000",
         fontWeight: "normal"
       },
       title: {
         fontSize: "16pt",
-        fontFamily: "Arial",
+        fontFamily: "Lato",
         color: '#DB5461',
         fontWeight: "bold"
       },

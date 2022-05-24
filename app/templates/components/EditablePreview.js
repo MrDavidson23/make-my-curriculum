@@ -5,6 +5,7 @@ import { Preview } from "./Preview"
 import FontRegister from "app/core/components/FontRegister"
 
 export const EditablePreview = (props) => {
+    const fontSizesArray = ["12pt", "14pt", "16pt", "18pt", "21pt", "24pt", "36pt", "48pt", "60pt", "72pt"]
     const { 
         defaultValue, 
         setPercentage,
@@ -121,9 +122,9 @@ export const EditablePreview = (props) => {
                             setRightStyles(newRightStyles)
                         }}
                     >
-                        {[12, 14, 16, 18, 21, 24, 36, 48, 60, 72].map((item,i) => (
+                        {fontSizesArray.map((item,i) => (
                             <MenuItem key={i} value={item}>
-                            {item}pt
+                            {item}
                             </MenuItem>
                         ))}
                     </Select>
@@ -139,9 +140,9 @@ export const EditablePreview = (props) => {
                             setRightStyles(newRightStyles)
                         }}
                     >
-                        {[12, 14, 16, 18, 21, 24, 36, 48, 60, 72].map((item,i) => (
+                        {fontSizesArray.map((item,i) => (
                             <MenuItem key={i} value={item}>
-                            {item}pt
+                            {item}
                             </MenuItem>
                         ))}
                     </Select>
