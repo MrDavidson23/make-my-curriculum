@@ -42,7 +42,7 @@ export const TemplatesList = () => {
         justifyContent={"center"}
         sx={{ mx: "auto", width: "100%" }}
       >
-        <TemplateList templates={templates} />
+        <TemplateList/>
       </Grid>
 
       <button disabled={page === 0} onClick={goToPreviousPage}>

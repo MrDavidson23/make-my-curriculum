@@ -23,7 +23,7 @@ import LaboralExperiencesPage from "app/pages/laboral-experiences/index"
 import { EditableTitleText } from "app/core/components/EditableTitleText"
 import CustomSpinner from "app/core/components/CustomSpinner"
 
-import { TemplatesList } from "app/pages/templates/index"
+import TemplateList from "app/templates/components/TemplateList"
 
 export const EditCurriculum = () => {
   const [isLoading, setIsLoading] = useState(false)
@@ -205,7 +205,7 @@ export const EditCurriculum = () => {
                 Templates
               </Typography>
               <Suspense fallback={<CustomSpinner />}>
-                <TemplatesList />
+                <TemplateList onClick={()=>{console.log("Click")}}/>
               </Suspense>
             </Grid>
           </Grid>
