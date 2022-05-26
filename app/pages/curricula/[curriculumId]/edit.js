@@ -23,6 +23,8 @@ import LaboralExperiencesPage from "app/pages/laboral-experiences/index"
 import { EditableTitleText } from "app/core/components/EditableTitleText"
 import CustomSpinner from "app/core/components/CustomSpinner"
 
+import { TemplatesList } from "app/pages/templates/index"
+
 export const EditCurriculum = () => {
   const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
@@ -202,6 +204,9 @@ export const EditCurriculum = () => {
               <Typography variant="h6" gutterBottom>
                 Templates
               </Typography>
+              <Suspense fallback={<CustomSpinner />}>
+                <TemplatesList />
+              </Suspense>
             </Grid>
           </Grid>
         </Grid>
