@@ -3,6 +3,7 @@ import { Typography, Radio, Grid } from "@mui/material";
 export const RadioButton = (props) => {
   
   const INCLUDED = "add"
+  const CREATE_NEW = "new"
   const NO_INCLUDED = "no"
   const [selectedValue, setSelectedValue] = useState(INCLUDED);
 
@@ -42,18 +43,21 @@ export const RadioButton = (props) => {
 
   return (
     <Typography variant="h6" component="div" gutterBottom>
-      <Grid container direction="row">
+      <Grid container direction="row" spacing={3}> 
         <Grid item xs={6}/>
-        <Grid item xs={3}>
+        <Grid item xs={2}>
           {props.label === "Todas" ? "Agregar" : ""}
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={2}>
+          {props.label === "Todas" ? "Crear nueva" : ""}
+        </Grid>
+        <Grid item xs={2}>
           {props.label === "Todas" ? "No incluir" : ""}
         </Grid>
       </Grid>
-      <Grid container direction="row">
+      <Grid container direction="row" spacing={3}>
         <Grid item xs={6}>{props.label}</Grid>
-        <Grid item xs={3}>
+        <Grid item xs={2}>
           <Radio
             checked={currentValue() === INCLUDED}
             onChange={handleChange}
@@ -61,7 +65,15 @@ export const RadioButton = (props) => {
             color="primary"
           />
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={2}>
+          <Radio
+            checked={currentValue() === CREATE_NEW}
+            onChange={handleChange}
+            value={CREATE_NEW}
+            color="primary"
+          />
+        </Grid>
+        <Grid item xs={2}>
           <Radio
             checked={currentValue() === NO_INCLUDED}
             onChange={handleChange}

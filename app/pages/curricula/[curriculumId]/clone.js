@@ -15,7 +15,9 @@ export const CloneCurriculum = () => {
   })
 
   const sectionsName = ["skills","laboralExperiences","academicEducations","technicalEducations","publications","references"]
+  const NO_INCLUDED = "no"
   const INCLUDED = "add"
+  const CREATE_NEW = "new"
   
   // Gets the non-empty sections of the curriculum
   const getCurriculumSections = (curriculum)=>{
@@ -60,15 +62,19 @@ export const CloneCurriculum = () => {
           onSubmit = { async () => {
             try {
               
-              // Gets only those sections with state "add"
+              // Gets only those sections with state different to "no"
               let values = {}
               sectionsName.forEach((name) => {
-                values[name] = []
+                values[name] = {add:[],new:[]}
                 if(sections[name] !== undefined){
                   sections[name].forEach( (elem) => {
-                    if(elem.state === INCLUDED){
+                    if(elem.state !== NO_INCLUDED){
                       const {state, ...newElem} = elem
-                      values[name].push(newElem)
+                      // Deletes the id of section to create
+                      if (elem.state === CREATE_NEW){
+                        delete newElem.id
+                      }
+                      values[name][elem.state].push(newElem)
                     }
                   })
                 }
