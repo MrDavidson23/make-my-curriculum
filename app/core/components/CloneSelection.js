@@ -44,11 +44,11 @@ export const RadioButton = (props) => {
   return (
     <Typography variant="h6" component="div" gutterBottom>
       <Grid container direction="row" spacing={3}> 
-        <Grid item xs={6}/>
-        <Grid item xs={2}>
+        <Grid item xs={4}/>
+        <Grid item xs={3}>
           {props.label === "Todas" ? "Agregar" : ""}
         </Grid>
-        <Grid item xs={2}>
+        <Grid item xs={3}>
           {props.label === "Todas" ? "Crear nueva" : ""}
         </Grid>
         <Grid item xs={2}>
@@ -56,8 +56,8 @@ export const RadioButton = (props) => {
         </Grid>
       </Grid>
       <Grid container direction="row" spacing={3}>
-        <Grid item xs={6}>{props.label}</Grid>
-        <Grid item xs={2}>
+        <Grid item xs={4}>{props.label}</Grid>
+        <Grid item xs={3}>
           <Radio
             checked={currentValue() === INCLUDED}
             onChange={handleChange}
@@ -65,7 +65,7 @@ export const RadioButton = (props) => {
             color="primary"
           />
         </Grid>
-        <Grid item xs={2}>
+        <Grid item xs={3}>
           <Radio
             checked={currentValue() === CREATE_NEW}
             onChange={handleChange}
