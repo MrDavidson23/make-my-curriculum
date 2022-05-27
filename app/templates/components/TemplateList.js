@@ -6,7 +6,8 @@ import { Grid, Typography, Button } from "@mui/material"
 import { Preview } from "app/templates/components/Preview"
 
 const TemplateList = ({
-  onClick
+  onClick,
+  showName
 }) => {
 
   const [{ templates, hasMore }] = useQuery(getTemplates, {
@@ -19,6 +20,8 @@ const TemplateList = ({
     return null
   }
 
+  showName = showName === undefined ? false : showName
+
   const getProps = (template) => {
     return {
       percentage:template.design.left.container.width/6,
@@ -29,18 +32,29 @@ const TemplateList = ({
 
   return (
     <>
-      <Grid>
+      <Grid container 
+            direction="row" 
+            textAlign={"center"}
+            alignContent={"center"}
+            justifyContent={"center"}
+            spacing={4}
+            sx={{ mx: "auto", width: "100%" }}
+      >
         <Suspense fallback={<CustomSpinner />}>
             {templates.map((template) => (
             <Grid item key={template.id}>
-                <Typography variant="h5" gutterBottom> {template.name} </Typography>
-                { onClick === undefined &&
-                  <Preview {...getProps(template)}/>
+                { showName &&
+                  <Typography variant="h5" gutterBottom> {template.name} </Typography>
                 }
+                {/* The preview is clickable */}
                 { onClick !== undefined &&
-                  <Button onClick={onClick}>
+                  <Button onClick={()=>onClick(template)}>
                     <Preview {...getProps(template)}/>
                   </Button>
+                }
+                {/* Just the preview */}
+                { onClick === undefined &&
+                  <Preview {...getProps(template)}/>
                 }
             </Grid>
             ))}

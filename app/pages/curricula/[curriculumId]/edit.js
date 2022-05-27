@@ -202,10 +202,15 @@ export const EditCurriculum = () => {
             </Grid>
             <Grid item xs={12}>
               <Typography variant="h6" gutterBottom>
-                Templates
+                Seleccione una plantilla
               </Typography>
               <Suspense fallback={<CustomSpinner />}>
-                <TemplateList onClick={()=>{console.log("Click")}}/>
+                <TemplateList showName={false} onClick={ async (template) => {
+                  if (curriculum.templateId !== template.id){
+                    curriculum.templateId = template.id
+                    await submitChange()
+                  }
+                }}/>
               </Suspense>
             </Grid>
           </Grid>
