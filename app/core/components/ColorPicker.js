@@ -17,7 +17,7 @@ export const ColorPicker = (props) => {
             onClose={handleClose}
         >
             <Box sx={{  
-                position:'absolute',
+                position: 'absolute',
                 top: '25%', left: '30%'}}>
             <ChromePicker
                 name={props.name||"colorPicker"}

@@ -1,5 +1,5 @@
 import React from "react"
-import { Button, Slider, Grid, TextField, Typography, Select, MenuItem } from "@mui/material"
+import { Button, Slider, Grid, TextField, Typography, Select, MenuItem, InputLabel } from "@mui/material"
 import { Preview } from "./Preview"
 import FontRegister from "app/core/components/FontRegister"
 import ColorPicker from "app/core/components/ColorPicker"
@@ -32,6 +32,8 @@ export const EditablePreview = (props) => {
 
     const SelectFontWeight = ({value,label,onChange}) => {
         return (
+            <>
+            <InputLabel id={label}>{label}</InputLabel>
             <Select
                 label={label}
                 value={value}
@@ -44,6 +46,7 @@ export const EditablePreview = (props) => {
                     Bold
                 </MenuItem>
             </Select>
+            </>
         )
     }
 
@@ -59,6 +62,7 @@ export const EditablePreview = (props) => {
             justifyContent="space-between"
             alignItems="center"
             spacing={3}
+            marginTop="5px"
         >
             <Grid container direction="row">
             <Grid item xs={6}>
@@ -67,6 +71,7 @@ export const EditablePreview = (props) => {
                 onChange={(e)=>{ setName(e.target.value)}}/>
             </Grid>
             <Grid item xs={6}>
+                <InputLabel id={"Fuente"}>{"Fuente"}</InputLabel>
                 <Select
                     label={"Fuente"}
                     value={props.leftStyles.text.fontFamily}
@@ -91,8 +96,9 @@ export const EditablePreview = (props) => {
             </Grid>
             <Grid container direction="row">
             <Grid item xs={12}>
+                <InputLabel id={"Título"}>{"Título"}</InputLabel>
                 <Select
-                    label={"Titulo"}
+                    label={"Título"}
                     value={props.leftStyles.title.fontSize}
                     onChange={(event) => {
                         changeState(["left","right"],"title","fontSize",event.target.value)
@@ -109,7 +115,7 @@ export const EditablePreview = (props) => {
             <Grid container direction="row">
             <Grid item xs={3}>
             <SelectFontWeight
-                label={"Titulo"}
+                label={"Título"}
                 value={props.leftStyles.title.fontWeight}
                 onChange={(event) => {                
                     changeState(["left"],"title","fontWeight",event.target.value)
@@ -127,7 +133,7 @@ export const EditablePreview = (props) => {
             </Grid>
             <Grid item xs={3}>
             <SelectFontWeight
-                label={"Titulo"}
+                label={"Título"}
                 value={props.rightStyles.title.fontWeight}
                 onChange={(event) => {
                     changeState(["right"],"title","fontWeight",event.target.value)
@@ -146,8 +152,9 @@ export const EditablePreview = (props) => {
             </Grid>
             <Grid container direction="row">
                 <Grid item xs={12}>
+                <InputLabel id={"Texto"}>{"Texto"}</InputLabel>
                 <Select
-                    label={"Titulo"}
+                    label={"Texto"}
                     value={props.leftStyles.text.fontSize}
                     onChange={(event) => {
                         changeState(["left","right"],"text","fontSize",event.target.value)
@@ -164,7 +171,7 @@ export const EditablePreview = (props) => {
             <Grid container direction="row">
                 <Grid item xs={3}>
                     <SelectFontWeight 
-                        label="texto"
+                        label="Texto"
                         value={props.leftStyles.text.fontWeight}
                         onChange={(event) => {
                             changeState(["left"],"text","fontWeight",event.target.value)
@@ -182,7 +189,7 @@ export const EditablePreview = (props) => {
                 </Grid>
                 <Grid item xs={3}>
                     <SelectFontWeight
-                        label={"texto"}
+                        label={"Texto"}
                         value={props.rightStyles.text.fontWeight}
                         onChange={(event) => {
                             changeState(["right"],"text","fontWeight",event.target.value)
