@@ -125,6 +125,18 @@ const seed = async () => {
       },
     ],
   })
+
+  await db.template.createMany({
+    data: [
+      {
+        name: "Default",
+        isPremium : false,
+        design    : { background: "#ffffff", color: "#000000" },
+      }
+    ],
+  })
+
+
 }
 
 export default seed
