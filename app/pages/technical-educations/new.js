@@ -1,4 +1,4 @@
-import { Link, useRouter, useMutation, useRouterQuery, Routes } from "blitz"
+import { Link, useRouter, useMutation, useRouterQuery, Routes, Redirect } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import createTechnicalEducation from "app/technical-educations/mutations/createTechnicalEducation"
 import createTechnicalEducationOnCurriculum from "app/technical-education-on-curricula/mutations/createTechnicalEducationOnCurriculum"
@@ -8,6 +8,7 @@ import {
 } from "app/technical-educations/components/TechnicalEducationForm"
 import { Grid, Button, Typography } from "@mui/material"
 import { CreateTechnicalEducation } from "app/technical-educations/components/validations"
+import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 
 const NewTechnicalEducationPage = () => {
   const router = useRouter()
@@ -17,10 +18,16 @@ const NewTechnicalEducationPage = () => {
     createTechnicalEducationOnCurriculum
   )
 
-  const returnPage = (
-    curriculumId !== '' ?
-      Routes.EditCurriculumPage({ curriculumId }) : Routes.TechnicalEducationsPage()
-  )
+  const returnPage =
+    curriculumId !== ""
+      ? Routes.EditCurriculumPage({ curriculumId })
+      : Routes.TechnicalEducationsPage()
+
+  const currentUser = useCurrentUser()
+
+  if (!currentUser) {
+    return <Redirect to={Routes.Home} />
+  }
 
   return (
     <div>

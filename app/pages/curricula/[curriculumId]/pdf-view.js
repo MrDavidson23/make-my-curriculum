@@ -1,4 +1,4 @@
-import { Suspense } from "react"
+import { Suspense, Redirect } from "react"
 import { Head, Link, useRouter, useQuery, useMutation, useParam, Routes, Router } from "blitz"
 import getCurriculum from "app/curricula/queries/getAllCurriculum"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
@@ -128,6 +128,11 @@ const CurriculumDocument = (props) => {
 }
 
 const PDFViewPage = () => {
+  const currentUser = useCurrentUser()
+
+  if (!currentUser) {
+    return <Redirect to={Routes.Home} />
+  }
   return (
     <div style={{ minHeight: "100vh" }}>
       <Suspense fallback={<CustomSpinner />}>

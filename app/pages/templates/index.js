@@ -1,8 +1,9 @@
-import { Suspense } from "react"
+import { Suspense, Redirect } from "react"
 import { Head, Link, usePaginatedQuery, useRouter, Routes } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getTemplates from "app/templates/queries/getTemplates"
 import CustomSpinner from "app/core/components/CustomSpinner"
+import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 const ITEMS_PER_PAGE = 100
 export const TemplatesList = () => {
   const router = useRouter()
@@ -56,6 +57,10 @@ export const TemplatesList = () => {
 }
 
 const TemplatesPage = () => {
+  const currentUser = useCurrentUser()
+  if (!currentUser) {
+    return <Redirect to={Routes.Home} />
+  }
   return (
     <>
       <Head>

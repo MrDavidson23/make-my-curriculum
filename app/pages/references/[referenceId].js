@@ -96,6 +96,11 @@ export const Reference = () => {
 }
 
 const ShowReferencePage = () => {
+  const currentUser = useCurrentUser()
+
+  if (!currentUser) {
+    return <Redirect to={Routes.Home} />
+  }
   return (
     <div>
       <p>

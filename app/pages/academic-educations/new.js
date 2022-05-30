@@ -1,4 +1,4 @@
-import { Link, useRouter, useMutation, useRouterQuery, Routes, Router } from "blitz"
+import { Link, useRouter, useMutation, useRouterQuery, Routes, Router, Redirect } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import createAcademicEducation from "app/academic-educations/mutations/createAcademicEducation"
 import createAcademicEducationOnCurriculum from "app/academic-education-on-curricula/mutations/createAcademicEducationOnCurriculum"
@@ -8,8 +8,10 @@ import {
 } from "app/academic-educations/components/AcademicEducationForm"
 import { Grid, Button, Typography } from "@mui/material"
 import { CreateAcademicEducation } from "app/academic-educations/components/validations"
+import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 
 const NewAcademicEducationPage = () => {
+  const currentUser = useCurrentUser()
   const router = useRouter()
   const { curriculumId } = useRouterQuery()
   const [createAcademicEducationMutation] = useMutation(createAcademicEducation)
@@ -17,10 +19,14 @@ const NewAcademicEducationPage = () => {
     createAcademicEducationOnCurriculum
   )
 
-  const returnPage = (
-    curriculumId !== '' ?
-      Routes.EditCurriculumPage({ curriculumId }) : Routes.AcademicEducationsPage()
-  )
+  const returnPage =
+    curriculumId !== ""
+      ? Routes.EditCurriculumPage({ curriculumId })
+      : Routes.AcademicEducationsPage()
+
+  if (!currentUser) {
+    return <Redirect to={Routes.Home} />
+  }
 
   return (
     <div>

@@ -1,12 +1,19 @@
-import { Link, useRouter, useMutation, Routes } from "blitz"
+import { Link, useRouter, useMutation, Routes, Redirect } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import createTemplate from "app/templates/mutations/createTemplate"
 import { TemplateForm, FORM_ERROR } from "app/templates/components/TemplateForm"
 import { CreateTemplate } from "app/templates/components/validations"
+import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 
 const NewTemplatePage = () => {
   const router = useRouter()
   const [createTemplateMutation] = useMutation(createTemplate)
+
+  const currentUser = useCurrentUser()
+
+  if (!currentUser) {
+    return <Redirect to={Routes.Home} />
+  }
   return (
     <div>
       <h1>Create New Template</h1>
@@ -16,7 +23,7 @@ const NewTemplatePage = () => {
         //  - Tip: extract mutation's schema into a shared `validations.ts` file and
         //         then import and use it here
         schema={CreateTemplate}
-        initialValues={{isPremium:false, design:"basic",}}
+        initialValues={{ isPremium: false, design: "basic" }}
         onSubmit={async (values) => {
           try {
             const template = await createTemplateMutation(values)

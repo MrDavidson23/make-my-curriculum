@@ -1,9 +1,10 @@
-import { Suspense } from "react"
+import { Suspense, Redirect } from "react"
 import { Head, Link, useRouter, useQuery, useParam, useMutation, Routes } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getPhone from "app/phones/queries/getPhone"
 import deletePhone from "app/phones/mutations/deletePhone"
 import CustomSpinner from "app/core/components/CustomSpinner"
+import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 export const Phone = () => {
   const router = useRouter()
   const phoneId = useParam("phoneId", "number")
@@ -51,6 +52,11 @@ export const Phone = () => {
 }
 
 const ShowPhonePage = () => {
+  const currentUser = useCurrentUser()
+
+  if (!currentUser || currentUser.role != "ADMIN") {
+    return <Redirect to={Routes.Home} />
+  }
   return (
     <div>
       <p>

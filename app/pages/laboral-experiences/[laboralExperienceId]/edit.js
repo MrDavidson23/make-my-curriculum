@@ -1,4 +1,4 @@
-import { Suspense } from "react"
+import { Suspense, Redirect } from "react"
 import {
   Head,
   Link,
@@ -18,6 +18,7 @@ import createLaboralExperienceOnCurriculum from "app/laboral-experience-on-curri
 import deleteLaboralExperienceOnCurriculum from "app/laboral-experience-on-curricula/mutations/deleteLaboralExperienceOnCurriculum"
 import { UpdateLaboralExperience } from "app/laboral-experiences/components/validations"
 import { Grid, Button, Typography } from "@mui/material"
+import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 
 import {
   LaboralExperienceForm,
@@ -118,6 +119,12 @@ const EditLaboralExperiencePage = () => {
       })
     }
   }
+
+  const currentUser = useCurrentUser()
+  if (!currentUser) {
+    return <Redirect to={Routes.Home} />
+  }
+
   return (
     <div>
       <Suspense fallback={<CustomSpinner />}>

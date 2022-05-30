@@ -1,4 +1,4 @@
-import { Suspense } from "react"
+import { Suspense, Redirect } from "react"
 import { Head, Link, useRouter, useQuery, useMutation, useParam, Routes } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getTemplate from "app/templates/queries/getTemplate"
@@ -6,6 +6,7 @@ import updateTemplate from "app/templates/mutations/updateTemplate"
 import { TemplateForm, FORM_ERROR } from "app/templates/components/TemplateForm"
 import { UpdateTemplate } from "app/templates/components/validations"
 import CustomSpinner from "app/core/components/CustomSpinner"
+import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 
 export const EditTemplate = () => {
   const router = useRouter()
@@ -21,6 +22,7 @@ export const EditTemplate = () => {
     }
   )
   const [updateTemplateMutation] = useMutation(updateTemplate)
+
   return (
     <>
       <Head>
@@ -63,6 +65,10 @@ export const EditTemplate = () => {
 }
 
 const EditTemplatePage = () => {
+  const currentUser = useCurrentUser()
+  if (!currentUser) {
+    return <Redirect to={Routes.Home} />
+  }
   return (
     <div>
       <Suspense fallback={<CustomSpinner />}>
