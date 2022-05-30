@@ -1,18 +1,19 @@
 import { resolver } from "blitz"
 import db from "db"
-import { UpdateTemplate } from "../components/validations"
-
+import { z } from "zod"
+const DeleteTemplateOnUser = z.object({
+  id: z.number(),
+})
 export default resolver.pipe(
-  /*resolver.zod(UpdateTemplate),*/
+  resolver.zod(DeleteTemplateOnUser),
   resolver.authorize(),
-  async ({ id, ...data }) => {
+  async ({ id }) => {
     // TODO: in multi-tenant app, you must add validation to ensure correct tenant
-    const template = await db.template.update({
+    const templateOnUser = await db.templateOnUser.deleteMany({
       where: {
         id,
       },
-      data,
     })
-    return template
+    return templateOnUser
   }
 )

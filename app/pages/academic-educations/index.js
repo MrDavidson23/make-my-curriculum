@@ -8,6 +8,7 @@ import createAcademicEducationOnCurriculum from "app/academic-education-on-curri
 import InformationCard from "app/core/components/InformationCard"
 import { Grid, Button, Chip, Select, MenuItem, InputLabel, FormControl } from "@mui/material"
 import CustomSpinner from "app/core/components/CustomSpinner"
+import Swal from "sweetalert2"
 const ITEMS_PER_PAGE = 100
 export const AcademicEducationsList = (props) => {
   const router = useRouter()
@@ -75,26 +76,41 @@ export const AcademicEducationsList = (props) => {
   }
 
   const handleOnDeleteAcademicEducation = async (id) => {
-    if ((props.curriculumId !== undefined && props.curriculumId !== "") || props.onCurriculum) {
-      await deleteAcademicEducationOnCurriculumMutation({
-        curriculumId: props.curriculumId,
-        academicEducationId: id,
-      })
-      const newAcademicEducation = academicEducationsList.filter(
-        (academicEducation) => academicEducation.id !== id
-      )
-      setAcademicEducationsList(newAcademicEducation)
-      const newOptions = [
-        ...options,
-        ...academicEducationsList.filter((academicEducation) => academicEducation.id === id),
-      ]
-      setOptions(newOptions)
-    } else {
-      await deleteAcademicEducationMutation({
-        id: id,
-      })
-      router.push(Routes.AcademicEducationsPage())
-    }
+    Swal.fire({
+      title: props.onCurriculum
+        ? "¿La educación academica se excluirá de este curriculum, esta seguro?"
+        : "¿La educación academica se eliminará, esta seguro?",
+      showCancelButton: true,
+      confirmButtonText: "Eliminar",
+      cancelButtonText: `No eliminar`,
+      cancelButtonColor: "#d33",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        Swal.fire("La educación acádemica se elimino", "", "info")
+        if ((props.curriculumId !== undefined && props.curriculumId !== "") || props.onCurriculum) {
+          await deleteAcademicEducationOnCurriculumMutation({
+            curriculumId: props.curriculumId,
+            academicEducationId: id,
+          })
+          const newAcademicEducation = academicEducationsList.filter(
+            (academicEducation) => academicEducation.id !== id
+          )
+          setAcademicEducationsList(newAcademicEducation)
+          const newOptions = [
+            ...options,
+            ...academicEducationsList.filter((academicEducation) => academicEducation.id === id),
+          ]
+          setOptions(newOptions)
+        } else {
+          await deleteAcademicEducationMutation({
+            id: id,
+          })
+          router.push(Routes.AcademicEducationsPage())
+        }
+      } else {
+        Swal.fire("La educación acádemica no se elimino", "", "info")
+      }
+    })
   }
 
   return (

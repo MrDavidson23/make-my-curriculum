@@ -18,7 +18,7 @@ const model = {
     .refine((date) => new Date(date) < new Date(actualday))
     .transform((date) => new Date(date)),
   institution: z.string().min(1).max(max),
-  description: z.string().min(1).max(max),
+  description: z.string().min(1).max(5*max),
 }
 
 const dateErrorMsg = "La fecha de inicio debe ser anterior a la de finalización."
