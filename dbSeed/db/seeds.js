@@ -130,13 +130,44 @@ const seed = async () => {
     data: [
       {
         name: "Default",
-        isPremium : false,
-        design    : { background: "#ffffff", color: "#000000" },
-      }
+        isPremium: false,
+        design: {
+          left: {
+            text: { margin: "10px", fontSize: "12pt", lineHeight: 1.6 },
+            title: { fontSize: "16pt", fontWeight: "bold" },
+            container: {
+              color: "#FAF6F6",
+              width: 170,
+              paddingTop: 30,
+              paddingLeft: 15,
+              paddingRight: 15,
+              flexDirection: "column",
+              backgroundColor: "#3A298F",
+              "@media max-width: 400": { width: "100%", paddingRight: 0 },
+              "@media orientation: landscape": { width: 200 },
+            },
+          },
+          right: {
+            text: { margin: "10px", fontSize: "12pt", lineHeight: 1.6 },
+            title: { color: "#DB5461", fontSize: "14pt", fontWeight: "bold" },
+            container: {
+              paddingTop: 30,
+              paddingLeft: 10,
+              paddingRight: 15,
+              backgroundColor: "#FAF6F6",
+              "@media max-width: 400": { width: "100%", paddingRight: 0 },
+            },
+          },
+          container: {
+            flex: 1,
+            margin: "2px",
+            flexDirection: "row",
+            "@media max-width: 400": { flexDirection: "column" },
+          },
+        },
+      },
     ],
   })
-
-
 }
 
 export default seed
