@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { ChromePicker } from "react-color"
-import { Box, Button, Grid, Typography, Modal } from "@mui/material"
+import { Box, Button, Grid, InputLabel, Modal, Typography, Card, CardContent } from "@mui/material"
 
 export const ColorPicker = (props) => {
     
@@ -10,7 +10,10 @@ export const ColorPicker = (props) => {
 
     return (
         <>
-        <Button onClick={handleOpen}>{props.label}</Button>
+        <InputLabel id={props.labelId}>{props.label}</InputLabel>
+        <Typography variant="h6" component="div" gutterBottom>
+            <Button variant="outlined" onClick={handleOpen}>Color</Button>
+        </Typography>
         <Grid>
         <Modal
             open={open}
@@ -19,11 +22,23 @@ export const ColorPicker = (props) => {
             <Box sx={{  
                 position: 'absolute',
                 top: '25%', left: '30%'}}>
-            <ChromePicker
-                name={props.name||"colorPicker"}
-                color={props.color}
-                onChangeComplete={(color)=>{props.onChangeComplete(color)}}
-            />
+            <Card>
+                <CardContent>
+                    <ChromePicker
+                        name={props.name||"colorPicker"}
+                        color={props.color}
+                        onChangeComplete={(color)=>{props.onChangeComplete(color)}}
+                    />
+                    <Grid container
+                        alignItems="center"
+                        justifyContent="center"
+                        alignContent="center"
+                        marginTop="1rem"
+                    >
+                        <Button variant="outlined" onClick={handleClose}>Aceptar</Button>
+                    </Grid>
+                </CardContent>
+            </Card>
             </Box>
             </Modal>
         </Grid>

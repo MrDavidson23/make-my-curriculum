@@ -43,9 +43,7 @@ export const EditTemplate = () => {
         ...values
       })
       router.push(
-        Routes.ShowTemplatePage({
-          templateId: template.id,
-        })
+        Routes.TemplatesPage()
       )
     } catch (error) {
       console.error(error)

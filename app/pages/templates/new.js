@@ -2,13 +2,16 @@ import { Link, useRouter, useMutation, Routes } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import createTemplate from "app/templates/mutations/createTemplate"
 import { CreateTemplate } from "app/templates/components/validations"
+import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import { Grid, Button, Typography, Slider } from "@mui/material"
 import { EditablePreview } from "app/templates/components/EditablePreview"
 import { useState } from "react"
 
 const NewTemplatePage = () => {
+  const currentUser = useCurrentUser()
   const router = useRouter()
   const [createTemplateMutation] = useMutation(createTemplate)
+  const [premium,setPremium] = useState(false)
   const [name,setName] = useState("Plantilla")
   const [leftStyles,setLeftStyles] = useState(
     {container: {
@@ -96,14 +99,12 @@ const NewTemplatePage = () => {
       right:right
     }
 
-    const values = {design:(JSON.parse(JSON.stringify(design))),name:name,isPremium:false}
+    const values = {design:(JSON.parse(JSON.stringify(design))),name:name,isPremium:premium}
     
     try {
       const template = await createTemplateMutation(values)
       router.push(
-        Routes.ShowTemplatePage({
-          templateId: template.id,
-        })
+        Routes.TemplatesPage()
       )
     } catch (error) {
       console.error(error)
@@ -136,6 +137,9 @@ const NewTemplatePage = () => {
         setRightStyles={setRightStyles}
         name={name}
         setName={setName}
+        role={currentUser.role}
+        premium={premium}
+        setPremium={setPremium}
         submitText={"Crear Plantilla"}
         onClickSubmit={async ()=>{await newTemplate()}}
       />

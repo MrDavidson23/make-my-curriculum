@@ -1,5 +1,5 @@
 import React from "react"
-import { Button, Slider, Grid, TextField, Typography, Select, MenuItem, InputLabel } from "@mui/material"
+import { Button, Slider, Grid, TextField, Typography, Select, MenuItem, InputLabel, Checkbox, Divider } from "@mui/material"
 import { Preview } from "./Preview"
 import FontRegister from "app/core/components/FontRegister"
 import ColorPicker from "app/core/components/ColorPicker"
@@ -15,7 +15,12 @@ export const EditablePreview = (props) => {
         setRightStyles,
         setLeftStyles,
         setName,
+        role,
+        premium,
+        setPremium,
         ...previewProps} = props
+
+    const userRole = (role === undefined ? "user" : role)
 
     const stylesState = {
         left:  {state: props.leftStyles, set:setLeftStyles },
@@ -30,24 +35,15 @@ export const EditablePreview = (props) => {
         })
     }
 
-    const SelectFontWeight = ({value,label,onChange}) => {
-        return (
-            <>
-            <InputLabel id={label}>{label}</InputLabel>
-            <Select
-                label={label}
-                value={value}
-                onChange={(event) => {onChange(event)}}
-            >
-                <MenuItem value="normal">
-                    Normal
-                </MenuItem>
-                <MenuItem value="bold">
-                    Bold
-                </MenuItem>
-            </Select>
-            </>
-        )
+    const style = {
+        hr: {
+            width: "95%",
+            marginTop: "1rem",
+            marginBottom: "1rem",
+            color: "black",
+            backgroundColor: "black",
+            height: 1,
+        },
     }
 
     return (
@@ -55,7 +51,8 @@ export const EditablePreview = (props) => {
     <Grid 
         container direction="row" 
         justifyContent="center" 
-        alignItems="center">
+        alignItems="center"
+        alignContent="center">
 
     <Grid item xs={8}>
         <Grid container  
@@ -94,11 +91,17 @@ export const EditablePreview = (props) => {
                 </Select>
             </Grid>
             </Grid>
+            <Divider style={style.hr}/>
             <Grid container direction="row">
             <Grid item xs={12}>
-                <InputLabel id={"Título"}>{"Título"}</InputLabel>
+                <Typography component="div" gutterBottom color="secondary">
+                    Título
+                </Typography>
+            </Grid>
+            <Grid item xs={2}>
+                <InputLabel id={"titleSize"}>{"Tamaño"}</InputLabel>
                 <Select
-                    label={"Título"}
+                    label={"Tamaño"}
                     value={props.leftStyles.title.fontSize}
                     onChange={(event) => {
                         changeState(["left","right"],"title","fontSize",event.target.value)
@@ -111,38 +114,40 @@ export const EditablePreview = (props) => {
                 ))}
             </Select>
             </Grid>
-            </Grid>
-            <Grid container direction="row">
-            <Grid item xs={3}>
-            <SelectFontWeight
-                label={"Título"}
-                value={props.leftStyles.title.fontWeight}
-                onChange={(event) => {                
-                    changeState(["left"],"title","fontWeight",event.target.value)
-                }}
-            />
+            <Grid item xs={2}>
+                <InputLabel id={"titleLeftWeight"}>{"Negrita Izquierda"}</InputLabel>
+                < Checkbox color="primary" 
+                    checked={props.leftStyles.title.fontWeight==="bold"} 
+                    onChange={(event)=>{
+                        const value = ( event.target.checked ? "bold" : "normal")
+                        changeState(["left"],"title","fontWeight",value)
+                    }}
+                />
             </Grid>
             <Grid item xs={3}>
                 <ColorPicker
-                    label='Color'
+                    labelId="titleColorLeft"
+                    label='Izquierda'
                     color={props.leftStyles.title.color}
                     onChangeComplete={(color)=>{
                         changeState(["left"],"title","color",color.hex)
                     }}
                 />
             </Grid>
-            <Grid item xs={3}>
-            <SelectFontWeight
-                label={"Título"}
-                value={props.rightStyles.title.fontWeight}
-                onChange={(event) => {
-                    changeState(["right"],"title","fontWeight",event.target.value)
-                }}
-            />
+            <Grid item xs={2}>
+                <InputLabel id={"titleLeftWeight"}>{"Negrita Derecha"}</InputLabel>
+                < Checkbox color="primary" 
+                    checked={props.rightStyles.title.fontWeight==="bold"} 
+                    onChange={(event)=>{
+                        const value = ( event.target.checked ? "bold" : "normal")
+                        changeState(["right"],"title","fontWeight",value)
+                    }}
+                />
             </Grid>
             <Grid item xs={3}>
                 <ColorPicker
-                    label='Color'
+                    labelId="titleColorRight"
+                    label='Derecha'
                     color={props.rightStyles.title.color}
                     onChangeComplete={(color)=>{
                         changeState(["right"],"title","color",color.hex)
@@ -150,11 +155,17 @@ export const EditablePreview = (props) => {
                 />
                 </Grid>
             </Grid>
+            <Divider style={style.hr}/>
             <Grid container direction="row">
-                <Grid item xs={12}>
-                <InputLabel id={"Texto"}>{"Texto"}</InputLabel>
+            <Grid item xs={12}>
+                <Typography component="div" gutterBottom color="secondary">
+                    Texto
+                </Typography>
+            </Grid>
+            <Grid item xs={2}>
+                <InputLabel id={"textSize"}>{"Tamaño"}</InputLabel>
                 <Select
-                    label={"Texto"}
+                    label={"Tamaño"}
                     value={props.leftStyles.text.fontSize}
                     onChange={(event) => {
                         changeState(["left","right"],"text","fontSize",event.target.value)
@@ -167,38 +178,40 @@ export const EditablePreview = (props) => {
                     ))}
                 </Select>
                 </Grid>
-            </Grid>
-            <Grid container direction="row">
-                <Grid item xs={3}>
-                    <SelectFontWeight 
-                        label="Texto"
-                        value={props.leftStyles.text.fontWeight}
-                        onChange={(event) => {
-                            changeState(["left"],"text","fontWeight",event.target.value)
+                <Grid item xs={2}>
+                    <InputLabel id={"titleLeftWeight"}>{"Negrita Izquierda"}</InputLabel>
+                    < Checkbox color="primary" 
+                        checked={props.leftStyles.text.fontWeight==="bold"} 
+                        onChange={(event)=>{
+                            const value = ( event.target.checked ? "bold" : "normal")
+                            changeState(["left"],"text","fontWeight",value)
                         }}
                     />
                 </Grid>
                 <Grid item xs={3}>
                 <ColorPicker
-                    label='Color'
+                    labelId="textColorLeft"
+                    label='Izquierda'
                     color={props.leftStyles.text.color}
                     onChangeComplete={(color)=>{
                         changeState(["left"],"text","color",color.hex)
                     }}
                 />
                 </Grid>
-                <Grid item xs={3}>
-                    <SelectFontWeight
-                        label={"Texto"}
-                        value={props.rightStyles.text.fontWeight}
-                        onChange={(event) => {
-                            changeState(["right"],"text","fontWeight",event.target.value)
+                <Grid item xs={2}>
+                    <InputLabel id={"titleLeftWeight"}>{"Negrita Derecha"}</InputLabel>
+                    < Checkbox color="primary" 
+                        checked={props.rightStyles.text.fontWeight==="bold"} 
+                        onChange={(event)=>{
+                            const value = ( event.target.checked ? "bold" : "normal")
+                            changeState(["right"],"text","fontWeight",value)
                         }}
                     />
                 </Grid>
                 <Grid item xs={3}>
                     <ColorPicker
-                        label='Color'
+                        labelId="textColorRight"
+                        label='Derecha'
                         color={props.rightStyles.text.color}
                         onChangeComplete={(color)=>{
                             changeState(["right"],"text","color",color.hex)
@@ -206,11 +219,12 @@ export const EditablePreview = (props) => {
                     />
                 </Grid>
             </Grid>
-            
+            <Divider style={style.hr}/>
             <Grid container direction="row">
                 <Grid item xs={6}>
                 <ColorPicker
-                    label='Color'
+                    labelId="backgroundLeft"
+                    label='Izquierda'
                     color={props.leftStyles.container.backgroundColor}
                     onChangeComplete={(color)=>{
                         changeState(["left"],"container","backgroundColor",color.hex)
@@ -219,7 +233,8 @@ export const EditablePreview = (props) => {
                 </Grid>
                 <Grid item xs={6}>
                 <ColorPicker
-                    label='Color'
+                    labelId="backgroundRight"
+                    label='Derecha'
                     color={props.rightStyles.container.backgroundColor}
                     onChangeComplete={(color)=>{
                         changeState(["right"],"container","backgroundColor",color.hex)
@@ -245,6 +260,19 @@ export const EditablePreview = (props) => {
                     />
                 </Grid>
             </Grid>
+            { userRole && userRole === "ADMIN" && (
+                 <Grid container direction="row">
+                    <Grid item xs={12}>
+                        <InputLabel id={"premium"}>{"Premium"}</InputLabel>
+                        < Checkbox color="primary" 
+                            checked={premium} 
+                            onChange={(event)=>{
+                                setPremium(event.target.checked) 
+                            }}
+                        />
+                    </Grid>
+                 </Grid>
+            )}
             </Grid>
         </Grid>
 
