@@ -2,15 +2,38 @@ import { Suspense } from "react"
 import CustomSpinner from "app/core/components/CustomSpinner"
 import { Routes, useRouter, useMutation, useQuery } from "blitz"
 import getTemplates from "app/templates/queries/getTemplates"
+import getTemplateOnUser from "app/template-on-users/queries/getTemplateOnUser"
+import { useCurrentUser } from "app/core/hooks/useCurrentUser"
+import Swal from "sweetalert2"
 import { Grid, Typography, Button } from "@mui/material"
 import { Preview } from "app/templates/components/Preview"
 
 const TemplateList = ({ onClick, showName }) => {
+  const currentUser = useCurrentUser()
   const [{ templates, hasMore }] = useQuery(getTemplates, {
     orderBy: {
       id: "asc",
     },
   })
+  const [templateOnUser] = useQuery(getTemplateOnUser, {
+    id: currentUser.id,
+  })
+  console.log(templateOnUser)
+
+  const checkPremiumTemplate = (template) => {
+    console.log(template, templateOnUser)
+    const templateFound = templateOnUser.find((x) => x.templateId === template.id)
+    if (!template.isPremium) {
+      return false
+    } else {
+      if (templateOnUser?.length === 0) {
+        return false
+      } else if (templateFound) {
+        return false
+      }
+      return true
+    }
+  }
 
   if (!templates) {
     return null
@@ -48,13 +71,23 @@ const TemplateList = ({ onClick, showName }) => {
               )}
               {/* The preview is clickable */}
               {onClick !== undefined && (
-                <Button onClick={() => onClick(template)}>
-                  <Preview {...getProps(template)} isPremium={template.isPremium} />
+                <Button
+                  onClick={() =>
+                    checkPremiumTemplate(template)
+                      ? Swal.fire({
+                          icon: "error",
+                          title: "Error",
+                          text: "Esta plantilla es premium",
+                        })
+                      : onClick(template)
+                  }
+                >
+                  <Preview {...getProps(template)} isPremium={checkPremiumTemplate(template)} />
                 </Button>
               )}
               {/* Just the preview */}
               {onClick === undefined && (
-                <Preview {...getProps(template)} isPremium={template.isPremium} />
+                <Preview {...getProps(template)} isPremium={checkPremiumTemplate(template)} />
               )}
             </Grid>
           ))}

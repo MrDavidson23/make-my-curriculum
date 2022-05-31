@@ -5,7 +5,6 @@ import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js"
 import axios from "axios"
 
 export const Preview = (props) => {
-  console.log(props.isPremium)
   // Calculates the distribution of rows for both sides
   const getDistribution = (percentage) => {
     return percentage > 0.5
@@ -44,7 +43,11 @@ export const Preview = (props) => {
               style={{ backgroundColor: props.rightStyles.container.backgroundColor }}
             >
               <CardContent>
-                {props.isPremium && <WorkspacePremiumIcon color="warning" />}
+                {props.isPremium && (
+                  <>
+                    <WorkspacePremiumIcon color="warning" />
+                  </>
+                )}
                 <Typography style={props.rightStyles.title}>
                   {props.title === undefined ? "Título" : props.title}
                 </Typography>
