@@ -205,12 +205,15 @@ export const EditCurriculum = () => {
                 Seleccione una plantilla
               </Typography>
               <Suspense fallback={<CustomSpinner />}>
-                <TemplateList showName={false} onClick={ async (template) => {
-                  if (curriculum.templateId !== template.id){
-                    curriculum.templateId = template.id
-                    await submitChange()
-                  }
-                }}/>
+                <TemplateList
+                  showName={false}
+                  onClick={async (template) => {
+                    if (curriculum.templateId !== template.id) {
+                      curriculum.templateId = template.id
+                      await submitChange()
+                    }
+                  }}
+                />
               </Suspense>
             </Grid>
           </Grid>
