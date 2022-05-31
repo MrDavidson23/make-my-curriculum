@@ -1,8 +1,9 @@
-import { Suspense } from "react"
+import { Suspense, Redirect } from "react"
 import { Head, Link, useRouter, useQuery, useParam, useMutation, Routes } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getReference from "app/references/queries/getReference"
 import deleteReference from "app/references/mutations/deleteReference"
+import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import { Grid, button, Paper } from "@mui/material"
 import { createTheme, ThemeProvider, styled } from "@mui/material/styles"
 
