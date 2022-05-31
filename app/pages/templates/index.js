@@ -2,9 +2,10 @@ import { Suspense } from "react"
 import { Head, Link, usePaginatedQuery, useRouter, Routes, Router } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getTemplates from "app/templates/queries/getTemplates"
-import { Preview } from "app/templates/components/Preview"
 import { Button, Grid, Typography } from "@mui/material"
 import CustomSpinner from "app/core/components/CustomSpinner"
+import TemplateList from "app/templates/components/TemplateList"
+
 const ITEMS_PER_PAGE = 100
 export const TemplatesList = () => {
   const router = useRouter()
@@ -41,16 +42,7 @@ export const TemplatesList = () => {
         justifyContent={"center"}
         sx={{ mx: "auto", width: "100%" }}
       >
-      {templates.map((template) => (
-          <Grid item key={template.id}>
-          <Typography variant="h5" gutterBottom> {template.name} </Typography>
-          <Preview
-            percentage={template.design.left.container.width/3}
-            leftStyles={template.design.left}
-            rightStyles={template.design.right}
-          />
-          </Grid>
-      ))}
+        <TemplateList/>
       </Grid>
 
       <button disabled={page === 0} onClick={goToPreviousPage}>

@@ -24,8 +24,8 @@ export const Preview = (props) => {
             <Grid item xs={getDistribution(props.percentage)}>
             <Card sx={{ minWidth: 300*(props.percentage/100) ,minHeight: 350 }} style={{backgroundColor:props.leftStyles.container.backgroundColor}}>
                 <CardContent>
-                    <Typography style={props.leftStyles.title}>Título</Typography>
-                    <Typography style={props.leftStyles.text}>Texto</Typography>
+                    <Typography style={props.leftStyles.title}>{props.title === undefined ? "Título" : props.title}</Typography>
+                    <Typography style={props.leftStyles.text}>{props.text === undefined ? "Texto" : props.text}</Typography>
                 </CardContent>
             </Card>
             </Grid>
@@ -33,8 +33,8 @@ export const Preview = (props) => {
             <Grid item xs={12-getDistribution(props.percentage)}>
             <Card sx={{ minWidth: 300*(1-(props.percentage/100)) ,minHeight: 350 }} style={{backgroundColor:props.rightStyles.container.backgroundColor}}>
                 <CardContent>
-                    <Typography style={props.rightStyles.title}>Título</Typography>
-                    <Typography style={props.rightStyles.text}>Texto</Typography>
+                    <Typography style={props.rightStyles.title}>{props.title === undefined ? "Título" : props.title}</Typography>
+                    <Typography style={props.rightStyles.text}>{props.text === undefined ? "Texto" : props.text}</Typography>
                 </CardContent>
             </Card>
             </Grid>
