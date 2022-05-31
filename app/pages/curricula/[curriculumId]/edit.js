@@ -23,6 +23,8 @@ import LaboralExperiencesPage from "app/pages/laboral-experiences/index"
 import { EditableTitleText } from "app/core/components/EditableTitleText"
 import CustomSpinner from "app/core/components/CustomSpinner"
 
+import TemplateList from "app/templates/components/TemplateList"
+
 export const EditCurriculum = () => {
   const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
@@ -200,8 +202,16 @@ export const EditCurriculum = () => {
             </Grid>
             <Grid item xs={12}>
               <Typography variant="h6" gutterBottom>
-                Templates
+                Seleccione una plantilla
               </Typography>
+              <Suspense fallback={<CustomSpinner />}>
+                <TemplateList showName={false} onClick={ async (template) => {
+                  if (curriculum.templateId !== template.id){
+                    curriculum.templateId = template.id
+                    await submitChange()
+                  }
+                }}/>
+              </Suspense>
             </Grid>
           </Grid>
         </Grid>

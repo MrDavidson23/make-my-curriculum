@@ -23,7 +23,7 @@ export const EditTemplate = () => {
     }
   )
 
-  const initialPercentage = template.design.left.container.width/3
+  const initialPercentage = template.design.left.container.width/6
   
   const [name,setName] = useState(template.name)
   const [leftStyles,setLeftStyles] = useState(template.design.left)
