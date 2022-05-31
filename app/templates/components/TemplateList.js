@@ -18,10 +18,8 @@ const TemplateList = ({ onClick, showName }) => {
   const [templateOnUser] = useQuery(getTemplateOnUser, {
     id: currentUser.id,
   })
-  console.log(templateOnUser)
 
   const checkPremiumTemplate = (template) => {
-    console.log(template, templateOnUser)
     const templateFound = templateOnUser.find((x) => x.templateId === template.id)
     if (!template.isPremium) {
       return false

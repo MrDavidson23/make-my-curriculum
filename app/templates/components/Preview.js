@@ -83,7 +83,7 @@ export const Preview = (props) => {
                 console.log(data)
                 actions.order.capture()
               }}
-              style={{ layout: "horizontal", color: "blue" }}
+              style={{ layout: "vertical", color: "blue" }}
             />
           </PayPalScriptProvider>
         )}
