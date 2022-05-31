@@ -1,8 +1,9 @@
-import { Suspense } from "react"
+import { Suspense, Redirect } from "react"
 import { Head, Link, useRouter, useQuery, useMutation, useParam, Routes } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getIdentificationType from "app/identification-types/queries/getIdentificationType"
 import updateIdentificationType from "app/identification-types/mutations/updateIdentificationType"
+import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import {
   IdentificationTypeForm,
   FORM_ERROR,
@@ -22,6 +23,7 @@ export const EditIdentificationType = () => {
     }
   )
   const [updateIdentificationTypeMutation] = useMutation(updateIdentificationType)
+
   return (
     <>
       <Head>
@@ -64,6 +66,11 @@ export const EditIdentificationType = () => {
 }
 
 const EditIdentificationTypePage = () => {
+  const currentUser = useCurrentUser()
+
+  if (!currentUser || currentUser.role != "ADMIN") {
+    return <Redirect to={Routes.Home} />
+  }
   return (
     <div>
       <Suspense fallback={<CustomSpinner />}>

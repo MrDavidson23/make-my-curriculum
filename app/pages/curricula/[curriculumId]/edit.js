@@ -1,4 +1,4 @@
-import { Suspense, useState } from "react"
+import { Suspense, useState, Redirect } from "react"
 import { Head, Link, useRouter, useQuery, useMutation, useParam, Routes, useSession } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getCurriculum from "app/curricula/queries/getCurriculum"
@@ -221,6 +221,11 @@ export const EditCurriculum = () => {
 }
 
 const EditCurriculumPage = () => {
+  const currentUser = useCurrentUser()
+
+  if (!currentUser) {
+    return <Redirect to={Routes.Home} />
+  }
   return (
     <div>
       <Suspense fallback={<CustomSpinner />}>

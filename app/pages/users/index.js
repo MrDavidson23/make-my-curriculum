@@ -1,8 +1,9 @@
-import { Suspense } from "react"
+import { Suspense, Redirect } from "react"
 import { Head, Link, usePaginatedQuery, useRouter, Routes } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getUsers from "app/users/queries/getUsers"
 import CustomSpinner from "app/core/components/CustomSpinner"
+import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 const ITEMS_PER_PAGE = 100
 export const UsersList = () => {
   const router = useRouter()
@@ -60,6 +61,11 @@ export const UsersList = () => {
 }
 
 const UsersPage = () => {
+  const currentUser = useCurrentUser()
+
+  if (!currentUser || currentUser.role != "ADMIN") {
+    return <Redirect to={Routes.Home} />
+  }
   return (
     <>
       <Head>

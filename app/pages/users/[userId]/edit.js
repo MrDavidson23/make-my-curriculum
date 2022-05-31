@@ -1,9 +1,11 @@
-import { Suspense } from "react"
+import { Suspense, Redirect } from "react"
 import { Head, Link, useQuery, useParam, Routes } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getUser from "app/users/queries/getUser"
 import { UserForm } from "app/users/components/UserForm"
 import CustomSpinner from "app/core/components/CustomSpinner"
+import { useCurrentUser } from "app/core/hooks/useCurrentUser"
+
 export const EditUser = () => {
   const userId = useParam("userId", "number")
   const [user, { setQueryData }] = useQuery(
@@ -28,6 +30,11 @@ export const EditUser = () => {
 }
 
 const EditUserPage = () => {
+  const currentUser = useCurrentUser()
+
+  if (!currentUser) {
+    return <Redirect to={Routes.Home} />
+  }
   return (
     <>
       <Suspense fallback={<CustomSpinner />}>

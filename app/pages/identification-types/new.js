@@ -1,14 +1,20 @@
-import { Link, useRouter, useMutation, Routes } from "blitz"
+import { Link, useRouter, useMutation, Routes, Redirect } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import createIdentificationType from "app/identification-types/mutations/createIdentificationType"
 import {
   IdentificationTypeForm,
   FORM_ERROR,
 } from "app/identification-types/components/IdentificationTypeForm"
+import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 
 const NewIdentificationTypePage = () => {
+  const currentUser = useCurrentUser()
   const router = useRouter()
   const [createIdentificationTypeMutation] = useMutation(createIdentificationType)
+
+  if (!currentUser || currentUser.role != "ADMIN") {
+    return <Redirect to={Routes.Home} />
+  }
   return (
     <div>
       <h1>Create New IdentificationType</h1>
