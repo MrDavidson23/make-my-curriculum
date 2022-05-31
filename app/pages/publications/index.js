@@ -9,6 +9,7 @@ import InformationCard from "app/core/components/InformationCard"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import { Grid, Button, Chip, Select, MenuItem, InputLabel, FormControl } from "@mui/material"
 import CustomSpinner from "app/core/components/CustomSpinner"
+import Swal from "sweetalert2"
 const ITEMS_PER_PAGE = 100
 export const PublicationsList = (props) => {
   const router = useRouter()
@@ -69,21 +70,39 @@ export const PublicationsList = (props) => {
   }
 
   const handleOnDelete = async (id) => {
-    if ((props.curriculumId !== undefined && props.curriculumId !== "") || props.onCurriculum) {
-      await deletePublicationOnCurriculumMutation({
-        curriculumId: props.curriculumId,
-        publicationId: id,
-      })
-      const newPublications = publicationsList.filter((publication) => publication.id !== id)
-      setPublicationsList(newPublications)
-      const newOptions = [...options, allPublications.find((publication) => publication.id === id)]
-      setOptions(newOptions)
-    } else {
-      await deletePublicationMutation({
-        id,
-      })
-      router.push(Routes.PublicationsPage())
-    }
+    Swal.fire({
+      title: props.onCurriculum
+        ? "¿La publicación se excluirá de este curriculum, esta seguro?"
+        : "¿La publicación se eliminará, esta seguro?",
+      showCancelButton: true,
+      confirmButtonText: "Eliminar",
+      cancelButtonText: `No eliminar`,
+      cancelButtonColor: "#d33",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        Swal.fire("La publicación se elimino", "", "info")
+        if ((props.curriculumId !== undefined && props.curriculumId !== "") || props.onCurriculum) {
+          await deletePublicationOnCurriculumMutation({
+            curriculumId: props.curriculumId,
+            publicationId: id,
+          })
+          const newPublications = publicationsList.filter((publication) => publication.id !== id)
+          setPublicationsList(newPublications)
+          const newOptions = [
+            ...options,
+            allPublications.find((publication) => publication.id === id),
+          ]
+          setOptions(newOptions)
+        } else {
+          await deletePublicationMutation({
+            id,
+          })
+          router.push(Routes.PublicationsPage())
+        }
+      } else {
+        Swal.fire("La publicación no se elimino", "", "info")
+      }
+    })
   }
 
   return (

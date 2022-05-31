@@ -5,6 +5,7 @@ import { Routes, useRouter, useMutation } from "blitz"
 import deleteCurriculum from "app/curricula/mutations/deleteCurriculum"
 import { Grid } from "@mui/material"
 import Switch from "@mui/material/Switch"
+import Swal from "sweetalert2"
 
 const CurriculumList = ({
   curriculumns,
@@ -41,12 +42,23 @@ const CurriculumList = ({
                   router.push(Routes.EditCurriculumPage({ curriculumId: curriculum.id }))
                 }}
                 handleOnDelete={async () => {
-                  if (window.confirm("This will be deleted")) {
-                    await deleteCurriculumMutation({
-                      id: curriculum.id,
-                    })
-                    router.reload()
-                  }
+                  Swal.fire({
+                    title: "¿El curriculum se eliminará, esta seguro?",
+                    showCancelButton: true,
+                    confirmButtonText: "Eliminar",
+                    cancelButtonText: `No eliminar`,
+                    cancelButtonColor: "#d33",
+                  }).then(async (result) => {
+                    if (result.isConfirmed) {
+                      Swal.fire("El curriculum se elimino", "", "info")
+                      await deleteCurriculumMutation({
+                        id: curriculum.id,
+                      })
+                      router.reload()
+                    } else {
+                      Swal.fire("El curriculum no se elimino", "", "info")
+                    }
+                  })
                 }}
               />
               {curriculumsHighlight && (

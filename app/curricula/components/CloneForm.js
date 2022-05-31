@@ -41,6 +41,7 @@ export function CloneForm({curriculum,sections,setSections,...props}) {
         textAlign={align}
         justify={justify}
         justifyContent={justify}
+        spacing={4}
         sx={sx}
       >
 
@@ -75,6 +76,7 @@ export function CloneForm({curriculum,sections,setSections,...props}) {
         textAlign={align}
         justify={justify}
         justifyContent={justify}
+        spacing={4}
         sx={sx}
       >
 
@@ -109,6 +111,7 @@ export function CloneForm({curriculum,sections,setSections,...props}) {
         textAlign={align}
         justify={justify}
         justifyContent={justify}
+        spacing={4}
         sx={sx}
       >
 

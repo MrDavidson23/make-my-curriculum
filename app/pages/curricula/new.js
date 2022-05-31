@@ -9,7 +9,7 @@ const NewCurriculumPage = () => {
   const router = useRouter()
   const [createCurriculumMutation] = useMutation(createCurriculum)
   useEffect(() => {
-    const createCurriculum = async () => {
+    const createNewCurriculum = async () => {
       try {
         const curriculum = await createCurriculumMutation({
           name: "Curriculum",
@@ -26,8 +26,9 @@ const NewCurriculumPage = () => {
         router.push(Routes.CurriculaPage({}))
       }
     }
-    createCurriculum()
-  }, [])
+    createNewCurriculum()
+  }, [createCurriculumMutation, router])
+
   const currentUser = useCurrentUser()
 
   if (!currentUser) {

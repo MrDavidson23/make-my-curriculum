@@ -1,9 +1,12 @@
 import { Suspense, Redirect } from "react"
-import { Head, Link, usePaginatedQuery, useRouter, Routes } from "blitz"
+import { Head, Link, usePaginatedQuery, useRouter, Routes, Router } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getTemplates from "app/templates/queries/getTemplates"
+import { Button, Grid, Typography } from "@mui/material"
 import CustomSpinner from "app/core/components/CustomSpinner"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
+import TemplateList from "app/templates/components/TemplateList"
+
 const ITEMS_PER_PAGE = 100
 export const TemplatesList = () => {
   const router = useRouter()
@@ -32,19 +35,16 @@ export const TemplatesList = () => {
 
   return (
     <div>
-      <ul>
-        {templates.map((template) => (
-          <li key={template.id}>
-            <Link
-              href={Routes.ShowTemplatePage({
-                templateId: template.id,
-              })}
-            >
-              <a>{template.name}</a>
-            </Link>
-          </li>
-        ))}
-      </ul>
+      <Grid
+        container
+        direction="row"
+        spacing={2}
+        textAlign={"center"}
+        justifyContent={"center"}
+        sx={{ mx: "auto", width: "100%" }}
+      >
+        <TemplateList />
+      </Grid>
 
       <button disabled={page === 0} onClick={goToPreviousPage}>
         Previous
@@ -67,17 +67,24 @@ const TemplatesPage = () => {
         <title>Templates</title>
       </Head>
 
-      <div>
-        <p>
-          <Link href={Routes.NewTemplatePage()}>
-            <a>Create Template</a>
-          </Link>
-        </p>
+      <Grid
+        container
+        direction="row"
+        spacing={2}
+        textAlign={"center"}
+        justifyContent={"center"}
+        sx={{ mx: "auto", width: "100%" }}
+      >
+        <Grid item xs={12} justify="center" mt={3} mb={3}>
+          <Button variant="outlined" onClick={() => Router.push(Routes.NewTemplatePage())}>
+            Crear Nueva Plantilla
+          </Button>
+        </Grid>
 
         <Suspense fallback={<CustomSpinner />}>
           <TemplatesList />
         </Suspense>
-      </div>
+      </Grid>
     </>
   )
 }

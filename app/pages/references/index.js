@@ -9,6 +9,7 @@ import InformationCard from "app/core/components/InformationCard"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import { Grid, Button, Chip, Select, MenuItem, InputLabel, FormControl } from "@mui/material"
 import CustomSpinner from "app/core/components/CustomSpinner"
+import Swal from "sweetalert2"
 const ITEMS_PER_PAGE = 100
 export const ReferencesList = (props) => {
   const router = useRouter()
@@ -67,21 +68,36 @@ export const ReferencesList = (props) => {
   }
 
   const handleOnDelete = async (id) => {
-    if ((props.curriculumId !== undefined && props.curriculumId !== "") || props.onCurriculum) {
-      await deleteReferenceOnCurriculumMutation({
-        curriculumId: props.curriculumId,
-        referenceId: id,
-      })
-      const newReferences = referencesList.filter((reference) => reference.id !== id)
-      setReferencesList(newReferences)
-      const newOptions = [...options, allReferences.find((reference) => reference.id === id)]
-      setOptions(newOptions)
-    } else {
-      await deleteReferenceMutation({
-        id,
-      })
-      router.push(Routes.ReferencesPage())
-    }
+    Swal.fire({
+      title: props.onCurriculum
+        ? "¿La referencia se excluirá de este curriculum, esta seguro?"
+        : "¿La referencia se eliminará, esta seguro?",
+      showCancelButton: true,
+      confirmButtonText: "Eliminar",
+      cancelButtonText: `No eliminar`,
+      cancelButtonColor: "#d33",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        Swal.fire("La referencia se elimino", "", "info")
+        if ((props.curriculumId !== undefined && props.curriculumId !== "") || props.onCurriculum) {
+          await deleteReferenceOnCurriculumMutation({
+            curriculumId: props.curriculumId,
+            referenceId: id,
+          })
+          const newReferences = referencesList.filter((reference) => reference.id !== id)
+          setReferencesList(newReferences)
+          const newOptions = [...options, allReferences.find((reference) => reference.id === id)]
+          setOptions(newOptions)
+        } else {
+          await deleteReferenceMutation({
+            id,
+          })
+          router.push(Routes.ReferencesPage())
+        }
+      } else {
+        Swal.fire("La referencia no se elimino", "", "info")
+      }
+    })
   }
 
   return (

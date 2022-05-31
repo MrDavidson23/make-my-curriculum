@@ -32,7 +32,9 @@ export const CloneCurriculum = () => {
     "publications",
     "references",
   ]
+  const NO_INCLUDED = "no"
   const INCLUDED = "add"
+  const CREATE_NEW = "new"
 
   // Gets the non-empty sections of the curriculum
   const getCurriculumSections = (curriculum) => {
@@ -108,13 +110,48 @@ export const CloneCurriculum = () => {
           />
         </Grid>
 
-        <Grid item xs={12}>
-          <p>
-            <Link href={Routes.EditCurriculumPage({ curriculumId })}>
-              <Button variant="outlined"> Regresar </Button>
-            </Link>
-          </p>
-        </Grid>
+        <CloneForm
+          curriculum={curriculum}
+          sections={sections}
+          setSections={setSections}
+          submitText="Clonar Currículum"
+          onSubmit={async () => {
+            try {
+              // Gets only those sections with state different to "no"
+              let values = {}
+              sectionsName.forEach((name) => {
+                values[name] = { add: [], new: [] }
+                if (sections[name] !== undefined) {
+                  sections[name].forEach((elem) => {
+                    if (elem.state !== NO_INCLUDED) {
+                      const { state, ...newElem } = elem
+                      // Deletes the id of section to create
+                      if (elem.state === CREATE_NEW) {
+                        delete newElem.id
+                      }
+                      values[name][elem.state].push(newElem)
+                    }
+                  })
+                }
+              })
+
+              const curriculum = await cloneCurriculumMutation({
+                id: curriculumId,
+                sections: values,
+              })
+              router.push(
+                Routes.EditCurriculumPage({
+                  curriculumId: curriculum.id,
+                })
+              )
+            } catch (error) {
+              console.error(error)
+              return {
+                [FORM_ERROR]: error.toString(),
+              }
+            }
+          }}
+        />
       </Grid>
     </>
   )

@@ -5,8 +5,8 @@ const smtpTransport = nodemailer.createTransport({
   port: 587,
   secure: false, // true for 465, false for other ports
   auth: {
-    user: "noreply@makemycurriculum.plataformaelectronicacr.com",
-    pass: "QTkX64Bb&j0~",
+    user: process.env.smtpusername,
+    pass: process.env.smtppassword,
   },
 })
 
