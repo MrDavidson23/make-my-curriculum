@@ -1,11 +1,18 @@
-import { Link, useRouter, useMutation, Routes } from "blitz"
+import { Link, useRouter, useMutation, Routes, Redirect } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import createPhone from "app/phones/mutations/createPhone"
+import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import { PhoneForm, FORM_ERROR } from "app/phones/components/PhoneForm"
 
 const NewPhonePage = () => {
   const router = useRouter()
   const [createPhoneMutation] = useMutation(createPhone)
+
+  const currentUser = useCurrentUser()
+
+  if (!currentUser || currentUser.role != "ADMIN") {
+    return <Redirect to={Routes.Home} />
+  }
   return (
     <div>
       <h1>Create New Phone</h1>

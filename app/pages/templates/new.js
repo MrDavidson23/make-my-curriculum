@@ -1,7 +1,8 @@
-import { Link, useRouter, useMutation, Routes } from "blitz"
+import { Link, useRouter, useMutation, Routes, Redirect } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import createTemplate from "app/templates/mutations/createTemplate"
 import { CreateTemplate } from "app/templates/components/validations"
+import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import { Grid, Button, Typography, Slider } from "@mui/material"
 import { EditablePreview } from "app/templates/components/EditablePreview"
 import { useState } from "react"
@@ -107,6 +108,12 @@ const NewTemplatePage = () => {
     } catch (error) {
       console.error(error)
     }
+     }
+
+  const currentUser = useCurrentUser()
+
+  if (!currentUser) {
+    return <Redirect to={Routes.Home} />
   }
 
   return (

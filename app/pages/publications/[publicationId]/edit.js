@@ -1,4 +1,4 @@
-import { Suspense } from "react"
+import { Suspense, Redirect } from "react"
 import {
   Head,
   Link,
@@ -20,9 +20,9 @@ import { PublicationForm, FORM_ERROR } from "app/publications/components/Publica
 import { UpdatePublication } from "app/publications/components/validations"
 import { Grid, Button, Typography } from "@mui/material"
 import CustomSpinner from "app/core/components/CustomSpinner"
+import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 
 export const EditPublication = () => {
-  const router = useRouter()
   const publicationId = useParam("publicationId", "number")
   const { curriculumId } = useRouterQuery()
   const [publication, { setQueryData }] = useQuery(
@@ -112,6 +112,11 @@ const EditPublicationPage = () => {
         publicationId,
       })
     }
+  }
+
+  const currentUser = useCurrentUser()
+  if (!currentUser) {
+    return <Redirect to={Routes.Home} />
   }
   return (
     <div>

@@ -1,4 +1,4 @@
-import { Suspense, useState, useEffect } from "react"
+import { Suspense, useState, useEffect, Redirect } from "react"
 import { Head, Link, usePaginatedQuery, useRouter, Routes, useMutation } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getLaboralExperiences from "app/laboral-experiences/queries/getLaboralExperiences"
@@ -6,6 +6,7 @@ import deleteLaboralExperience from "app/laboral-experiences/mutations/deleteLab
 import deleteLaboralExperienceOnCurriculum from "app/laboral-experience-on-curricula/mutations/deleteLaboralExperienceOnCurriculum"
 import createLaboralExperienceOnCurriculum from "app/laboral-experience-on-curricula/mutations/createLaboralExperienceOnCurriculum"
 import InformationCard from "app/core/components/InformationCard"
+import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import { Grid, Button, Chip, Select, MenuItem, InputLabel, FormControl } from "@mui/material"
 import CustomSpinner from "app/core/components/CustomSpinner"
 import Swal from "sweetalert2"
@@ -182,6 +183,10 @@ export const LaboralExperiencesList = (props) => {
 }
 
 const LaboralExperiencesPage = (props) => {
+  const currentUser = useCurrentUser()
+  if (!currentUser) {
+    return <Redirect to={Routes.Home} />
+  }
   return (
     <>
       <div>

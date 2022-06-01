@@ -1,9 +1,10 @@
-import { Suspense } from "react"
+import { Suspense, Redirect } from "react"
 import { Head, Link, useRouter, useQuery, useParam, useMutation, Routes } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getAcademicEducation from "app/academic-educations/queries/getAcademicEducation"
 import deleteAcademicEducation from "app/academic-educations/mutations/deleteAcademicEducation"
 import CustomSpinner from "app/core/components/CustomSpinner"
+import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 export const AcademicEducation = () => {
   const router = useRouter()
   const academicEducationId = useParam("academicEducationId", "number")
@@ -51,6 +52,11 @@ export const AcademicEducation = () => {
 }
 
 const ShowAcademicEducationPage = () => {
+  const currentUser = useCurrentUser()
+
+  if (!currentUser) {
+    return <Redirect to={Routes.Home} />
+  }
   return (
     <div>
       <p>

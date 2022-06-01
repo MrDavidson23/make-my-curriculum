@@ -1,4 +1,4 @@
-import { Suspense } from "react"
+import { Suspense, Redirect } from "react"
 import {
   Head,
   Link,
@@ -18,7 +18,7 @@ import createAcademicEducationOnCurriculumMutation from "app/academic-education-
 import deleteAcademicEducationOnCurriculumMutation from "app/academic-education-on-curricula/mutations/deleteAcademicEducationOnCurriculum"
 import { UpdateAcademicEducation } from "app/academic-educations/components/validations"
 import { Grid, Button, Typography } from "@mui/material"
-
+import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import {
   AcademicEducationForm,
   FORM_ERROR,
@@ -39,6 +39,7 @@ export const EditAcademicEducation = () => {
     }
   )
   const [updateAcademicEducationMutation] = useMutation(updateAcademicEducation)
+
   return (
     <>
       <Head>
@@ -121,6 +122,10 @@ const EditAcademicEducationPage = () => {
         academicEducationId,
       })
     }
+  }
+  const currentUser = useCurrentUser()
+  if (!currentUser) {
+    return <Redirect to={Routes.Home} />
   }
   return (
     <div>

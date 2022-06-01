@@ -1,4 +1,4 @@
-import { Suspense } from "react"
+import { Suspense, Redirect } from "react"
 import { useQuery, useParam } from "blitz"
 import getCurriculum from "app/curricula/queries/getAllCurriculum"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
@@ -34,26 +34,58 @@ const CurriculumDocument = (props) => {
   return (
     <Document>
       <Page size="A4">
-        <View  style={styles.container}>
+        <View style={styles.container}>
           <View style={styles.left.container}>
-            <PDFSection list={[info]} attributes={["name","email","phone","profession","description"]} label={""} styles={styles.left}/>          
-            <PDFSection list={info.skills} attributes={["description-rating"]} label={info.skillLabel} styles={styles.left}/>
+            <PDFSection
+              list={[info]}
+              attributes={["name", "email", "phone", "profession", "description"]}
+              label={""}
+              styles={styles.left}
+            />
+            <PDFSection
+              list={info.skills}
+              attributes={["description-rating"]}
+              label={info.skillLabel}
+              styles={styles.left}
+            />
           </View>
           <View style={styles.right.container}>
-            <PDFSection list={info.laboralExperiences} 
-                        attributes={["position","description","institution","location","startYear-finishYear"]}
-                        label={info.laboralExperienceLabel} styles={styles.right}
+            <PDFSection
+              list={info.laboralExperiences}
+              attributes={[
+                "position",
+                "description",
+                "institution",
+                "location",
+                "startYear-finishYear",
+              ]}
+              label={info.laboralExperienceLabel}
+              styles={styles.right}
             />
-            <PDFSection list={info.academicEducations} 
-                        attributes={["studies","institution","location","startYear-finishYear"]}
-                        label={info.academicEducationLabel} styles={styles.right}
+            <PDFSection
+              list={info.academicEducations}
+              attributes={["studies", "institution", "location", "startYear-finishYear"]}
+              label={info.academicEducationLabel}
+              styles={styles.right}
             />
-            <PDFSection list={info.technicalEducations} 
-                        attributes={["studies","institution","location","completionYear"]}
-                        label={info.technicalEducationLabel} styles={styles.right}
+            <PDFSection
+              list={info.technicalEducations}
+              attributes={["studies", "institution", "location", "completionYear"]}
+              label={info.technicalEducationLabel}
+              styles={styles.right}
             />
-            <PDFSection list={info.publications} attributes={["name-tag","institution","location","date"]} label={info.publicationLabel} styles={styles.right}/>
-            <PDFSection list={info.references} attributes={["name","institution","email","phone"]} label={info.referenceLabel} styles={styles.right}/>
+            <PDFSection
+              list={info.publications}
+              attributes={["name-tag", "institution", "location", "date"]}
+              label={info.publicationLabel}
+              styles={styles.right}
+            />
+            <PDFSection
+              list={info.references}
+              attributes={["name", "institution", "email", "phone"]}
+              label={info.referenceLabel}
+              styles={styles.right}
+            />
           </View>
         </View>
       </Page>
@@ -62,6 +94,11 @@ const CurriculumDocument = (props) => {
 }
 
 const PDFViewPage = () => {
+  const currentUser = useCurrentUser()
+
+  if (!currentUser) {
+    return <Redirect to={Routes.Home} />
+  }
   return (
     <div style={{ minHeight: "100vh" }}>
       <Suspense fallback={<CustomSpinner />}>

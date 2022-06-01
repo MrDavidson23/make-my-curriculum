@@ -1,9 +1,10 @@
-import { Suspense } from "react"
+import { Suspense, Redirect } from "react"
 import { Head, Link, usePaginatedQuery, useRouter, Routes, Router } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getTemplates from "app/templates/queries/getTemplates"
 import { Button, Grid, Typography } from "@mui/material"
 import CustomSpinner from "app/core/components/CustomSpinner"
+import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import TemplateList from "app/templates/components/TemplateList"
 
 const ITEMS_PER_PAGE = 100
@@ -42,7 +43,7 @@ export const TemplatesList = () => {
         justifyContent={"center"}
         sx={{ mx: "auto", width: "100%" }}
       >
-        <TemplateList/>
+        <TemplateList />
       </Grid>
 
       <button disabled={page === 0} onClick={goToPreviousPage}>
@@ -56,6 +57,10 @@ export const TemplatesList = () => {
 }
 
 const TemplatesPage = () => {
+  const currentUser = useCurrentUser()
+  if (!currentUser) {
+    return <Redirect to={Routes.Home} />
+  }
   return (
     <>
       <Head>
