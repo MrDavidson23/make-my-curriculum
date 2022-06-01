@@ -72,7 +72,7 @@ export const Preview = (props) => {
               createOrder={async () => {
                 try {
                   const res = await axios({
-                    url: "/app/api/payment",
+                    url: "/app/api/payment/payment",
                     method: "POST",
                     headers: {
                       "Content-Type": "application/json",
@@ -86,7 +86,6 @@ export const Preview = (props) => {
               onApprove={async (data, actions) => {
                 console.log(data)
                 actions.order.capture()
-                // insert in db
                 const values = {
                   userId: props.userId,
                   templateId: props.templateId,
