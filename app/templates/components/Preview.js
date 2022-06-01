@@ -1,10 +1,14 @@
+import { useMutation } from "blitz"
 import { Paper, Card, CardContent, Typography, Grid } from "@mui/material"
 import WorkspacePremiumIcon from "@mui/icons-material/WorkspacePremium"
+
+import createTemplateOnUser from "app/template-on-users/mutations/createTemplateOnUser"
 
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js"
 import axios from "axios"
 
 export const Preview = (props) => {
+  const [createTemplateOnUserMutation] = useMutation(createTemplateOnUser)
   // Calculates the distribution of rows for both sides
   const getDistribution = (percentage) => {
     return percentage > 0.5
@@ -79,9 +83,15 @@ export const Preview = (props) => {
                   console.log(error)
                 }
               }}
-              onApprove={(data, actions) => {
+              onApprove={async (data, actions) => {
                 console.log(data)
                 actions.order.capture()
+                // insert in db
+                const values = {
+                  userId: props.userId,
+                  templateId: props.templateId,
+                }
+                const template = await createTemplateOnUserMutation(values)
               }}
               style={{ layout: "vertical", color: "blue" }}
             />

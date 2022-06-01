@@ -80,7 +80,12 @@ const TemplateList = ({ onClick, showName }) => {
                       : onClick(template)
                   }
                 >
-                  <Preview {...getProps(template)} isPremium={checkPremiumTemplate(template)} />
+                  <Preview
+                    {...getProps(template)}
+                    isPremium={checkPremiumTemplate(template)}
+                    userId={currentUser.id}
+                    templateId={template.id}
+                  />
                 </Button>
               )}
               {/* Just the preview */}
