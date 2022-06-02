@@ -1,4 +1,4 @@
-import { Suspense, useState } from "react"
+import { Suspense, useState, Redirect } from "react"
 import { Head, Link, useRouter, useQuery, useMutation, useParam, Routes, useSession } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getCurriculum from "app/curricula/queries/getCurriculum"
@@ -22,6 +22,8 @@ import LaboralExperiencesPage from "app/pages/laboral-experiences/index"
 
 import { EditableTitleText } from "app/core/components/EditableTitleText"
 import CustomSpinner from "app/core/components/CustomSpinner"
+
+import TemplateList from "app/templates/components/TemplateList"
 
 export const EditCurriculum = () => {
   const [isLoading, setIsLoading] = useState(false)
@@ -200,8 +202,16 @@ export const EditCurriculum = () => {
             </Grid>
             <Grid item xs={12}>
               <Typography variant="h6" gutterBottom>
-                Templates
+                Seleccione una plantilla
               </Typography>
+              <Suspense fallback={<CustomSpinner />}>
+                <TemplateList showName={false} onClick={ async (template) => {
+                  if (curriculum.templateId !== template.id){
+                    curriculum.templateId = template.id
+                    await submitChange()
+                  }
+                }}/>
+              </Suspense>
             </Grid>
           </Grid>
         </Grid>
@@ -211,6 +221,11 @@ export const EditCurriculum = () => {
 }
 
 const EditCurriculumPage = () => {
+  const currentUser = useCurrentUser()
+
+  if (!currentUser) {
+    return <Redirect to={Routes.Home} />
+  }
   return (
     <div>
       <Suspense fallback={<CustomSpinner />}>

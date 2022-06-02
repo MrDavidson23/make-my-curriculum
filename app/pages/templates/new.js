@@ -1,4 +1,4 @@
-import { Link, useRouter, useMutation, Routes } from "blitz"
+import { Link, useRouter, useMutation, Routes, Redirect } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import createTemplate from "app/templates/mutations/createTemplate"
 import { CreateTemplate } from "app/templates/components/validations"
@@ -8,95 +8,96 @@ import { EditablePreview } from "app/templates/components/EditablePreview"
 import { useState } from "react"
 
 const NewTemplatePage = () => {
+
   const currentUser = useCurrentUser()
   const router = useRouter()
   const [createTemplateMutation] = useMutation(createTemplate)
+
   const [premium,setPremium] = useState(false)
   const [name,setName] = useState("Plantilla")
   const [leftStyles,setLeftStyles] = useState(
     {container: {
       backgroundColor: "#3A298F",
-      width: 300
-      },
-      text: {
-        fontSize: "12pt",
-        color: "#FAF6F6",
-        fontFamily: "Lato",
-        fontWeight: "normal"
-      },
-      title: {
-        fontSize: "16pt",
-        color: "#FAF6F6",
-        fontFamily: "Lato",
-        fontWeight: "bold"
-      }
-    })
-  const [rightStyles,setRightStyles] = useState(
-    {container: {
+      width: 300,
+    },
+    text: {
+      fontSize: "12pt",
+      color: "#FAF6F6",
+      fontFamily: "Lato",
+      fontWeight: "normal",
+    },
+    title: {
+      fontSize: "16pt",
+      color: "#FAF6F6",
+      fontFamily: "Lato",
+      fontWeight: "bold",
+    },
+  })
+  const [rightStyles, setRightStyles] = useState({
+    container: {
       backgroundColor: "#FAF6F6",
-      },
-      text: {
-        fontSize: "12pt",
-        fontFamily: "Lato",
-        color: "#000000",
-        fontWeight: "normal"
-      },
-      title: {
-        fontSize: "16pt",
-        fontFamily: "Lato",
-        color: '#DB5461',
-        fontWeight: "bold"
-      },
-    })
+    },
+    text: {
+      fontSize: "12pt",
+      fontFamily: "Lato",
+      color: "#000000",
+      fontWeight: "normal",
+    },
+    title: {
+      fontSize: "16pt",
+      fontFamily: "Lato",
+      color: "#DB5461",
+      fontWeight: "bold",
+    },
+  })
   const defaultPercentage = 50
-  const [percentage,setPercentage] = useState(defaultPercentage)
+  const [percentage, setPercentage] = useState(defaultPercentage)
   const newTemplate = async () => {
-  
     const left = {
-      "container": {
+      container: {
         ...leftStyles.container,
-        "paddingTop": 30,
-        "paddingLeft": 15,
-        "paddingRight": 15,
-        "flexDirection": "column",
+        paddingTop: 30,
+        paddingLeft: 15,
+        paddingRight: 15,
+        flexDirection: "column",
         "@media max-width: 400": {
-            "width": "100%",
-            "paddingRight": 0
+          width: "100%",
+          paddingRight: 0,
         },
         "@media orientation: landscape": {
-            "width": 300
-        }
+          width: 300,
+        },
       },
-      text:leftStyles.text,
-      title:leftStyles.title
+      text: leftStyles.text,
+      title: leftStyles.title,
     }
 
     const right = {
-      "container": {
+      container: {
         ...rightStyles.container,
-        "paddingTop": 30,
-        "paddingLeft": 10,
-        "paddingRight": 15,
+        paddingTop: 30,
+        paddingLeft: 10,
+        paddingRight: 15,
         "@media max-width: 400": {
-            "width": "100%",
-            "paddingRight": 0
-        }
+          width: "100%",
+          paddingRight: 0,
+        },
       },
       text: rightStyles.text,
-      title: rightStyles.title
+      title: rightStyles.title,
     }
 
     const design = {
-      "container": {
-        "flex": 1,
-        "margin": "2px",
-        "flexDirection": "row",
+      container: {
+        flex: 1,
+        margin: "2px",
+        flexDirection: "row",
         "@media max-width: 400": {
-            "flexDirection": "column"
-        }
+          flexDirection: "column",
+        },
       },
-      left:left,
-      right:right
+      left: left,
+      right: right,
     }
 
     const values = {design:(JSON.parse(JSON.stringify(design))),name:name,isPremium:premium}
@@ -109,7 +110,10 @@ const NewTemplatePage = () => {
     } catch (error) {
       console.error(error)
     }
-    
+  }
+
+  if (!currentUser) {
+    return <Redirect to={Routes.Home} />
   }
 
   return (
@@ -141,17 +145,18 @@ const NewTemplatePage = () => {
         premium={premium}
         setPremium={setPremium}
         submitText={"Crear Plantilla"}
-        onClickSubmit={async ()=>{await newTemplate()}}
+        onClickSubmit={ async () =>{
+          await newTemplate()
+        }}
       />
 
-      <Grid item xs={12}>
-        <p>
-          <Link href={Routes.TemplatesPage()}>
-            <Button variant="outlined"> Regresar </Button>
-          </Link>
-        </p>
-      </Grid>
-
+        <Grid item xs={12}>
+          <p>
+            <Link href={Routes.TemplatesPage()}>
+              <Button variant="outlined"> Regresar </Button>
+            </Link>
+          </p>
+        </Grid>
       </Grid>
     </div>
   )

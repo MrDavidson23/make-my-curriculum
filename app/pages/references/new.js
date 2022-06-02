@@ -1,8 +1,8 @@
-import { Link, useRouter, useMutation, useRouterQuery, Routes } from "blitz"
+import { Link, useRouter, useMutation, useRouterQuery, Routes, Redirect } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import { ReferenceForm, FORM_ERROR } from "app/references/components/ReferenceForm"
-
-import { Button, Grid, Typography} from "@mui/material"
+import { useCurrentUser } from "app/core/hooks/useCurrentUser"
+import { Button, Grid, Typography } from "@mui/material"
 import { CreateReferenceValidation } from "app/references/components/validaciones"
 import createReference from "app/references/mutations/createReference"
 import createReferenceOnCurriculum from "app/reference-on-curricula/mutations/createReferenceOnCurriculum"
@@ -11,11 +11,15 @@ const NewReferencePage = () => {
   const { curriculumId } = useRouterQuery()
   const [createReferenceMutation] = useMutation(createReference)
   const [createReferenceOnCurriculumMutation] = useMutation(createReferenceOnCurriculum)
-  
-  const returnPage = (
-    curriculumId !== '' ?
-      Routes.EditCurriculumPage({ curriculumId }) : Routes.ReferencesPage()
-  )
+
+  const returnPage =
+    curriculumId !== "" ? Routes.EditCurriculumPage({ curriculumId }) : Routes.ReferencesPage()
+
+  const currentUser = useCurrentUser()
+
+  if (!currentUser) {
+    return <Redirect to={Routes.Home} />
+  }
 
   return (
     <div>

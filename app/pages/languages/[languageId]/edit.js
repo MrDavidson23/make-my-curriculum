@@ -1,4 +1,4 @@
-import { Suspense } from "react"
+import { Suspense, Redirect } from "react"
 import { Head, Link, useRouter, useQuery, useMutation, useParam, Routes } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getLanguage from "app/languages/queries/getLanguage"
@@ -6,6 +6,7 @@ import updateLanguage from "app/languages/mutations/updateLanguage"
 import { LanguageForm, FORM_ERROR } from "app/languages/components/LanguageForm"
 import { UpdateLanguage } from "app/languages/components/validations"
 import CustomSpinner from "app/core/components/CustomSpinner"
+import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 
 export const EditLanguage = () => {
   const router = useRouter()
@@ -63,6 +64,11 @@ export const EditLanguage = () => {
 }
 
 const EditLanguagePage = () => {
+  const currentUser = useCurrentUser()
+
+  if (!currentUser || currentUser.role != "ADMIN") {
+    return <Redirect to={Routes.Home} />
+  }
   return (
     <div>
       <Suspense fallback={<CustomSpinner />}>
