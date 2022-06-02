@@ -94,7 +94,7 @@ export const EditablePreview = (props) => {
             <Divider style={style.hr}/>
             <Grid container direction="row">
             <Grid item xs={12}>
-                <Typography component="div" gutterBottom color="secondary">
+                <Typography variant="h6" component="div" gutterBottom>
                     Título
                 </Typography>
             </Grid>
@@ -158,7 +158,7 @@ export const EditablePreview = (props) => {
             <Divider style={style.hr}/>
             <Grid container direction="row">
             <Grid item xs={12}>
-                <Typography component="div" gutterBottom color="secondary">
+                <Typography variant="h6" component="div" gutterBottom>
                     Texto
                 </Typography>
             </Grid>
@@ -221,6 +221,11 @@ export const EditablePreview = (props) => {
             </Grid>
             <Divider style={style.hr}/>
             <Grid container direction="row">
+                <Grid item xs={12}>
+                    <Typography variant="h6" component="div" gutterBottom>
+                        Color del fondo
+                    </Typography>
+                </Grid>
                 <Grid item xs={6}>
                 <ColorPicker
                     labelId="backgroundLeft"
@@ -242,6 +247,7 @@ export const EditablePreview = (props) => {
                 />
                 </Grid>
             </Grid>
+            <Divider style={style.hr}/>
             <Grid container direction="row" justifyContent="center" >
                 <Grid item xs={8}>
                     <Typography variant="h6" component="div" gutterBottom> Distribucción </Typography>
@@ -260,7 +266,7 @@ export const EditablePreview = (props) => {
                     />
                 </Grid>
             </Grid>
-            { userRole && userRole === "ADMIN" && (
+            { userRole && userRole === "ADMIN" && premium !== undefined && setPremium !== undefined && (
                  <Grid container direction="row">
                     <Grid item xs={12}>
                         <InputLabel id={"premium"}>{"Premium"}</InputLabel>

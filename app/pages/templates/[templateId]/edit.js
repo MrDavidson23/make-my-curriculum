@@ -1,31 +1,20 @@
-import { Suspense, Redirect } from "react"
-import { Head, Link, useRouter, useQuery, useMutation, useParam, Routes } from "blitz"
+import { Suspense } from "react"
+import { Head, Link, useRouter, useQuery, useMutation, useParam, Routes  } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getTemplate from "app/templates/queries/getTemplate"
 import updateTemplate from "app/templates/mutations/updateTemplate"
 import { UpdateTemplate } from "app/templates/components/validations"
 import CustomSpinner from "app/core/components/CustomSpinner"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
-import { Grid, Button, Typography, Slider } from "@mui/material"
+import { Grid, Button, Typography } from "@mui/material"
 import { EditablePreview } from "app/templates/components/EditablePreview"
 import { useState } from "react"
 
-export const EditTemplate = () => {
-  const router = useRouter()
-  const templateId = useParam("templateId", "number")
-  const [template, { setQueryData }] = useQuery(
-    getTemplate,
-    {
-      id: templateId,
-    },
-    {
-      // This ensures the query never refreshes and overwrites the form data while the user is editing.
-      staleTime: Infinity,
-    }
-  )
+export const EditTemplate = ({template}) => {
 
   const initialPercentage = template.design.left.container.width / 6
 
+  const router = useRouter()
   const [name, setName] = useState(template.name)
   const [leftStyles, setLeftStyles] = useState(template.design.left)
   const [rightStyles, setRightStyles] = useState(template.design.right)
@@ -40,7 +29,7 @@ export const EditTemplate = () => {
     values.design.right = rightStyles
     try {
       const template = await updateTemplateMutation({
-        id: templateId,
+        id: template.id,
         ...values,
       })
       router.push(
@@ -50,6 +39,8 @@ export const EditTemplate = () => {
       console.error(error)
     }
   }
+
+  
 
   return (
     <>
@@ -91,10 +82,29 @@ export const EditTemplate = () => {
 }
 
 const EditTemplatePage = () => {
+
   const currentUser = useCurrentUser()
+  const router = useRouter()
+  const templateId = useParam("templateId", "number")
+  const [template, { setQueryData }] = useQuery(
+    getTemplate,
+    {
+      id: templateId,
+    },
+    {
+      // This ensures the query never refreshes and overwrites the form data while the user is editing.
+      staleTime: Infinity,
+    }
+  )
+
   if (!currentUser) {
-    return <Redirect to={Routes.Home} />
+    router.push(Routes.Home())
+    return (<></>)
+  }else if(currentUser.role !== 'ADMIN' && template.userId !== currentUser.id){
+    router.push(Routes.TemplatesPage())
+    return (<></>)
   }
+
   return (
     <div>
       <Grid
@@ -105,7 +115,7 @@ const EditTemplatePage = () => {
         sx={{ mx: "auto", width: "100%" }}
       >
         <Suspense fallback={<CustomSpinner />}>
-          <EditTemplate />
+          <EditTemplate template={template}/>
         </Suspense>
 
         <Grid item xs={12}>

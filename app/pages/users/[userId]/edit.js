@@ -1,5 +1,5 @@
-import { Suspense, Redirect } from "react"
-import { Head, Link, useQuery, useParam, Routes } from "blitz"
+import { Suspense } from "react"
+import { Head, Link, useQuery, useParam, Routes, useRouter } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getUser from "app/users/queries/getUser"
 import { UserForm } from "app/users/components/UserForm"
@@ -18,6 +18,7 @@ export const EditUser = () => {
       staleTime: Infinity,
     }
   )
+
   return (
     <>
       <Head>
@@ -30,11 +31,15 @@ export const EditUser = () => {
 }
 
 const EditUserPage = () => {
-  const currentUser = useCurrentUser()
 
-  if (!currentUser) {
-    return <Redirect to={Routes.Home} />
+  const router = useRouter()
+  const currentUser = useCurrentUser()
+  const userId = useParam("userId", "number")
+  if (!currentUser || (currentUser.role !== "ADMIN" && currentUser.id !== userId)) {
+    router.push(Routes.Home())
+    return (<></>)
   }
+
   return (
     <>
       <Suspense fallback={<CustomSpinner />}>

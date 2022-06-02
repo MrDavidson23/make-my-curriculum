@@ -52,11 +52,15 @@ export const User = () => {
 }
 
 const ShowUserPage = () => {
+  
+  const router = useRouter()
   const currentUser = useCurrentUser()
-
-  if (!currentUser) {
-    return <Redirect to={Routes.Home} />
+  const userId = useParam("userId", "number")
+  if (!currentUser || (currentUser.role !== "ADMIN" && currentUser.id !== userId)) {
+    router.push(Routes.Home())
+    return (<></>)
   }
+
   return (
     <div>
       <p>
