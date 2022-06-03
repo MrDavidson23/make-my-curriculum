@@ -108,7 +108,7 @@ const NewTemplatePage = () => {
     } catch (error) {
       console.error(error)
     }
-  }
+     }
 
   const currentUser = useCurrentUser()
 
