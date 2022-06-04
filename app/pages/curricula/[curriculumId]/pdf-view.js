@@ -1,65 +1,17 @@
-import { Suspense } from "react"
-import { Head, Link, useRouter, useQuery, useMutation, useParam, Routes, Router } from "blitz"
+import { Suspense, Redirect } from "react"
+import { useQuery, useParam } from "blitz"
 import getCurriculum from "app/curricula/queries/getAllCurriculum"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import Layout from "app/core/layouts/Layout"
-import { Document, Page, Text, View, StyleSheet } from "@react-pdf/renderer"
-import { PDFViewer } from "@react-pdf/renderer"
 
-import Skills from "app/curricula/components/structure/skills"
-import Experiences from "app/curricula/components/structure/experience"
-import AcademicEducations from "app/curricula/components/structure/academicEducations"
-import TechnicalEducations from "app/curricula/components/structure/technicalEducations"
-import Publications from "app/curricula/components/structure/publications"
-import References from "app/curricula/components/structure/references"
+import { Document, Page, PDFViewer, View } from "@react-pdf/renderer"
+
+import PDFSection from "app/curricula/components/PDFSection"
 import CustomSpinner from "app/core/components/CustomSpinner"
+import getTemplate from "app/templates/queries/getTemplate"
+import FontRegister from "app/core/components/FontRegister"
 
-// Create styles
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: "row",
-    "@media max-width: 400": {
-      flexDirection: "column",
-    },
-    margin: "2px",
-  },
-  leftColumn: {
-    flexDirection: "column",
-    width: 170,
-    paddingTop: 30,
-    paddingRight: 15,
-    paddingLeft: 15,
-    "@media max-width: 400": {
-      width: "100%",
-      paddingRight: 0,
-    },
-    "@media orientation: landscape": {
-      width: 200,
-    },
-    backgroundColor: "#3A298F",
-    color: "#FAF6F6",
-  },
-  rightColumn: {
-    paddingTop: 30,
-    paddingRight: 15,
-    paddingLeft: 10,
-    "@media max-width: 400": {
-      width: "100%",
-      paddingRight: 0,
-    },
-    backgroundColor: "#FAF6F6",
-  },
-  title: {
-    fontSize: "16pt",
-    fontWeight: "bold",
-  },
-  text: {
-    fontSize: "12pt",
-    margin: "10px",
-    lineHeight: 1.6,
-  },
-})
+FontRegister()
 
 const GetInfo = () => {
   const currentUser = useCurrentUser()
@@ -67,58 +19,72 @@ const GetInfo = () => {
   const [curriculum] = useQuery(getCurriculum, {
     id: curriculumId,
   })
+  const [template] = useQuery(getTemplate, {
+    id: curriculum.templateId,
+  })
+  curriculum.template = template
   const { role, userId, ...user } = currentUser
   const { name, ...info } = curriculum
   return { ...info, ...user }
 }
-const PersonalInfo = (props) => {
-  const { info } = props
-  return (
-    <View style={styles.text}>
-      <Text>{info.name + " " + info.lastName} </Text>
-      <Text>{info.email} </Text>
-      <Text>{info.phone} </Text>
-      <Text>{info.profession}</Text>
-      <Text>{info.description}</Text>
-    </View>
-  )
-}
+
 const CurriculumDocument = (props) => {
   const info = props.curriculum
-  const text = styles.text
+  const styles = props.curriculum.template.design
   return (
     <Document>
       <Page size="A4">
         <View style={styles.container}>
-          <View style={styles.leftColumn}>
-            <PersonalInfo info={info} />
-            <Skills skills={info.skills} label={info.skillLabel} styles={styles} />
+          <View style={styles.left.container}>
+            <PDFSection
+              list={[info]}
+              attributes={["name", "email", "phone", "profession", "description"]}
+              label={""}
+              styles={styles.left}
+            />
+            <PDFSection
+              list={info.skills}
+              attributes={["description-rating"]}
+              label={info.skillLabel}
+              styles={styles.left}
+            />
           </View>
-          <View style={styles.rightColumn}>
-            <Experiences
-              experiences={info.laboralExperiences}
+          <View style={styles.right.container}>
+            <PDFSection
+              list={info.laboralExperiences}
+              attributes={[
+                "position",
+                "description",
+                "institution",
+                "location",
+                "startYear-finishYear",
+              ]}
               label={info.laboralExperienceLabel}
-              styles={{ text }}
+              styles={styles.right}
             />
-            <AcademicEducations
-              academicEducations={info.academicEducations}
+            <PDFSection
+              list={info.academicEducations}
+              attributes={["studies", "institution", "location", "startYear-finishYear"]}
               label={info.academicEducationLabel}
-              styles={{ text }}
+              styles={styles.right}
             />
-            <TechnicalEducations
-              technicalEducations={info.technicalEducations}
+            <PDFSection
+              list={info.technicalEducations}
+              attributes={["studies", "institution", "location", "completionYear"]}
               label={info.technicalEducationLabel}
-              styles={{ text }}
+              styles={styles.right}
             />
-            <Publications
-              publications={info.publications}
+            <PDFSection
+              list={info.publications}
+              attributes={["name-tag", "institution", "location", "date"]}
               label={info.publicationLabel}
-              styles={{ text }}
+              styles={styles.right}
             />
-            <References
-              references={info.references}
+            <PDFSection
+              list={info.references}
+              attributes={["name", "institution", "email", "phone"]}
               label={info.referenceLabel}
-              styles={{ text }}
+              styles={styles.right}
             />
           </View>
         </View>
@@ -128,6 +94,11 @@ const CurriculumDocument = (props) => {
 }
 
 const PDFViewPage = () => {
+  const currentUser = useCurrentUser()
+
+  if (!currentUser) {
+    return <Redirect to={Routes.Home} />
+  }
   return (
     <div style={{ minHeight: "100vh" }}>
       <Suspense fallback={<CustomSpinner />}>

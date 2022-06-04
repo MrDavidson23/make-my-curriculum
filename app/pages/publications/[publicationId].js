@@ -1,9 +1,10 @@
-import { Suspense } from "react"
+import { Suspense, Redirect } from "react"
 import { Head, Link, useRouter, useQuery, useParam, useMutation, Routes } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getPublication from "app/publications/queries/getPublication"
 import deletePublication from "app/publications/mutations/deletePublication"
 import CustomSpinner from "app/core/components/CustomSpinner"
+import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 export const Publication = () => {
   const router = useRouter()
   const publicationId = useParam("publicationId", "number")
@@ -51,6 +52,11 @@ export const Publication = () => {
 }
 
 const ShowPublicationPage = () => {
+  const currentUser = useCurrentUser()
+
+  if (!currentUser) {
+    return <Redirect to={Routes.Home} />
+  }
   return (
     <div>
       <p>

@@ -1,21 +1,26 @@
-import { Link, useRouter, useMutation, useRouterQuery, Routes } from "blitz"
+import { Link, useRouter, useMutation, useRouterQuery, Routes, Redirect } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import createPublication from "app/publications/mutations/createPublication"
 import createPublicationOnCurriculum from "app/publication-on-curricula/mutations/createPublicationOnCurriculum"
 import { PublicationForm, FORM_ERROR } from "app/publications/components/PublicationForm"
 import { Grid, Button, Typography } from "@mui/material"
 import { CreatePublication } from "app/publications/components/validations"
+import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 
 const NewPublicationPage = () => {
   const router = useRouter()
   const { curriculumId } = useRouterQuery()
   const [createPublicationMutation] = useMutation(createPublication)
   const [createPublicationOnCurriculumMutation] = useMutation(createPublicationOnCurriculum)
-  
-  const returnPage = (
-    curriculumId !== '' ?
-      Routes.EditCurriculumPage({ curriculumId }) : Routes.PublicationsPage()
-  )
+
+  const returnPage =
+    curriculumId !== "" ? Routes.EditCurriculumPage({ curriculumId }) : Routes.PublicationsPage()
+
+  const currentUser = useCurrentUser()
+
+  if (!currentUser) {
+    return <Redirect to={Routes.Home} />
+  }
 
   return (
     <div>

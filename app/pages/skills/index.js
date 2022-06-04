@@ -1,4 +1,4 @@
-import { Suspense, useEffect, useState } from "react"
+import { Suspense, useEffect, useState, Redirect } from "react"
 import { Head, Link, usePaginatedQuery, useRouter, Routes, useMutation } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getSkills from "app/skills/queries/getSkills"
@@ -6,6 +6,7 @@ import deleteSkill from "app/skills/mutations/deleteSkill"
 import deleteSkillOnCurriculum from "app/skill-on-curricula/mutations/deleteSkillOnCurriculum"
 import deleteSkillInAllCurriculums from "app/skill-on-curricula/mutations/deleteAllSkilOnCurriculum"
 import createSkillOnCurriculum from "app/skill-on-curricula/mutations/createSkillOnCurriculum"
+import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import { Grid, Button, Chip, Select, MenuItem, InputLabel, FormControl } from "@mui/material"
 import CustomSpinner from "app/core/components/CustomSpinner"
 import Swal from "sweetalert2"
@@ -69,10 +70,13 @@ export const SkillsList = (props) => {
 
   const handleOnDelete = async (id) => {
     Swal.fire({
-      title: "La habilidad se eliminará, esta seguro?",
-      showDenyButton: true,
+      title: props.onCurriculum
+        ? "¿La habilidad se excluirá de este curriculum, esta seguro?"
+        : "¿La habilidad se eliminará, esta seguro?",
+      showCancelButton: true,
       confirmButtonText: "Eliminar",
-      denyButtonText: `No eliminar`,
+      cancelButtonText: `No eliminar`,
+      cancelButtonColor: "#d33",
     }).then(async (result) => {
       if (result.isConfirmed) {
         Swal.fire("La habilidad se elimino", "", "info")
@@ -94,7 +98,7 @@ export const SkillsList = (props) => {
           })
           router.push(Routes.SkillsPage())
         }
-      } else if (result.isDenied) {
+      } else {
         Swal.fire("La habilidad no se elimino", "", "info")
       }
     })
@@ -155,6 +159,10 @@ export const SkillsList = (props) => {
 }
 
 const SkillsPage = (props) => {
+  const currentUser = useCurrentUser()
+  if (!currentUser) {
+    return <Redirect to={Routes.Home} />
+  }
   return (
     <>
       <div>

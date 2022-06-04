@@ -1,4 +1,4 @@
-import { Suspense, useState, useEffect } from "react"
+import { Suspense, useState, useEffect, Redirect } from "react"
 import { Head, Link, usePaginatedQuery, useRouter, Routes, useMutation, Router } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getReferences from "app/references/queries/getReferences"
@@ -7,6 +7,7 @@ import deleteReferenceOnCurriculum from "app/reference-on-curricula/mutations/de
 import deleteAllReferenceOnCurriculum from "app/reference-on-curricula/mutations/deleteAllReferenceOnCurriculum"
 import createReferenceOnCurriculum from "app/reference-on-curricula/mutations/createReferenceOnCurriculum"
 import InformationCard from "app/core/components/InformationCard"
+import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import { Grid, Button, Chip, Select, MenuItem, InputLabel, FormControl } from "@mui/material"
 import CustomSpinner from "app/core/components/CustomSpinner"
 import Swal from "sweetalert2"
@@ -70,10 +71,13 @@ export const ReferencesList = (props) => {
 
   const handleOnDelete = async (id) => {
     Swal.fire({
-      title: "La referencia se eliminará, esta seguro?",
-      showDenyButton: true,
+      title: props.onCurriculum
+        ? "¿La referencia se excluirá de este curriculum, esta seguro?"
+        : "¿La referencia se eliminará, esta seguro?",
+      showCancelButton: true,
       confirmButtonText: "Eliminar",
-      denyButtonText: `No eliminar`,
+      cancelButtonText: `No eliminar`,
+      cancelButtonColor: "#d33",
     }).then(async (result) => {
       if (result.isConfirmed) {
         Swal.fire("La referencia se elimino", "", "info")
@@ -95,7 +99,7 @@ export const ReferencesList = (props) => {
           setReferencesList(newReferences)
           router.push(Routes.ReferencesPage())
         }
-      } else if (result.isDenied) {
+      } else {
         Swal.fire("La referencia no se elimino", "", "info")
       }
     })
@@ -164,6 +168,10 @@ export const ReferencesList = (props) => {
 }
 
 const ReferencesPage = (props) => {
+  const currentUser = useCurrentUser()
+  if (!currentUser) {
+    return <Redirect to={Routes.Home} />
+  }
   return (
     <>
       <div>

@@ -1,8 +1,9 @@
-import { Suspense } from "react"
+import { Suspense, Redirect } from "react"
 import { Head, Link, usePaginatedQuery, useRouter, Routes } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getLanguages from "app/languages/queries/getLanguages"
 import CustomSpinner from "app/core/components/CustomSpinner"
+import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 const ITEMS_PER_PAGE = 100
 export const LanguagesList = () => {
   const router = useRouter()
@@ -56,12 +57,17 @@ export const LanguagesList = () => {
 }
 
 const LanguagesPage = () => {
+  const currentUser = useCurrentUser()
+
+  if (!currentUser || currentUser.role != "ADMIN") {
+    return <Redirect to={Routes.Home} />
+  }
+
   return (
     <>
       <Head>
         <title>Languages</title>
       </Head>
-
       <div>
         <p>
           <Link href={Routes.NewLanguagePage()}>

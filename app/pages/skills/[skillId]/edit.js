@@ -1,4 +1,4 @@
-import { Suspense } from "react"
+import { Suspense, Redirect } from "react"
 import {
   Head,
   Link,
@@ -18,7 +18,7 @@ import createSkillOnCurriculum from "app/skill-on-curricula/mutations/createSkil
 import deleteSkillOnCurriculum from "app/skill-on-curricula/mutations/deleteSkillOnCurriculum"
 import { UpdateSkill } from "app/skills/components/validations"
 import { Grid, Button, Typography } from "@mui/material"
-
+import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import { SkillForm, FORM_ERROR } from "app/skills/components/SkillForm"
 import CustomSpinner from "app/core/components/CustomSpinner"
 export const EditSkill = () => {
@@ -113,6 +113,11 @@ const EditSkillPage = () => {
         skillId,
       })
     }
+  }
+
+  const currentUser = useCurrentUser()
+  if (!currentUser) {
+    return <Redirect to={Routes.Home} />
   }
   return (
     <div>

@@ -1,6 +1,7 @@
-import { Suspense, useState, useEffect } from "react"
+import { Suspense, useState, useEffect, Redirect } from "react"
 import { Head, Link, usePaginatedQuery, useRouter, Routes, useMutation } from "blitz"
 import Layout from "app/core/layouts/Layout"
+import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import getAcademicEducations from "app/academic-educations/queries/getAcademicEducations"
 import deleteAcademicEducation from "app/academic-educations/mutations/deleteAcademicEducation"
 import deleteAcademicEducationOnCurriculum from "app/academic-education-on-curricula/mutations/deleteAcademicEducationOnCurriculum"
@@ -81,10 +82,13 @@ export const AcademicEducationsList = (props) => {
 
   const handleOnDeleteAcademicEducation = async (id) => {
     Swal.fire({
-      title: "La educación acádemica se eliminará, esta seguro?",
-      showDenyButton: true,
+      title: props.onCurriculum
+        ? "¿La educación academica se excluirá de este curriculum, esta seguro?"
+        : "¿La educación academica se eliminará, esta seguro?",
+      showCancelButton: true,
       confirmButtonText: "Eliminar",
-      denyButtonText: `No eliminar`,
+      cancelButtonText: `No eliminar`,
+      cancelButtonColor: "#d33",
     }).then(async (result) => {
       if (result.isConfirmed) {
         Swal.fire("La educación acádemica se elimino", "", "info")
@@ -111,7 +115,7 @@ export const AcademicEducationsList = (props) => {
           })
           router.push(Routes.AcademicEducationsPage())
         }
-      } else if (result.isDenied) {
+      } else {
         Swal.fire("La educación acádemica no se elimino", "", "info")
       }
     })
@@ -185,6 +189,10 @@ export const AcademicEducationsList = (props) => {
 }
 
 const AcademicEducationsPage = (props) => {
+  const currentUser = useCurrentUser()
+  if (!currentUser) {
+    return <Redirect to={Routes.Home} />
+  }
   return (
     <>
       <div>

@@ -1,4 +1,4 @@
-import { Suspense, useState, useEffect } from "react"
+import { Suspense, useState, useEffect, Redirect } from "react"
 import { Head, Link, usePaginatedQuery, useRouter, Routes, useMutation } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getTechnicalEducations from "app/technical-educations/queries/getTechnicalEducations"
@@ -7,7 +7,8 @@ import deleteTechnicalEducationOnCurriculum from "app/technical-education-on-cur
 import deleteAllTechnicalEducationOnCurriculum from "app/technical-education-on-curricula/mutations/deleteAllTechnicalEducationOnCurriculum"
 import createTechnicalEducationOnCurriculum from "app/technical-education-on-curricula/mutations/createTechnicalEducationOnCurriculum"
 import InformationCard from "app/core/components/InformationCard"
-import { Grid, Button, Select, MenuItem, InputLabel, FormControl } from "@mui/material"
+import { useCurrentUser } from "app/core/hooks/useCurrentUser"
+import { Grid, Button, Chip, Select, MenuItem, InputLabel, FormControl } from "@mui/material"
 import CustomSpinner from "app/core/components/CustomSpinner"
 import Swal from "sweetalert2"
 const ITEMS_PER_PAGE = 100
@@ -81,10 +82,13 @@ export const TechnicalEducationsList = (props) => {
 
   const handleOnDelete = async (id) => {
     Swal.fire({
-      title: "La educación técnica se eliminará, esta seguro?",
-      showDenyButton: true,
+      title: props.onCurriculum
+        ? "¿La educación técnica se excluirá de este curriculum, esta seguro?"
+        : "¿La educación técnica se eliminará, esta seguro?",
+      showCancelButton: true,
       confirmButtonText: "Eliminar",
-      denyButtonText: `No eliminar`,
+      cancelButtonText: `No eliminar`,
+      cancelButtonColor: "#d33",
     }).then(async (result) => {
       if (result.isConfirmed) {
         Swal.fire("La educación técnica se elimino", "", "info")
@@ -116,7 +120,7 @@ export const TechnicalEducationsList = (props) => {
           setTechnicalEducationsList(newTechnicalEducations)
           router.push(Routes.TechnicalEducationsPage())
         }
-      } else if (result.isDenied) {
+      } else {
         Swal.fire("La educación técnica no se elimino", "", "info")
       }
     })
@@ -186,6 +190,10 @@ export const TechnicalEducationsList = (props) => {
 }
 
 const TechnicalEducationsPage = (props) => {
+  const currentUser = useCurrentUser()
+  if (!currentUser) {
+    return <Redirect to={Routes.Home} />
+  }
   return (
     <>
       <div>

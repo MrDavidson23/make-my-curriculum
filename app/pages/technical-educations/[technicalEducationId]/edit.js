@@ -1,4 +1,4 @@
-import { Suspense } from "react"
+import { Suspense, Redirect } from "react"
 import {
   Head,
   Link,
@@ -18,6 +18,7 @@ import createTechnicalEducationOnCurriculumMutation from "app/technical-educatio
 import deleteTechnicalEducationOnCurriculumMutation from "app/technical-education-on-curricula/mutations/deleteTechnicalEducationOnCurriculum"
 import { UpdateTechnicalEducation } from "app/technical-educations/components/validations"
 import { Grid, Button, Typography } from "@mui/material"
+import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 
 import {
   TechnicalEducationForm,
@@ -39,6 +40,7 @@ export const EditTechnicalEducation = () => {
     }
   )
   const [updateTechnicalEducationMutation] = useMutation(updateTechnicalEducation)
+
   return (
     <>
       <Head>
@@ -121,6 +123,10 @@ const EditTechnicalEducationPage = () => {
         technicalEducationId,
       })
     }
+  }
+  const currentUser = useCurrentUser()
+  if (!currentUser) {
+    return <Redirect to={Routes.Home} />
   }
   return (
     <div>

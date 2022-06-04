@@ -43,10 +43,11 @@ const CurriculumList = ({
                 }}
                 handleOnDelete={async () => {
                   Swal.fire({
-                    title: "El curriculum se eliminará, esta seguro?",
-                    showDenyButton: true,
+                    title: "¿El curriculum se eliminará, esta seguro?",
+                    showCancelButton: true,
                     confirmButtonText: "Eliminar",
-                    denyButtonText: `No eliminar`,
+                    cancelButtonText: `No eliminar`,
+                    cancelButtonColor: "#d33",
                   }).then(async (result) => {
                     if (result.isConfirmed) {
                       Swal.fire("El curriculum se elimino", "", "info")
@@ -54,7 +55,7 @@ const CurriculumList = ({
                         id: curriculum.id,
                       })
                       router.reload()
-                    } else if (result.isDenied) {
+                    } else {
                       Swal.fire("El curriculum no se elimino", "", "info")
                     }
                   })

@@ -1,12 +1,12 @@
-//crear archivo de validaciones, y en los otros lugares donde esta createreferece, eliminamos el import, y apretamos control + espacio para importalro de nuevo
-
 import { z } from "zod"
+
+const max = 50
+
 export const CreateReferenceValidation = z.object({
-  name: z.string(), //
+  name: z.string().min(1).max(max), //
   email: z.string().email(), //
-  phone: z.string(),
-  name: z.string(),
-  institution: z.string(),
+  phone: z.string().min(1).max(max),
+  institution: z.string().min(1).max(max),
 })
 
 export const UpdateReferenceValidation = CreateReferenceValidation.extend({

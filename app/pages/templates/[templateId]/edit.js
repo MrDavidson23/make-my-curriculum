@@ -1,11 +1,14 @@
-import { Suspense } from "react"
+import { Suspense, Redirect } from "react"
 import { Head, Link, useRouter, useQuery, useMutation, useParam, Routes } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getTemplate from "app/templates/queries/getTemplate"
 import updateTemplate from "app/templates/mutations/updateTemplate"
-import { TemplateForm, FORM_ERROR } from "app/templates/components/TemplateForm"
 import { UpdateTemplate } from "app/templates/components/validations"
 import CustomSpinner from "app/core/components/CustomSpinner"
+import { useCurrentUser } from "app/core/hooks/useCurrentUser"
+import { Grid, Button, Typography, Slider } from "@mui/material"
+import { EditablePreview } from "app/templates/components/EditablePreview"
+import { useState } from "react"
 
 export const EditTemplate = () => {
   const router = useRouter()
@@ -20,60 +23,101 @@ export const EditTemplate = () => {
       staleTime: Infinity,
     }
   )
+
+  const initialPercentage = template.design.left.container.width / 6
+
+  const [name, setName] = useState(template.name)
+  const [leftStyles, setLeftStyles] = useState(template.design.left)
+  const [rightStyles, setRightStyles] = useState(template.design.right)
+  const [percentage, setPercentage] = useState(initialPercentage)
+
   const [updateTemplateMutation] = useMutation(updateTemplate)
+
+  const EditTemplate = async () => {
+    const values = JSON.parse(JSON.stringify(template))
+    values.name = name
+    values.design.left = leftStyles
+    values.design.right = rightStyles
+    try {
+      const template = await updateTemplateMutation({
+        id: templateId,
+        ...values,
+      })
+      router.push(
+        Routes.ShowTemplatePage({
+          templateId: template.id,
+        })
+      )
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
   return (
     <>
       <Head>
         <title>Edit Template {template.id}</title>
       </Head>
 
-      <div>
-        <h1>Edit Template {template.id}</h1>
-        <pre>{JSON.stringify(template, null, 2)}</pre>
+      <Grid
+        container
+        direction="row"
+        spacing={2}
+        textAlign={"center"}
+        sx={{ mx: "auto", width: "100%" }}
+      >
+        <Grid item xs={12}>
+          <Typography variant="h6" component="div" gutterBottom>
+            <h1> Editar Plantilla </h1>
+          </Typography>
+        </Grid>
 
-        <TemplateForm
-          submitText="Update Template" // TODO use a zod schema for form validation
-          //  - Tip: extract mutation's schema into a shared `validations.ts` file and
-          //         then import and use it here
-          schema={UpdateTemplate}
-          initialValues={template}
-          onSubmit={async (values) => {
-            try {
-              const updated = await updateTemplateMutation({
-                id: template.id,
-                ...values,
-              })
-              await setQueryData(updated)
-              router.push(
-                Routes.ShowTemplatePage({
-                  templateId: updated.id,
-                })
-              )
-            } catch (error) {
-              console.error(error)
-              return {
-                [FORM_ERROR]: error.toString(),
-              }
-            }
+        <EditablePreview
+          percentage={percentage}
+          setPercentage={setPercentage}
+          defaultValue={initialPercentage}
+          leftStyles={leftStyles}
+          setLeftStyles={setLeftStyles}
+          rightStyles={rightStyles}
+          setRightStyles={setRightStyles}
+          name={name}
+          setName={setName}
+          submitText={"Editar Plantilla"}
+          onClickSubmit={async () => {
+            await EditTemplate()
           }}
         />
-      </div>
+      </Grid>
     </>
   )
 }
 
 const EditTemplatePage = () => {
+  const currentUser = useCurrentUser()
+  if (!currentUser) {
+    return <Redirect to={Routes.Home} />
+  }
   return (
     <div>
-      <Suspense fallback={<CustomSpinner />}>
-        <EditTemplate />
-      </Suspense>
+      <Grid
+        container
+        direction="row"
+        spacing={2}
+        textAlign={"center"}
+        sx={{ mx: "auto", width: "100%" }}
+      >
+        <Suspense fallback={<CustomSpinner />}>
+          <EditTemplate />
+        </Suspense>
 
-      <p>
-        <Link href={Routes.TemplatesPage()}>
-          <a>Templates</a>
-        </Link>
-      </p>
+        <Grid item xs={12}>
+          <p>
+            <Link href={Routes.TemplatesPage()}>
+              <Button variant="outlined"> Regresar </Button>
+            </Link>
+          </p>
+        </Grid>
+      </Grid>
     </div>
   )
 }
