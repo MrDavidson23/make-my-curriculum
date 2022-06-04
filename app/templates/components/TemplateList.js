@@ -24,9 +24,7 @@ const TemplateList = ({ onClick, showName }) => {
     if (!template.isPremium) {
       return false
     } else {
-      if (templateOnUser?.length === 0) {
-        return false
-      } else if (templateFound) {
+      if (templateFound) {
         return false
       }
       return true
