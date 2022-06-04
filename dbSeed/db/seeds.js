@@ -129,80 +129,194 @@ const seed = async () => {
   await db.template.createMany({
     data: [
       {
-        name: "Default",
-        isPremium: false,
         design: {
           left: {
-            text: { margin: "10px", fontSize: "12pt", lineHeight: 1.6 },
-            title: { fontSize: "16pt", fontWeight: "bold" },
+            text: {
+              color: "#e1dddd",
+              fontSize: "14pt",
+              fontFamily: "Lato",
+              fontWeight: "bold",
+            },
+            title: {
+              color: "#fffafa",
+              fontSize: "12pt",
+              fontFamily: "Open Sans",
+              fontWeight: "bold",
+            },
             container: {
-              color: "#FAF6F6",
-              width: 170,
+              width: 180,
               paddingTop: 30,
               paddingLeft: 15,
               paddingRight: 15,
               flexDirection: "column",
-              backgroundColor: "#3A298F",
-              "@media max-width: 400": { width: "100%", paddingRight: 0 },
-              "@media orientation: landscape": { width: 200 },
+              backgroundColor: "#8f294a",
+              "@media max-width: 400": {
+                width: "100%",
+                paddingRight: 0,
+              },
+              "@media orientation: landscape": {
+                width: 300,
+              },
             },
           },
           right: {
-            text: { margin: "10px", fontSize: "12pt", lineHeight: 1.6 },
-            title: { color: "#DB5461", fontSize: "14pt", fontWeight: "bold" },
+            text: {
+              color: "#444343",
+              fontSize: "14pt",
+              fontFamily: "Lato",
+              fontWeight: "bold",
+            },
+            title: {
+              color: "#920917",
+              fontSize: "12pt",
+              fontFamily: "Open Sans",
+              fontWeight: "normal",
+            },
             container: {
               paddingTop: 30,
               paddingLeft: 10,
               paddingRight: 15,
-              backgroundColor: "#FAF6F6",
-              "@media max-width: 400": { width: "100%", paddingRight: 0 },
+              backgroundColor: "#ebdede",
+              "@media max-width: 400": {
+                width: "100%",
+                paddingRight: 0,
+              },
             },
           },
           container: {
             flex: 1,
             margin: "2px",
             flexDirection: "row",
-            "@media max-width: 400": { flexDirection: "column" },
+            "@media max-width: 400": {
+              flexDirection: "column",
+            },
           },
         },
+        name: "Plantilla",
+        userId: null,
+        isPremium: false,
       },
       {
-        name: "DefaultPremium",
-        isPremium: true,
         design: {
           left: {
-            text: { margin: "10px", fontSize: "12pt", lineHeight: 1.6 },
-            title: { fontSize: "16pt", fontWeight: "bold" },
-            container: {
+            text: {
+              color: "#ebdfd0",
+              fontSize: "12pt",
+              fontFamily: "Lato",
+              fontWeight: "bold",
+            },
+            title: {
               color: "#FAF6F6",
-              width: 170,
+              fontSize: "16pt",
+              fontFamily: "Lato",
+              fontWeight: "bold",
+            },
+            container: {
+              width: 420,
               paddingTop: 30,
               paddingLeft: 15,
               paddingRight: 15,
               flexDirection: "column",
-              backgroundColor: "#3A298F",
-              "@media max-width: 400": { width: "100%", paddingRight: 0 },
-              "@media orientation: landscape": { width: 200 },
+              backgroundColor: "#160761",
+              "@media max-width: 400": {
+                width: "100%",
+                paddingRight: 0,
+              },
+              "@media orientation: landscape": {
+                width: 300,
+              },
             },
           },
           right: {
-            text: { margin: "10px", fontSize: "12pt", lineHeight: 1.6 },
-            title: { color: "#DB5461", fontSize: "14pt", fontWeight: "bold" },
+            text: {
+              color: "#340f0f",
+              fontSize: "12pt",
+              fontFamily: "Lato",
+              fontWeight: "normal",
+            },
+            title: {
+              color: "#0c0c0c",
+              fontSize: "16pt",
+              fontFamily: "Lato",
+              fontWeight: "normal",
+            },
             container: {
               paddingTop: 30,
               paddingLeft: 10,
               paddingRight: 15,
-              backgroundColor: "#FAF6F6",
-              "@media max-width: 400": { width: "100%", paddingRight: 0 },
+              backgroundColor: "#cdebeb",
+              "@media max-width: 400": {
+                width: "100%",
+                paddingRight: 0,
+              },
             },
           },
           container: {
             flex: 1,
             margin: "2px",
             flexDirection: "row",
-            "@media max-width: 400": { flexDirection: "column" },
+            "@media max-width: 400": {
+              flexDirection: "column",
+            },
           },
         },
+        name: "Plantilla",
+        userId: null,
+        isPremium: false,
+      },
+      {
+        design: {
+          left: {
+            text: {
+              color: "#FAF6F6",
+              fontSize: "12pt",
+              fontFamily: "Open Sans",
+              fontWeight: "normal",
+            },
+            title: {
+              color: "#FAF6F6",
+              fontSize: "18pt",
+              fontFamily: "Open Sans",
+              fontWeight: "normal",
+            },
+            container: {
+              width: 240,
+              paddingTop: 30,
+              paddingLeft: 15,
+              paddingRight: 15,
+              flexDirection: "column",
+              backgroundColor: "#2079c7",
+            },
+          },
+          right: {
+            text: {
+              color: "#272425",
+              fontSize: "12pt",
+              fontFamily: "Open Sans",
+              fontWeight: "normal",
+            },
+            title: {
+              color: "#272425",
+              fontSize: "18pt",
+              fontFamily: "Open Sans",
+              fontWeight: "bold",
+            },
+            container: {
+              paddingTop: 30,
+              paddingLeft: 10,
+              paddingRight: 15,
+              backgroundColor: "#fbfbfb",
+            },
+          },
+          container: {
+            flex: 1,
+            margin: "2px",
+            flexDirection: "row",
+          },
+        },
+        name: "Plantilla",
+        userId: null,
+        isPremium: false,
       },
     ],
   })
