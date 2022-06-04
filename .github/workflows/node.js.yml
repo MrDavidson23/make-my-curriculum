@@ -26,6 +26,6 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
       - run: npm run lint
-      - run: npm install -g blitz --legacy-peer-deps
       - run: npm install
+      - run: npm install -g blitz --legacy-peer-deps
       - run: blitz build
