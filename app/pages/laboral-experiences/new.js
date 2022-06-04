@@ -1,4 +1,4 @@
-import { Link, useRouter, useMutation, useRouterQuery, Routes } from "blitz"
+import { Link, useRouter, useMutation, useRouterQuery, Routes, Redirect } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import createLaboralExperience from "app/laboral-experiences/mutations/createLaboralExperience"
 import createLaboralExperienceOnCurriculum from "app/laboral-experience-on-curricula/mutations/createLaboralExperienceOnCurriculum"
@@ -8,8 +8,10 @@ import {
 } from "app/laboral-experiences/components/LaboralExperienceForm"
 import { Grid, Button, Typography } from "@mui/material"
 import { CreateLaboralExperience } from "app/laboral-experiences/components/validations"
+import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 
 const NewLaboralExperiencePage = () => {
+  const currentUser = useCurrentUser()
   const router = useRouter()
   const { curriculumId } = useRouterQuery()
   const [createLaboralExperienceMutation] = useMutation(createLaboralExperience)
@@ -21,6 +23,10 @@ const NewLaboralExperiencePage = () => {
     curriculumId !== ""
       ? Routes.EditCurriculumPage({ curriculumId })
       : Routes.LaboralExperiencesPage()
+
+  if (!currentUser) {
+    return <Redirect to={Routes.Home} />
+  }
 
   return (
     <div>

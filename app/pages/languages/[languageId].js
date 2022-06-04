@@ -1,9 +1,11 @@
-import { Suspense } from "react"
+import { Suspense, Redirect } from "react"
 import { Head, Link, useRouter, useQuery, useParam, useMutation, Routes } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getLanguage from "app/languages/queries/getLanguage"
 import deleteLanguage from "app/languages/mutations/deleteLanguage"
 import CustomSpinner from "app/core/components/CustomSpinner"
+import { useCurrentUser } from "app/core/hooks/useCurrentUser"
+
 export const Language = () => {
   const router = useRouter()
   const languageId = useParam("languageId", "number")
@@ -51,6 +53,11 @@ export const Language = () => {
 }
 
 const ShowLanguagePage = () => {
+  const currentUser = useCurrentUser()
+
+  if (!currentUser || currentUser.role != "ADMIN") {
+    return <Redirect to={Routes.Home} />
+  }
   return (
     <div>
       <p>

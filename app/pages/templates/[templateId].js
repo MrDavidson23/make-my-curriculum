@@ -1,9 +1,10 @@
-import { Suspense } from "react"
+import { Suspense, Redirect } from "react"
 import { Head, Link, useRouter, useQuery, useParam, useMutation, Routes } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getTemplate from "app/templates/queries/getTemplate"
 import deleteTemplate from "app/templates/mutations/deleteTemplate"
 import CustomSpinner from "app/core/components/CustomSpinner"
+import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 export const Template = () => {
   const router = useRouter()
   const templateId = useParam("templateId", "number")
@@ -51,6 +52,11 @@ export const Template = () => {
 }
 
 const ShowTemplatePage = () => {
+  const currentUser = useCurrentUser()
+
+  if (!currentUser) {
+    return <Redirect to={Routes.Home} />
+  }
   return (
     <div>
       <p>

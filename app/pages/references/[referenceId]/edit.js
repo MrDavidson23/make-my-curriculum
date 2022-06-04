@@ -1,4 +1,4 @@
-import { Suspense } from "react"
+import { Suspense, Redirect } from "react"
 import {
   Head,
   Link,
@@ -20,6 +20,7 @@ import deleteReferenceOnCurriculumMutation from "app/reference-on-curricula/muta
 import { UpdateReferenceValidation } from "app/references/components/validaciones"
 import { Grid, Button, Typography } from "@mui/material"
 import CustomSpinner from "app/core/components/CustomSpinner"
+import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 
 export const EditReference = () => {
   const router = useRouter()
@@ -36,6 +37,7 @@ export const EditReference = () => {
     }
   )
   const [updateReferenceMutation] = useMutation(updateReference)
+
   return (
     <>
       <Head>
@@ -112,6 +114,11 @@ const EditReferencePage = () => {
         referenceId,
       })
     }
+  }
+
+  const currentUser = useCurrentUser()
+  if (!currentUser) {
+    return <Redirect to={Routes.Home} />
   }
   return (
     <div>

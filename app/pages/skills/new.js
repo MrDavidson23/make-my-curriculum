@@ -1,22 +1,27 @@
-import { Link, useRouter, useMutation, useRouterQuery, Routes } from "blitz"
+import { Link, useRouter, useMutation, useRouterQuery, Routes, Redirect } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import createSkill from "app/skills/mutations/createSkill"
 import createSkillOnCurriculum from "app/skill-on-curricula/mutations/createSkillOnCurriculum"
 import { SkillForm, FORM_ERROR } from "app/skills/components/SkillForm"
 import { Grid, Button, Typography } from "@mui/material"
 import { CreateSkill } from "app/skills/components/validations"
+import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 
 const NewSkillPage = () => {
   const router = useRouter()
   const { curriculumId } = useRouterQuery()
   const [createSkillMutation] = useMutation(createSkill)
   const [createSkillOnCurriculumMutation] = useMutation(createSkillOnCurriculum)
-  
-  const returnPage = (
-    curriculumId !== '' ?
-      Routes.EditCurriculumPage({ curriculumId }) : Routes.SkillsPage()
-  )
-  
+
+  const returnPage =
+    curriculumId !== "" ? Routes.EditCurriculumPage({ curriculumId }) : Routes.SkillsPage()
+
+  const currentUser = useCurrentUser()
+
+  if (!currentUser) {
+    return <Redirect to={Routes.Home} />
+  }
+
   return (
     <div>
       <Grid

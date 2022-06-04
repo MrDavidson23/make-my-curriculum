@@ -1,11 +1,17 @@
-import { Link, useRouter, useMutation, Routes } from "blitz"
+import { Link, useRouter, useMutation, Routes, Redirect } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import createLanguage from "app/languages/mutations/createLanguage"
 import { LanguageForm, FORM_ERROR } from "app/languages/components/LanguageForm"
 import { CreateLanguage } from "app/languages/components/validations"
+import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 const NewLanguagePage = () => {
   const router = useRouter()
   const [createLanguageMutation] = useMutation(createLanguage)
+
+  const currentUser = useCurrentUser()
+  if (!currentUser || currentUser.role != "ADMIN") {
+    return <Redirect to={Routes.Home} />
+  }
   return (
     <div>
       <h1>Create New Language</h1>
