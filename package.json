@@ -6,7 +6,7 @@
     "build": "blitz build --ignore-path ./dbSeed",
     "start": "blitz start",
     "studio": "blitz prisma studio",
-    "lint": "eslint --ignore-path .gitignore --ext .js .",
+    "lint": "eslint --ignore-path .gitignore --ignore-path ./dbSeed --ext .js .",
     "test": "jest",
     "test:watch": "jest --watch",
     "prepare": "husky install",
