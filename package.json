@@ -11,7 +11,7 @@
     "test:watch": "jest --watch",
     "prepare": "husky install",
     "start:production": "blitz start --port $PORT",
-    "seed": "npm --prefix ./dbSeed run seed"
+    "seed": "npm --prefix ./.dbSeed run seed"
   },
   "prisma": {
     "schema": "db/schema.prisma"
