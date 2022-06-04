@@ -6,12 +6,12 @@
     "build": "blitz build --ignore-path ./dbSeed",
     "start": "blitz start",
     "studio": "blitz prisma studio",
-    "lint": "eslint --ignore-path .gitignore --ignore-path ./dbSeed --ext .js .",
+    "lint": "eslint --ignore-path .gitignore --ignore-pattern /dbSeed/** --ext .js .",
     "test": "jest",
     "test:watch": "jest --watch",
     "prepare": "husky install",
     "start:production": "blitz start --port $PORT",
-    "seed": "npm --prefix ./.dbSeed run seed"
+    "seed": "npm --prefix ./dbSeed run seed"
   },
   "prisma": {
     "schema": "db/schema.prisma"
