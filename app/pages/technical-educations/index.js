@@ -4,9 +4,10 @@ import Layout from "app/core/layouts/Layout"
 import getTechnicalEducations from "app/technical-educations/queries/getTechnicalEducations"
 import deleteTechnicalEducation from "app/technical-educations/mutations/deleteTechnicalEducation"
 import deleteTechnicalEducationOnCurriculum from "app/technical-education-on-curricula/mutations/deleteTechnicalEducationOnCurriculum"
+import deleteAllTechnicalEducationOnCurriculum from "app/technical-education-on-curricula/mutations/deleteAllTechnicalEducationOnCurriculum"
 import createTechnicalEducationOnCurriculum from "app/technical-education-on-curricula/mutations/createTechnicalEducationOnCurriculum"
 import InformationCard from "app/core/components/InformationCard"
-import { Grid, Button, Chip, Select, MenuItem, InputLabel, FormControl } from "@mui/material"
+import { Grid, Button, Select, MenuItem, InputLabel, FormControl } from "@mui/material"
 import CustomSpinner from "app/core/components/CustomSpinner"
 import Swal from "sweetalert2"
 const ITEMS_PER_PAGE = 100
@@ -14,6 +15,9 @@ export const TechnicalEducationsList = (props) => {
   const router = useRouter()
   const page = Number(router.query.page) || 0
   const [deleteTechnicalEducationMutation] = useMutation(deleteTechnicalEducation)
+  const [deleteAllTechnicalEducationOnCurriculumMutation] = useMutation(
+    deleteAllTechnicalEducationOnCurriculum
+  )
   const [options, setOptions] = useState([])
   const [technicalEducationsList, setTechnicalEducationsList] = useState([])
   const [optionSelected, setOptionSelected] = useState("")
@@ -99,9 +103,17 @@ export const TechnicalEducationsList = (props) => {
           ]
           setOptions(newOptions)
         } else {
+          await deleteAllTechnicalEducationOnCurriculumMutation({
+            technicalEducationId: id,
+          })
           await deleteTechnicalEducationMutation({
             id,
           })
+          // get the technical education deleted out of the list
+          const newTechnicalEducations = technicalEducationsList.filter(
+            (technicalEducation) => technicalEducation.id !== id
+          )
+          setTechnicalEducationsList(newTechnicalEducations)
           router.push(Routes.TechnicalEducationsPage())
         }
       } else if (result.isDenied) {

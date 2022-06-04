@@ -4,6 +4,7 @@ import Layout from "app/core/layouts/Layout"
 import getLaboralExperiences from "app/laboral-experiences/queries/getLaboralExperiences"
 import deleteLaboralExperience from "app/laboral-experiences/mutations/deleteLaboralExperience"
 import deleteLaboralExperienceOnCurriculum from "app/laboral-experience-on-curricula/mutations/deleteLaboralExperienceOnCurriculum"
+import deleteAllLaboralExperienceOnCurriculum from "app/laboral-experience-on-curricula/mutations/deleteAllLaboralExperienceOnCurriculum"
 import createLaboralExperienceOnCurriculum from "app/laboral-experience-on-curricula/mutations/createLaboralExperienceOnCurriculum"
 import InformationCard from "app/core/components/InformationCard"
 import { Grid, Button, Chip, Select, MenuItem, InputLabel, FormControl } from "@mui/material"
@@ -19,6 +20,9 @@ export const LaboralExperiencesList = (props) => {
   const [optionSelected, setOptionSelected] = useState("")
   const [deleteLaboralExperienceOnCurriculumMutation] = useMutation(
     deleteLaboralExperienceOnCurriculum
+  )
+  const [deleteAllLaboralExperienceOnCurriculumMutation] = useMutation(
+    deleteAllLaboralExperienceOnCurriculum
   )
   const [createLaboralExperienceOnCurriculumMutation] = useMutation(
     createLaboralExperienceOnCurriculum
@@ -99,6 +103,9 @@ export const LaboralExperiencesList = (props) => {
           ]
           setOptions(newOptions)
         } else {
+          await deleteAllLaboralExperienceOnCurriculumMutation({
+            laboralExperienceId: id,
+          })
           await deleteLaboralExperienceMutation({
             id,
           })
