@@ -56,3 +56,5 @@ lib-cov
 .vscode-test
 package-lock.json
 db/schema.prisma
+.env
+dbSeed/.env
