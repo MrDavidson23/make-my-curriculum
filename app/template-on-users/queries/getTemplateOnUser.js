@@ -10,12 +10,11 @@ export default resolver.pipe(
   resolver.authorize(),
   async ({ id }) => {
     // TODO: in multi-tenant app, you must add validation to ensure correct tenant
-    const templateOnUser = await db.templateOnUser.findFirst({
+    const templateOnUser = await db.templateOnUser.findMany({
       where: {
-        id,
+        userId: id,
       },
     })
-    if (!templateOnUser) throw new NotFoundError()
     return templateOnUser
   }
 )

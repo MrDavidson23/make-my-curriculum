@@ -4,6 +4,7 @@ import Layout from "app/core/layouts/Layout"
 import getPublications from "app/publications/queries/getPublications"
 import deletePublication from "app/publications/mutations/deletePublication"
 import deletePublicationOnCurriculum from "app/publication-on-curricula/mutations/deletePublicationOnCurriculum"
+import deleteAllPublicationOnCurriculum from "app/publication-on-curricula/mutations/deleteAllPublicationOnCurriculum"
 import createPublicationOnCurriculum from "app/publication-on-curricula/mutations/createPublicationOnCurriculum"
 import InformationCard from "app/core/components/InformationCard"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
@@ -19,6 +20,7 @@ export const PublicationsList = (props) => {
   const [publicationsList, setPublicationsList] = useState([])
   const [optionSelected, setOptionSelected] = useState("")
   const [deletePublicationOnCurriculumMutation] = useMutation(deletePublicationOnCurriculum)
+  const [deleteAllPublicationOnCurriculumMutation] = useMutation(deleteAllPublicationOnCurriculum)
   const [createPublicationOnCurriculumMutation] = useMutation(createPublicationOnCurriculum)
   const filter =
     props.curriculumId === undefined
@@ -94,6 +96,9 @@ export const PublicationsList = (props) => {
           ]
           setOptions(newOptions)
         } else {
+          await deleteAllPublicationOnCurriculumMutation({
+            publicationId: id,
+          })
           await deletePublicationMutation({
             id,
           })

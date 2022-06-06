@@ -110,7 +110,7 @@ const NewTemplatePage = () => {
     } catch (error) {
       console.error(error)
     }
-  }
+     }
 
   if (!currentUser) {
     return <Redirect to={Routes.Home} />
