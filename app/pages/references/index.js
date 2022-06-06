@@ -5,6 +5,7 @@ import Layout from "app/core/layouts/Layout"
 import getReferences from "app/references/queries/getReferences"
 import deleteReference from "app/references/mutations/deleteReference"
 import deleteReferenceOnCurriculum from "app/reference-on-curricula/mutations/deleteReferenceOnCurriculum"
+import deleteAllReferenceOnCurriculum from "app/reference-on-curricula/mutations/deleteAllReferenceOnCurriculum"
 import createReferenceOnCurriculum from "app/reference-on-curricula/mutations/createReferenceOnCurriculum"
 import InformationCard from "app/core/components/InformationCard"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
@@ -20,6 +21,7 @@ export const ReferencesList = (props) => {
   const [referencesList, setReferencesList] = useState([])
   const [optionSelected, setOptionSelected] = useState("")
   const [deleteReferenceOnCurriculumMutation] = useMutation(deleteReferenceOnCurriculum)
+  const [deleteAllReferenceOnCurriculumMutation] = useMutation(deleteAllReferenceOnCurriculum)
   const [createReferenceOnCurriculumMutation] = useMutation(createReferenceOnCurriculum)
   const filter =
     props.curriculumId === undefined
@@ -85,14 +87,17 @@ export const ReferencesList = (props) => {
             curriculumId: props.curriculumId,
             referenceId: id,
           })
-          const newReferences = referencesList.filter((reference) => reference.id !== id)
-          setReferencesList(newReferences)
           const newOptions = [...options, allReferences.find((reference) => reference.id === id)]
           setOptions(newOptions)
         } else {
+          await deleteAllReferenceOnCurriculumMutation({
+            referenceId: id,
+          })
           await deleteReferenceMutation({
             id,
           })
+          const newReferences = referencesList.filter((reference) => reference.id !== id)
+          setReferencesList(newReferences)
           router.push(Routes.ReferencesPage())
         }
       } else {

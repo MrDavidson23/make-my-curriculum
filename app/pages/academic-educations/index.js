@@ -6,6 +6,7 @@ import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import getAcademicEducations from "app/academic-educations/queries/getAcademicEducations"
 import deleteAcademicEducation from "app/academic-educations/mutations/deleteAcademicEducation"
 import deleteAcademicEducationOnCurriculum from "app/academic-education-on-curricula/mutations/deleteAcademicEducationOnCurriculum"
+import deleteAllAcademicEducationOnCurriculum from "app/academic-education-on-curricula/mutations/deleteAllAcademicEducationOnCurriculum"
 import createAcademicEducationOnCurriculum from "app/academic-education-on-curricula/mutations/createAcademicEducationOnCurriculum"
 import InformationCard from "app/core/components/InformationCard"
 import { Grid, Button, Chip, Select, MenuItem, InputLabel, FormControl } from "@mui/material"
@@ -21,6 +22,9 @@ export const AcademicEducationsList = (props) => {
   const [deleteAcademicEducationMutation] = useMutation(deleteAcademicEducation)
   const [deleteAcademicEducationOnCurriculumMutation] = useMutation(
     deleteAcademicEducationOnCurriculum
+  )
+  const [deleteAllAcademicEducationOnCurriculumMutation] = useMutation(
+    deleteAllAcademicEducationOnCurriculum
   )
   const [createAcademicEducationOnCurriculumMutation] = useMutation(
     createAcademicEducationOnCurriculum
@@ -104,6 +108,9 @@ export const AcademicEducationsList = (props) => {
           ]
           setOptions(newOptions)
         } else {
+          await deleteAllAcademicEducationOnCurriculumMutation({
+            academicEducationId: id,
+          })
           await deleteAcademicEducationMutation({
             id: id,
           })

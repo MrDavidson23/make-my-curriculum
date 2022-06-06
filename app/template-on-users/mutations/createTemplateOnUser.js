@@ -2,7 +2,8 @@ import { resolver } from "blitz"
 import db from "db"
 import { z } from "zod"
 const CreateTemplateOnUser = z.object({
-  name: z.string(),
+  userId: z.number(),
+  templateId: z.number(),
 })
 export default resolver.pipe(
   resolver.zod(CreateTemplateOnUser),
