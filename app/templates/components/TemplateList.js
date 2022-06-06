@@ -15,7 +15,7 @@ const TemplateList = ({
   userId,
   role,
 }) => {
-
+  const currentUser = useCurrentUser()
   const [{ templates, hasMore }] = useQuery(getTemplates, {
     orderBy: {
       id: "asc",
