@@ -1,4 +1,5 @@
-import { Link, useRouter, useMutation, Routes, Redirect } from "blitz"
+import { Link, useRouter, useMutation, Routes } from "blitz"
+
 import Layout from "app/core/layouts/Layout"
 import createTemplate from "app/templates/mutations/createTemplate"
 import { CreateTemplate } from "app/templates/components/validations"
@@ -113,50 +114,50 @@ const NewTemplatePage = () => {
   const currentUser = useCurrentUser()
 
   if (!currentUser) {
-    return <Redirect to={Routes.Home} />
+    router.push(Routes.Home()) //searchthis
+  } else {
+    return (
+      <div>
+        <Grid
+          container
+          direction="row"
+          spacing={2}
+          textAlign={"center"}
+          sx={{ mx: "auto", width: "100%" }}
+        >
+          <Grid item xs={12}>
+            <Typography variant="h6" component="div" gutterBottom>
+              <h1> Crear nueva Plantilla </h1>
+            </Typography>
+          </Grid>
+
+          <EditablePreview
+            percentage={percentage}
+            setPercentage={setPercentage}
+            defaultValue={defaultPercentage}
+            leftStyles={leftStyles}
+            setLeftStyles={setLeftStyles}
+            rightStyles={rightStyles}
+            setRightStyles={setRightStyles}
+            name={name}
+            setName={setName}
+            submitText={"Crear Plantilla"}
+            onClickSubmit={async () => {
+              await newTemplate()
+            }}
+          />
+
+          <Grid item xs={12}>
+            <p>
+              <Link href={Routes.TemplatesPage()}>
+                <Button variant="outlined"> Regresar </Button>
+              </Link>
+            </p>
+          </Grid>
+        </Grid>
+      </div>
+    )
   }
-
-  return (
-    <div>
-      <Grid
-        container
-        direction="row"
-        spacing={2}
-        textAlign={"center"}
-        sx={{ mx: "auto", width: "100%" }}
-      >
-        <Grid item xs={12}>
-          <Typography variant="h6" component="div" gutterBottom>
-            <h1> Crear nueva Plantilla </h1>
-          </Typography>
-        </Grid>
-
-        <EditablePreview
-          percentage={percentage}
-          setPercentage={setPercentage}
-          defaultValue={defaultPercentage}
-          leftStyles={leftStyles}
-          setLeftStyles={setLeftStyles}
-          rightStyles={rightStyles}
-          setRightStyles={setRightStyles}
-          name={name}
-          setName={setName}
-          submitText={"Crear Plantilla"}
-          onClickSubmit={async () => {
-            await newTemplate()
-          }}
-        />
-
-        <Grid item xs={12}>
-          <p>
-            <Link href={Routes.TemplatesPage()}>
-              <Button variant="outlined"> Regresar </Button>
-            </Link>
-          </p>
-        </Grid>
-      </Grid>
-    </div>
-  )
 }
 
 NewTemplatePage.authenticate = true

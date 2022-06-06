@@ -1,4 +1,5 @@
-import { Suspense, useState, useEffect, Redirect } from "react"
+import { Suspense, useState, useEffect } from "react"
+
 import { Head, Link, usePaginatedQuery, useRouter, Routes, useMutation } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getTechnicalEducations from "app/technical-educations/queries/getTechnicalEducations"
@@ -179,27 +180,30 @@ export const TechnicalEducationsList = (props) => {
 
 const TechnicalEducationsPage = (props) => {
   const currentUser = useCurrentUser()
-  if (!currentUser) {
-    return <Redirect to={Routes.Home} />
-  }
-  return (
-    <>
-      <div>
-        <p>
-          <Link href={Routes.NewTechnicalEducationPage({ curriculumId: props.curriculumId })}>
-            <Button variant="outlined">Crear Educación Técnica</Button>
-          </Link>
-        </p>
+  const router = useRouter()
 
-        <Suspense fallback={<CustomSpinner />}>
-          <TechnicalEducationsList
-            curriculumId={props.curriculumId}
-            onCurriculum={props.onCurriculum}
-          />
-        </Suspense>
-      </div>
-    </>
-  )
+  if (!currentUser) {
+    router.push(Routes.Home()) //searchthis
+  } else {
+    return (
+      <>
+        <div>
+          <p>
+            <Link href={Routes.NewTechnicalEducationPage({ curriculumId: props.curriculumId })}>
+              <Button variant="outlined">Crear Educación Técnica</Button>
+            </Link>
+          </p>
+
+          <Suspense fallback={<CustomSpinner />}>
+            <TechnicalEducationsList
+              curriculumId={props.curriculumId}
+              onCurriculum={props.onCurriculum}
+            />
+          </Suspense>
+        </div>
+      </>
+    )
+  }
 }
 
 TechnicalEducationsPage.authenticate = true

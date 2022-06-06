@@ -1,4 +1,5 @@
-import { Suspense, useState, useEffect, Redirect } from "react"
+import { Suspense, useState, useEffect } from "react"
+
 import { Head, Link, usePaginatedQuery, useRouter, Routes, useMutation } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
@@ -183,27 +184,30 @@ export const AcademicEducationsList = (props) => {
 
 const AcademicEducationsPage = (props) => {
   const currentUser = useCurrentUser()
-  if (!currentUser) {
-    return <Redirect to={Routes.Home} />
-  }
-  return (
-    <>
-      <div>
-        <p>
-          <Link href={Routes.NewAcademicEducationPage({ curriculumId: props.curriculumId })}>
-            <Button variant="outlined">Crear Educación Académica</Button>
-          </Link>
-        </p>
+  const router = useRouter()
 
-        <Suspense fallback={<CustomSpinner />}>
-          <AcademicEducationsList
-            curriculumId={props.curriculumId}
-            onCurriculum={props.onCurriculum}
-          />
-        </Suspense>
-      </div>
-    </>
-  )
+  if (!currentUser) {
+    router.push(Routes.Home()) //searchthis
+  } else {
+    return (
+      <>
+        <div>
+          <p>
+            <Link href={Routes.NewAcademicEducationPage({ curriculumId: props.curriculumId })}>
+              <Button variant="outlined">Crear Educación Académica</Button>
+            </Link>
+          </p>
+
+          <Suspense fallback={<CustomSpinner />}>
+            <AcademicEducationsList
+              curriculumId={props.curriculumId}
+              onCurriculum={props.onCurriculum}
+            />
+          </Suspense>
+        </div>
+      </>
+    )
+  }
 }
 
 AcademicEducationsPage.authenticate = true

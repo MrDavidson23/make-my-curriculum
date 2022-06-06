@@ -1,4 +1,5 @@
-import { Suspense, Redirect } from "react"
+import { Suspense } from "react"
+
 import { Head, Link, useRouter, useQuery, useParam, useMutation, Routes } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getReference from "app/references/queries/getReference"
@@ -99,22 +100,25 @@ export const Reference = () => {
 const ShowReferencePage = () => {
   const currentUser = useCurrentUser()
 
-  if (!currentUser) {
-    return <Redirect to={Routes.Home} />
-  }
-  return (
-    <div>
-      <p>
-        <Link href={Routes.ReferencesPage()}>
-          <a>References</a>
-        </Link>
-      </p>
+  const router = useRouter()
 
-      <Suspense fallback={<CustomSpinner />}>
-        <Reference />
-      </Suspense>
-    </div>
-  )
+  if (!currentUser) {
+    router.push(Routes.Home()) //searchthis
+  } else {
+    return (
+      <div>
+        <p>
+          <Link href={Routes.ReferencesPage()}>
+            <a>References</a>
+          </Link>
+        </p>
+
+        <Suspense fallback={<CustomSpinner />}>
+          <Reference />
+        </Suspense>
+      </div>
+    )
+  }
 }
 
 ShowReferencePage.authenticate = true

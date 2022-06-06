@@ -1,4 +1,5 @@
-import { Suspense, Redirect } from "react"
+import { Suspense } from "react"
+
 import { Head, Link, useRouter, useQuery, useMutation, useParam, Routes } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getTemplate from "app/templates/queries/getTemplate"
@@ -94,32 +95,35 @@ export const EditTemplate = () => {
 
 const EditTemplatePage = () => {
   const currentUser = useCurrentUser()
-  if (!currentUser) {
-    return <Redirect to={Routes.Home} />
-  }
-  return (
-    <div>
-      <Grid
-        container
-        direction="row"
-        spacing={2}
-        textAlign={"center"}
-        sx={{ mx: "auto", width: "100%" }}
-      >
-        <Suspense fallback={<CustomSpinner />}>
-          <EditTemplate />
-        </Suspense>
+  const router = useRouter()
 
-        <Grid item xs={12}>
-          <p>
-            <Link href={Routes.TemplatesPage()}>
-              <Button variant="outlined"> Regresar </Button>
-            </Link>
-          </p>
+  if (!currentUser) {
+    router.push(Routes.Home()) //searchthis
+  } else {
+    return (
+      <div>
+        <Grid
+          container
+          direction="row"
+          spacing={2}
+          textAlign={"center"}
+          sx={{ mx: "auto", width: "100%" }}
+        >
+          <Suspense fallback={<CustomSpinner />}>
+            <EditTemplate />
+          </Suspense>
+
+          <Grid item xs={12}>
+            <p>
+              <Link href={Routes.TemplatesPage()}>
+                <Button variant="outlined"> Regresar </Button>
+              </Link>
+            </p>
+          </Grid>
         </Grid>
-      </Grid>
-    </div>
-  )
+      </div>
+    )
+  }
 }
 
 EditTemplatePage.authenticate = true

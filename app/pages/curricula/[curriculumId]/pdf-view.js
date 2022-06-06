@@ -1,4 +1,5 @@
-import { Suspense, Redirect } from "react"
+import { Suspense } from "react"
+
 import { useQuery, useParam } from "blitz"
 import getCurriculum from "app/curricula/queries/getAllCurriculum"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
@@ -96,18 +97,21 @@ const CurriculumDocument = (props) => {
 const PDFViewPage = () => {
   const currentUser = useCurrentUser()
 
+  const router = useRouter()
+
   if (!currentUser) {
-    return <Redirect to={Routes.Home} />
+    router.push(Routes.Home()) //searchthis
+  } else {
+    return (
+      <div style={{ minHeight: "100vh" }}>
+        <Suspense fallback={<CustomSpinner />}>
+          <PDFViewer style={{ width: "100%", height: "90vh" }}>
+            <CurriculumDocument curriculum={GetInfo()} />
+          </PDFViewer>
+        </Suspense>
+      </div>
+    )
   }
-  return (
-    <div style={{ minHeight: "100vh" }}>
-      <Suspense fallback={<CustomSpinner />}>
-        <PDFViewer style={{ width: "100%", height: "90vh" }}>
-          <CurriculumDocument curriculum={GetInfo()} />
-        </PDFViewer>
-      </Suspense>
-    </div>
-  )
 }
 
 PDFViewPage.authenticate = true

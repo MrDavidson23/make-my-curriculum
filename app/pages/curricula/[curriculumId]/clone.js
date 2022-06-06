@@ -1,4 +1,5 @@
-import { Suspense, useState, Redirect } from "react"
+import { Suspense, useState } from "react"
+
 import {
   Head,
   useRouter,
@@ -160,20 +161,23 @@ export const CloneCurriculum = () => {
 const CloneCurriculumPage = () => {
   const currentUser = useCurrentUser()
 
-  if (!currentUser) {
-    return <Redirect to={Routes.Home} />
-  }
-  return (
-    <div>
-      <Head>
-        <title>Clone Curriculum</title>
-      </Head>
+  const router = useRouter()
 
-      <Suspense fallback={<CustomSpinner />}>
-        <CloneCurriculum />
-      </Suspense>
-    </div>
-  )
+  if (!currentUser) {
+    router.push(Routes.Home()) //searchthis
+  } else {
+    return (
+      <div>
+        <Head>
+          <title>Clone Curriculum</title>
+        </Head>
+
+        <Suspense fallback={<CustomSpinner />}>
+          <CloneCurriculum />
+        </Suspense>
+      </div>
+    )
+  }
 }
 
 CloneCurriculumPage.authenticate = true

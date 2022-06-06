@@ -1,4 +1,5 @@
-import { Suspense, useEffect, useState, Redirect } from "react"
+import { Suspense, useEffect, useState } from "react"
+
 import { Head, Link, usePaginatedQuery, useRouter, Routes, useMutation } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getSkills from "app/skills/queries/getSkills"
@@ -155,24 +156,27 @@ export const SkillsList = (props) => {
 
 const SkillsPage = (props) => {
   const currentUser = useCurrentUser()
-  if (!currentUser) {
-    return <Redirect to={Routes.Home} />
-  }
-  return (
-    <>
-      <div>
-        <p>
-          <Link href={Routes.NewSkillPage({ curriculumId: props.curriculumId })}>
-            <Button variant="outlined">Crear Habilidad</Button>
-          </Link>
-        </p>
+  const router = useRouter()
 
-        <Suspense fallback={<CustomSpinner />}>
-          <SkillsList curriculumId={props.curriculumId} onCurriculum={props.onCurriculum} />
-        </Suspense>
-      </div>
-    </>
-  )
+  if (!currentUser) {
+    router.push(Routes.Home()) //searchthis
+  } else {
+    return (
+      <>
+        <div>
+          <p>
+            <Link href={Routes.NewSkillPage({ curriculumId: props.curriculumId })}>
+              <Button variant="outlined">Crear Habilidad</Button>
+            </Link>
+          </p>
+
+          <Suspense fallback={<CustomSpinner />}>
+            <SkillsList curriculumId={props.curriculumId} onCurriculum={props.onCurriculum} />
+          </Suspense>
+        </div>
+      </>
+    )
+  }
 }
 
 SkillsPage.authenticate = true

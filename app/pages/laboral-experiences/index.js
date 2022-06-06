@@ -1,4 +1,5 @@
-import { Suspense, useState, useEffect, Redirect } from "react"
+import { Suspense, useState, useEffect } from "react"
+
 import { Head, Link, usePaginatedQuery, useRouter, Routes, useMutation } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getLaboralExperiences from "app/laboral-experiences/queries/getLaboralExperiences"
@@ -184,27 +185,30 @@ export const LaboralExperiencesList = (props) => {
 
 const LaboralExperiencesPage = (props) => {
   const currentUser = useCurrentUser()
-  if (!currentUser) {
-    return <Redirect to={Routes.Home} />
-  }
-  return (
-    <>
-      <div>
-        <p>
-          <Link href={Routes.NewLaboralExperiencePage({ curriculumId: props.curriculumId })}>
-            <Button variant="outlined">Crear Experiencia Laboral</Button>
-          </Link>
-        </p>
+  const router = useRouter()
 
-        <Suspense fallback={<CustomSpinner />}>
-          <LaboralExperiencesList
-            curriculumId={props.curriculumId}
-            onCurriculum={props.onCurriculum}
-          />
-        </Suspense>
-      </div>
-    </>
-  )
+  if (!currentUser) {
+    router.push(Routes.Home()) //searchthis
+  } else {
+    return (
+      <>
+        <div>
+          <p>
+            <Link href={Routes.NewLaboralExperiencePage({ curriculumId: props.curriculumId })}>
+              <Button variant="outlined">Crear Experiencia Laboral</Button>
+            </Link>
+          </p>
+
+          <Suspense fallback={<CustomSpinner />}>
+            <LaboralExperiencesList
+              curriculumId={props.curriculumId}
+              onCurriculum={props.onCurriculum}
+            />
+          </Suspense>
+        </div>
+      </>
+    )
+  }
 }
 
 LaboralExperiencesPage.authenticate = true
