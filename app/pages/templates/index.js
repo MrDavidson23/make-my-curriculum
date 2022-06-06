@@ -1,4 +1,5 @@
-import { Suspense, Redirect } from "react"
+import { Suspense } from "react"
+
 import { Head, Link, usePaginatedQuery, useRouter, Routes, Router } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getTemplates from "app/templates/queries/getTemplates"
@@ -58,35 +59,38 @@ export const TemplatesList = () => {
 
 const TemplatesPage = () => {
   const currentUser = useCurrentUser()
+  const router = useRouter()
+
   if (!currentUser) {
-    return <Redirect to={Routes.Home} />
-  }
-  return (
-    <>
-      <Head>
-        <title>Templates</title>
-      </Head>
+    router.push(Routes.Home()) //searchthis
+  } else {
+    return (
+      <>
+        <Head>
+          <title>Templates</title>
+        </Head>
 
-      <Grid
-        container
-        direction="row"
-        spacing={2}
-        textAlign={"center"}
-        justifyContent={"center"}
-        sx={{ mx: "auto", width: "100%" }}
-      >
-        <Grid item xs={12} justify="center" mt={3} mb={3}>
-          <Button variant="outlined" onClick={() => Router.push(Routes.NewTemplatePage())}>
-            Crear Nueva Plantilla
-          </Button>
+        <Grid
+          container
+          direction="row"
+          spacing={2}
+          textAlign={"center"}
+          justifyContent={"center"}
+          sx={{ mx: "auto", width: "100%" }}
+        >
+          <Grid item xs={12} justify="center" mt={3} mb={3}>
+            <Button variant="outlined" onClick={() => Router.push(Routes.NewTemplatePage())}>
+              Crear Nueva Plantilla
+            </Button>
+          </Grid>
+
+          <Suspense fallback={<CustomSpinner />}>
+            <TemplatesList />
+          </Suspense>
         </Grid>
-
-        <Suspense fallback={<CustomSpinner />}>
-          <TemplatesList />
-        </Suspense>
-      </Grid>
-    </>
-  )
+      </>
+    )
+  }
 }
 
 TemplatesPage.authenticate = true

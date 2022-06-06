@@ -1,4 +1,5 @@
-import { Suspense, Redirect } from "react"
+import { Suspense } from "react"
+
 import { Head, Link, useRouter, useQuery, useParam, useMutation, Routes } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getAcademicEducation from "app/academic-educations/queries/getAcademicEducation"
@@ -54,22 +55,25 @@ export const AcademicEducation = () => {
 const ShowAcademicEducationPage = () => {
   const currentUser = useCurrentUser()
 
-  if (!currentUser) {
-    return <Redirect to={Routes.Home} />
-  }
-  return (
-    <div>
-      <p>
-        <Link href={Routes.AcademicEducationsPage()}>
-          <a>AcademicEducations</a>
-        </Link>
-      </p>
+  const router = useRouter()
 
-      <Suspense fallback={<CustomSpinner />}>
-        <AcademicEducation />
-      </Suspense>
-    </div>
-  )
+  if (!currentUser) {
+    router.push(Routes.Home()) //searchthis
+  } else {
+    return (
+      <div>
+        <p>
+          <Link href={Routes.AcademicEducationsPage()}>
+            <a>AcademicEducations</a>
+          </Link>
+        </p>
+
+        <Suspense fallback={<CustomSpinner />}>
+          <AcademicEducation />
+        </Suspense>
+      </div>
+    )
+  }
 }
 
 ShowAcademicEducationPage.authenticate = true

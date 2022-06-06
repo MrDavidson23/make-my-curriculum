@@ -1,4 +1,5 @@
-import { Suspense, useState, Redirect } from "react"
+import { Suspense, useState } from "react"
+
 import { Head, Link, useRouter, useQuery, useMutation, useParam, Routes, useSession } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getCurriculum from "app/curricula/queries/getCurriculum"
@@ -226,23 +227,26 @@ export const EditCurriculum = () => {
 const EditCurriculumPage = () => {
   const currentUser = useCurrentUser()
 
+  const router = useRouter()
+
   if (!currentUser) {
-    return <Redirect to={Routes.Home} />
+    router.push(Routes.Home()) //searchthis
+  } else {
+    return (
+      <div>
+        <Suspense fallback={<CustomSpinner />}>
+          <EditCurriculum />
+        </Suspense>
+      </div>
+    )
   }
-  return (
-    <div>
-      <Suspense fallback={<CustomSpinner />}>
-        <EditCurriculum />
-      </Suspense>
-    </div>
-  )
 }
 
 EditCurriculumPage.authenticate = true
 
 EditCurriculumPage.getLayout = (page) => <Layout>{page}</Layout>
 
-// EditCurriculumPage.redirectAuthenticatedTo = ({ session }) =>
+// EditCurriculumPage.NavigateAuthenticatedTo = ({ session }) =>
 //   session.role === "admin" ? "/admin" : Routes.Home()
 
 export default EditCurriculumPage

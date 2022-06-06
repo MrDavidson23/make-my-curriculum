@@ -1,4 +1,5 @@
-import { Suspense, Redirect } from "react"
+import { Suspense } from "react"
+
 import { Head, Link, useRouter, useQuery, useMutation, useParam, Routes } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getLanguage from "app/languages/queries/getLanguage"
@@ -66,22 +67,25 @@ export const EditLanguage = () => {
 const EditLanguagePage = () => {
   const currentUser = useCurrentUser()
 
-  if (!currentUser || currentUser.role != "ADMIN") {
-    return <Redirect to={Routes.Home} />
-  }
-  return (
-    <div>
-      <Suspense fallback={<CustomSpinner />}>
-        <EditLanguage />
-      </Suspense>
+  const router = useRouter()
 
-      <p>
-        <Link href={Routes.LanguagesPage()}>
-          <a>Languages</a>
-        </Link>
-      </p>
-    </div>
-  )
+  if (!currentUser || currentUser.role != "ADMIN") {
+    router.push(Routes.Home()) //searchthis
+  } else {
+    return (
+      <div>
+        <Suspense fallback={<CustomSpinner />}>
+          <EditLanguage />
+        </Suspense>
+
+        <p>
+          <Link href={Routes.LanguagesPage()}>
+            <a>Languages</a>
+          </Link>
+        </p>
+      </div>
+    )
+  }
 }
 
 EditLanguagePage.authenticate = true

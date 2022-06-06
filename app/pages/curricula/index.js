@@ -1,4 +1,5 @@
-import { Suspense, useEffect, Redirect } from "react"
+import { Suspense, useEffect } from "react"
+
 import { Head, Link, usePaginatedQuery, useRouter, Routes, Router } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getCurricula from "app/curricula/queries/getCurricula"
@@ -58,34 +59,37 @@ export const CurriculaList = (props) => {
 
 const CurriculaPage = () => {
   const currentUser = useCurrentUser()
-  if (!currentUser) {
-    return <Redirect to={Routes.Home} />
-  }
-  return (
-    <>
-      <Head>
-        <title>Curricula</title>
-      </Head>
-      <Grid
-        container
-        direction="row"
-        spacing={2}
-        textAlign={"center"}
-        justifyContent={"center"}
-        sx={{ mx: "auto", width: "100%" }}
-      >
-        <Grid item xs={12} justify="center" mt={3} mb={3}>
-          <Button variant="outlined" onClick={() => Router.push(Routes.NewCurriculumPage())}>
-            Crear Nuevo Curriculum
-          </Button>
-        </Grid>
+  const router = useRouter()
 
-        <Suspense fallback={<CustomSpinner />}>
-          <CurriculaList />
-        </Suspense>
-      </Grid>
-    </>
-  )
+  if (!currentUser) {
+    router.push(Routes.Home()) //searchthis
+  } else {
+    return (
+      <>
+        <Head>
+          <title>Curricula</title>
+        </Head>
+        <Grid
+          container
+          direction="row"
+          spacing={2}
+          textAlign={"center"}
+          justifyContent={"center"}
+          sx={{ mx: "auto", width: "100%" }}
+        >
+          <Grid item xs={12} justify="center" mt={3} mb={3}>
+            <Button variant="outlined" onClick={() => Router.push(Routes.NewCurriculumPage())}>
+              Crear Nuevo Curriculum
+            </Button>
+          </Grid>
+
+          <Suspense fallback={<CustomSpinner />}>
+            <CurriculaList />
+          </Suspense>
+        </Grid>
+      </>
+    )
+  }
 }
 
 CurriculaPage.authenticate = true

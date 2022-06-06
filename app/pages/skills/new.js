@@ -1,4 +1,5 @@
-import { Link, useRouter, useMutation, useRouterQuery, Routes, Redirect } from "blitz"
+import { Link, useRouter, useMutation, useRouterQuery, Routes } from "blitz"
+
 import Layout from "app/core/layouts/Layout"
 import createSkill from "app/skills/mutations/createSkill"
 import createSkillOnCurriculum from "app/skill-on-curricula/mutations/createSkillOnCurriculum"
@@ -19,61 +20,61 @@ const NewSkillPage = () => {
   const currentUser = useCurrentUser()
 
   if (!currentUser) {
-    return <Redirect to={Routes.Home} />
+    router.push(Routes.Home()) //searchthis
+  } else {
+    return (
+      <div>
+        <Grid
+          container
+          direction="row"
+          spacing={2}
+          textAlign={"center"}
+          sx={{ mx: "auto", width: "100%" }}
+        >
+          <Grid item xs={12}>
+            <Typography variant="h6" component="div" gutterBottom>
+              <h1> Crear nueva Habilidad </h1>
+            </Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <SkillForm
+              submitText="Guardar" // TODO use a zod schema for form validation
+              //  - Tip: extract mutation's schema into a shared `validations.ts` file and
+              //         then import and use it here
+              schema={CreateSkill}
+              initialValues={{ curriculumId: parseInt(curriculumId) }}
+              onSubmit={async (values) => {
+                try {
+                  const skillObject = await createSkillMutation(values)
+                  if (curriculumId !== undefined && curriculumId !== "") {
+                    await createSkillOnCurriculumMutation({
+                      curriculumId: parseInt(curriculumId),
+                      skillId: skillObject.id,
+                    })
+                    router.push(Routes.EditCurriculumPage({ curriculumId }))
+                  } else {
+                    router.push(Routes.SkillsPage())
+                  }
+                } catch (error) {
+                  console.error(error)
+                  return {
+                    [FORM_ERROR]: error.toString(),
+                  }
+                }
+              }}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <p>
+              <Link href={returnPage}>
+                <Button variant="outlined"> Regresar </Button>
+              </Link>
+            </p>
+          </Grid>
+        </Grid>
+      </div>
+    )
   }
-
-  return (
-    <div>
-      <Grid
-        container
-        direction="row"
-        spacing={2}
-        textAlign={"center"}
-        sx={{ mx: "auto", width: "100%" }}
-      >
-        <Grid item xs={12}>
-          <Typography variant="h6" component="div" gutterBottom>
-            <h1> Crear nueva Habilidad </h1>
-          </Typography>
-        </Grid>
-        <Grid item xs={12}>
-          <SkillForm
-            submitText="Guardar" // TODO use a zod schema for form validation
-            //  - Tip: extract mutation's schema into a shared `validations.ts` file and
-            //         then import and use it here
-            schema={CreateSkill}
-            initialValues={{ curriculumId: parseInt(curriculumId) }}
-            onSubmit={async (values) => {
-              try {
-                const skillObject = await createSkillMutation(values)
-                if (curriculumId !== undefined && curriculumId !== "") {
-                  await createSkillOnCurriculumMutation({
-                    curriculumId: parseInt(curriculumId),
-                    skillId: skillObject.id,
-                  })
-                  router.push(Routes.EditCurriculumPage({ curriculumId }))
-                } else {
-                  router.push(Routes.SkillsPage())
-                }
-              } catch (error) {
-                console.error(error)
-                return {
-                  [FORM_ERROR]: error.toString(),
-                }
-              }
-            }}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <p>
-            <Link href={returnPage}>
-              <Button variant="outlined"> Regresar </Button>
-            </Link>
-          </p>
-        </Grid>
-      </Grid>
-    </div>
-  )
 }
 
 NewSkillPage.authenticate = true

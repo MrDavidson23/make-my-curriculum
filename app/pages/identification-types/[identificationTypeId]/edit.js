@@ -1,4 +1,5 @@
-import { Suspense, Redirect } from "react"
+import { Suspense } from "react"
+
 import { Head, Link, useRouter, useQuery, useMutation, useParam, Routes } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getIdentificationType from "app/identification-types/queries/getIdentificationType"
@@ -68,22 +69,25 @@ export const EditIdentificationType = () => {
 const EditIdentificationTypePage = () => {
   const currentUser = useCurrentUser()
 
-  if (!currentUser || currentUser.role != "ADMIN") {
-    return <Redirect to={Routes.Home} />
-  }
-  return (
-    <div>
-      <Suspense fallback={<CustomSpinner />}>
-        <EditIdentificationType />
-      </Suspense>
+  const router = useRouter()
 
-      <p>
-        <Link href={Routes.IdentificationTypesPage()}>
-          <a>IdentificationTypes</a>
-        </Link>
-      </p>
-    </div>
-  )
+  if (!currentUser || currentUser.role != "ADMIN") {
+    router.push(Routes.Home()) //searchthis
+  } else {
+    return (
+      <div>
+        <Suspense fallback={<CustomSpinner />}>
+          <EditIdentificationType />
+        </Suspense>
+
+        <p>
+          <Link href={Routes.IdentificationTypesPage()}>
+            <a>IdentificationTypes</a>
+          </Link>
+        </p>
+      </div>
+    )
+  }
 }
 
 EditIdentificationTypePage.authenticate = true

@@ -1,4 +1,5 @@
-import { Suspense, Redirect } from "react"
+import { Suspense } from "react"
+
 import { Head, Link, useRouter, useQuery, useParam, useMutation, Routes } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getPhone from "app/phones/queries/getPhone"
@@ -54,22 +55,25 @@ export const Phone = () => {
 const ShowPhonePage = () => {
   const currentUser = useCurrentUser()
 
-  if (!currentUser || currentUser.role != "ADMIN") {
-    return <Redirect to={Routes.Home} />
-  }
-  return (
-    <div>
-      <p>
-        <Link href={Routes.PhonesPage()}>
-          <a>Phones</a>
-        </Link>
-      </p>
+  const router = useRouter()
 
-      <Suspense fallback={<CustomSpinner />}>
-        <Phone />
-      </Suspense>
-    </div>
-  )
+  if (!currentUser || currentUser.role != "ADMIN") {
+    router.push(Routes.Home()) //searchthis
+  } else {
+    return (
+      <div>
+        <p>
+          <Link href={Routes.PhonesPage()}>
+            <a>Phones</a>
+          </Link>
+        </p>
+
+        <Suspense fallback={<CustomSpinner />}>
+          <Phone />
+        </Suspense>
+      </div>
+    )
+  }
 }
 
 ShowPhonePage.authenticate = true
