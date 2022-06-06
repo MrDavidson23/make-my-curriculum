@@ -1,6 +1,6 @@
 import { Suspense } from "react"
 
-import { useQuery, useParam } from "blitz"
+import { useRouter, useQuery, useParam } from "blitz"
 import getCurriculum from "app/curricula/queries/getAllCurriculum"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import Layout from "app/core/layouts/Layout"
