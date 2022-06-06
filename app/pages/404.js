@@ -14,7 +14,7 @@ const Page404 = () => {
       router.push(Routes.Home())
     }, 5000)
     return () => clearTimeout(timer)
-  }, [])
+  })
 
   return (
     <>
