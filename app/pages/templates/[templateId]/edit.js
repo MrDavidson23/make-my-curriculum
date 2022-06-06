@@ -9,6 +9,7 @@ import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import { Grid, Button, Typography } from "@mui/material"
 import { EditablePreview } from "app/templates/components/EditablePreview"
 import { useState } from "react"
+import Swal from "sweetalert2"
 
 export const EditTemplate = ({template}) => {
 
@@ -28,13 +29,11 @@ export const EditTemplate = ({template}) => {
     values.design.left = leftStyles
     values.design.right = rightStyles
     try {
-      const template = await updateTemplateMutation({
-        id: template.id,
+      updateTemplateMutation({
         ...values,
+      }).then(()=>{
+        Swal.fire("La plantilla se editó","","success")
       })
-      router.push(
-        Routes.TemplatesPage()
-      )
     } catch (error) {
       console.error(error)
     }

@@ -34,6 +34,12 @@ export const EditCurriculum = () => {
   })
   const [updateCurriculumMutation] = useMutation(updateCurriculum)
   const currentUser = useCurrentUser()
+
+  curriculum.profession = (curriculum.profession === null ? "" : curriculum.profession)
+  curriculum.description = (curriculum.description === null ? "" : curriculum.description)
+
+  const [templateId, setTemplateId] = useState(curriculum.templateId)
+
   const {
     skillLabel,
     laboralExperienceLabel,
@@ -67,6 +73,7 @@ export const EditCurriculum = () => {
 
   const submitChange = async (values) => {
     const newValues = values === undefined ? curriculum : values
+    newValues.templateId = templateId
     try {
       setIsLoading(true)
       const updated = await updateCurriculumMutation({
@@ -208,6 +215,7 @@ export const EditCurriculum = () => {
                 <TemplateList showName={false} onClick={ async (template) => {
                   if (curriculum.templateId !== template.id){
                     curriculum.templateId = template.id
+                    setTemplateId(template.id)
                     await submitChange()
                   }
                 }}/>
