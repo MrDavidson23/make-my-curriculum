@@ -39,7 +39,7 @@ const ResponsiveAppBar = () => {
     },
     {
       name: "Mis Plantillas",
-      path: Routes.ShowTemplatePage(),
+      path: Routes.TemplatesPage(),
     },
   ]
 
