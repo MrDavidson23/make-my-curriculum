@@ -127,7 +127,11 @@ const EditAcademicEducationPage = () => {
   const currentUser = useCurrentUser()
   const router = useRouter()
 
-  if (!currentUser) {
+  const [education] = useQuery(getAcademicEducation, {
+    id: academicEducationId,
+  })
+
+  if (!currentUser || currentUser.id != education.userId) {
     router.push(Routes.Home()) //searchthis
   } else {
     return (

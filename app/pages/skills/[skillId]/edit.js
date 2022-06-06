@@ -22,6 +22,7 @@ import { Grid, Button, Typography } from "@mui/material"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import { SkillForm, FORM_ERROR } from "app/skills/components/SkillForm"
 import CustomSpinner from "app/core/components/CustomSpinner"
+
 export const EditSkill = () => {
   const router = useRouter()
   const skillId = useParam("skillId", "number")
@@ -119,7 +120,11 @@ const EditSkillPage = () => {
   const currentUser = useCurrentUser()
   const router = useRouter()
 
-  if (!currentUser) {
+  const [skill] = useQuery(getSkill, {
+    id: skillId,
+  })
+
+  if (!currentUser || currentUser.id != skill.userId) {
     router.push(Routes.Home()) //searchthis
   } else {
     return (

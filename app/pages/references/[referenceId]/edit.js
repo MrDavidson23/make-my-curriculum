@@ -120,7 +120,11 @@ const EditReferencePage = () => {
   const currentUser = useCurrentUser()
   const router = useRouter()
 
-  if (!currentUser) {
+  const [reference] = useQuery(getReference, {
+    id: referenceId,
+  })
+
+  if (!currentUser || currentUser.id != reference.userId) {
     router.push(Routes.Home()) //searchthis
   } else {
     return (

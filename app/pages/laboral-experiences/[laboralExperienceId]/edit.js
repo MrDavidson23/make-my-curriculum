@@ -124,7 +124,11 @@ const EditLaboralExperiencePage = () => {
   const currentUser = useCurrentUser()
   const router = useRouter()
 
-  if (!currentUser) {
+  const [laboral] = useQuery(getLaboralExperience, {
+    id: laboralExperienceId,
+  })
+
+  if (!currentUser || currentUser.id != laboral.userId) {
     router.push(Routes.Home()) //searchthis
   } else {
     return (

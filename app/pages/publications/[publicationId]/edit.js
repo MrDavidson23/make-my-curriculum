@@ -118,7 +118,11 @@ const EditPublicationPage = () => {
   const currentUser = useCurrentUser()
   const router = useRouter()
 
-  if (!currentUser) {
+  const [publication] = useQuery(getPublication, {
+    id: publicationId,
+  })
+
+  if (!currentUser || currentUser.id != publication.userId) {
     router.push(Routes.Home()) //searchthis
   } else {
     return (
