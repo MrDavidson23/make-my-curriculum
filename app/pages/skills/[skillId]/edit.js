@@ -1,4 +1,5 @@
-import { Suspense, Redirect } from "react"
+import { Suspense } from "react"
+
 import {
   Head,
   Link,
@@ -21,6 +22,7 @@ import { Grid, Button, Typography } from "@mui/material"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import { SkillForm, FORM_ERROR } from "app/skills/components/SkillForm"
 import CustomSpinner from "app/core/components/CustomSpinner"
+
 export const EditSkill = () => {
   const router = useRouter()
   const skillId = useParam("skillId", "number")
@@ -116,33 +118,40 @@ const EditSkillPage = () => {
   }
 
   const currentUser = useCurrentUser()
-  if (!currentUser) {
-    return <Redirect to={Routes.Home} />
+  const router = useRouter()
+
+  const [skill] = useQuery(getSkill, {
+    id: skillId,
+  })
+
+  if (!currentUser || currentUser.id != skill.userId) {
+    router.push(Routes.Home()) //searchthis
+  } else {
+    return (
+      <div>
+        <Suspense fallback={<CustomSpinner />}>
+          <EditSkill />
+        </Suspense>
+
+        <Grid item xs={12}>
+          <p>
+            <Link href={returnPage}>
+              <Button variant="outlined"> Regresar </Button>
+            </Link>
+          </p>
+        </Grid>
+
+        <Suspense fallback={<CustomSpinner />}>
+          <CurriculaList
+            curriculumsHighlight={skillOnCurriculum.map((cv) => {
+              return cv.curriculumId
+            })}
+            onChangeCurriculumHighlight={onChange}
+          />
+        </Suspense>
+      </div>
+    )
   }
-  return (
-    <div>
-      <Suspense fallback={<CustomSpinner />}>
-        <EditSkill />
-      </Suspense>
-
-      <Grid item xs={12}>
-        <p>
-          <Link href={returnPage}>
-            <Button variant="outlined"> Regresar </Button>
-          </Link>
-        </p>
-      </Grid>
-
-      <Suspense fallback={<CustomSpinner />}>
-        <CurriculaList
-          curriculumsHighlight={skillOnCurriculum.map((cv) => {
-            return cv.curriculumId
-          })}
-          onChangeCurriculumHighlight={onChange}
-        />
-      </Suspense>
-    </div>
-  )
 }
 
 EditSkillPage.authenticate = true

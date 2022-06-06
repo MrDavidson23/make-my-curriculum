@@ -1,4 +1,5 @@
-import { Link, useRouter, useMutation, useRouterQuery, Routes, Redirect } from "blitz"
+import { Link, useRouter, useMutation, useRouterQuery, Routes } from "blitz"
+
 import Layout from "app/core/layouts/Layout"
 import { ReferenceForm, FORM_ERROR } from "app/references/components/ReferenceForm"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
@@ -18,61 +19,61 @@ const NewReferencePage = () => {
   const currentUser = useCurrentUser()
 
   if (!currentUser) {
-    return <Redirect to={Routes.Home} />
+    router.push(Routes.Home()) //searchthis
+  } else {
+    return (
+      <div>
+        <Grid
+          container
+          direction="row"
+          spacing={2}
+          textAlign={"center"}
+          sx={{ mx: "auto", width: "100%" }}
+        >
+          <Grid item xs={12}>
+            <Typography variant="h6" component="div" gutterBottom>
+              <h1> Crear nueva Referencia </h1>
+            </Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <ReferenceForm
+              submitText="Guardar" // TODO use a zod schema for form validation
+              //  - Tip: extract mutation's schema into a shared `validations.ts` file and
+              //         then import and use it here
+              schema={CreateReferenceValidation} ////////////////////////////
+              initialValues={{ curriculumId: parseInt(curriculumId) }}
+              onSubmit={async (values) => {
+                try {
+                  const referenceObject = await createReferenceMutation(values)
+                  if (curriculumId !== undefined && curriculumId !== "") {
+                    await createReferenceOnCurriculumMutation({
+                      curriculumId: parseInt(curriculumId),
+                      referenceId: referenceObject.id,
+                    })
+                    router.push(Routes.EditCurriculumPage({ curriculumId }))
+                  } else {
+                    router.push(Routes.ReferencesPage())
+                  }
+                } catch (error) {
+                  console.error(error)
+                  return {
+                    [FORM_ERROR]: error.toString(),
+                  }
+                }
+              }}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <p>
+              <Link href={returnPage}>
+                <Button variant="outlined"> Regresar </Button>
+              </Link>
+            </p>
+          </Grid>
+        </Grid>
+      </div>
+    )
   }
-
-  return (
-    <div>
-      <Grid
-        container
-        direction="row"
-        spacing={2}
-        textAlign={"center"}
-        sx={{ mx: "auto", width: "100%" }}
-      >
-        <Grid item xs={12}>
-          <Typography variant="h6" component="div" gutterBottom>
-            <h1> Crear nueva Referencia </h1>
-          </Typography>
-        </Grid>
-        <Grid item xs={12}>
-          <ReferenceForm
-            submitText="Guardar" // TODO use a zod schema for form validation
-            //  - Tip: extract mutation's schema into a shared `validations.ts` file and
-            //         then import and use it here
-            schema={CreateReferenceValidation} ////////////////////////////
-            initialValues={{ curriculumId: parseInt(curriculumId) }}
-            onSubmit={async (values) => {
-              try {
-                const referenceObject = await createReferenceMutation(values)
-                if (curriculumId !== undefined && curriculumId !== "") {
-                  await createReferenceOnCurriculumMutation({
-                    curriculumId: parseInt(curriculumId),
-                    referenceId: referenceObject.id,
-                  })
-                  router.push(Routes.EditCurriculumPage({ curriculumId }))
-                } else {
-                  router.push(Routes.ReferencesPage())
-                }
-              } catch (error) {
-                console.error(error)
-                return {
-                  [FORM_ERROR]: error.toString(),
-                }
-              }
-            }}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <p>
-            <Link href={returnPage}>
-              <Button variant="outlined"> Regresar </Button>
-            </Link>
-          </p>
-        </Grid>
-      </Grid>
-    </div>
-  )
 }
 
 NewReferencePage.authenticate = true

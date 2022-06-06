@@ -1,4 +1,5 @@
-import { Suspense, Redirect } from "react"
+import { Suspense } from "react"
+
 import { Head, Link, useRouter, useQuery, useParam, useMutation, Routes } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getTemplate from "app/templates/queries/getTemplate"
@@ -54,22 +55,25 @@ export const Template = () => {
 const ShowTemplatePage = () => {
   const currentUser = useCurrentUser()
 
-  if (!currentUser) {
-    return <Redirect to={Routes.Home} />
-  }
-  return (
-    <div>
-      <p>
-        <Link href={Routes.TemplatesPage()}>
-          <a>Templates</a>
-        </Link>
-      </p>
+  const router = useRouter()
 
-      <Suspense fallback={<CustomSpinner />}>
-        <Template />
-      </Suspense>
-    </div>
-  )
+  if (!currentUser) {
+    router.push(Routes.Home()) //searchthis
+  } else {
+    return (
+      <div>
+        <p>
+          <Link href={Routes.TemplatesPage()}>
+            <a>Templates</a>
+          </Link>
+        </p>
+
+        <Suspense fallback={<CustomSpinner />}>
+          <Template />
+        </Suspense>
+      </div>
+    )
+  }
 }
 
 ShowTemplatePage.authenticate = true

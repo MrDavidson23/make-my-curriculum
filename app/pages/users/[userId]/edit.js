@@ -1,5 +1,6 @@
-import { Suspense, Redirect } from "react"
-import { Head, Link, useQuery, useParam, Routes } from "blitz"
+import { Suspense } from "react"
+
+import { useRouter, Head, Link, useQuery, useParam, Routes } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getUser from "app/users/queries/getUser"
 import { UserForm } from "app/users/components/UserForm"
@@ -32,16 +33,19 @@ export const EditUser = () => {
 const EditUserPage = () => {
   const currentUser = useCurrentUser()
 
+  const router = useRouter()
+
   if (!currentUser) {
-    return <Redirect to={Routes.Home} />
+    router.push(Routes.Home()) //searchthis
+  } else {
+    return (
+      <>
+        <Suspense fallback={<CustomSpinner />}>
+          <EditUser />
+        </Suspense>
+      </>
+    )
   }
-  return (
-    <>
-      <Suspense fallback={<CustomSpinner />}>
-        <EditUser />
-      </Suspense>
-    </>
-  )
 }
 
 EditUserPage.authenticate = true

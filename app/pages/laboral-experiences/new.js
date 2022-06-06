@@ -1,4 +1,5 @@
-import { Link, useRouter, useMutation, useRouterQuery, Routes, Redirect } from "blitz"
+import { Link, useRouter, useMutation, useRouterQuery, Routes } from "blitz"
+
 import Layout from "app/core/layouts/Layout"
 import createLaboralExperience from "app/laboral-experiences/mutations/createLaboralExperience"
 import createLaboralExperienceOnCurriculum from "app/laboral-experience-on-curricula/mutations/createLaboralExperienceOnCurriculum"
@@ -25,64 +26,64 @@ const NewLaboralExperiencePage = () => {
       : Routes.LaboralExperiencesPage()
 
   if (!currentUser) {
-    return <Redirect to={Routes.Home} />
+    router.push(Routes.Home()) //searchthis
+  } else {
+    return (
+      <div>
+        <Grid
+          container
+          direction="row"
+          spacing={2}
+          textAlign={"center"}
+          sx={{ mx: "auto", width: "100%" }}
+        >
+          <Grid item xs={12}>
+            <Typography variant="h6" component="div" gutterBottom>
+              <h1> Crear nueva Experiencia Laboral </h1>
+            </Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <LaboralExperienceForm
+              submitText="Guardar" // TODO use a zod schema for form validation
+              //  - Tip: extract mutation's schema into a shared `validations.ts` file and
+              //         then import and use it here
+              schema={CreateLaboralExperience}
+              initialValues={{
+                curriculumId: parseInt(curriculumId),
+                startYear: new Date(new Date().getTime() - 24 * 60 * 60 * 1000),
+              }}
+              onSubmit={async (values) => {
+                try {
+                  const laboralObject = await createLaboralExperienceMutation(values)
+                  if (curriculumId !== undefined && curriculumId !== "") {
+                    await createLaboralExperienceOnCurriculumMutation({
+                      curriculumId: parseInt(curriculumId),
+                      laboralExperienceId: laboralObject.id,
+                    })
+                    router.push(Routes.EditCurriculumPage({ curriculumId }))
+                  } else {
+                    router.push(Routes.LaboralExperiencesPage())
+                  }
+                } catch (error) {
+                  console.error(error)
+                  return {
+                    [FORM_ERROR]: error.toString(),
+                  }
+                }
+              }}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <p>
+              <Link href={returnPage}>
+                <Button variant="outlined"> Regresar </Button>
+              </Link>
+            </p>
+          </Grid>
+        </Grid>
+      </div>
+    )
   }
-
-  return (
-    <div>
-      <Grid
-        container
-        direction="row"
-        spacing={2}
-        textAlign={"center"}
-        sx={{ mx: "auto", width: "100%" }}
-      >
-        <Grid item xs={12}>
-          <Typography variant="h6" component="div" gutterBottom>
-            <h1> Crear nueva Experiencia Laboral </h1>
-          </Typography>
-        </Grid>
-        <Grid item xs={12}>
-          <LaboralExperienceForm
-            submitText="Guardar" // TODO use a zod schema for form validation
-            //  - Tip: extract mutation's schema into a shared `validations.ts` file and
-            //         then import and use it here
-            schema={CreateLaboralExperience}
-            initialValues={{
-              curriculumId: parseInt(curriculumId),
-              startYear: new Date(new Date().getTime() - 24 * 60 * 60 * 1000),
-            }}
-            onSubmit={async (values) => {
-              try {
-                const laboralObject = await createLaboralExperienceMutation(values)
-                if (curriculumId !== undefined && curriculumId !== "") {
-                  await createLaboralExperienceOnCurriculumMutation({
-                    curriculumId: parseInt(curriculumId),
-                    laboralExperienceId: laboralObject.id,
-                  })
-                  router.push(Routes.EditCurriculumPage({ curriculumId }))
-                } else {
-                  router.push(Routes.LaboralExperiencesPage())
-                }
-              } catch (error) {
-                console.error(error)
-                return {
-                  [FORM_ERROR]: error.toString(),
-                }
-              }
-            }}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <p>
-            <Link href={returnPage}>
-              <Button variant="outlined"> Regresar </Button>
-            </Link>
-          </p>
-        </Grid>
-      </Grid>
-    </div>
-  )
 }
 
 NewLaboralExperiencePage.authenticate = true

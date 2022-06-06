@@ -1,4 +1,5 @@
-import { Suspense, Redirect } from "react"
+import { Suspense } from "react"
+
 import {
   Head,
   Link,
@@ -115,32 +116,39 @@ const EditPublicationPage = () => {
   }
 
   const currentUser = useCurrentUser()
-  if (!currentUser) {
-    return <Redirect to={Routes.Home} />
-  }
-  return (
-    <div>
-      <Suspense fallback={<CustomSpinner />}>
-        <EditPublication />
-      </Suspense>
+  const router = useRouter()
 
-      <Grid item xs={12}>
-        <p>
-          <Link href={returnPage}>
-            <Button variant="outlined"> Regresar </Button>
-          </Link>
-        </p>
-      </Grid>
-      <Suspense fallback={<CustomSpinner />}>
-        <CurriculaList
-          curriculumsHighlight={publicationOnCurriculum.map((cv) => {
-            return cv.curriculumId
-          })}
-          onChangeCurriculumHighlight={onChange}
-        />
-      </Suspense>
-    </div>
-  )
+  const [publication] = useQuery(getPublication, {
+    id: publicationId,
+  })
+
+  if (!currentUser || currentUser.id != publication.userId) {
+    router.push(Routes.Home()) //searchthis
+  } else {
+    return (
+      <div>
+        <Suspense fallback={<CustomSpinner />}>
+          <EditPublication />
+        </Suspense>
+
+        <Grid item xs={12}>
+          <p>
+            <Link href={returnPage}>
+              <Button variant="outlined"> Regresar </Button>
+            </Link>
+          </p>
+        </Grid>
+        <Suspense fallback={<CustomSpinner />}>
+          <CurriculaList
+            curriculumsHighlight={publicationOnCurriculum.map((cv) => {
+              return cv.curriculumId
+            })}
+            onChangeCurriculumHighlight={onChange}
+          />
+        </Suspense>
+      </div>
+    )
+  }
 }
 
 EditPublicationPage.authenticate = true
