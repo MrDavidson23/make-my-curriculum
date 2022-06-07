@@ -1,4 +1,5 @@
-import { Suspense, Redirect } from "react"
+import { Suspense } from "react"
+
 import { Head, Link, usePaginatedQuery, useRouter, Routes } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getUsers from "app/users/queries/getUsers"
@@ -62,24 +63,26 @@ export const UsersList = () => {
 
 const UsersPage = () => {
   const currentUser = useCurrentUser()
-  const router = useRouter()
-  if (!currentUser || currentUser.role !== "ADMIN") {
-    router.push(Routes.Home())
-    return (<></>)
-  }
-  return (
-    <>
-      <Head>
-        <title>Users</title>
-      </Head>
 
-      <div>
-        <Suspense fallback={<CustomSpinner />}>
-          <UsersList />
-        </Suspense>
-      </div>
-    </>
-  )
+  const router = useRouter()
+
+  if (!currentUser || currentUser.role !== "ADMIN") {
+    router.push(Routes.Home()) //searchthis
+  } else {
+    return (
+      <>
+        <Head>
+          <title>Users</title>
+        </Head>
+
+        <div>
+          <Suspense fallback={<CustomSpinner />}>
+            <UsersList />
+          </Suspense>
+        </div>
+      </>
+    )
+  }
 }
 
 UsersPage.authenticate = true

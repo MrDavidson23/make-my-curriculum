@@ -1,4 +1,5 @@
-import { Suspense, Redirect } from "react"
+import { Suspense } from "react"
+
 import { Head, Link, usePaginatedQuery, useRouter, Routes } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getPhones from "app/phones/queries/getPhones"
@@ -59,28 +60,31 @@ export const PhonesList = () => {
 const PhonesPage = () => {
   const currentUser = useCurrentUser()
 
+  const router = useRouter()
+
   if (!currentUser || currentUser.role != "ADMIN") {
-    return <Redirect to={Routes.Home} />
+    router.push(Routes.Home()) //searchthis
+  } else {
+    return (
+      <>
+        <Head>
+          <title>Phones</title>
+        </Head>
+
+        <div>
+          <p>
+            <Link href={Routes.NewPhonePage()}>
+              <a>Create Phone</a>
+            </Link>
+          </p>
+
+          <Suspense fallback={<CustomSpinner />}>
+            <PhonesList />
+          </Suspense>
+        </div>
+      </>
+    )
   }
-  return (
-    <>
-      <Head>
-        <title>Phones</title>
-      </Head>
-
-      <div>
-        <p>
-          <Link href={Routes.NewPhonePage()}>
-            <a>Create Phone</a>
-          </Link>
-        </p>
-
-        <Suspense fallback={<CustomSpinner />}>
-          <PhonesList />
-        </Suspense>
-      </div>
-    </>
-  )
 }
 
 PhonesPage.authenticate = true

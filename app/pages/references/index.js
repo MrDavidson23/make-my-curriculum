@@ -1,4 +1,5 @@
-import { Suspense, useState, useEffect, Redirect } from "react"
+import { Suspense, useState, useEffect } from "react"
+
 import { Head, Link, usePaginatedQuery, useRouter, Routes, useMutation, Router } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getReferences from "app/references/queries/getReferences"
@@ -169,30 +170,33 @@ export const ReferencesList = (props) => {
 
 const ReferencesPage = (props) => {
   const currentUser = useCurrentUser()
-  if (!currentUser) {
-    return <Redirect to={Routes.Home} />
-  }
-  return (
-    <>
-      <div>
-        <p>
-          <Button
-            variant="outlined"
-            justify="center"
-            onClick={() =>
-              Router.push(Routes.NewReferencePage({ curriculumId: props.curriculumId }))
-            }
-          >
-            Crear Referencia
-          </Button>
-        </p>
+  const router = useRouter()
 
-        <Suspense fallback={<CustomSpinner />}>
-          <ReferencesList curriculumId={props.curriculumId} onCurriculum={props.onCurriculum} />
-        </Suspense>
-      </div>
-    </>
-  )
+  if (!currentUser) {
+    router.push(Routes.Home()) //searchthis
+  } else {
+    return (
+      <>
+        <div>
+          <p>
+            <Button
+              variant="outlined"
+              justify="center"
+              onClick={() =>
+                Router.push(Routes.NewReferencePage({ curriculumId: props.curriculumId }))
+              }
+            >
+              Crear Referencia
+            </Button>
+          </p>
+
+          <Suspense fallback={<CustomSpinner />}>
+            <ReferencesList curriculumId={props.curriculumId} onCurriculum={props.onCurriculum} />
+          </Suspense>
+        </div>
+      </>
+    )
+  }
 }
 
 ReferencesPage.authenticate = true

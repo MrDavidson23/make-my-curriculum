@@ -1,5 +1,6 @@
 import { Suspense } from "react"
-import { Head, Link, useRouter, useQuery, useMutation, useParam, Routes  } from "blitz"
+
+import { Head, Link, useRouter, useQuery, useMutation, useParam, Routes } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getTemplate from "app/templates/queries/getTemplate"
 import updateTemplate from "app/templates/mutations/updateTemplate"
@@ -114,7 +115,7 @@ const EditTemplatePage = () => {
         sx={{ mx: "auto", width: "100%" }}
       >
         <Suspense fallback={<CustomSpinner />}>
-          <EditTemplate template={template}/>
+          <EditTemplate />
         </Suspense>
 
         <Grid item xs={12}>

@@ -1,4 +1,5 @@
-import { Suspense, useState, useEffect, Redirect } from "react"
+import { Suspense, useState, useEffect } from "react"
+
 import { Head, Link, usePaginatedQuery, useRouter, Routes, useMutation } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getPublications from "app/publications/queries/getPublications"
@@ -174,24 +175,27 @@ export const PublicationsList = (props) => {
 
 const PublicationsPage = (props) => {
   const currentUser = useCurrentUser()
-  if (!currentUser) {
-    return <Redirect to={Routes.Home} />
-  }
-  return (
-    <>
-      <div>
-        <p>
-          <Link href={Routes.NewPublicationPage({ curriculumId: props.curriculumId })}>
-            <Button variant="outlined">Crear Publicación</Button>
-          </Link>
-        </p>
+  const router = useRouter()
 
-        <Suspense fallback={<CustomSpinner />}>
-          <PublicationsList curriculumId={props.curriculumId} onCurriculum={props.onCurriculum} />
-        </Suspense>
-      </div>
-    </>
-  )
+  if (!currentUser) {
+    router.push(Routes.Home()) //searchthis
+  } else {
+    return (
+      <>
+        <div>
+          <p>
+            <Link href={Routes.NewPublicationPage({ curriculumId: props.curriculumId })}>
+              <Button variant="outlined">Crear Publicación</Button>
+            </Link>
+          </p>
+
+          <Suspense fallback={<CustomSpinner />}>
+            <PublicationsList curriculumId={props.curriculumId} onCurriculum={props.onCurriculum} />
+          </Suspense>
+        </div>
+      </>
+    )
+  }
 }
 
 PublicationsPage.authenticate = true

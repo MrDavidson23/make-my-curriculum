@@ -1,4 +1,5 @@
-import { useRouter, useMutation, Routes, Redirect } from "blitz"
+import { useRouter, useMutation, Routes } from "blitz"
+
 import { useEffect, Suspense } from "react"
 import Layout from "app/core/layouts/Layout"
 import CustomSpinner from "app/core/components/CustomSpinner"
@@ -34,9 +35,10 @@ const NewCurriculumPage = () => {
   const currentUser = useCurrentUser()
 
   if (!currentUser) {
-    return <Redirect to={Routes.Home} />
+    router.push(Routes.Home()) //searchthis
+  } else {
+    return <Suspense fallback={<CustomSpinner />} />
   }
-  return <Suspense fallback={<CustomSpinner />} />
 }
 
 NewCurriculumPage.authenticate = true

@@ -1,4 +1,5 @@
-import { Suspense, Redirect } from "react"
+import { Suspense } from "react"
+
 import { Head, Link, useRouter, useQuery, useParam, useMutation, Routes } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getUser from "app/users/queries/getUser"
@@ -62,17 +63,17 @@ const ShowUserPage = () => {
   }
 
   return (
-    <div>
-      <p>
-        <Link href={Routes.UsersPage()}>
-          <a>Users</a>
-        </Link>
-      </p>
+      <div>
+        <p>
+          <Link href={Routes.UsersPage()}>
+            <a>Users</a>
+          </Link>
+        </p>
 
-      <Suspense fallback={<CustomSpinner />}>
-        <User />
-      </Suspense>
-    </div>
+        <Suspense fallback={<CustomSpinner />}>
+          <User />
+        </Suspense>
+      </div>
   )
 }
 
