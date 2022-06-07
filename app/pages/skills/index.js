@@ -96,7 +96,8 @@ export const SkillsList = (props) => {
           await deleteSkillMutation({
             id,
           })
-          router.push(Routes.SkillsPage())
+          const newSelected = selected.filter((skill) => skill.id !== id)
+          setSelected(newSelected)
         }
       } else {
         Swal.fire("La habilidad no se elimino", "", "info")
