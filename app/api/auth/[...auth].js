@@ -160,7 +160,15 @@ export default passportAuth({
     },
     {
       authType: "reauthenticate",
-      profileFields: ["user_birthday", "id", "displayName", "photos", "email"],
+      profileFields: [
+        "user_birthday",
+        "id",
+        "displayName",
+        "photos",
+        "email",
+        "first_name",
+        "last_name",
+      ],
       authenticateOptions: { scope: "email public_profile user_birthday" },
       strategy: new FacebookStrategy(
         {
@@ -185,7 +193,8 @@ export default passportAuth({
           )
 
           //const email2 = "https://graph.facebook.com/v3.2/me?" + "fields=id,name,email,first_name,last_name&access_token=" + token
-          const email = (await email2.json()).email
+          const fulljson = await email2.json()
+          const email = fulljson.email
           //const email = profile.emails && profile.emails[0]?.value
 
           if (!email) {
@@ -197,8 +206,8 @@ export default passportAuth({
             where: { email },
             create: {
               email,
-              name: profile.name.givenName,
-              lastName: profile.name.familyName,
+              name: fulljson.first_name,
+              lastName: fulljson.last_name,
             },
             update: { email },
           })
