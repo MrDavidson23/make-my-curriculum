@@ -100,7 +100,7 @@ const ResponsiveAppBar = () => {
           router.push(Routes.ShowUserPage({ userId: currentUser?.id }))
           break
         case "Todas mis plantillas":
-          router.push(Routes.ShowTemplatePage())
+          router.push(Routes.TemplatesPage())
           break
         case "Registrarse":
           router.push(Routes.RegisterPage())
