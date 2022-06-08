@@ -42,6 +42,7 @@ const model = {
                 fontWeight: z.string(),
             }),
             container: z.object({
+                width: z.string(),
                 paddingTop: z.number(),
                 paddingLeft: z.number(),
                 paddingRight: z.number(),

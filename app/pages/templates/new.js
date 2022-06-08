@@ -36,6 +36,7 @@ const NewTemplatePage = () => {
   })
   const [rightStyles, setRightStyles] = useState({
     container: {
+      width: "100%",
       backgroundColor: "#FAF6F6",
     },
     text: {

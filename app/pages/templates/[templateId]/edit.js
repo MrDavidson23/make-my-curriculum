@@ -115,7 +115,7 @@ const EditTemplatePage = () => {
         sx={{ mx: "auto", width: "100%" }}
       >
         <Suspense fallback={<CustomSpinner />}>
-          <EditTemplate />
+          <EditTemplate template={template}/>
         </Suspense>
 
         <Grid item xs={12}>
