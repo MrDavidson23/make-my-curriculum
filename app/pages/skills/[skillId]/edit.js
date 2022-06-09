@@ -18,7 +18,6 @@ import createSkillOnCurriculum from "app/skill-on-curricula/mutations/createSkil
 import deleteSkillOnCurriculum from "app/skill-on-curricula/mutations/deleteSkillOnCurriculum"
 import { UpdateSkill } from "app/skills/components/validations"
 import { Grid, Button, Typography } from "@mui/material"
-
 import { SkillForm, FORM_ERROR } from "app/skills/components/SkillForm"
 import CustomSpinner from "app/core/components/CustomSpinner"
 export const EditSkill = () => {
@@ -35,8 +34,6 @@ export const EditSkill = () => {
       staleTime: Infinity,
     }
   )
-
-  //const [updateSkillMutation] = useMutation(updateSkill)
   return (
     <>
       <Head>
@@ -59,9 +56,7 @@ export const EditSkill = () => {
 
           <Grid item xs={12}>
             <SkillForm
-              submitText="Actualizar Habilidad" // TODO use a zod schema for form validation
-              //  - Tip: extract mutation's schema into a shared `validations.ts` file and
-              //         then import and use it here
+              submitText=" Actualizar Habilidad "
               schema={UpdateSkill}
               initialValues={skill}
               onSubmit={async (values) => {

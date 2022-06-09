@@ -68,15 +68,15 @@ export const SkillsList = (props) => {
   const handleOnDelete = async (id) => {
     Swal.fire({
       title: props.onCurriculum
-        ? "¿La habilidad se excluirá de este curriculum, esta seguro?"
-        : "¿La habilidad se eliminará, esta seguro?",
+        ? " ¿La habilidad se excluirá de este curriculum, esta seguro? "
+        : " ¿La habilidad se eliminará, esta seguro? ",
       showCancelButton: true,
-      confirmButtonText: "Eliminar",
+      confirmButtonText: " Eliminar ",
       cancelButtonText: `No eliminar`,
       cancelButtonColor: "#d33",
     }).then(async (result) => {
       if (result.isConfirmed) {
-        Swal.fire("La habilidad se elimino", "", "info")
+        Swal.fire(" La habilidad se elimino ", "", " info ")
         if ((props.curriculumId !== undefined && props.curriculumId !== "") || props.onCurriculum) {
           await deleteSkillOnCurriculumMutation({
             curriculumId: props.curriculumId,
@@ -93,7 +93,7 @@ export const SkillsList = (props) => {
           router.push(Routes.SkillsPage())
         }
       } else {
-        Swal.fire("La habilidad no se elimino", "", "info")
+        Swal.fire(" La habilidad no se elimino ", "", " info ")
       }
     })
   }
@@ -130,7 +130,7 @@ export const SkillsList = (props) => {
                 </InputLabel>
                 <Select
                   value={optionSelected}
-                  label="Seleccione una habilidad"
+                  label=" Seleccione una habilidad "
                   onChange={handleOnSelectOption}
                 >
                   {options.length > 0 ? (
@@ -140,7 +140,7 @@ export const SkillsList = (props) => {
                       </MenuItem>
                     ))
                   ) : (
-                    <MenuItem disabled>No hay habilidades disponibles</MenuItem>
+                    <MenuItem disabled> No hay habilidades disponibles </MenuItem>
                   )}
                 </Select>
               </FormControl>
@@ -158,7 +158,7 @@ const SkillsPage = (props) => {
       <div>
         <p>
           <Link href={Routes.NewSkillPage({ curriculumId: props.curriculumId })}>
-            <Button variant="outlined">Crear Habilidad</Button>
+            <Button variant="outlined"> Crear Habilidad </Button>
           </Link>
         </p>
 
