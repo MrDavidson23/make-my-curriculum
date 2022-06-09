@@ -66,7 +66,7 @@ const UsersPage = () => {
 
   const router = useRouter()
 
-  if (!currentUser || currentUser.role != "ADMIN") {
+  if (!currentUser || currentUser.role !== "ADMIN") {
     router.push(Routes.Home()) //searchthis
   } else {
     return (

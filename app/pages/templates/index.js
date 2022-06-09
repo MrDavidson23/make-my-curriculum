@@ -34,6 +34,8 @@ export const TemplatesList = () => {
       },
     })
 
+  const currentUser = useCurrentUser()
+
   return (
     <div>
       <Grid
@@ -44,7 +46,9 @@ export const TemplatesList = () => {
         justifyContent={"center"}
         sx={{ mx: "auto", width: "100%" }}
       >
-        <TemplateList />
+        { currentUser &&
+        <TemplateList role={currentUser.role} userId={currentUser.id} mutateButtons={true}/>
+        }
       </Grid>
 
       <button disabled={page === 0} onClick={goToPreviousPage}>

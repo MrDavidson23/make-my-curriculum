@@ -9,11 +9,15 @@ import { EditablePreview } from "app/templates/components/EditablePreview"
 import { useState } from "react"
 
 const NewTemplatePage = () => {
+
+  const currentUser = useCurrentUser()
   const router = useRouter()
   const [createTemplateMutation] = useMutation(createTemplate)
-  const [name, setName] = useState("Plantilla")
-  const [leftStyles, setLeftStyles] = useState({
-    container: {
+
+  const [premium,setPremium] = useState(false)
+  const [name,setName] = useState("Plantilla")
+  const [leftStyles,setLeftStyles] = useState(
+    {container: {
       backgroundColor: "#3A298F",
       width: 300,
     },
@@ -32,6 +36,7 @@ const NewTemplatePage = () => {
   })
   const [rightStyles, setRightStyles] = useState({
     container: {
+      width: "100%",
       backgroundColor: "#FAF6F6",
     },
     text: {
@@ -97,21 +102,17 @@ const NewTemplatePage = () => {
       right: right,
     }
 
-    const values = { design: JSON.parse(JSON.stringify(design)), name: name, isPremium: false }
-
+    const values = {design:(JSON.parse(JSON.stringify(design))),name:name,isPremium:premium}
+    
     try {
       const template = await createTemplateMutation(values)
       router.push(
-        Routes.ShowTemplatePage({
-          templateId: template.id,
-        })
+        Routes.TemplatesPage()
       )
     } catch (error) {
       console.error(error)
     }
      }
-
-  const currentUser = useCurrentUser()
 
   if (!currentUser) {
     router.push(Routes.Home()) //searchthis
@@ -158,6 +159,51 @@ const NewTemplatePage = () => {
       </div>
     )
   }
+
+  return (
+    <div>
+      <Grid
+        container
+        direction="row"
+        spacing={2}
+        textAlign={"center"}
+        sx={{ mx: "auto", width: "100%" }}
+      >
+        <Grid item xs={12}>
+          <Typography variant="h6" component="div" gutterBottom>
+            <h1> Crear nueva Plantilla </h1>
+          </Typography>
+        </Grid>
+      
+      <EditablePreview
+        percentage={percentage}
+        setPercentage={setPercentage}
+        defaultValue={defaultPercentage}
+        leftStyles={leftStyles}
+        setLeftStyles={setLeftStyles}
+        rightStyles={rightStyles}
+        setRightStyles={setRightStyles}
+        name={name}
+        setName={setName}
+        role={currentUser.role}
+        premium={premium}
+        setPremium={setPremium}
+        submitText={"Crear Plantilla"}
+        onClickSubmit={ async () =>{
+          await newTemplate()
+        }}
+      />
+
+        <Grid item xs={12}>
+          <p>
+            <Link href={Routes.TemplatesPage()}>
+              <Button variant="outlined"> Regresar </Button>
+            </Link>
+          </p>
+        </Grid>
+      </Grid>
+    </div>
+  )
 }
 
 NewTemplatePage.authenticate = true

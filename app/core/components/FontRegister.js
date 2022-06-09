@@ -19,6 +19,19 @@ const FontRegister = () => {
             },
         ],
         });
+
+        Font.register({
+            family: 'Kadwa',
+            fonts: [
+                {
+                src: `https://fonts.gstatic.com/s/kadwa/v2/rnCm-x5V0g7ipiTAT8M.ttf`,
+                },
+                {
+                src: `https://fonts.gstatic.com/s/kadwa/v2/rnCr-x5V0g7ipix7atM5kn0.ttf`,
+                fontWeight: 'bold',
+                },
+            ],
+        });
         
         Font.register({
         family: 'Oswald',
