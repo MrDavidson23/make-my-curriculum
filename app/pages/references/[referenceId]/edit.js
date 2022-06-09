@@ -1,4 +1,5 @@
 import { Suspense } from "react"
+
 import {
   Head,
   Link,
@@ -20,6 +21,7 @@ import deleteReferenceOnCurriculumMutation from "app/reference-on-curricula/muta
 import { UpdateReferenceValidation } from "app/references/components/validaciones"
 import { Grid, Button, Typography } from "@mui/material"
 import CustomSpinner from "app/core/components/CustomSpinner"
+import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 
 export const EditReference = () => {
   const router = useRouter()
@@ -36,6 +38,7 @@ export const EditReference = () => {
     }
   )
   const [updateReferenceMutation] = useMutation(updateReference)
+
   return (
     <>
       <Head>
@@ -113,29 +116,41 @@ const EditReferencePage = () => {
       })
     }
   }
-  return (
-    <div>
-      <Suspense fallback={<CustomSpinner />}>
-        <EditReference />
-      </Suspense>
 
-      <Grid item xs={12}>
-        <p>
-          <Link href={returnPage}>
-            <Button variant="outlined"> Regresar </Button>
-          </Link>
-        </p>
-      </Grid>
-      <Suspense fallback={<CustomSpinner />}>
-        <CurriculaList
-          curriculumsHighlight={referenceOnCurriculum.map((cv) => {
-            return cv.curriculumId
-          })}
-          onChangeCurriculumHighlight={onChange}
-        />
-      </Suspense>
-    </div>
-  )
+  const currentUser = useCurrentUser()
+  const router = useRouter()
+
+  const [reference] = useQuery(getReference, {
+    id: referenceId,
+  })
+
+  if (!currentUser || currentUser.id != reference.userId) {
+    router.push(Routes.Home()) //searchthis
+  } else {
+    return (
+      <div>
+        <Suspense fallback={<CustomSpinner />}>
+          <EditReference />
+        </Suspense>
+
+        <Grid item xs={12}>
+          <p>
+            <Link href={returnPage}>
+              <Button variant="outlined"> Regresar </Button>
+            </Link>
+          </p>
+        </Grid>
+        <Suspense fallback={<CustomSpinner />}>
+          <CurriculaList
+            curriculumsHighlight={referenceOnCurriculum.map((cv) => {
+              return cv.curriculumId
+            })}
+            onChangeCurriculumHighlight={onChange}
+          />
+        </Suspense>
+      </div>
+    )
+  }
 }
 
 EditReferencePage.authenticate = true

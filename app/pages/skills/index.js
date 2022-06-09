@@ -1,10 +1,13 @@
 import { Suspense, useEffect, useState } from "react"
+
 import { Head, Link, usePaginatedQuery, useRouter, Routes, useMutation } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getSkills from "app/skills/queries/getSkills"
 import deleteSkill from "app/skills/mutations/deleteSkill"
 import deleteSkillOnCurriculum from "app/skill-on-curricula/mutations/deleteSkillOnCurriculum"
+import deleteSkillInAllCurriculums from "app/skill-on-curricula/mutations/deleteAllSkilOnCurriculum"
 import createSkillOnCurriculum from "app/skill-on-curricula/mutations/createSkillOnCurriculum"
+import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import { Grid, Button, Chip, Select, MenuItem, InputLabel, FormControl } from "@mui/material"
 import CustomSpinner from "app/core/components/CustomSpinner"
 import Swal from "sweetalert2"
@@ -17,6 +20,7 @@ export const SkillsList = (props) => {
   const [selected, setSelected] = useState([])
   const [optionSelected, setOptionSelected] = useState("")
   const [deleteSkillOnCurriculumMutation] = useMutation(deleteSkillOnCurriculum)
+  const [deleteSkillInAllCurriculumsMutation] = useMutation(deleteSkillInAllCurriculums)
   const [createSkillOnCurriculumMutation] = useMutation(createSkillOnCurriculum)
   const filter =
     props.curriculumId === undefined
@@ -87,6 +91,9 @@ export const SkillsList = (props) => {
           const newOptions = [...options, allSkills.find((s) => s.id === id)]
           setOptions(newOptions)
         } else {
+          await deleteSkillInAllCurriculumsMutation({
+            skillId: id,
+          })
           await deleteSkillMutation({
             id,
           })
@@ -153,21 +160,28 @@ export const SkillsList = (props) => {
 }
 
 const SkillsPage = (props) => {
-  return (
-    <>
-      <div>
-        <p>
-          <Link href={Routes.NewSkillPage({ curriculumId: props.curriculumId })}>
-            <Button variant="outlined"> Crear Habilidad </Button>
-          </Link>
-        </p>
+  const currentUser = useCurrentUser()
+  const router = useRouter()
 
-        <Suspense fallback={<CustomSpinner />}>
-          <SkillsList curriculumId={props.curriculumId} onCurriculum={props.onCurriculum} />
-        </Suspense>
-      </div>
-    </>
-  )
+  if (!currentUser) {
+    router.push(Routes.Home()) //searchthis
+  } else {
+    return (
+      <>
+        <div>
+          <p>
+            <Link href={Routes.NewSkillPage({ curriculumId: props.curriculumId })}>
+              <Button variant="outlined">Crear Habilidad</Button>
+            </Link>
+          </p>
+
+          <Suspense fallback={<CustomSpinner />}>
+            <SkillsList curriculumId={props.curriculumId} onCurriculum={props.onCurriculum} />
+          </Suspense>
+        </div>
+      </>
+    )
+  }
 }
 
 SkillsPage.authenticate = true

@@ -1,10 +1,13 @@
 import { Suspense } from "react"
+
 import { Head, Link, usePaginatedQuery, useRouter, Routes, Router } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getTemplates from "app/templates/queries/getTemplates"
-import { Preview } from "app/templates/components/Preview"
 import { Button, Grid, Typography } from "@mui/material"
 import CustomSpinner from "app/core/components/CustomSpinner"
+import { useCurrentUser } from "app/core/hooks/useCurrentUser"
+import TemplateList from "app/templates/components/TemplateList"
+
 const ITEMS_PER_PAGE = 100
 export const TemplatesList = () => {
   const router = useRouter()
@@ -31,6 +34,8 @@ export const TemplatesList = () => {
       },
     })
 
+  const currentUser = useCurrentUser()
+
   return (
     <div>
       <Grid
@@ -41,16 +46,9 @@ export const TemplatesList = () => {
         justifyContent={"center"}
         sx={{ mx: "auto", width: "100%" }}
       >
-      {templates.map((template) => (
-          <Grid item key={template.id}>
-          <Typography variant="h5" gutterBottom> {template.name} </Typography>
-          <Preview
-            percentage={template.design.left.container.width/3}
-            leftStyles={template.design.left}
-            rightStyles={template.design.right}
-          />
-          </Grid>
-      ))}
+        { currentUser &&
+        <TemplateList role={currentUser.role} userId={currentUser.id} mutateButtons={true}/>
+        }
       </Grid>
 
       <button disabled={page === 0} onClick={goToPreviousPage}>
@@ -64,32 +62,39 @@ export const TemplatesList = () => {
 }
 
 const TemplatesPage = () => {
-  return (
-    <>
-      <Head>
-        <title>Templates</title>
-      </Head>
+  const currentUser = useCurrentUser()
+  const router = useRouter()
 
-      <Grid
-        container
-        direction="row"
-        spacing={2}
-        textAlign={"center"}
-        justifyContent={"center"}
-        sx={{ mx: "auto", width: "100%" }}
-      >
-        <Grid item xs={12} justify="center" mt={3} mb={3}>
-          <Button variant="outlined" onClick={() => Router.push(Routes.NewTemplatePage())}>
-            Crear Nueva Plantilla
-          </Button>
+  if (!currentUser) {
+    router.push(Routes.Home()) //searchthis
+  } else {
+    return (
+      <>
+        <Head>
+          <title>Templates</title>
+        </Head>
+
+        <Grid
+          container
+          direction="row"
+          spacing={2}
+          textAlign={"center"}
+          justifyContent={"center"}
+          sx={{ mx: "auto", width: "100%" }}
+        >
+          <Grid item xs={12} justify="center" mt={3} mb={3}>
+            <Button variant="outlined" onClick={() => Router.push(Routes.NewTemplatePage())}>
+              Crear Nueva Plantilla
+            </Button>
+          </Grid>
+
+          <Suspense fallback={<CustomSpinner />}>
+            <TemplatesList />
+          </Suspense>
         </Grid>
-
-        <Suspense fallback={<CustomSpinner />}>
-          <TemplatesList />
-        </Suspense>
-      </Grid>
-    </>
-  )
+      </>
+    )
+  }
 }
 
 TemplatesPage.authenticate = true

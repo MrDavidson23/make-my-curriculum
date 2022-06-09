@@ -37,6 +37,10 @@ const ResponsiveAppBar = () => {
       name: "Ver Curriculums",
       path: Routes.CurriculaPage(),
     },
+    {
+      name: "Mis Plantillas",
+      path: Routes.TemplatesPage(),
+    },
   ]
 
   const router = useRouter()
@@ -47,11 +51,9 @@ const ResponsiveAppBar = () => {
   if (currentUser) {
     settings = [
       "Perfil",
-      "Mis Curriculums",
-      "Mis Experiencias laborales",
-      "Mis Curriculums",
-      "Mis Curriculums",
-      "Mis Curriculums",
+      "Todos mis curriculums",
+      "Todos mis datos",
+      "Todas mis plantillas",
       "Logout",
     ]
   } else {
@@ -86,13 +88,25 @@ const ResponsiveAppBar = () => {
         case "Logout":
           logoutMutation()
           break
-        case "Mis Curriculums":
+        case "Todos mis curriculums":
           router.push(Routes.CurriculaPage())
           break
         case "Perfil":
           //window.location.href = `/users/${currentUser?.id}/edit`
           router.push(Routes.EditUserPage({ userId: currentUser?.id }))
 
+          break
+        case "Todos mis datos":
+          router.push(Routes.ShowUserPage({ userId: currentUser?.id }))
+          break
+        case "Todas mis plantillas":
+          router.push(Routes.TemplatesPage())
+          break
+        case "Registrarse":
+          router.push(Routes.RegisterPage())
+          break
+        case "Login":
+          router.push(Routes.LoginPage())
           break
 
         default:
@@ -173,12 +187,16 @@ const ResponsiveAppBar = () => {
             </div>
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+            {
+              //desktop version
+            }
+            ,
             {pages.map((page, i) => (
-              <MenuItem key={i}>
-                <LinkBlitz href={page.path.pathname}>
+              <LinkBlitz key={i} href={page.path.pathname}>
+                <MenuItem>
                   <Button sx={{ my: 2, color: "white", display: "block" }}>{page.name}</Button>
-                </LinkBlitz>
-              </MenuItem>
+                </MenuItem>
+              </LinkBlitz>
             ))}
           </Box>
 

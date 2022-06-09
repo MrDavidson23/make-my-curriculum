@@ -1,9 +1,11 @@
 import { Suspense } from "react"
+
 import { Head, Link, useRouter, useQuery, useParam, useMutation, Routes } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getTemplate from "app/templates/queries/getTemplate"
 import deleteTemplate from "app/templates/mutations/deleteTemplate"
 import CustomSpinner from "app/core/components/CustomSpinner"
+import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 export const Template = () => {
   const router = useRouter()
   const templateId = useParam("templateId", "number")
@@ -51,19 +53,27 @@ export const Template = () => {
 }
 
 const ShowTemplatePage = () => {
-  return (
-    <div>
-      <p>
-        <Link href={Routes.TemplatesPage()}>
-          <a>Templates</a>
-        </Link>
-      </p>
+  const currentUser = useCurrentUser()
 
-      <Suspense fallback={<CustomSpinner />}>
-        <Template />
-      </Suspense>
-    </div>
-  )
+  const router = useRouter()
+
+  if (!currentUser) {
+    router.push(Routes.Home()) //searchthis
+  } else {
+    return (
+      <div>
+        <p>
+          <Link href={Routes.TemplatesPage()}>
+            <a>Templates</a>
+          </Link>
+        </p>
+
+        <Suspense fallback={<CustomSpinner />}>
+          <Template />
+        </Suspense>
+      </div>
+    )
+  }
 }
 
 ShowTemplatePage.authenticate = true

@@ -1,8 +1,10 @@
 import { Suspense } from "react"
+
 import { Head, Link, usePaginatedQuery, useRouter, Routes } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getIdentificationTypes from "app/identification-types/queries/getIdentificationTypes"
 import CustomSpinner from "app/core/components/CustomSpinner"
+import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 const ITEMS_PER_PAGE = 100
 export const IdentificationTypesList = () => {
   const router = useRouter()
@@ -49,25 +51,33 @@ export const IdentificationTypesList = () => {
 }
 
 const IdentificationTypesPage = () => {
-  return (
-    <>
-      <Head>
-        <title>IdentificationTypes</title>
-      </Head>
+  const currentUser = useCurrentUser()
 
-      <div>
-        <p>
-          <Link href={Routes.NewIdentificationTypePage()}>
-            <a>Create IdentificationType</a>
-          </Link>
-        </p>
+  const router = useRouter()
 
-        <Suspense fallback={<CustomSpinner />}>
-          <IdentificationTypesList />
-        </Suspense>
-      </div>
-    </>
-  )
+  if (!currentUser || currentUser.role != "ADMIN") {
+    router.push(Routes.Home()) //searchthis
+  } else {
+    return (
+      <>
+        <Head>
+          <title>IdentificationTypes</title>
+        </Head>
+
+        <div>
+          <p>
+            <Link href={Routes.NewIdentificationTypePage()}>
+              <a>Create IdentificationType</a>
+            </Link>
+          </p>
+
+          <Suspense fallback={<CustomSpinner />}>
+            <IdentificationTypesList />
+          </Suspense>
+        </div>
+      </>
+    )
+  }
 }
 
 IdentificationTypesPage.authenticate = true

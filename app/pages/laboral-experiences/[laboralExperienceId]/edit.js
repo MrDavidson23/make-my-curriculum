@@ -1,4 +1,5 @@
 import { Suspense } from "react"
+
 import {
   Head,
   Link,
@@ -18,6 +19,7 @@ import createLaboralExperienceOnCurriculum from "app/laboral-experience-on-curri
 import deleteLaboralExperienceOnCurriculum from "app/laboral-experience-on-curricula/mutations/deleteLaboralExperienceOnCurriculum"
 import { UpdateLaboralExperience } from "app/laboral-experiences/components/validations"
 import { Grid, Button, Typography } from "@mui/material"
+import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 
 import {
   LaboralExperienceForm,
@@ -118,29 +120,41 @@ const EditLaboralExperiencePage = () => {
       })
     }
   }
-  return (
-    <div>
-      <Suspense fallback={<CustomSpinner />}>
-        <EditLaboralExperience />
-      </Suspense>
 
-      <Grid item xs={12}>
-        <p>
-          <Link href={returnPage}>
-            <Button variant="outlined"> Regresar </Button>
-          </Link>
-        </p>
-      </Grid>
-      <Suspense fallback={<CustomSpinner />}>
-        <CurriculaList
-          curriculumsHighlight={laboralExperienceOnCurriculum.map((cv) => {
-            return cv.curriculumId
-          })}
-          onChangeCurriculumHighlight={onChange}
-        />
-      </Suspense>
-    </div>
-  )
+  const currentUser = useCurrentUser()
+  const router = useRouter()
+
+  const [laboral] = useQuery(getLaboralExperience, {
+    id: laboralExperienceId,
+  })
+
+  if (!currentUser || currentUser.id != laboral.userId) {
+    router.push(Routes.Home()) //searchthis
+  } else {
+    return (
+      <div>
+        <Suspense fallback={<CustomSpinner />}>
+          <EditLaboralExperience />
+        </Suspense>
+
+        <Grid item xs={12}>
+          <p>
+            <Link href={returnPage}>
+              <Button variant="outlined"> Regresar </Button>
+            </Link>
+          </p>
+        </Grid>
+        <Suspense fallback={<CustomSpinner />}>
+          <CurriculaList
+            curriculumsHighlight={laboralExperienceOnCurriculum.map((cv) => {
+              return cv.curriculumId
+            })}
+            onChangeCurriculumHighlight={onChange}
+          />
+        </Suspense>
+      </div>
+    )
+  }
 }
 
 EditLaboralExperiencePage.authenticate = true

@@ -1,9 +1,11 @@
 import { Suspense } from "react"
+
 import { Head, Link, useRouter, useQuery, useParam, useMutation, Routes } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getPublication from "app/publications/queries/getPublication"
 import deletePublication from "app/publications/mutations/deletePublication"
 import CustomSpinner from "app/core/components/CustomSpinner"
+import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 export const Publication = () => {
   const router = useRouter()
   const publicationId = useParam("publicationId", "number")
@@ -51,19 +53,27 @@ export const Publication = () => {
 }
 
 const ShowPublicationPage = () => {
-  return (
-    <div>
-      <p>
-        <Link href={Routes.PublicationsPage()}>
-          <a>Publications</a>
-        </Link>
-      </p>
+  const currentUser = useCurrentUser()
 
-      <Suspense fallback={<CustomSpinner />}>
-        <Publication />
-      </Suspense>
-    </div>
-  )
+  const router = useRouter()
+
+  if (!currentUser) {
+    router.push(Routes.Home()) //searchthis
+  } else {
+    return (
+      <div>
+        <p>
+          <Link href={Routes.PublicationsPage()}>
+            <a>Publications</a>
+          </Link>
+        </p>
+
+        <Suspense fallback={<CustomSpinner />}>
+          <Publication />
+        </Suspense>
+      </div>
+    )
+  }
 }
 
 ShowPublicationPage.authenticate = true

@@ -1,9 +1,11 @@
 import { Suspense } from "react"
+
 import { Head, Link, useRouter, useQuery, useParam, useMutation, Routes } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getSkill from "app/skills/queries/getSkill"
 import deleteSkill from "app/skills/mutations/deleteSkill"
 import CustomSpinner from "app/core/components/CustomSpinner"
+import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 export const Skill = () => {
   const router = useRouter()
   const skillId = useParam("skillId", "number")
@@ -51,19 +53,27 @@ export const Skill = () => {
 }
 
 const ShowSkillPage = () => {
-  return (
-    <div>
-      <p>
-        <Link href={Routes.SkillsPage()}>
-          <a> Skills </a>
-        </Link>
-      </p>
+  const currentUser = useCurrentUser()
 
-      <Suspense fallback={<CustomSpinner />}>
-        <Skill />
-      </Suspense>
-    </div>
-  )
+  const router = useRouter()
+
+  if (!currentUser) {
+    router.push(Routes.Home()) //searchthis
+  } else {
+    return (
+      <div>
+        <p>
+          <Link href={Routes.SkillsPage()}>
+            <a> Skills </a>
+          </Link>
+        </p>
+
+        <Suspense fallback={<CustomSpinner />}>
+          <Skill />
+        </Suspense>
+      </div>
+    )
+  }
 }
 
 ShowSkillPage.authenticate = true

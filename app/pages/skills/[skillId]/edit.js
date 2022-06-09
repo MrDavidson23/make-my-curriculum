@@ -1,4 +1,5 @@
 import { Suspense } from "react"
+
 import {
   Head,
   Link,
@@ -18,8 +19,10 @@ import createSkillOnCurriculum from "app/skill-on-curricula/mutations/createSkil
 import deleteSkillOnCurriculum from "app/skill-on-curricula/mutations/deleteSkillOnCurriculum"
 import { UpdateSkill } from "app/skills/components/validations"
 import { Grid, Button, Typography } from "@mui/material"
+import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import { SkillForm, FORM_ERROR } from "app/skills/components/SkillForm"
 import CustomSpinner from "app/core/components/CustomSpinner"
+
 export const EditSkill = () => {
   const router = useRouter()
   const skillId = useParam("skillId", "number")
@@ -109,30 +112,42 @@ const EditSkillPage = () => {
       })
     }
   }
-  return (
-    <div>
-      <Suspense fallback={<CustomSpinner />}>
-        <EditSkill />
-      </Suspense>
 
-      <Grid item xs={12}>
-        <p>
-          <Link href={returnPage}>
-            <Button variant="outlined"> Regresar </Button>
-          </Link>
-        </p>
-      </Grid>
+  const currentUser = useCurrentUser()
+  const router = useRouter()
 
-      <Suspense fallback={<CustomSpinner />}>
-        <CurriculaList
-          curriculumsHighlight={skillOnCurriculum.map((cv) => {
-            return cv.curriculumId
-          })}
-          onChangeCurriculumHighlight={onChange}
-        />
-      </Suspense>
-    </div>
-  )
+  const [skill] = useQuery(getSkill, {
+    id: skillId,
+  })
+
+  if (!currentUser || currentUser.id != skill.userId) {
+    router.push(Routes.Home()) //searchthis
+  } else {
+    return (
+      <div>
+        <Suspense fallback={<CustomSpinner />}>
+          <EditSkill />
+        </Suspense>
+
+        <Grid item xs={12}>
+          <p>
+            <Link href={returnPage}>
+              <Button variant="outlined"> Regresar </Button>
+            </Link>
+          </p>
+        </Grid>
+
+        <Suspense fallback={<CustomSpinner />}>
+          <CurriculaList
+            curriculumsHighlight={skillOnCurriculum.map((cv) => {
+              return cv.curriculumId
+            })}
+            onChangeCurriculumHighlight={onChange}
+          />
+        </Suspense>
+      </div>
+    )
+  }
 }
 
 EditSkillPage.authenticate = true

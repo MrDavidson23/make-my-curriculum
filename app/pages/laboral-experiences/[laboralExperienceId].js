@@ -1,9 +1,11 @@
 import { Suspense } from "react"
+
 import { Head, Link, useRouter, useQuery, useParam, useMutation, Routes } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getLaboralExperience from "app/laboral-experiences/queries/getLaboralExperience"
 import deleteLaboralExperience from "app/laboral-experiences/mutations/deleteLaboralExperience"
 import CustomSpinner from "app/core/components/CustomSpinner"
+import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 export const LaboralExperience = () => {
   const router = useRouter()
   const laboralExperienceId = useParam("laboralExperienceId", "number")
@@ -51,19 +53,27 @@ export const LaboralExperience = () => {
 }
 
 const ShowLaboralExperiencePage = () => {
-  return (
-    <div>
-      <p>
-        <Link href={Routes.LaboralExperiencesPage()}>
-          <a>LaboralExperiences</a>
-        </Link>
-      </p>
+  const currentUser = useCurrentUser()
 
-      <Suspense fallback={<CustomSpinner />}>
-        <LaboralExperience />
-      </Suspense>
-    </div>
-  )
+  const router = useRouter()
+
+  if (!currentUser) {
+    router.push(Routes.Home()) //searchthis
+  } else {
+    return (
+      <div>
+        <p>
+          <Link href={Routes.LaboralExperiencesPage()}>
+            <a>LaboralExperiences</a>
+          </Link>
+        </p>
+
+        <Suspense fallback={<CustomSpinner />}>
+          <LaboralExperience />
+        </Suspense>
+      </div>
+    )
+  }
 }
 
 ShowLaboralExperiencePage.authenticate = true

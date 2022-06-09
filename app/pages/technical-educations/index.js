@@ -1,11 +1,14 @@
 import { Suspense, useState, useEffect } from "react"
+
 import { Head, Link, usePaginatedQuery, useRouter, Routes, useMutation } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getTechnicalEducations from "app/technical-educations/queries/getTechnicalEducations"
 import deleteTechnicalEducation from "app/technical-educations/mutations/deleteTechnicalEducation"
 import deleteTechnicalEducationOnCurriculum from "app/technical-education-on-curricula/mutations/deleteTechnicalEducationOnCurriculum"
+import deleteAllTechnicalEducationOnCurriculum from "app/technical-education-on-curricula/mutations/deleteAllTechnicalEducationOnCurriculum"
 import createTechnicalEducationOnCurriculum from "app/technical-education-on-curricula/mutations/createTechnicalEducationOnCurriculum"
 import InformationCard from "app/core/components/InformationCard"
+import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import { Grid, Button, Chip, Select, MenuItem, InputLabel, FormControl } from "@mui/material"
 import CustomSpinner from "app/core/components/CustomSpinner"
 import Swal from "sweetalert2"
@@ -14,6 +17,9 @@ export const TechnicalEducationsList = (props) => {
   const router = useRouter()
   const page = Number(router.query.page) || 0
   const [deleteTechnicalEducationMutation] = useMutation(deleteTechnicalEducation)
+  const [deleteAllTechnicalEducationOnCurriculumMutation] = useMutation(
+    deleteAllTechnicalEducationOnCurriculum
+  )
   const [options, setOptions] = useState([])
   const [technicalEducationsList, setTechnicalEducationsList] = useState([])
   const [optionSelected, setOptionSelected] = useState("")
@@ -102,9 +108,17 @@ export const TechnicalEducationsList = (props) => {
           ]
           setOptions(newOptions)
         } else {
+          await deleteAllTechnicalEducationOnCurriculumMutation({
+            technicalEducationId: id,
+          })
           await deleteTechnicalEducationMutation({
             id,
           })
+          // get the technical education deleted out of the list
+          const newTechnicalEducations = technicalEducationsList.filter(
+            (technicalEducation) => technicalEducation.id !== id
+          )
+          setTechnicalEducationsList(newTechnicalEducations)
           router.push(Routes.TechnicalEducationsPage())
         }
       } else {
@@ -177,24 +191,31 @@ export const TechnicalEducationsList = (props) => {
 }
 
 const TechnicalEducationsPage = (props) => {
-  return (
-    <>
-      <div>
-        <p>
-          <Link href={Routes.NewTechnicalEducationPage({ curriculumId: props.curriculumId })}>
-            <Button variant="outlined">Crear Educación Técnica</Button>
-          </Link>
-        </p>
+  const currentUser = useCurrentUser()
+  const router = useRouter()
 
-        <Suspense fallback={<CustomSpinner />}>
-          <TechnicalEducationsList
-            curriculumId={props.curriculumId}
-            onCurriculum={props.onCurriculum}
-          />
-        </Suspense>
-      </div>
-    </>
-  )
+  if (!currentUser) {
+    router.push(Routes.Home()) //searchthis
+  } else {
+    return (
+      <>
+        <div>
+          <p>
+            <Link href={Routes.NewTechnicalEducationPage({ curriculumId: props.curriculumId })}>
+              <Button variant="outlined">Crear Educación Técnica</Button>
+            </Link>
+          </p>
+
+          <Suspense fallback={<CustomSpinner />}>
+            <TechnicalEducationsList
+              curriculumId={props.curriculumId}
+              onCurriculum={props.onCurriculum}
+            />
+          </Suspense>
+        </div>
+      </>
+    )
+  }
 }
 
 TechnicalEducationsPage.authenticate = true

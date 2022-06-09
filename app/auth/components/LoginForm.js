@@ -4,6 +4,7 @@ import { Form, FORM_ERROR } from "app/core/components/Form"
 import login from "app/auth/mutations/login"
 import { Login } from "app/auth/validations"
 import { Grid } from "@mui/material"
+import { FacebookLoginButton, LinkedInLoginButton } from "react-social-login-buttons"
 export const LoginForm = (props) => {
   const [loginMutation] = useMutation(login)
   return (
@@ -15,18 +16,26 @@ export const LoginForm = (props) => {
         textAlign={"center"}
         sx={{ mx: "auto", width: "100%" }}
       >
-        <Grid item xs={12}>
+        <Grid item xs={5}></Grid>
+        <Grid item xs={2}>
           <h1>Login</h1>
-          <a href="/app/api/auth/twitter">Log In With Twitter</a>
+
+          <Link href="/api/auth/linkedin">
+            <LinkedInLoginButton href="/api/auth/linkedin">
+              Log In With Linkedin
+            </LinkedInLoginButton>
+          </Link>
+
           <p></p>
-          <a href="/app/api/auth/google">Log In With Google</a>
-          <p></p>
-          <a href="/app/api/auth/linkedin">Log In With Linkedin</a>
-          <p></p>
-          <a href="/app/api/auth/facebook">Log In With Facebook</a>
+          <Link href="/api/auth/facebook">
+            <FacebookLoginButton href="/app/api/auth/facebook">
+              Log In With Facebook
+            </FacebookLoginButton>
+          </Link>
           <p></p>
           <p>{process.env.NODE_ENV}</p>
         </Grid>
+        <Grid item xs={5}></Grid>
 
         <Grid item xs={12}>
           <Form

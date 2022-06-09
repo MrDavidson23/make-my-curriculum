@@ -1,9 +1,12 @@
 import { Suspense } from "react"
+
 import { Head, Link, useRouter, useQuery, useParam, useMutation, Routes } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getLanguage from "app/languages/queries/getLanguage"
 import deleteLanguage from "app/languages/mutations/deleteLanguage"
 import CustomSpinner from "app/core/components/CustomSpinner"
+import { useCurrentUser } from "app/core/hooks/useCurrentUser"
+
 export const Language = () => {
   const router = useRouter()
   const languageId = useParam("languageId", "number")
@@ -51,19 +54,27 @@ export const Language = () => {
 }
 
 const ShowLanguagePage = () => {
-  return (
-    <div>
-      <p>
-        <Link href={Routes.LanguagesPage()}>
-          <a>Languages</a>
-        </Link>
-      </p>
+  const currentUser = useCurrentUser()
 
-      <Suspense fallback={<CustomSpinner />}>
-        <Language />
-      </Suspense>
-    </div>
-  )
+  const router = useRouter()
+
+  if (!currentUser || currentUser.role != "ADMIN") {
+    router.push(Routes.Home()) //searchthis
+  } else {
+    return (
+      <div>
+        <p>
+          <Link href={Routes.LanguagesPage()}>
+            <a>Languages</a>
+          </Link>
+        </p>
+
+        <Suspense fallback={<CustomSpinner />}>
+          <Language />
+        </Suspense>
+      </div>
+    )
+  }
 }
 
 ShowLanguagePage.authenticate = true

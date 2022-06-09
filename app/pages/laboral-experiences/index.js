@@ -1,11 +1,14 @@
 import { Suspense, useState, useEffect } from "react"
+
 import { Head, Link, usePaginatedQuery, useRouter, Routes, useMutation } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getLaboralExperiences from "app/laboral-experiences/queries/getLaboralExperiences"
 import deleteLaboralExperience from "app/laboral-experiences/mutations/deleteLaboralExperience"
 import deleteLaboralExperienceOnCurriculum from "app/laboral-experience-on-curricula/mutations/deleteLaboralExperienceOnCurriculum"
+import deleteAllLaboralExperienceOnCurriculum from "app/laboral-experience-on-curricula/mutations/deleteAllLaboralExperienceOnCurriculum"
 import createLaboralExperienceOnCurriculum from "app/laboral-experience-on-curricula/mutations/createLaboralExperienceOnCurriculum"
 import InformationCard from "app/core/components/InformationCard"
+import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import { Grid, Button, Chip, Select, MenuItem, InputLabel, FormControl } from "@mui/material"
 import CustomSpinner from "app/core/components/CustomSpinner"
 import Swal from "sweetalert2"
@@ -19,6 +22,9 @@ export const LaboralExperiencesList = (props) => {
   const [optionSelected, setOptionSelected] = useState("")
   const [deleteLaboralExperienceOnCurriculumMutation] = useMutation(
     deleteLaboralExperienceOnCurriculum
+  )
+  const [deleteAllLaboralExperienceOnCurriculumMutation] = useMutation(
+    deleteAllLaboralExperienceOnCurriculum
   )
   const [createLaboralExperienceOnCurriculumMutation] = useMutation(
     createLaboralExperienceOnCurriculum
@@ -102,6 +108,9 @@ export const LaboralExperiencesList = (props) => {
           ]
           setOptions(newOptions)
         } else {
+          await deleteAllLaboralExperienceOnCurriculumMutation({
+            laboralExperienceId: id,
+          })
           await deleteLaboralExperienceMutation({
             id,
           })
@@ -182,24 +191,31 @@ export const LaboralExperiencesList = (props) => {
 }
 
 const LaboralExperiencesPage = (props) => {
-  return (
-    <>
-      <div>
-        <p>
-          <Link href={Routes.NewLaboralExperiencePage({ curriculumId: props.curriculumId })}>
-            <Button variant="outlined">Crear Experiencia Laboral</Button>
-          </Link>
-        </p>
+  const currentUser = useCurrentUser()
+  const router = useRouter()
 
-        <Suspense fallback={<CustomSpinner />}>
-          <LaboralExperiencesList
-            curriculumId={props.curriculumId}
-            onCurriculum={props.onCurriculum}
-          />
-        </Suspense>
-      </div>
-    </>
-  )
+  if (!currentUser) {
+    router.push(Routes.Home()) //searchthis
+  } else {
+    return (
+      <>
+        <div>
+          <p>
+            <Link href={Routes.NewLaboralExperiencePage({ curriculumId: props.curriculumId })}>
+              <Button variant="outlined">Crear Experiencia Laboral</Button>
+            </Link>
+          </p>
+
+          <Suspense fallback={<CustomSpinner />}>
+            <LaboralExperiencesList
+              curriculumId={props.curriculumId}
+              onCurriculum={props.onCurriculum}
+            />
+          </Suspense>
+        </div>
+      </>
+    )
+  }
 }
 
 LaboralExperiencesPage.authenticate = true

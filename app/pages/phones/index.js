@@ -1,8 +1,10 @@
 import { Suspense } from "react"
+
 import { Head, Link, usePaginatedQuery, useRouter, Routes } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getPhones from "app/phones/queries/getPhones"
 import CustomSpinner from "app/core/components/CustomSpinner"
+import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 const ITEMS_PER_PAGE = 100
 export const PhonesList = () => {
   const router = useRouter()
@@ -56,25 +58,33 @@ export const PhonesList = () => {
 }
 
 const PhonesPage = () => {
-  return (
-    <>
-      <Head>
-        <title>Phones</title>
-      </Head>
+  const currentUser = useCurrentUser()
 
-      <div>
-        <p>
-          <Link href={Routes.NewPhonePage()}>
-            <a>Create Phone</a>
-          </Link>
-        </p>
+  const router = useRouter()
 
-        <Suspense fallback={<CustomSpinner />}>
-          <PhonesList />
-        </Suspense>
-      </div>
-    </>
-  )
+  if (!currentUser || currentUser.role != "ADMIN") {
+    router.push(Routes.Home()) //searchthis
+  } else {
+    return (
+      <>
+        <Head>
+          <title>Phones</title>
+        </Head>
+
+        <div>
+          <p>
+            <Link href={Routes.NewPhonePage()}>
+              <a>Create Phone</a>
+            </Link>
+          </p>
+
+          <Suspense fallback={<CustomSpinner />}>
+            <PhonesList />
+          </Suspense>
+        </div>
+      </>
+    )
+  }
 }
 
 PhonesPage.authenticate = true

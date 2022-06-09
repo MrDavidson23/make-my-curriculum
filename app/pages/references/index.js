@@ -1,11 +1,14 @@
 import { Suspense, useState, useEffect } from "react"
+
 import { Head, Link, usePaginatedQuery, useRouter, Routes, useMutation, Router } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getReferences from "app/references/queries/getReferences"
 import deleteReference from "app/references/mutations/deleteReference"
 import deleteReferenceOnCurriculum from "app/reference-on-curricula/mutations/deleteReferenceOnCurriculum"
+import deleteAllReferenceOnCurriculum from "app/reference-on-curricula/mutations/deleteAllReferenceOnCurriculum"
 import createReferenceOnCurriculum from "app/reference-on-curricula/mutations/createReferenceOnCurriculum"
 import InformationCard from "app/core/components/InformationCard"
+import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import { Grid, Button, Chip, Select, MenuItem, InputLabel, FormControl } from "@mui/material"
 import CustomSpinner from "app/core/components/CustomSpinner"
 import Swal from "sweetalert2"
@@ -18,6 +21,7 @@ export const ReferencesList = (props) => {
   const [referencesList, setReferencesList] = useState([])
   const [optionSelected, setOptionSelected] = useState("")
   const [deleteReferenceOnCurriculumMutation] = useMutation(deleteReferenceOnCurriculum)
+  const [deleteAllReferenceOnCurriculumMutation] = useMutation(deleteAllReferenceOnCurriculum)
   const [createReferenceOnCurriculumMutation] = useMutation(createReferenceOnCurriculum)
   const filter =
     props.curriculumId === undefined
@@ -83,14 +87,17 @@ export const ReferencesList = (props) => {
             curriculumId: props.curriculumId,
             referenceId: id,
           })
-          const newReferences = referencesList.filter((reference) => reference.id !== id)
-          setReferencesList(newReferences)
           const newOptions = [...options, allReferences.find((reference) => reference.id === id)]
           setOptions(newOptions)
         } else {
+          await deleteAllReferenceOnCurriculumMutation({
+            referenceId: id,
+          })
           await deleteReferenceMutation({
             id,
           })
+          const newReferences = referencesList.filter((reference) => reference.id !== id)
+          setReferencesList(newReferences)
           router.push(Routes.ReferencesPage())
         }
       } else {
@@ -162,27 +169,34 @@ export const ReferencesList = (props) => {
 }
 
 const ReferencesPage = (props) => {
-  return (
-    <>
-      <div>
-        <p>
-          <Button
-            variant="outlined"
-            justify="center"
-            onClick={() =>
-              Router.push(Routes.NewReferencePage({ curriculumId: props.curriculumId }))
-            }
-          >
-            Crear Referencia
-          </Button>
-        </p>
+  const currentUser = useCurrentUser()
+  const router = useRouter()
 
-        <Suspense fallback={<CustomSpinner />}>
-          <ReferencesList curriculumId={props.curriculumId} onCurriculum={props.onCurriculum} />
-        </Suspense>
-      </div>
-    </>
-  )
+  if (!currentUser) {
+    router.push(Routes.Home()) //searchthis
+  } else {
+    return (
+      <>
+        <div>
+          <p>
+            <Button
+              variant="outlined"
+              justify="center"
+              onClick={() =>
+                Router.push(Routes.NewReferencePage({ curriculumId: props.curriculumId }))
+              }
+            >
+              Crear Referencia
+            </Button>
+          </p>
+
+          <Suspense fallback={<CustomSpinner />}>
+            <ReferencesList curriculumId={props.curriculumId} onCurriculum={props.onCurriculum} />
+          </Suspense>
+        </div>
+      </>
+    )
+  }
 }
 
 ReferencesPage.authenticate = true

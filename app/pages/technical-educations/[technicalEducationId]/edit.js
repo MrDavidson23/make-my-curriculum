@@ -1,4 +1,5 @@
 import { Suspense } from "react"
+
 import {
   Head,
   Link,
@@ -18,6 +19,7 @@ import createTechnicalEducationOnCurriculumMutation from "app/technical-educatio
 import deleteTechnicalEducationOnCurriculumMutation from "app/technical-education-on-curricula/mutations/deleteTechnicalEducationOnCurriculum"
 import { UpdateTechnicalEducation } from "app/technical-educations/components/validations"
 import { Grid, Button, Typography } from "@mui/material"
+import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 
 import {
   TechnicalEducationForm,
@@ -39,6 +41,7 @@ export const EditTechnicalEducation = () => {
     }
   )
   const [updateTechnicalEducationMutation] = useMutation(updateTechnicalEducation)
+
   return (
     <>
       <Head>
@@ -122,29 +125,40 @@ const EditTechnicalEducationPage = () => {
       })
     }
   }
-  return (
-    <div>
-      <Suspense fallback={<CustomSpinner />}>
-        <EditTechnicalEducation />
-      </Suspense>
+  const currentUser = useCurrentUser()
+  const router = useRouter()
 
-      <Grid item xs={12}>
-        <p>
-          <Link href={returnPage}>
-            <Button variant="outlined"> Regresar </Button>
-          </Link>
-        </p>
-      </Grid>
-      <Suspense fallback={<CustomSpinner />}>
-        <CurriculaList
-          curriculumsHighlight={technicalEducationOnCurriculum.map((cv) => {
-            return cv.curriculumId
-          })}
-          onChangeCurriculumHighlight={onChange}
-        />
-      </Suspense>
-    </div>
-  )
+  const [education] = useQuery(getTechnicalEducation, {
+    id: technicalEducationId,
+  })
+
+  if (!currentUser || currentUser.id != education.userId) {
+    router.push(Routes.Home()) //searchthis
+  } else {
+    return (
+      <div>
+        <Suspense fallback={<CustomSpinner />}>
+          <EditTechnicalEducation />
+        </Suspense>
+
+        <Grid item xs={12}>
+          <p>
+            <Link href={returnPage}>
+              <Button variant="outlined"> Regresar </Button>
+            </Link>
+          </p>
+        </Grid>
+        <Suspense fallback={<CustomSpinner />}>
+          <CurriculaList
+            curriculumsHighlight={technicalEducationOnCurriculum.map((cv) => {
+              return cv.curriculumId
+            })}
+            onChangeCurriculumHighlight={onChange}
+          />
+        </Suspense>
+      </div>
+    )
+  }
 }
 
 EditTechnicalEducationPage.authenticate = true

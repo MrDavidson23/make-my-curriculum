@@ -1,9 +1,11 @@
 import { Suspense } from "react"
+
 import { Head, Link, useRouter, useQuery, useParam, useMutation, Routes } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getAcademicEducation from "app/academic-educations/queries/getAcademicEducation"
 import deleteAcademicEducation from "app/academic-educations/mutations/deleteAcademicEducation"
 import CustomSpinner from "app/core/components/CustomSpinner"
+import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 export const AcademicEducation = () => {
   const router = useRouter()
   const academicEducationId = useParam("academicEducationId", "number")
@@ -51,19 +53,27 @@ export const AcademicEducation = () => {
 }
 
 const ShowAcademicEducationPage = () => {
-  return (
-    <div>
-      <p>
-        <Link href={Routes.AcademicEducationsPage()}>
-          <a>AcademicEducations</a>
-        </Link>
-      </p>
+  const currentUser = useCurrentUser()
 
-      <Suspense fallback={<CustomSpinner />}>
-        <AcademicEducation />
-      </Suspense>
-    </div>
-  )
+  const router = useRouter()
+
+  if (!currentUser) {
+    router.push(Routes.Home()) //searchthis
+  } else {
+    return (
+      <div>
+        <p>
+          <Link href={Routes.AcademicEducationsPage()}>
+            <a>AcademicEducations</a>
+          </Link>
+        </p>
+
+        <Suspense fallback={<CustomSpinner />}>
+          <AcademicEducation />
+        </Suspense>
+      </div>
+    )
+  }
 }
 
 ShowAcademicEducationPage.authenticate = true

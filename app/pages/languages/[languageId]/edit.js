@@ -1,4 +1,5 @@
 import { Suspense } from "react"
+
 import { Head, Link, useRouter, useQuery, useMutation, useParam, Routes } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getLanguage from "app/languages/queries/getLanguage"
@@ -6,6 +7,7 @@ import updateLanguage from "app/languages/mutations/updateLanguage"
 import { LanguageForm, FORM_ERROR } from "app/languages/components/LanguageForm"
 import { UpdateLanguage } from "app/languages/components/validations"
 import CustomSpinner from "app/core/components/CustomSpinner"
+import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 
 export const EditLanguage = () => {
   const router = useRouter()
@@ -63,19 +65,27 @@ export const EditLanguage = () => {
 }
 
 const EditLanguagePage = () => {
-  return (
-    <div>
-      <Suspense fallback={<CustomSpinner />}>
-        <EditLanguage />
-      </Suspense>
+  const currentUser = useCurrentUser()
 
-      <p>
-        <Link href={Routes.LanguagesPage()}>
-          <a>Languages</a>
-        </Link>
-      </p>
-    </div>
-  )
+  const router = useRouter()
+
+  if (!currentUser || currentUser.role != "ADMIN") {
+    router.push(Routes.Home()) //searchthis
+  } else {
+    return (
+      <div>
+        <Suspense fallback={<CustomSpinner />}>
+          <EditLanguage />
+        </Suspense>
+
+        <p>
+          <Link href={Routes.LanguagesPage()}>
+            <a>Languages</a>
+          </Link>
+        </p>
+      </div>
+    )
+  }
 }
 
 EditLanguagePage.authenticate = true

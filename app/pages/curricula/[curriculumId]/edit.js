@@ -1,4 +1,5 @@
 import { Suspense, useState } from "react"
+
 import { Head, Link, useRouter, useQuery, useMutation, useParam, Routes, useSession } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getCurriculum from "app/curricula/queries/getCurriculum"
@@ -23,6 +24,8 @@ import LaboralExperiencesPage from "app/pages/laboral-experiences/index"
 import { EditableTitleText } from "app/core/components/EditableTitleText"
 import CustomSpinner from "app/core/components/CustomSpinner"
 
+import TemplateList from "app/templates/components/TemplateList"
+
 export const EditCurriculum = () => {
   const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
@@ -32,6 +35,12 @@ export const EditCurriculum = () => {
   })
   const [updateCurriculumMutation] = useMutation(updateCurriculum)
   const currentUser = useCurrentUser()
+
+  curriculum.profession = (curriculum.profession === null ? "" : curriculum.profession)
+  curriculum.description = (curriculum.description === null ? "" : curriculum.description)
+
+  const [templateId, setTemplateId] = useState(curriculum.templateId)
+
   const {
     skillLabel,
     laboralExperienceLabel,
@@ -65,6 +74,7 @@ export const EditCurriculum = () => {
 
   const submitChange = async (values) => {
     const newValues = values === undefined ? curriculum : values
+    newValues.templateId = templateId
     try {
       setIsLoading(true)
       const updated = await updateCurriculumMutation({
@@ -200,8 +210,19 @@ export const EditCurriculum = () => {
             </Grid>
             <Grid item xs={12}>
               <Typography variant="h6" gutterBottom>
-                Templates
+                Seleccione una plantilla
               </Typography>
+              <Suspense fallback={<CustomSpinner />}>
+                <TemplateList 
+                  showName={false} 
+                  onClick={ async (template) => {
+                    if (curriculum.templateId !== template.id){
+                      curriculum.templateId = template.id
+                      setTemplateId(template.id)
+                      await submitChange()
+                  }
+                }}/>
+              </Suspense>
             </Grid>
           </Grid>
         </Grid>
@@ -211,20 +232,28 @@ export const EditCurriculum = () => {
 }
 
 const EditCurriculumPage = () => {
-  return (
-    <div>
-      <Suspense fallback={<CustomSpinner />}>
-        <EditCurriculum />
-      </Suspense>
-    </div>
-  )
+  const currentUser = useCurrentUser()
+
+  const router = useRouter()
+
+  if (!currentUser) {
+    router.push(Routes.Home()) //searchthis
+  } else {
+    return (
+      <div>
+        <Suspense fallback={<CustomSpinner />}>
+          <EditCurriculum />
+        </Suspense>
+      </div>
+    )
+  }
 }
 
 EditCurriculumPage.authenticate = true
 
 EditCurriculumPage.getLayout = (page) => <Layout>{page}</Layout>
 
-// EditCurriculumPage.redirectAuthenticatedTo = ({ session }) =>
+// EditCurriculumPage.NavigateAuthenticatedTo = ({ session }) =>
 //   session.role === "admin" ? "/admin" : Routes.Home()
 
 export default EditCurriculumPage
