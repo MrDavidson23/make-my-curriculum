@@ -28,9 +28,15 @@ const PDFSection = (props) => {
     }
     
     // can change the title, text and container styles
-    const titleStyles = StyleSheet.create(props.styles.title)
-    const textStyles = StyleSheet.create(props.styles.text)
+    let titleStyles = StyleSheet.create(props.styles.title)
+    let textStyles = StyleSheet.create(props.styles.text)
     const containerStyles = StyleSheet.create((props.styles.container !== undefined ? props.styles.container : {}))
+
+    // Overwrites the style of title and text with the section
+    if(props.styles.container !== undefined){
+        titleStyles = {...titleStyles,...containerStyles}
+        textStyles = {...textStyles,...containerStyles}
+    }
 
     return (
         <>
