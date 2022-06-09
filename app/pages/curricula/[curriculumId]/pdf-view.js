@@ -1,11 +1,11 @@
 import { Suspense } from "react"
 
-import { useRouter, useQuery, useParam } from "blitz"
+import { useRouter, useQuery, useParam, Routes } from "blitz"
 import getCurriculum from "app/curricula/queries/getAllCurriculum"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import Layout from "app/core/layouts/Layout"
 
-import { Document, Page, PDFViewer, View } from "@react-pdf/renderer"
+import { Document, Page, PDFViewer, View, Text } from "@react-pdf/renderer"
 
 import PDFSection from "app/curricula/components/PDFSection"
 import CustomSpinner from "app/core/components/CustomSpinner"
@@ -29,65 +29,89 @@ const GetInfo = () => {
   return { ...info, ...user }
 }
 
+const getAttributes = (name) => {
+  const attributes = {
+    infos: ["name", "email", "phone", "profession", "description"],
+    skills: ["description-rating"],
+    laboralExperiences: [
+            "position",
+            "description",
+            "institution",
+            "location",
+            "startYear-finishYear",
+        ],
+    academicEducations: [ 
+            "studies", 
+            "institution", 
+            "location", 
+            "startYear-finishYear"
+        ],
+    technicalEducations: [
+            "studies", 
+            "institution", 
+            "location", 
+            "completionYear"
+        ],
+    publications: ["name-tag", "institution", "location", "date"],
+    references: ["name", "institution", "email", "phone"]
+  }
+  return attributes[name]
+}
+
+const getLabel = (name,info) => {
+  const label = info[name.substring(0,name.length-1)+"Label"]
+  return (label === undefined ? "" : label)
+}
+
 const CurriculumDocument = (props) => {
-  const info = props.curriculum
-  const styles = props.curriculum.template.design
+
+  const { email, phone, profession, description, ...info} = props.curriculum
+
+  // Formating personal information
+  const name = info.name + " " + info.lastName
+  info.infos = [{id:1,name, email, phone, profession, description}]
+  info.infoLabel = ""
+
+  const stylesObj = props.curriculum.template.design
+
+  // The default order with two columns
+  const defaultOrder = [
+    ["infos","skills"],
+    ["laboralExperiences","academicEducations","technicalEducations","publications","references"]
+  ]
+
+  /*
+    The order is a matrix with name of sections,
+    container the main style
+    sections the object with each individual section style
+    the rest contains the styles of each subcontainers
+  */
+  const {order:newOrder,container,sections,...styles} = stylesObj
+  const order = (newOrder !== undefined && Array.isArray(newOrder) && newOrder.length > 0 ? newOrder : defaultOrder)
+  
+  // In the style object the properties different to order, sections and container are the subcontainers, for example, to create columns
+  const containers = Object.getOwnPropertyNames(styles)
+
   return (
     <Document>
       <Page size="A4">
-        <View style={styles.container}>
-          <View style={styles.left.container}>
-            <PDFSection
-              list={[info]}
-              attributes={["name", "email", "phone", "profession", "description"]}
-              label={""}
-              styles={styles.left}
-            />
-            <PDFSection
-              list={info.skills}
-              attributes={["description-rating"]}
-              label={info.skillLabel}
-              styles={styles.left}
-            />
-          </View>
-          <View style={styles.right.container}>
-            <PDFSection
-              list={info.laboralExperiences}
-              attributes={[
-                "position",
-                "description",
-                "institution",
-                "location",
-                "startYear-finishYear",
-              ]}
-              label={info.laboralExperienceLabel}
-              styles={styles.right}
-            />
-            <PDFSection
-              list={info.academicEducations}
-              attributes={["studies", "institution", "location", "startYear-finishYear"]}
-              label={info.academicEducationLabel}
-              styles={styles.right}
-            />
-            <PDFSection
-              list={info.technicalEducations}
-              attributes={["studies", "institution", "location", "completionYear"]}
-              label={info.technicalEducationLabel}
-              styles={styles.right}
-            />
-            <PDFSection
-              list={info.publications}
-              attributes={["name-tag", "institution", "location", "date"]}
-              label={info.publicationLabel}
-              styles={styles.right}
-            />
-            <PDFSection
-              list={info.references}
-              attributes={["name", "institution", "email", "phone"]}
-              label={info.referenceLabel}
-              styles={styles.right}
-            />
-          </View>
+        <View style={container}>
+          {containers.map((ctn,i) => 
+            <View key={i} style={stylesObj[ctn].container}>
+              {order[i].map((section,j) =>
+                <PDFSection
+                  key={(i+1)*10+j}
+                  list={info[section]}                                    
+                  attributes={getAttributes(section)}  
+                  label={getLabel(section,info)}
+                  styles={{
+                    ...stylesObj[ctn], 
+                    container: (sections === undefined ? {} : sections[section])
+                  }}
+                />
+              )}
+            </View>
+          )}
         </View>
       </Page>
     </Document>
