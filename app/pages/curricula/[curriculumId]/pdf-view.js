@@ -65,9 +65,10 @@ const getLabel = (name,info) => {
 
 const CurriculumDocument = (props) => {
 
-  const {name, email, phone, profession, description, ...info} = props.curriculum
+  const { email, phone, profession, description, ...info} = props.curriculum
 
   // Formating personal information
+  const name = info.name + " " + info.lastName
   info.infos = [{id:1,name, email, phone, profession, description}]
   info.infoLabel = ""
 
