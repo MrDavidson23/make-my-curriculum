@@ -27,13 +27,15 @@ const PDFSection = (props) => {
         return result.substring(0,result.length-3)
     }
     
+    // can change the title, text and container styles
     const titleStyles = StyleSheet.create(props.styles.title)
     const textStyles = StyleSheet.create(props.styles.text)
+    const containerStyles = StyleSheet.create((props.styles.container !== undefined ? props.styles.container : {}))
 
     return (
         <>
-        { props.list.length > 0  && props.attributes.length > 0 && (
-            <View>
+        { Array.isArray(props.list) && props.list.length > 0 && Array.isArray(props.attributes) && props.attributes.length > 0 && (
+            <View style={containerStyles}>
                 <Text style={titleStyles}>
                     {props.label}
                 </Text>
