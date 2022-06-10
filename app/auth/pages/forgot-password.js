@@ -21,7 +21,7 @@ const ForgotPasswordPage = () => {
         </div>
       ) : (
         <Form
-          submitText="Enviar contraceña a mi correo"
+          submitText="Enviar contraseña a mi correo"
           schema={ForgotPassword}
           initialValues={{
             email: "",
