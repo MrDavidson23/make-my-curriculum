@@ -71,46 +71,6 @@ export const CloneCurriculum = () => {
             </Typography>
           </Grid>
 
-          <CloneForm
-            curriculum={curriculum}
-            sections={sections}
-            setSections={setSections}
-            submitText="Clonar Currículum"
-            onSubmit={async () => {
-              try {
-                // Gets only those sections with state "add"
-                let values = {}
-                sectionsName.forEach((name) => {
-                  values[name] = []
-                  if (sections[name] !== undefined) {
-                    sections[name].forEach((elem) => {
-                      if (elem.state === INCLUDED) {
-                        const { state, ...newElem } = elem
-                        values[name].push(newElem)
-                      }
-                    })
-                  }
-                })
-
-                const curriculum = await cloneCurriculumMutation({
-                  id: curriculumId,
-                  sections: values,
-                })
-                router.push(
-                  Routes.EditCurriculumPage({
-                    curriculumId: curriculum.id,
-                  })
-                )
-              } catch (error) {
-                console.error(error)
-                return {
-                  [FORM_ERROR]: error.toString(),
-                }
-              }
-            }}
-          />
-        </Grid>
-
         <CloneForm
           curriculum={curriculum}
           sections={sections}
@@ -153,6 +113,7 @@ export const CloneCurriculum = () => {
             }
           }}
         />
+        </Grid>
       </Grid>
     </>
   )

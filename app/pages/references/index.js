@@ -87,6 +87,9 @@ export const ReferencesList = (props) => {
             curriculumId: props.curriculumId,
             referenceId: id,
           })
+          // get out the reference from the list
+          const newReferencesList = referencesList.filter((reference) => reference.id !== id)
+          setReferencesList(newReferencesList)
           const newOptions = [...options, allReferences.find((reference) => reference.id === id)]
           setOptions(newOptions)
         } else {
@@ -98,7 +101,6 @@ export const ReferencesList = (props) => {
           })
           const newReferences = referencesList.filter((reference) => reference.id !== id)
           setReferencesList(newReferences)
-          router.push(Routes.ReferencesPage())
         }
       } else {
         Swal.fire("La referencia no se elimino", "", "info")

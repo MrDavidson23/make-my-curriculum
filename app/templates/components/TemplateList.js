@@ -1,6 +1,6 @@
 import { Suspense } from "react"
 import CustomSpinner from "app/core/components/CustomSpinner"
-import { Routes, useRouter, useMutation, useQuery } from "blitz"
+import { Routes, useRouter, useMutation, useQuery, Link } from "blitz"
 import getTemplates from "app/templates/queries/getTemplates"
 import getTemplateOnUser from "app/template-on-users/queries/getTemplateOnUser"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
@@ -8,7 +8,13 @@ import Swal from "sweetalert2"
 import { Grid, Typography, Button } from "@mui/material"
 import { Preview } from "app/templates/components/Preview"
 
-const TemplateList = ({ onClick, showName }) => {
+const TemplateList = ({
+  onClick,
+  showName,
+  mutateButtons,
+  userId,
+  role,
+}) => {
   const currentUser = useCurrentUser()
   const [{ templates, hasMore }] = useQuery(getTemplates, {
     orderBy: {
@@ -36,6 +42,7 @@ const TemplateList = ({ onClick, showName }) => {
   }
 
   showName = showName === undefined ? false : showName
+  mutateButtons = mutateButtons === undefined ? false : mutateButtons
 
   const getProps = (template) => {
     return {
@@ -89,6 +96,12 @@ const TemplateList = ({ onClick, showName }) => {
               {/* Just the preview */}
               {onClick === undefined && (
                 <Preview {...getProps(template)} isPremium={checkPremiumTemplate(template)} />
+              )}
+              {/* Mutate buttons */}
+              { mutateButtons && role !== undefined && (role === "ADMIN" || template.userId === userId) && (
+                <Link href={Routes.EditTemplatePage({templateId: template.id})}>
+                  <Button variant="outlined"> Editar </Button>
+                </Link>
               )}
             </Grid>
           ))}

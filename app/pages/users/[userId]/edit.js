@@ -19,6 +19,7 @@ export const EditUser = () => {
       staleTime: Infinity,
     }
   )
+
   return (
     <>
       <Head>
@@ -31,21 +32,22 @@ export const EditUser = () => {
 }
 
 const EditUserPage = () => {
-  const currentUser = useCurrentUser()
 
   const router = useRouter()
-
-  if (!currentUser) {
-    router.push(Routes.Home()) //searchthis
-  } else {
-    return (
-      <>
-        <Suspense fallback={<CustomSpinner />}>
-          <EditUser />
-        </Suspense>
-      </>
-    )
+  const currentUser = useCurrentUser()
+  const userId = useParam("userId", "number")
+  if (!currentUser || (currentUser.role !== "ADMIN" && currentUser.id !== userId)) {
+    router.push(Routes.Home())
+    return (<></>)
   }
+
+  return (
+    <>
+      <Suspense fallback={<CustomSpinner />}>
+        <EditUser />
+      </Suspense>
+    </>
+  )
 }
 
 EditUserPage.authenticate = true

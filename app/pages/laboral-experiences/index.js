@@ -114,7 +114,10 @@ export const LaboralExperiencesList = (props) => {
           await deleteLaboralExperienceMutation({
             id,
           })
-          router.push(Routes.LaboralExperiencesPage())
+          const newLaboralExperiences = laboralExperiencesList.filter(
+            (laboralExperience) => laboralExperience.id !== id
+          )
+          setLaboralExperiencesList(newLaboralExperiences)
         }
       } else {
         Swal.fire("La experiencia no se elimino", "", "info")

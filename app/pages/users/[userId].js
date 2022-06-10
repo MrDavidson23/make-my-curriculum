@@ -53,14 +53,16 @@ export const User = () => {
 }
 
 const ShowUserPage = () => {
-  const currentUser = useCurrentUser()
-
+  
   const router = useRouter()
+  const currentUser = useCurrentUser()
+  const userId = useParam("userId", "number")
+  if (!currentUser || (currentUser.role !== "ADMIN" && currentUser.id !== userId)) {
+    router.push(Routes.Home())
+    return (<></>)
+  }
 
-  if (!currentUser) {
-    router.push(Routes.Home()) //searchthis
-  } else {
-    return (
+  return (
       <div>
         <p>
           <Link href={Routes.UsersPage()}>
@@ -72,8 +74,7 @@ const ShowUserPage = () => {
           <User />
         </Suspense>
       </div>
-    )
-  }
+  )
 }
 
 ShowUserPage.authenticate = true

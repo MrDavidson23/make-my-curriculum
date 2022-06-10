@@ -16,6 +16,8 @@ const NewCurriculumPage = () => {
           name: "Curriculum",
           languageId: 1,
           templateId: 1,
+          profesion: "",
+          description: ""
         })
         router.push(
           Routes.EditCurriculumPage({
