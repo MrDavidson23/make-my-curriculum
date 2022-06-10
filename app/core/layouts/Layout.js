@@ -17,6 +17,18 @@ const theme = createTheme({
   },
 })
 
+function createAnalyticsMarkup() {
+  return {
+    __html: `
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag(\'js\', new Date());
+
+    gtag(\'config\', \'G-JGYFTYX9S3\');
+    `,
+  }
+}
+
 const Layout = ({ title, children }) => {
   return (
     <>
@@ -28,15 +40,18 @@ const Layout = ({ title, children }) => {
         ></script>
 
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-JGYFTYX9S3"></script>
-        <script>
-          {`
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
 
-  gtag('config', 'G-JGYFTYX9S3');
-  `}
-        </script>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-JGYFTYX9S3', { page_path: window.location.pathname });
+            `,
+          }}
+        />
+
         <title>{title || "makeMyCurriculum"}</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
