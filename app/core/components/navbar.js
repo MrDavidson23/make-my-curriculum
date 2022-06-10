@@ -190,7 +190,7 @@ const ResponsiveAppBar = () => {
             {
               //desktop version
             }
-            ,
+
             {pages.map((page, i) => (
               <LinkBlitz key={i} href={page.path.pathname}>
                 <MenuItem>
