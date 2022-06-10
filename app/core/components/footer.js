@@ -8,7 +8,7 @@ export default function Footer() {
 
   return (
     <footer>
-      <a href="" target="_blank" rel="noopener noreferrer">
+      <a href="https://mailinkcr.com" target="_blank" rel="noopener noreferrer">
         makeMyCurriculum 2022 ©
       </a>
     </footer>
