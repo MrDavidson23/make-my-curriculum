@@ -8,7 +8,7 @@ import CustomSpinner from "app/core/components/CustomSpinner"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import TemplateList from "app/templates/components/TemplateList"
 
-const ITEMS_PER_PAGE = 100
+const ITEMS_PER_PAGE = 200
 export const TemplatesList = () => {
   const router = useRouter()
   const page = Number(router.query.page) || 0
@@ -46,17 +46,10 @@ export const TemplatesList = () => {
         justifyContent={"center"}
         sx={{ mx: "auto", width: "100%" }}
       >
-        { currentUser &&
-        <TemplateList role={currentUser.role} userId={currentUser.id} mutateButtons={true}/>
-        }
+        {currentUser && (
+          <TemplateList role={currentUser.role} userId={currentUser.id} mutateButtons={true} />
+        )}
       </Grid>
-
-      <button disabled={page === 0} onClick={goToPreviousPage}>
-        Previous
-      </button>
-      <button disabled={!hasMore} onClick={goToNextPage}>
-        Next
-      </button>
     </div>
   )
 }
@@ -81,6 +74,7 @@ const TemplatesPage = () => {
           textAlign={"center"}
           justifyContent={"center"}
           sx={{ mx: "auto", width: "100%" }}
+          style={{ marginBottom: "100px" }}
         >
           <Grid item xs={12} justify="center" mt={3} mb={3}>
             <Button variant="outlined" onClick={() => Router.push(Routes.NewTemplatePage())}>

@@ -22,14 +22,14 @@ export const LoginForm = (props) => {
 
           <Link href="/api/auth/linkedin">
             <LinkedInLoginButton href="/api/auth/linkedin">
-              Log In With Linkedin
+              Ingresar con Linkedin
             </LinkedInLoginButton>
           </Link>
 
           <p></p>
           <Link href="/api/auth/facebook">
             <FacebookLoginButton href="/app/api/auth/facebook">
-              Log In With Facebook
+              Ingresar con Facebook
             </FacebookLoginButton>
           </Link>
           <p></p>
@@ -52,7 +52,7 @@ export const LoginForm = (props) => {
               } catch (error) {
                 if (error instanceof AuthenticationError) {
                   return {
-                    [FORM_ERROR]: "Sorry, those credentials are invalid",
+                    [FORM_ERROR]: "Credenciales incorrecta",
                   }
                 } else {
                   return {
@@ -66,14 +66,14 @@ export const LoginForm = (props) => {
             <LabeledTextField name="email" label="Email" placeholder="Email" />
             <LabeledTextField
               name="password"
-              label="Password"
-              placeholder="Password"
+              label="Contraseña"
+              placeholder="Contraseña"
               type="password"
             />
 
             <div>
               <Link href={Routes.ForgotPasswordPage()}>
-                <a>Forgot your password?</a>
+                <a>Olvidaste tu contraseña?</a>
               </Link>
             </div>
           </Form>
@@ -84,7 +84,7 @@ export const LoginForm = (props) => {
               marginTop: "1rem",
             }}
           >
-            Or <Link href={Routes.SignupPage()}>Sign Up</Link>
+            O <Link href={Routes.SignupPage()}>Registrarse</Link>
           </div>
         </Grid>
       </Grid>

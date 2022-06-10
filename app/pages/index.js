@@ -145,7 +145,6 @@ const Home = () => {
                   Crear Curriculum
                 </Button>
               </LinkBlitz>
-              <p>haga click aqui para crear su curriculum</p>
             </Grid>
             <Grid item xs={12} md={6}>
               <iframe
@@ -252,21 +251,11 @@ const Home = () => {
                   </LinkBlitz>
                 </Grid>
 
-                <LinkBlitz href="/curricula/new"> Crear Curriculum </LinkBlitz>
-                <LinkBlitz href="/users/new"> Crear Usuario </LinkBlitz>
-
-                <div> 1. Crear un curriculum </div>
-                <div>
-                  {" "}
-                  2. Agregar sus habilidades, experiencias, y demas informacion importante{" "}
-                </div>
-                <div> 3. Haga click en actualizar curriculum</div>
                 <LinkBlitz href="/curricula/new">
                   <Button size="large" variant="contained" color="primary" sx={{ my: 2 }}>
                     Crear Curriculum
                   </Button>
                 </LinkBlitz>
-                <p>haga click aqui para crear su curriculum</p>
               </Grid>
             )}
           </Grid>

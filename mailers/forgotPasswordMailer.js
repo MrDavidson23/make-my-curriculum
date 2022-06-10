@@ -15,13 +15,13 @@ export function forgotPasswordMailer({ to, token }) {
   const msg = {
     from: "noreply@plataformaelectronicacr.com",
     to,
-    subject: "Your Password Reset Instructions",
+    subject: "Cambiar su contraseña",
     html: `
-      <h1>Reset Your Password</h1>
-      <h3>NOTE: You must set up a production email integration in mailers/forgotPasswordMailer.ts</h3>
+      <h1>Reiniciar contraseña</h1>
+
 
       <a href="${resetUrl}">
-        Click here to set a new password
+        Has click aqui para reiniciar la contraseña
       </a>
     `,
   }

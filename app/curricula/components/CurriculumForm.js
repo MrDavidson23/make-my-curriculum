@@ -13,14 +13,24 @@ export function CurriculumForm(props) {
 
   return (
     <Form {...props}>
-      <LabeledTextField name="name" label="Nombre" placeholder="Nombre del currículum" />
+      <LabeledTextField
+        name="name"
+        label="Nombre"
+        placeholder="Nombre del currículum"
+        className="inputtext"
+      />
       <LabeledSelect
         name="languageId"
         label="Idioma"
         options={options}
         selected={props.initialValues.languageId}
       />
-      <LabeledTextField name="profession" label="Profesión" placeholder="Profesión" />
+      <LabeledTextField
+        name="profession"
+        label="Profesión"
+        placeholder="Profesión"
+        className="inputtext"
+      />
       <LabeledTextField
         name="description"
         label="Descripción"

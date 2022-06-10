@@ -50,16 +50,36 @@ export const SignupForm = (props) => {
             }}
           >
             <Grid item xs={12} mb={5}>
-              <LabeledTextField name="name" label="Nombre" placeholder="Nombre" />
+              <LabeledTextField
+                name="name"
+                label="Nombre"
+                placeholder="Nombre"
+                className="inputtext"
+              />
             </Grid>
             <Grid item xs={12} mb={5}>
-              <LabeledTextField name="lastName" label="Apellidos" placeholder="Apellido" />
+              <LabeledTextField
+                name="lastName"
+                label="Apellidos"
+                placeholder="Apellido"
+                className="inputtext"
+              />
             </Grid>
             <Grid item xs={12} mb={5}>
-              <LabeledTextField name="email" label="Email" placeholder="Email" />
+              <LabeledTextField
+                name="email"
+                label="Email"
+                placeholder="Email"
+                className="inputtext"
+              />
             </Grid>
             <Grid item xs={12} mb={5}>
-              <LabeledTextField name="phone" label="Telefono" placeholder="Número de teléfono" />
+              <LabeledTextField
+                name="phone"
+                label="Telefono"
+                placeholder="Número de teléfono"
+                className="inputtext"
+              />
             </Grid>
             <Grid item xs={12} mb={5}>
               <LabeledTextField

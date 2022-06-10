@@ -10,18 +10,33 @@ export function LaboralExperienceForm(props) {
       <div>
         <Grid container direction="row" spacing={3}>
           <Grid item xs={12}>
-            <LabeledTextField name="position" label="Posición" placeholder="Posición" />
+            <LabeledTextField
+              name="position"
+              label="Posición"
+              placeholder="Posición"
+              className="inputtext"
+            />
           </Grid>
           <Grid item xs={12}>
-            <LabeledTextField name="location" label="Dirección" placeholder="Dirección" />
+            <LabeledTextField
+              name="location"
+              label="Dirección"
+              placeholder="Dirección"
+              className="inputtext"
+            />
           </Grid>
           <Grid item xs={12}>
-            <LabeledTextField name="institution" label="Institución" placeholder="Institución" />
+            <LabeledTextField
+              name="institution"
+              label="Institución"
+              placeholder="Institución"
+              className="inputtext"
+            />
           </Grid>
           <Grid item xs={12}>
             <LabeledTextField
               name="description"
-              label="Descripción"
+              label="Descripción "
               placeholder="Descripción"
               multiline="true"
               className="textArea"

@@ -9,19 +9,19 @@ const ForgotPasswordPage = () => {
   const [forgotPasswordMutation, { isSuccess }] = useMutation(forgotPassword)
   return (
     <div>
-      <h1>Forgot your password?</h1>
+      <h1>Olvidaste tu contraseña?</h1>
 
       {isSuccess ? (
         <div>
-          <h2>Request Submitted</h2>
+          <h2>Peticion recibida</h2>
           <p>
-            If your email is in our system, you will receive instructions to reset your password
-            shortly.
+            si su correo esta en nuestro sistema, recibira un correo con un enlace para restablecer
+            su contraseña.
           </p>
         </div>
       ) : (
         <Form
-          submitText="Send Reset Password Instructions"
+          submitText="Enviar contraseña a mi correo"
           schema={ForgotPassword}
           initialValues={{
             email: "",
@@ -45,6 +45,6 @@ const ForgotPasswordPage = () => {
 
 ForgotPasswordPage.redirectAuthenticatedTo = "/"
 
-ForgotPasswordPage.getLayout = (page) => <Layout title="Forgot Your Password?">{page}</Layout>
+ForgotPasswordPage.getLayout = (page) => <Layout title="Olvidaste tu contraseña?">{page}</Layout>
 
 export default ForgotPasswordPage

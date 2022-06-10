@@ -10,18 +10,18 @@ const ResetPasswordPage = () => {
   const [resetPasswordMutation, { isSuccess }] = useMutation(resetPassword)
   return (
     <div>
-      <h1>Set a New Password</h1>
+      <h1>Configurar nueva contrasena</h1>
 
       {isSuccess ? (
         <div>
-          <h2>Password Reset Successfully</h2>
+          <h2>Contraseña restablecida</h2>
           <p>
-            Go to the <Link href={Routes.Home()}>homepage</Link>
+            Ir al <Link href={Routes.Home()}>homepage</Link>
           </p>
         </div>
       ) : (
         <Form
-          submitText="Reset Password"
+          submitText="Restablecer contraseña"
           schema={ResetPassword}
           initialValues={{
             password: "",
@@ -44,10 +44,10 @@ const ResetPasswordPage = () => {
             }
           }}
         >
-          <LabeledTextField name="password" label="New Password" type="password" />
+          <LabeledTextField name="password" label="Nueva contraseña" type="password" />
           <LabeledTextField
             name="passwordConfirmation"
-            label="Confirm New Password"
+            label="Confirmar nueva contraseña"
             type="password"
           />
         </Form>
@@ -58,6 +58,6 @@ const ResetPasswordPage = () => {
 
 ResetPasswordPage.redirectAuthenticatedTo = "/"
 
-ResetPasswordPage.getLayout = (page) => <Layout title="Reset Your Password">{page}</Layout>
+ResetPasswordPage.getLayout = (page) => <Layout title="Restablece su contraseña">{page}</Layout>
 
 export default ResetPasswordPage

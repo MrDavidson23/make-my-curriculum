@@ -26,5 +26,6 @@ const config = {
       },
     ]
   },
+  compress: true,
 }
 module.exports = config
