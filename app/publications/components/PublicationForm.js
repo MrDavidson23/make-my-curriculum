@@ -12,7 +12,12 @@ export function PublicationForm(props) {
       <div>
         <Grid container direction="row" spacing={3}>
           <Grid item xs={12}>
-            <LabeledTextField name="name" label="Nombre" placeholder="Nombre" />
+            <LabeledTextField
+              name="name"
+              label="Nombre"
+              placeholder="Nombre"
+              className="inputtext"
+            />
           </Grid>
           <Grid item xs={12}>
             <DatePickerField
@@ -22,13 +27,28 @@ export function PublicationForm(props) {
             />
           </Grid>
           <Grid item xs={12}>
-            <LabeledTextField name="location" label="Dirección" placeholder="Dirección" />
+            <LabeledTextField
+              name="location"
+              label="Dirección"
+              placeholder="Dirección"
+              className="inputtext"
+            />
           </Grid>
           <Grid item xs={12}>
-            <LabeledTextField name="institution" label="Institución" placeholder="Institución" />
+            <LabeledTextField
+              name="institution"
+              label="Institución"
+              placeholder="Institución"
+              className="inputtext"
+            />
           </Grid>
           <Grid item xs={12}>
-            <LabeledTextField name="tag" label="Tipo de Publicación" placeholder="Tipo de Publicación" />
+            <LabeledTextField
+              name="tag"
+              label="Tipo de Publicación"
+              placeholder="Tipo de Publicación"
+              className="inputtext"
+            />
           </Grid>
         </Grid>
       </div>

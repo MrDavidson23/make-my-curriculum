@@ -28,6 +28,11 @@ input {
 
 .textArea {
   background-color: white !important;
+  min-width: 255px;
+}
+
+.inputtext {
+  min-width: 255px;
 }
 
 label {
