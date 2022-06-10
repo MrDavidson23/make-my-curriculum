@@ -8,7 +8,7 @@ import CustomSpinner from "app/core/components/CustomSpinner"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import TemplateList from "app/templates/components/TemplateList"
 
-const ITEMS_PER_PAGE = 1000
+const ITEMS_PER_PAGE = 200
 export const TemplatesList = () => {
   const router = useRouter()
   const page = Number(router.query.page) || 0
