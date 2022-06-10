@@ -26,6 +26,17 @@ const Layout = ({ title, children }) => {
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6807656243068332"
           crossOrigin="anonymous"
         ></script>
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-JGYFTYX9S3"></script>
+        <script>
+          {`
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-JGYFTYX9S3');
+  `}
+        </script>
         <title>{title || "makeMyCurriculum"}</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
