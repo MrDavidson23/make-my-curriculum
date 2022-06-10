@@ -114,12 +114,10 @@ export const TechnicalEducationsList = (props) => {
           await deleteTechnicalEducationMutation({
             id,
           })
-          // get the technical education deleted out of the list
           const newTechnicalEducations = technicalEducationsList.filter(
             (technicalEducation) => technicalEducation.id !== id
           )
           setTechnicalEducationsList(newTechnicalEducations)
-          router.push(Routes.TechnicalEducationsPage())
         }
       } else {
         Swal.fire("La educación técnica no se elimino", "", "info")
@@ -138,7 +136,7 @@ export const TechnicalEducationsList = (props) => {
         sx={{ mx: "auto", width: "100%" }}
       >
         <Suspense fallback={<CustomSpinner />}>
-          {technicalEducations.map((technicalEducation) => (
+          {technicalEducationsList.map((technicalEducation) => (
             <Grid item key={technicalEducation.id}>
               <InformationCard
                 title={technicalEducation.studies}

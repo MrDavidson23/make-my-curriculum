@@ -103,7 +103,8 @@ export const PublicationsList = (props) => {
           await deletePublicationMutation({
             id,
           })
-          router.push(Routes.PublicationsPage())
+          const newPublications = publicationsList.filter((publication) => publication.id !== id)
+          setPublicationsList(newPublications)
         }
       } else {
         Swal.fire("La publicación no se elimino", "", "info")

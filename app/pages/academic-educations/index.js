@@ -114,7 +114,10 @@ export const AcademicEducationsList = (props) => {
           await deleteAcademicEducationMutation({
             id: id,
           })
-          router.push(Routes.AcademicEducationsPage())
+          const newAcademicEducation = academicEducationsList.filter(
+            (academicEducation) => academicEducation.id !== id
+          )
+          setAcademicEducationsList(newAcademicEducation)
         }
       } else {
         Swal.fire("La educación acádemica no se elimino", "", "info")
